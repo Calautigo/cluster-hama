@@ -1,0 +1,6 @@
+potato-cluster-k3s-master-01.yaml
+potato-cluster-k3s-master-02.yaml
+potato-cluster-k3s-master-03.yaml
+potato-cluster-k3s-worker-01.yaml
+potato-cluster-k3s-worker-02.yaml
+talosconfig

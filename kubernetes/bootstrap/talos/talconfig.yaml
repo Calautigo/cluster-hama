@@ -22,60 +22,85 @@ cniConfig:
 
 nodes:
   - hostname: "k3s-master-01"
-    ipAddress: ""
+    ipAddress: "10.100.0.50"
     installDisk: "/dev/sda"
     talosImageURL: factory.talos.dev/installer/a816565ab2b10f14fb11071963c62c7edee2d864dfcf1ee4f841d3b04c11c9bb
     controlPlane: true
     networkInterfaces:
       - deviceSelector:
           hardwareAddr: "bc:24:11:3b:ad:53"
-        dhcp: true
+        dhcp: false
+        addresses:
+          - "10.100.0.50/16"
+        routes:
+          - network: 0.0.0.0/0
+            gateway: "10.100.0.1"
         mtu: 1500
         vip:
           ip: "10.100.0.20"
   - hostname: "k3s-master-02"
-    ipAddress: ""
+    ipAddress: "10.100.0.51"
     installDisk: "/dev/sda"
     talosImageURL: factory.talos.dev/installer/a816565ab2b10f14fb11071963c62c7edee2d864dfcf1ee4f841d3b04c11c9bb
     controlPlane: true
     networkInterfaces:
       - deviceSelector:
           hardwareAddr: "bc:24:11:0e:b9:f5"
-        dhcp: true
+        dhcp: false
+        addresses:
+          - "10.100.0.51/16"
+        routes:
+          - network: 0.0.0.0/0
+            gateway: "10.100.0.1"
         mtu: 1500
         vip:
           ip: "10.100.0.20"
   - hostname: "k3s-master-03"
-    ipAddress: ""
+    ipAddress: "10.100.0.52"
     installDisk: "/dev/sda"
     talosImageURL: factory.talos.dev/installer/a816565ab2b10f14fb11071963c62c7edee2d864dfcf1ee4f841d3b04c11c9bb
     controlPlane: true
     networkInterfaces:
       - deviceSelector:
           hardwareAddr: "bc:24:11:c9:47:b0"
-        dhcp: true
+        dhcp: false
+        addresses:
+          - "10.100.0.52/16"
+        routes:
+          - network: 0.0.0.0/0
+            gateway: "10.100.0.1"
         mtu: 1500
         vip:
           ip: "10.100.0.20"
   - hostname: "k3s-worker-01"
-    ipAddress: ""
+    ipAddress: "10.100.0.70"
     installDisk: "/dev/sda"
     talosImageURL: factory.talos.dev/installer/a816565ab2b10f14fb11071963c62c7edee2d864dfcf1ee4f841d3b04c11c9bb
     controlPlane: false
     networkInterfaces:
       - deviceSelector:
           hardwareAddr: "bc:24:11:d6:5b:88"
-        dhcp: true
+        dhcp: false
+        addresses:
+          - "10.100.0.70/16"
+        routes:
+          - network: 0.0.0.0/0
+            gateway: "10.100.0.1"
         mtu: 1500
   - hostname: "k3s-worker-02"
-    ipAddress: ""
+    ipAddress: "10.100.0.71"
     installDisk: "/dev/sda"
     talosImageURL: factory.talos.dev/installer/a816565ab2b10f14fb11071963c62c7edee2d864dfcf1ee4f841d3b04c11c9bb
     controlPlane: false
     networkInterfaces:
       - deviceSelector:
           hardwareAddr: "bc:24:11:e9:7f:0f"
-        dhcp: true
+        dhcp: false
+        addresses:
+          - "10.100.0.71/16"
+        routes:
+          - network: 0.0.0.0/0
+            gateway: "10.100.0.1"
         mtu: 1500
 
 # Global patches
