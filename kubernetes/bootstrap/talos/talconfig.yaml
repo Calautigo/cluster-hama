@@ -5,14 +5,14 @@ talosVersion: v1.8.1
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.31.1
 
-clusterName: "potato-cluster"
-endpoint: https://10.100.0.20:6443
+clusterName: "cluster-hama"
+endpoint: https://10.100.0.45:6443
 clusterPodNets:
   - "10.69.0.0/16"
 clusterSvcNets:
   - "10.96.0.0/16"
 additionalApiServerCertSans: &sans
-  - "10.100.0.20"
+  - "10.100.0.45"
   - 127.0.0.1 # KubePrism
 additionalMachineCertSans: *sans
 
@@ -37,7 +37,7 @@ nodes:
             gateway: "10.100.0.1"
         mtu: 1500
         vip:
-          ip: "10.100.0.20"
+          ip: "10.100.0.45"
   - hostname: "k3s-master-02"
     ipAddress: "10.100.0.51"
     installDisk: "/dev/sda"
@@ -54,7 +54,7 @@ nodes:
             gateway: "10.100.0.1"
         mtu: 1500
         vip:
-          ip: "10.100.0.20"
+          ip: "10.100.0.45"
   - hostname: "k3s-master-03"
     ipAddress: "10.100.0.52"
     installDisk: "/dev/sda"
@@ -71,7 +71,7 @@ nodes:
             gateway: "10.100.0.1"
         mtu: 1500
         vip:
-          ip: "10.100.0.20"
+          ip: "10.100.0.45"
   - hostname: "k3s-worker-01"
     ipAddress: "10.100.0.70"
     installDisk: "/dev/sda"
