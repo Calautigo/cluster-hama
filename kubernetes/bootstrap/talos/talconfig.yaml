@@ -21,7 +21,7 @@ cniConfig:
   name: none
 
 nodes:
-  - hostname: "k3s-master-01"
+  - hostname: "tal-controlpanel-01"
     ipAddress: "10.100.0.50"
     installDisk: "/dev/sda"
     talosImageURL: factory.talos.dev/installer/a816565ab2b10f14fb11071963c62c7edee2d864dfcf1ee4f841d3b04c11c9bb
@@ -38,7 +38,7 @@ nodes:
         mtu: 1500
         vip:
           ip: "10.100.0.45"
-  - hostname: "k3s-master-02"
+  - hostname: "tal-controlpanel-02"
     ipAddress: "10.100.0.51"
     installDisk: "/dev/sda"
     talosImageURL: factory.talos.dev/installer/a816565ab2b10f14fb11071963c62c7edee2d864dfcf1ee4f841d3b04c11c9bb
@@ -55,7 +55,7 @@ nodes:
         mtu: 1500
         vip:
           ip: "10.100.0.45"
-  - hostname: "k3s-master-03"
+  - hostname: "tal-controlpanel-03"
     ipAddress: "10.100.0.52"
     installDisk: "/dev/sda"
     talosImageURL: factory.talos.dev/installer/a816565ab2b10f14fb11071963c62c7edee2d864dfcf1ee4f841d3b04c11c9bb
@@ -72,7 +72,7 @@ nodes:
         mtu: 1500
         vip:
           ip: "10.100.0.45"
-  - hostname: "k3s-worker-01"
+  - hostname: "tal-worker-01"
     ipAddress: "10.100.0.70"
     installDisk: "/dev/sda"
     talosImageURL: factory.talos.dev/installer/a816565ab2b10f14fb11071963c62c7edee2d864dfcf1ee4f841d3b04c11c9bb
@@ -87,7 +87,7 @@ nodes:
           - network: 0.0.0.0/0
             gateway: "10.100.0.1"
         mtu: 1500
-  - hostname: "k3s-worker-02"
+  - hostname: "tal-worker-02"
     ipAddress: "10.100.0.71"
     installDisk: "/dev/sda"
     talosImageURL: factory.talos.dev/installer/a816565ab2b10f14fb11071963c62c7edee2d864dfcf1ee4f841d3b04c11c9bb
