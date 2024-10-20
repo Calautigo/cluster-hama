@@ -1,3 +1,0 @@
----
-providerRegex: ^(k3s-master-01|k3s-master-02|k3s-master-03|k3s-worker-01|k3s-worker-02)$
-bypassDnsResolution: true
