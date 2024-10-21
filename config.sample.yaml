@@ -188,6 +188,9 @@ bootstrap_cloudflare:
   #   2. Create the tunnel with the following command:
   #     > cloudflared tunnel create k8s
   tunnel:
+    # (Required) Disable to not use cloudflare tunnel - setting this
+    #   to false will not generate an external ingress class
+    enabled: false
     # (Required) Get the Cloudflared Tunnel ID with the following command:
     #   > jq -r .TunnelID ~/.cloudflared/*.json
     id: ""

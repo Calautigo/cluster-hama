@@ -1,3 +1,0 @@
----
-providerRegex: ^(tal-controlpanel-01|tal-controlpanel-02|tal-controlpanel-03|tal-worker-01|tal-worker-02)$
-bypassDnsResolution: true
