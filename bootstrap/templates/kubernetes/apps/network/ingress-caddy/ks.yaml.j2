@@ -2,41 +2,43 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app cilium
+  name: &app ingress-caddy-internal
   namespace: flux-system
 spec:
-  targetNamespace: kube-system
+  targetNamespace: network
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: gateway-api-crds
-  path: ./kubernetes/apps/kube-system/cilium/app
-  prune: false # never should be deleted
-  sourceRef:
-    kind: GitRepository
-    name: home-kubernetes
-  wait: true
-  interval: 30m
-  timeout: 5m
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: &app cilium-config
-  namespace: flux-system
-spec:
-  targetNamespace: kube-system
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  dependsOn:
-    - name: cilium
-  path: ./kubernetes/apps/kube-system/cilium/config
-  prune: false # never should be deleted
+    - name: certificates
+  path: ./kubernetes/apps/network/ingress-caddy/internal
+  prune: true
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
   wait: false
   interval: 30m
   timeout: 5m
+---
+#% if bootstrap_cloudflare.tunnel.enabled %#
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app ingress-caddy-external
+  namespace: flux-system
+spec:
+  targetNamespace: network
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  dependsOn:
+    - name: certificates
+  path: ./kubernetes/apps/network/ingress-caddy/external
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-kubernetes
+  wait: false
+  interval: 30m
+  timeout: 5m
+#% endif %#

@@ -174,6 +174,9 @@ bootstrap_cloudflare:
     #   Update this option to `true` when you have verified the staging certificate
     #   works and then re-run `task configure` and push your changes to Github.
     production: false
+  # (Required) Ingress type for internal ingress classes
+  # The ingress system for internal ingress, choose nginx or caddy
+  ingress_type: "caddy"
   # (Required) Provide LAN access to the cluster ingresses for internal ingress classes
   # The Load balancer IP for internal ingress, choose an available IP
   #   in your nodes host network that is NOT being used. This is announced over L2.

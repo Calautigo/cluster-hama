@@ -23,6 +23,8 @@ envoy:
   enabled: false
 hubble:
   enabled: false
+gateway_api:
+  enabled: true
 ipam:
   mode: kubernetes
 ipv4NativeRoutingCIDR: "#{ bootstrap_pod_network.split(',')[0] }#"
@@ -58,7 +60,9 @@ securityContext:
       - NET_ADMIN
       - NET_RAW
       - IPC_LOCK
-      - SYS_ADMIN
+      #- SYS_ADMIN
+      - PERFMON
+      - BPF
       - SYS_RESOURCE
       - DAC_OVERRIDE
       - FOWNER
@@ -68,3 +72,4 @@ securityContext:
       - NET_ADMIN
       - SYS_ADMIN
       - SYS_RESOURCE
+    keepCapNetBindService: true
