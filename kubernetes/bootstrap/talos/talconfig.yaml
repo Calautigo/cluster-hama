@@ -24,7 +24,7 @@ nodes:
   - hostname: "kube-control-01"
     ipAddress: "10.100.0.61"
     installDisk: "/dev/sda"
-    talosImageURL: factory.talos.dev/installer/a816565ab2b10f14fb11071963c62c7edee2d864dfcf1ee4f841d3b04c11c9bb
+    talosImageURL: factory.talos.dev/installer/4520814debfd871f310d8f1c8781ce18567aae73b0857019eec4e33fe303d3d1
     controlPlane: true
     networkInterfaces:
       - deviceSelector:
@@ -41,7 +41,7 @@ nodes:
   - hostname: "kube-control-02"
     ipAddress: "10.100.0.62"
     installDisk: "/dev/sda"
-    talosImageURL: factory.talos.dev/installer/a816565ab2b10f14fb11071963c62c7edee2d864dfcf1ee4f841d3b04c11c9bb
+    talosImageURL: factory.talos.dev/installer/4520814debfd871f310d8f1c8781ce18567aae73b0857019eec4e33fe303d3d1
     controlPlane: true
     networkInterfaces:
       - deviceSelector:
@@ -58,7 +58,7 @@ nodes:
   - hostname: "kube-control-03"
     ipAddress: "10.100.0.63"
     installDisk: "/dev/sda"
-    talosImageURL: factory.talos.dev/installer/a816565ab2b10f14fb11071963c62c7edee2d864dfcf1ee4f841d3b04c11c9bb
+    talosImageURL: factory.talos.dev/installer/4520814debfd871f310d8f1c8781ce18567aae73b0857019eec4e33fe303d3d1
     controlPlane: true
     networkInterfaces:
       - deviceSelector:
@@ -75,7 +75,7 @@ nodes:
   - hostname: "kube-worker-01"
     ipAddress: "10.100.0.71"
     installDisk: "/dev/sda"
-    talosImageURL: factory.talos.dev/installer/a816565ab2b10f14fb11071963c62c7edee2d864dfcf1ee4f841d3b04c11c9bb
+    talosImageURL: factory.talos.dev/installer/4520814debfd871f310d8f1c8781ce18567aae73b0857019eec4e33fe303d3d1
     controlPlane: false
     networkInterfaces:
       - deviceSelector:
@@ -90,7 +90,7 @@ nodes:
   - hostname: "kube-worker-02"
     ipAddress: "10.100.0.72"
     installDisk: "/dev/sda"
-    talosImageURL: factory.talos.dev/installer/a816565ab2b10f14fb11071963c62c7edee2d864dfcf1ee4f841d3b04c11c9bb
+    talosImageURL: factory.talos.dev/installer/4520814debfd871f310d8f1c8781ce18567aae73b0857019eec4e33fe303d3d1
     controlPlane: false
     networkInterfaces:
       - deviceSelector:
