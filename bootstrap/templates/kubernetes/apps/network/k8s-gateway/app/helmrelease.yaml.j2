@@ -31,3 +31,40 @@ spec:
         lbipam.cilium.io/ips: "#{ bootstrap_cloudflare.gateway_vip }#"
       externalTrafficPolicy: Cluster
     watchedResources: ["Ingress", "Service"]
+  postRenderers:
+    - kustomize:
+        patches:
+          - patch: |-
+              apiVersion: rbac.authorization.k8s.io/v1
+              kind: ClusterRole
+              metadata:
+                name: k8s-gateway
+                labels:
+                  app.kubernetes.io/name: k8s-gateway
+                  app.kubernetes.io/instance: k8s-gateway
+              rules: []
+          - patch: |-
+              apiVersion: rbac.authorization.k8s.io/v1
+              kind: ClusterRole
+              metadata:
+                name: k8s-gateway
+                labels:
+                  app.kubernetes.io/name: k8s-gateway
+                  app.kubernetes.io/instance: k8s-gateway
+              rules:
+                - apiGroups:
+                  - ""
+                  resources:
+                  - services
+                  - namespaces
+                  verbs:
+                  - list
+                  - watch
+                - apiGroups:
+                  - extensions
+                  - networking.k8s.io
+                  resources:
+                  - ingresses
+                  verbs:
+                  - list
+                  - watch
