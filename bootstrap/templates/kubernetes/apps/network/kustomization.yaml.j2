@@ -4,10 +4,8 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./certificates/ks.yaml
-  #% if bootstrap_cloudflare.tunnel.enabled %#
-  - ./cloudflared/ks.yaml
-  - ./echo-server/ks.yaml
+  #% if bootstrap_cloudflare.external.enabled %#
   - ./external-dns/ks.yaml
   #% endif %#
-  - ./ingress-nginx/ks.yaml
+  - ./ingress-caddy/ks.yaml
   - ./k8s-gateway/ks.yaml

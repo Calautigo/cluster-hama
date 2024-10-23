@@ -35,10 +35,8 @@ bootstrap_cloudflare:
   acme:
     email: fake@example.com
     production: false
-  tunnel:
-    account_id: fake
-    id: fake
-    secret: fake
+  external:
+    enabled: false
     ingress_vip: 10.10.10.252
   ingress_vip: 10.10.10.251
   gateway_vip: 10.10.10.253

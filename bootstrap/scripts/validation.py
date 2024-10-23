@@ -8,7 +8,6 @@ import socket
 import sys
 
 GLOBAL_CLI_TOOLS = ["age", "flux", "helmfile", "sops", "jq", "kubeconform", "kustomize", "talosctl", "talhelper"]
-CLOUDFLARE_TOOLS = ["cloudflared"]
 
 
 def required(*keys: str):
@@ -74,9 +73,6 @@ def validate_node(node: dict, node_cidr: str) -> None:
 @required("bootstrap_cloudflare")
 def validate_cli_tools(cloudflare: dict, **_) -> None:
     for tool in GLOBAL_CLI_TOOLS:
-        if not which(tool):
-            raise ValueError(f"Missing required CLI tool {tool}")
-    for tool in CLOUDFLARE_TOOLS if cloudflare.get("enabled", False) else []:
         if not which(tool):
             raise ValueError(f"Missing required CLI tool {tool}")
 

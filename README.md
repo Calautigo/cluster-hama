@@ -13,10 +13,10 @@ The features included will depend on the type of configuration you want to use. 
     - **Required:** Some knowledge of [Containers](https://opencontainers.org/), [YAML](https://yaml.org/), and [Git](https://git-scm.com/).
     - **Components:** [flux](https://github.com/fluxcd/flux2), [Cilium](https://github.com/cilium/cilium),[cert-manager](https://github.com/cert-manager/cert-manager), [spegel](https://github.com/spegel-org/spegel), [reloader](https://github.com/stakater/Reloader), and [openebs](https://github.com/openebs/openebs).
 
-2. **"Flux cluster with Cloudflare"** - An addition to "**Flux cluster**" that provides DNS and SSL with [Cloudflare](https://www.cloudflare.com/). [Cloudflare Tunnel](https://www.cloudflare.com/products/tunnel/) is also included to provide external access to certain applications deployed in your cluster.
+2. **"Flux cluster with Cloudflare"** - An addition to "**Flux cluster**" that provides DNS and SSL with [Cloudflare](https://www.cloudflare.com/).
 
     - **Required:** A Cloudflare account with a domain managed in your Cloudflare account.
-    - **Components:** [ingress-nginx](https://github.com/kubernetes/ingress-nginx/), [external-dns](https://github.com/kubernetes-sigs/external-dns) and [cloudflared](https://github.com/cloudflare/cloudflared).
+    - **Components:** [ingress-caddy](https://artifacthub.io/packages/helm/alekc/caddy), [external-dns](https://github.com/kubernetes-sigs/external-dns).
 
 **Other features include:**
 
@@ -232,7 +232,7 @@ _Mic check, 1, 2_ - In a few moments applications should be lighting up like Chr
 
 #### 🌐 Public DNS
 
-The `external-dns` application created in the `networking` namespace will handle creating public DNS records. By default, `echo-server` and the `flux-webhook` are the only subdomains reachable from the public internet. In order to make additional applications public you must set set the correct ingress class name and ingress annotations like in the HelmRelease for `echo-server`.
+The `external-dns` application created in the `networking` namespace will handle creating public DNS records. By default, the `flux-webhook` is the only subdomain reachable from the public internet. In order to make additional applications public you must set set the correct ingress class name.
 
 #### 🏠 Home DNS
 
@@ -246,7 +246,7 @@ The `external-dns` application created in the `networking` namespace will handle
 > server=/${bootstrap_cloudflare.domain}/${bootstrap_cloudflare.gateway_vip}
 > ```
 > 2. Restart dnsmasq on the server.
-> 3. Query an internal-only subdomain from your workstation (any `internal` class ingresses): `dig @${home-dns-server-ip} echo-server-internal.${bootstrap_cloudflare.domain}`. It should resolve to `${bootstrap_cloudflare.ingress_vip}`.
+> 3. Query an internal-only subdomain from your workstation (any `internal` class ingresses): `dig @${home-dns-server-ip} ?-internal.${bootstrap_cloudflare.domain}`. It should resolve to `${bootstrap_cloudflare.ingress_vip}`.
 
 If you're having trouble with DNS be sure to check out these two GitHub discussions: [Internal DNS](https://github.com/onedr0p/cluster-template/discussions/719) and [Pod DNS resolution broken](https://github.com/onedr0p/cluster-template/discussions/635).
 
@@ -255,8 +255,6 @@ If you're having trouble with DNS be sure to check out these two GitHub discussi
 #### 📜 Certificates
 
 By default this template will deploy a wildcard certificate using the Let's Encrypt **staging environment**, which prevents you from getting rate-limited by the Let's Encrypt production servers if your cluster doesn't deploy properly (for example due to a misconfiguration). Once you are sure you will keep the cluster up for more than a few hours be sure to switch to the production servers as outlined in `config.yaml`.
-
-📍 _You will need a production certificate to reach internet-exposed applications through `cloudflared`._
 
 #### 🪝 Github Webhook
 

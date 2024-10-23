@@ -174,9 +174,7 @@ bootstrap_cloudflare:
     #   Update this option to `true` when you have verified the staging certificate
     #   works and then re-run `task configure` and push your changes to Github.
     production: false
-  # (Required) Ingress type for internal ingress classes
-  # The ingress system for internal ingress, choose nginx or caddy
-  ingress_type: "caddy"
+  # (Required) Internal ingress details
   # (Required) Provide LAN access to the cluster ingresses for internal ingress classes
   # The Load balancer IP for internal ingress, choose an available IP
   #   in your nodes host network that is NOT being used. This is announced over L2.
@@ -185,24 +183,11 @@ bootstrap_cloudflare:
   # The Load balancer IP for k8s_gateway, choose an available IP
   #   in your nodes host network that is NOT being used. This is announced over L2.
   gateway_vip: ""
-  # (Required) Options for Cloudflare Tunnel
-  #   1. Authenticate cloudflared to your domain with the following command:
-  #     > cloudflared tunnel login
-  #   2. Create the tunnel with the following command:
-  #     > cloudflared tunnel create k8s
-  tunnel:
-    # (Required) Disable to not use cloudflare tunnel - setting this
+  # (Required) Options for external ingress
+  external:
+    # (Required) Disable to not use external ingress - setting this
     #   to false will not generate an external ingress class
     enabled: false
-    # (Required) Get the Cloudflared Tunnel ID with the following command:
-    #   > jq -r .TunnelID ~/.cloudflared/*.json
-    id: ""
-    # (Required) Get the Cloudflare Account ID with the following command:
-    #   > jq -r .AccountTag ~/.cloudflared/*.json
-    account_id: ""
-    # (Required) Get the Cloudflared Tunnel Secret with the following command:
-    #   > jq -r .TunnelSecret ~/.cloudflared/*.json
-    secret: ""
     # (Required) Provide WAN access to the cluster ingresses for external ingress classes
     # The Load balancer IP for external ingress, choose an available IP
     #   in your nodes host network that is NOT being used. This is announced over L2.

@@ -19,7 +19,6 @@ for app in \
     "budimanjojo/talhelper!!?as=talhelper&type=script" \
     "cilium/cilium-cli!!?as=cilium&type=script" \
     "cli/cli!!?as=gh&type=script" \
-    "cloudflare/cloudflared!!?as=cloudflared&type=script" \
     "derailed/k9s!!?as=k9s&type=script" \
     "fluxcd/flux2!!?as=flux&type=script" \
     "go-task/task!!?as=task&type=script" \
