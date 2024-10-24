@@ -1,4 +1,0 @@
-disks:
-  - device: /dev/sdb
-    partitions:
-      - mountpoint: /var/lib/longhorn
