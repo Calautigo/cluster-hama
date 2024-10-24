@@ -1,3 +1,0 @@
----
-providerRegex: ^(kube-control-01|kube-control-02|kube-control-03|kube-worker-01|kube-worker-02|kube-worker-03)$
-bypassDnsResolution: true

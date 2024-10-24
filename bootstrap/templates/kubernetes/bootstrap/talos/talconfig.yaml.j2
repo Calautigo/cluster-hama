@@ -82,6 +82,12 @@ nodes:
           ip: "#{ bootstrap_controller_vip }#"
         #% endif %#
         #% endif %#
+    #% if item.longhorn_disk %#
+    disks:
+      - device: "#{ item.longhorn_disk }#"
+        partitions:
+          - mountpoint: "/var/lib/longhorn"
+    #% endif %#
     #% if item.manifests %#
     extraManifests:
       #% for manifest in item.manifests %#
