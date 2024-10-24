@@ -1,6 +1,0 @@
-cluster-hama-kube-control-01.yaml
-cluster-hama-kube-control-02.yaml
-cluster-hama-kube-control-03.yaml
-cluster-hama-kube-worker-01.yaml
-cluster-hama-kube-worker-02.yaml
-talosconfig
