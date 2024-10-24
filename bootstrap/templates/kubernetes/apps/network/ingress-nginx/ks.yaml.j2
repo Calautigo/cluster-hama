@@ -53,7 +53,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: certificates
+    - name: ingress-nginx-certificates
   path: ./kubernetes/apps/network/ingress-nginx/external
   prune: true
   sourceRef:
