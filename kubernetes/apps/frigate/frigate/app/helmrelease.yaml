@@ -39,7 +39,7 @@ spec:
       mqtt:
         enabled: false
       auth:
-        enabled: False
+        enabled: false
     resources:
       requests:
         cpu: 1000m
