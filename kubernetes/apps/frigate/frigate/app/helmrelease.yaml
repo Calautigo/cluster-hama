@@ -33,8 +33,8 @@ spec:
       hosts:
         - host: "frigate.${SECRET_DOMAIN}"
           paths:
-            - path: '/'
-              portName: http-auth
+            - path: /
+              portName: http
     config: |
       mqtt:
         enabled: false
