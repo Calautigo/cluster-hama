@@ -38,10 +38,6 @@ nodes:
         mtu: 1500
         vip:
           ip: "10.100.0.60"
-    disks:
-      - device: "/dev/sdb"
-        partitions:
-          - mountpoint: "/var/lib/longhorn"
   - hostname: "kube-control-02"
     ipAddress: "10.100.0.62"
     installDisk: "/dev/sda"
@@ -59,10 +55,6 @@ nodes:
         mtu: 1500
         vip:
           ip: "10.100.0.60"
-    disks:
-      - device: "/dev/sdb"
-        partitions:
-          - mountpoint: "/var/lib/longhorn"
   - hostname: "kube-control-03"
     ipAddress: "10.100.0.63"
     installDisk: "/dev/sda"
@@ -80,10 +72,6 @@ nodes:
         mtu: 1500
         vip:
           ip: "10.100.0.60"
-    disks:
-      - device: "/dev/sdb"
-        partitions:
-          - mountpoint: "/var/lib/longhorn"
   - hostname: "kube-worker-01"
     ipAddress: "10.100.0.71"
     installDisk: "/dev/sda"
@@ -99,10 +87,6 @@ nodes:
           - network: 0.0.0.0/0
             gateway: "10.100.0.1"
         mtu: 1500
-    disks:
-      - device: "/dev/sdb"
-        partitions:
-          - mountpoint: "/var/lib/longhorn"
   - hostname: "kube-worker-02"
     ipAddress: "10.100.0.72"
     installDisk: "/dev/sda"
@@ -118,10 +102,6 @@ nodes:
           - network: 0.0.0.0/0
             gateway: "10.100.0.1"
         mtu: 1500
-    disks:
-      - device: "/dev/sdb"
-        partitions:
-          - mountpoint: "/var/lib/longhorn"
   - hostname: "kube-worker-03"
     ipAddress: "10.100.0.73"
     installDisk: "/dev/sda"
@@ -137,10 +117,6 @@ nodes:
           - network: 0.0.0.0/0
             gateway: "10.100.0.1"
         mtu: 1500
-    disks:
-      - device: "/dev/sdb"
-        partitions:
-          - mountpoint: "/var/lib/longhorn"
 
 # Global patches
 patches:
