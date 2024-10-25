@@ -32,6 +32,9 @@ spec:
       ingressClassName: internal
       hosts:
         - host: "frigate.${SECRET_DOMAIN}"
+          paths:
+            - path: '/'
+              portName: http-auth
     config: |
       mqtt:
         enabled: false
