@@ -42,6 +42,59 @@ spec:
         enabled: false
       tls:
         enabled: false
+
+      # ffmpeg:
+      #   hwaccel_args: preset-intel-qsv-h264 -qsv_device /dev/dri/renderD129
+
+      go2rtc:
+          streams:
+              corridor: rtsp://camera:T6YedouFE*pvt*uUTQkVBH_kiqKrqwMw@10.40.200.104:554/stream1
+              garden_door: rtsp://camera:T6YedouFE*pvt*uUTQkVBH_kiqKrqwMw@10.40.200.108:554/stream1
+              living_room: rtsp://camera:T6YedouFE*pvt*uUTQkVBH_kiqKrqwMw@10.40.200.103:554/stream1
+              garden_chicken: rtsp://camera:T6YedouFE*pvt*uUTQkVBH_kiqKrqwMw@10.40.200.116:554/stream1
+          webrtc:
+            candidates:
+              - 192.168.1.24:8555
+              - stun:8555
+
+      cameras:
+        living_room:
+          ffmpeg:
+            inputs:
+              - path: rtsp://127.0.0.1:8554/living_room
+                input_args: preset-rtsp-restream
+          onvif:
+            host: 10.40.200.105
+            port: 2020
+            user: camera
+            password: T6YedouFE*pvt*uUTQkVBH_kiqKrqwMw
+        corridor:
+          ffmpeg:
+            inputs:
+              - path: rtsp://127.0.0.1:8554/corridor
+                input_args: preset-rtsp-restream
+          onvif:
+            host: 10.40.200.104
+            port: 2020
+            user: camera
+            password: T6YedouFE*pvt*uUTQkVBH_kiqKrqwMw
+        garden_door:
+          ffmpeg:
+            inputs:
+              - path: rtsp://127.0.0.1:8554/garden_door
+                input_args: preset-rtsp-restream
+          onvif:
+            host: 10.40.200.108
+            port: 2020
+            user: camera
+            password: T6YedouFE*pvt*uUTQkVBH_kiqKrqwMw
+        garden_chicken:
+          ffmpeg:
+            inputs:
+              - path: rtsp://127.0.0.1:8554/garden_door
+                input_args: preset-rtsp-restream
+      version: 0.14
+
     resources:
       requests:
         cpu: 100m
