@@ -2,14 +2,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app uptime-kuma
+  name: &app gotify
   namespace: flux-system
 spec:
-  targetNamespace: uptime-kuma
+  targetNamespace: gotify
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/uptime-kuma/uptime-kuma/app
+  path: ./kubernetes/apps/monitor/gotify/app
   prune: true
   sourceRef:
     kind: GitRepository
