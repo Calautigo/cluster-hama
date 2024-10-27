@@ -5,7 +5,7 @@ metadata:
   name: &app gotify
   namespace: flux-system
 spec:
-  targetNamespace: gotify
+  targetNamespace: monitor
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
