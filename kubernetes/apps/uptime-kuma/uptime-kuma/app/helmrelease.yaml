@@ -25,10 +25,10 @@ spec:
       enabled: true
       ingressClassName: internal
       hosts:
-        - host:  uptime-kuma.${SECRET_DOMAIN}"
+        - host: "uptime-kuma.${SECRET_DOMAIN}"
           paths:
             - path: /
-              portName: http
+              pathType: ImplementationSpecific
     resources:
       requests:
         cpu: 50m
