@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: uptime-kuma
+  name: paperless
 spec:
   interval: 30m
   chart:
@@ -78,9 +78,9 @@ spec:
     resources:
       requests:
         cpu: 25m
-        memory: 2Gi
+        memory: 1Gi
       limits:
-        memory: 6Gi
+        memory: 4Gi
 
     postgresql:
       enabled: true
