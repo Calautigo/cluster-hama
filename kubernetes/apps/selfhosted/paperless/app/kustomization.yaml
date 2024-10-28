@@ -5,3 +5,4 @@ resources:
   - ./helmrelease.yaml
   - ./paperless-secret.sops.yaml
   - ./paperless-redis-secret.sops.yaml
+  - ./paperless-postgresql-secret.sops.yaml
