@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./paperless-secret.sops.yaml
-  - ./paperless-redis.sops.yaml
+  - ./paperless-redis-secret.sops.yaml
