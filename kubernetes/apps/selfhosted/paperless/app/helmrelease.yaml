@@ -71,9 +71,20 @@ spec:
     persistence:
       data:
         enabled: true
+        accessMode: ReadWriteOnce
+        size: 1Gi
       media:
         enabled: true
+        accessMode: ReadWriteOnce
         size: 20Gi
+      export:
+        enabled: true
+        accessMode: ReadWriteOnce
+        size: 1Gi
+      consume:
+        enabled: true
+        accessMode: ReadWriteOnce
+        size: 1Gi
 
     resources:
       requests:
