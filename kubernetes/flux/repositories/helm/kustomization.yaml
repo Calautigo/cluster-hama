@@ -18,3 +18,4 @@ resources:
   - ./k8s-gateway.yaml
   - ./blakeblackshear.yaml
   - ./k8sonlab.yaml
+  - ./gabe565.yaml
