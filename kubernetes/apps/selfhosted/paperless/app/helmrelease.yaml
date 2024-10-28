@@ -37,8 +37,8 @@ spec:
       PAPERLESS_CONSUMER_RECURSIVE: "true"
       PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
       # Configure OCR
-      PAPERLESS_OCR_LANGUAGES: ger
-      PAPERLESS_OCR_LANGUAGE: ger
+      PAPERLESS_OCR_LANGUAGES: deu
+      PAPERLESS_OCR_LANGUAGE: deu
       # Configure redis integration
       PAPERLESS_REDIS: redis://paperless-redis.selfhosted.svc.cluster.local:6379
       # Configure user permissions
