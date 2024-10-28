@@ -35,6 +35,7 @@ spec:
       data:
         enabled: true
         accessMode: ReadWriteOnce
+        size: 1Gi
     resources:
       requests:
         cpu: 50m

@@ -7,7 +7,7 @@ spec:
   interval: 30m
   chart:
     spec:
-      chart: paperless
+      chart: paperless-ngx
       version: 0.19.1
       sourceRef:
         kind: HelmRepository
