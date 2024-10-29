@@ -40,7 +40,11 @@ spec:
       PAPERLESS_OCR_LANGUAGES: deu
       PAPERLESS_OCR_LANGUAGE: deu
       # Configure redis integration
-      PAPERLESS_REDIS: redis://paperless-redis.selfhosted.svc.cluster.local:6379
+      PAPERLESS_REDIS:
+        valueFrom:
+          secretKeyRef:
+            name: paperless-secret
+            key: PAPERLESS_REDIS_URL
       # Configure user permissions
       USERMAP_GID: "65542"
       PAPERLESS_SECRET_KEY:
@@ -58,7 +62,22 @@ spec:
           secretKeyRef:
             name: paperless-secret
             key: PAPERLESS_ADMIN_PASSWORD
-
+    probes:
+      liveness:
+        enabled: true
+      readiness:
+        enabled: true
+      startup:
+        enabled: true
+        spec:
+          failureThreshold: 30
+          periodSeconds: 5
+    resources:
+      requests:
+        cpu: 25m
+        memory: 1Gi
+      limits:
+        memory: 4Gi
     ingress:
       main:
         enabled: true
@@ -67,7 +86,6 @@ spec:
           - host: "paperless.${SECRET_DOMAIN}"
             paths:
               - path: /
-
     persistence:
       data:
         enabled: true
@@ -86,12 +104,15 @@ spec:
         accessMode: ReadWriteOnce
         size: 1Gi
 
-    resources:
-      requests:
-        cpu: 25m
-        memory: 1Gi
-      limits:
-        memory: 4Gi
+    service:
+      main:
+        ports:
+          http:
+            port: 8000
+      redis:
+        ports:
+          http:
+            port: 6379
 
     postgresql:
       enabled: true
@@ -115,7 +136,7 @@ spec:
         persistence:
           enabled: false
       replica:
-        replicaCount: 1
+        replicaCount: 0
       resources:
         requests:
           cpu: 5m
