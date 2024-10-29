@@ -21,19 +21,26 @@ spec:
     remediation:
       retries: 3
   values:
+    gitea:
+      admin:
+        existingSecret: gitea-secret
     serviceAccount:
       create: true
       name: gitea-account
-
     ingress:
-      main:
-        enabled: true
-        ingressClassName: internal
-        hosts:
-          - host: "gitea.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-
+      enabled: true
+      ingressClassName: internal
+      hosts:
+        - host: "gitea.${SECRET_DOMAIN}"
+          paths:
+            - path: /
+    postgresql-ha:
+      enabled: true
+      postgresql:
+        auth:
+          existingSecret: gitea-secret
+          secretKeys:
+            adminPasswordKey: postgres-password
     resources:
       requests:
         cpu: 100m
