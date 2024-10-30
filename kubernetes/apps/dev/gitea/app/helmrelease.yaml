@@ -28,8 +28,16 @@ spec:
       create: true
       name: gitea-account
     service:
+      http:
+        type: "LoadBalancer"
+        loadBalancerIP: 10.100.0.50
+        annotations:
+          "lbipam.cilium.io/sharing-key": "gitea"
       ssh:
-        clusterIP: ""
+        type: "LoadBalancer"
+        loadBalancerIP: 10.100.0.50
+        annotations:
+          "lbipam.cilium.io/sharing-key": "gitea"
     ingress:
       enabled: true
       ingressClassName: internal

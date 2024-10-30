@@ -23,8 +23,6 @@ spec:
       retries: 3
   values:
     fullnameOverride: ingress-nginx-internal
-    tcp:
-      22: "gitea/gitea-ssh:22"
     controller:
       service:
         annotations:
