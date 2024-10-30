@@ -19,8 +19,6 @@ envoy:
   enabled: false
 hubble:
   enabled: false
-gateway_api:
-  enabled: true
 ipam:
   mode: kubernetes
 ipv4NativeRoutingCIDR: "10.69.0.0/16"
