@@ -27,13 +27,6 @@ spec:
     serviceAccount:
       create: true
       name: gitea-account
-    ingress:
-      enabled: true
-      ingressClassName: internal
-      hosts:
-        - host: "gitea.${SECRET_DOMAIN}"
-          paths:
-            - path: /
     postgresql-ha:
       enabled: true
       postgresql:

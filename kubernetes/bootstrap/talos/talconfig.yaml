@@ -87,36 +87,6 @@ nodes:
           - network: 0.0.0.0/0
             gateway: "10.100.0.1"
         mtu: 1500
-  - hostname: "kube-worker-02"
-    ipAddress: "10.100.0.72"
-    installDisk: "/dev/sda"
-    talosImageURL: factory.talos.dev/installer/d4cf8602b9d285ede53209d5e8c482372d61d3b9aa850736c2dc65bd8d091cba
-    controlPlane: false
-    networkInterfaces:
-      - deviceSelector:
-          hardwareAddr: "bc:24:11:e9:7f:0f"
-        dhcp: false
-        addresses:
-          - "10.100.0.72/16"
-        routes:
-          - network: 0.0.0.0/0
-            gateway: "10.100.0.1"
-        mtu: 1500
-  - hostname: "kube-worker-03"
-    ipAddress: "10.100.0.73"
-    installDisk: "/dev/sda"
-    talosImageURL: factory.talos.dev/installer/d4cf8602b9d285ede53209d5e8c482372d61d3b9aa850736c2dc65bd8d091cba
-    controlPlane: false
-    networkInterfaces:
-      - deviceSelector:
-          hardwareAddr: "bc:24:11:da:91:90"
-        dhcp: false
-        addresses:
-          - "10.100.0.73/16"
-        routes:
-          - network: 0.0.0.0/0
-            gateway: "10.100.0.1"
-        mtu: 1500
 
 # Global patches
 patches:
