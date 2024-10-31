@@ -70,7 +70,7 @@ spec:
                   - watch
                 - apiGroups:
                   - gateway.networking.k8s.io
-                  resources: ['*s']
+                  resources: ['*']
                   verbs:
                   - list
                   - watch
