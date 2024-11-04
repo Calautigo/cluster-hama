@@ -1,0 +1,33 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+  name: cilium-gateway
+  namespace: network
+spec:
+  gatewayClassName: cilium
+  infrastructure:
+    annotations:
+      io.cilium/lb-ipam-ips: 10.100.0.48
+  listeners:
+    - allowedRoutes:
+        namespaces:
+          from: All
+      hostname: '*.schwarz47.at'
+      name: https-gateway
+      port: 443
+      protocol: HTTPS
+      tls:
+        certificateRefs:
+          - group: ''
+            kind: Secret
+            name: wildcard-schwarz47-at
+        mode: Terminate
+    - allowedRoutes:
+        namespaces:
+          from: All
+      hostname: '*.schwarz47.at'
+      name: ssh-gateway
+      protocol: TCP
+      port: 22
