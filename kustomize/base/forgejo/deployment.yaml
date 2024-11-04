@@ -1,0 +1,106 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: forgejo
+  labels:
+    app: forgejo
+spec:
+  selector:
+    matchLabels:
+      app: forgejo
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: forgejo
+    spec:
+      containers:
+      - name: forgejo
+        image: codeberg.org/forgejo/forgejo:8
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 2000m
+            memory: 1000Mi
+        livenessProbe:
+          tcpSocket:
+            port: 3000
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /_status/healthz
+            port: 3000
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        env:
+          - name: SSH_LISTEN_PORT
+            value: "2222"
+          - name: SSH_PORT
+            value: "2222"
+          - name: GITEA_APP_INI
+            value: /data/gitea/conf/app.ini
+          - name: GITEA_CUSTOM
+            value: /data/gitea
+          - name: GITEA_WORK_DIR
+            value: /data
+          - name: GITEA_TEMP
+            value: /tmp/gitea
+          - name: TMPDIR
+            value: /tmp/gitea
+          - name: ROOT_URL
+            value: "https://git.schwarz47.at"
+          - name: SSH_DOMAIN
+            value: "git.schwarz47.at"
+          - name: DOMAIN
+            value: "git.schwarz47.at"
+          - name: GITEA__DATABASE__HOST
+            value: forgejo-postgresql.dev.svc.cluster.local:5432
+          - name: GITEA__DATABASE__PASSWD
+            valueFrom:
+              secretKeyRef:
+                name: forgejo-secret
+                key: postgres-password
+        ports:
+          - name: ssh
+            containerPort: 2222
+          - name: http
+            containerPort: 3000
+        volumeMounts:
+          - name: temp
+            mountPath: /tmp
+          - name: data
+            mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: forgejo-data-claim
+        - name: init
+          secret:
+            secretName: forgejo-init
+            defaultMode: 110
+        - name: config
+          secret:
+            secretName: forgejo
+            defaultMode: 110
+        - name: inline-config-sources
+          secret:
+            secretName: forgejo-inline-config
+        - name: temp
+          emptyDir: {}
+      restartPolicy: Always
