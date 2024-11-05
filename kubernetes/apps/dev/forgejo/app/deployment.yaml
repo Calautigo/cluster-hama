@@ -86,6 +86,9 @@ spec:
             mountPath: /tmp
           - name: data
             mountPath: /data
+        securityContext:
+          privileged: false
+          allowPrivilegeEscalation: false
       volumes:
         - name: data
           persistentVolumeClaim:
@@ -104,3 +107,7 @@ spec:
         - name: temp
           emptyDir: {}
       restartPolicy: Always
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
