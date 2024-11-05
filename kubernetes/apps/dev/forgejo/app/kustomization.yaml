@@ -2,6 +2,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../../../../../kustomize/base/forgejo
+  - ./database.yaml
+  - ./redis.yaml
+  - ./init.yaml
+  - ./config.yaml
+  - ./deployment.yaml
+  - ./http-svc.yaml
+  - ./ssh-svc.yaml
   - ./secret.sops.yaml
   - ./http-route.yaml
