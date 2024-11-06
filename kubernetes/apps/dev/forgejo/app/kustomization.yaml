@@ -6,6 +6,7 @@ resources:
   - ./redis.yaml
   - ./init.yaml
   - ./deployment.yaml
+  - ./pvc.yaml
   - ./http-svc.yaml
   - ./ssh-svc.yaml
   - ./secret.sops.yaml
