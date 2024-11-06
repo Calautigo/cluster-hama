@@ -149,6 +149,8 @@ spec:
             value: /data
           - name: GITEA_TEMP
             value: /tmp/gitea
+          - name: HOME
+            value: /data/gitea/git
           - name: TMPDIR
             value: /tmp/gitea
           - name: ROOT_URL
