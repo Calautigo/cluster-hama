@@ -4,11 +4,6 @@ metadata:
   name: forgejo-init
 type: Opaque
 stringData:
-  configure_gpg_environment.sh: |-
-    #!/usr/bin/env bash
-    set -eu
-
-    gpg --batch --import /raw/private.asc
   init_directory_structure.sh: |-
     #!/usr/bin/env bash
 
@@ -20,9 +15,6 @@ stringData:
     mkdir -p /data/git/.ssh
     chmod -R 700 /data/git/.ssh
     [ ! -d /data/gitea/conf ] && mkdir -p /data/gitea/conf
-    [ ! -d /data/gitea/git ] && mkdir -p /data/gitea/git
-    chown 1000:1000 /data/gitea
-    chown -R 1000:1000 /data
 
     # prepare temp directory structure
     mkdir -p /tmp/gitea
