@@ -72,42 +72,42 @@ spec:
             limits:
               cpu: 100m
               memory: 128Mi
-        - name: configure-gitea
-          image: codeberg.org/forgejo/forgejo:8
-          imagePullPolicy: IfNotPresent
-          command: ["/usr/sbin/configure_gitea.sh"]
-          env:
-            - name: GITEA_APP_INI
-              value: /data/gitea/conf/app.ini
-            - name: FORGEJO_CUSTOM
-              value: /data/gitea
-            - name: GITEA_WORK_DIR
-              value: /data
-            - name: GITEA_TEMP
-              value: /tmp/gitea
-            - name: HOME
-              value: /data/gitea/git
-            - name: GITEA_ADMIN_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  key:  username
-                  name: forgejo-secret
-            - name: GITEA_ADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key:  password
-                  name: forgejo-secret
-          volumeMounts:
-            - name: init
-              mountPath: /usr/sbin
-            - name: temp
-              mountPath: /tmp
-            - name: data
-              mountPath: /data
-          resources:
-            limits:
-              cpu: 100m
-              memory: 128Mi
+        # - name: configure-gitea
+        #   image: codeberg.org/forgejo/forgejo:8
+        #   imagePullPolicy: IfNotPresent
+        #   command: ["/usr/sbin/configure_gitea.sh"]
+        #   env:
+        #     - name: GITEA_APP_INI
+        #       value: /data/gitea/conf/app.ini
+        #     - name: FORGEJO_CUSTOM
+        #       value: /data/gitea
+        #     - name: GITEA_WORK_DIR
+        #       value: /data
+        #     - name: GITEA_TEMP
+        #       value: /tmp/gitea
+        #     - name: HOME
+        #       value: /data/gitea/git
+        #     - name: GITEA_ADMIN_USERNAME
+        #       valueFrom:
+        #         secretKeyRef:
+        #           key:  username
+        #           name: forgejo-secret
+        #     - name: GITEA_ADMIN_PASSWORD
+        #       valueFrom:
+        #         secretKeyRef:
+        #           key:  password
+        #           name: forgejo-secret
+        #   volumeMounts:
+        #     - name: init
+        #       mountPath: /usr/sbin
+        #     - name: temp
+        #       mountPath: /tmp
+        #     - name: data
+        #       mountPath: /data
+        #   resources:
+        #     limits:
+        #       cpu: 100m
+        #       memory: 128Mi
       containers:
       - name: forgejo
         image: codeberg.org/forgejo/forgejo:8
