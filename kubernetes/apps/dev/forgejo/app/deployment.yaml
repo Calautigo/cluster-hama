@@ -1,4 +1,3 @@
-# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -97,13 +96,13 @@ spec:
           secret:
             secretName: forgejo-init
             defaultMode: 110
-        - name: config
-          secret:
-            secretName: forgejo
-            defaultMode: 110
-        - name: inline-config-sources
-          secret:
-            secretName: forgejo-inline-config
+        # - name: config
+        #   secret:
+        #     secretName: forgejo
+        #     defaultMode: 110
+        # - name: inline-config-sources
+        #   secret:
+        #     secretName: forgejo-inline-config
         - name: temp
           emptyDir: {}
       restartPolicy: Always
