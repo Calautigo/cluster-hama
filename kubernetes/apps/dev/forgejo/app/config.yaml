@@ -15,6 +15,10 @@ stringData:
     #!/usr/bin/env bash
     set -euo pipefail
 
+    id
+
+    ls -l /data/gitea/conf
+
     function env2ini::log() {
       printf "${1}\n"
     }
