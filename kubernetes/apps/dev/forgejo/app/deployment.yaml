@@ -49,7 +49,7 @@ spec:
             runAsUser: 0
             runAsGroup: 0
         - name: init-app-ini
-          image: codeberg.org/forgejo/forgejo:8
+          image: gitea/gitea:1.22.3
           imagePullPolicy: IfNotPresent
           command: ["/usr/sbin/config_environment.sh"]
           env:
@@ -110,7 +110,7 @@ spec:
         #       memory: 128Mi
       containers:
       - name: forgejo
-        image: codeberg.org/forgejo/forgejo:8
+        image: gitea/gitea:1.22.3
         imagePullPolicy: IfNotPresent
         resources:
           requests:
