@@ -23,9 +23,10 @@ spec:
   values:
     gitea:
       config:
-        ROOT_URL: "https://git.schwarz47.at"
-        SSH_DOMAIN: "git.schwarz47.at"
-        DOMAIN: "git.schwarz47.at"
+        server:
+          ROOT_URL: "https://git.schwarz47.at"
+          SSH_DOMAIN: "git.schwarz47.at"
+          DOMAIN: "git.schwarz47.at"
     serviceAccount:
       create: true
       name: forgejo-account
