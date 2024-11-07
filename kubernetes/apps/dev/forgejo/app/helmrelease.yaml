@@ -46,11 +46,9 @@ spec:
       enabled: true
       global:
         postgresql:
-          database: &dbname forgejo
-          username: &db_username forgejo
           existingSecret: postgresql-secret
         pgpool:
-          existingSecret: pgpool-secret
+          existingSecret: postgresql-secret
       persistence:
         size: 10Gi
 
@@ -58,12 +56,8 @@ spec:
       fsGroup: 1000
 
     additionalConfigFromEnvs:
-      - name: FORGEJO__DATABASE__NAME
-        value: *dbname
-      - name: FORGEJO__DATABASE__USER
-        value: *db_username
       - name: FORGEJO__DATABASE__PASSWD
         valueFrom:
           secretKeyRef:
-            name: forgejo-secret
+            name: postgresql-secret
             key: postgres-password
