@@ -19,4 +19,4 @@ resources:
   - ./blakeblackshear.yaml
   - ./k8sonlab.yaml
   - ./gabe565.yaml
-  - ./gitea.yaml
+  - ./forgejo.yaml
