@@ -14,7 +14,7 @@ spec:
     - allowedRoutes:
         namespaces:
           from: All
-      hostname: '*.${SECRET_DOMAIN}'
+      hostname: '*.schwarz47.at'
       name: https-gateway
       port: 443
       protocol: HTTPS
@@ -27,7 +27,7 @@ spec:
     - allowedRoutes:
         namespaces:
           from: All
-      hostname: '*.${SECRET_DOMAIN}'
+      hostname: '*.schwarz47.at'
       name: ssh-gateway
       protocol: TCP
       port: 22

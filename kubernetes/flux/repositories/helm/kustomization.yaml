@@ -2,7 +2,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./bitnami.yaml
   - ./bjw-s.yaml
   - ./cilium.yaml
   - ./coredns.yaml
@@ -21,4 +20,3 @@ resources:
   - ./k8sonlab.yaml
   - ./gabe565.yaml
   - ./gitea.yaml
-  - ./forgejo.yaml
