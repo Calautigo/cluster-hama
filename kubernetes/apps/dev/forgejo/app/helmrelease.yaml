@@ -49,6 +49,8 @@ spec:
           database: &dbname forgejo
           username: &db_username forgejo
           existingSecret: postgresql-secret
+        pgpool:
+          existingSecret: pgpool-secret
       persistence:
         size: 10Gi
 
