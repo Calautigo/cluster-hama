@@ -38,6 +38,9 @@ spec:
           existingSecret: gitea-secret
           secretKeys:
             adminPasswordKey: postgres-password
+      pgpool:
+        startupProbe:
+          enabled: false
     resources:
       requests:
         cpu: 100m
