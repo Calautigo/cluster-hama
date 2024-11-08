@@ -37,17 +37,19 @@ spec:
               repository: ghcr.io/onedr0p/radarr-develop
               tag: 5.15.0.9412@sha256:3d922f5f80935c1aadbe49597cb4cd509e2890ca0c01d6778ac54825012fdde4
             env:
-              RADARR__INSTANCE_NAME: Radarr
-              RADARR__PORT: &port 7878
-              RADARR__AUTHENTICATION_METHOD: External
-              RADARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
-              RADARR__APPLICATION_URL: "https://radarr.schwarz47.at"
-              RADARR__LOG_LEVEL: info
-              RADARR__API_KEY:
+              RADARR__APP__INSTANCENAME: Radarr
+              RADARR__APP__THEME: dark
+              RADARR__SERVER__URLBASE: "https://radarr.schwarz47.at"
+              RADARR__SERVER__PORT: &port 7878
+              RADARR__AUTH__METHOD: External
+              RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              RADARR__AUTH__APIKEY:
                 valueFrom:
                   secretKeyRef:
                     name: radarr-secret
                     key: api-key
+              RADARR__LOG__CONSOLELEVEL: info
+              RADARR__LOG__SYSLOGLEVEL: info
             probes:
               liveness:
                 enabled: true
