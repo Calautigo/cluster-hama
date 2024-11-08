@@ -90,8 +90,8 @@ spec:
         rules:
           - matches:
               - path:
-                type: PathPrefix
-                value: /
+                  type: PathPrefix
+                  value: /
             backendRefs:
               - kind: Service
                 name: app
