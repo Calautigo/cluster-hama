@@ -83,19 +83,19 @@ spec:
       app:
         enabled: true
         parentRefs:
-          name: cilium-gateway
-          namespace: network
+          - name: cilium-gateway
+            namespace: network
         hostnames:
           - radarr.schwarz47.at
         rules:
-          matches:
-            - path:
-              type: PathPrefix
-              value: /
-          backendRefs:
-            - kind: Service
-              name: app
-              port: *port
+          - matches:
+              - path:
+                type: PathPrefix
+                value: /
+            backendRefs:
+              - kind: Service
+                name: app
+                port: *port
 
     persistence:
       config:
