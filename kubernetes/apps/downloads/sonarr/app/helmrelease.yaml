@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: radarr
+  name: sonarr
 spec:
   interval: 30m
   chart:
@@ -22,7 +22,7 @@ spec:
       retries: 3
   values:
     controllers:
-      radarr:
+      sonarr:
         pod:
           securityContext:
             runAsUser: 3000
@@ -34,21 +34,21 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/onedr0p/radarr-develop
-              tag: 5.15.0.9412@sha256:3d922f5f80935c1aadbe49597cb4cd509e2890ca0c01d6778ac54825012fdde4
+              repository: ghcr.io/onedr0p/sonarr-develop
+              tag: 4.0.10.2624@sha256:550d8206663585710556de32e8656b4838e83c9dd79ec271af567b85fa724912
             env:
-              RADARR__APP__INSTANCENAME: Radarr
-              RADARR__APP__THEME: dark
-              RADARR__SERVER__PORT: &port 7878
-              RADARR__AUTH__METHOD: External
-              RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
-              RADARR__AUTH__APIKEY:
+              SONARR__APP__INSTANCENAME: Sonarr
+              SONARR__APP__THEME: dark
+              SONARR__SERVER__PORT: &port 8989
+              SONARR__AUTH__METHOD: External
+              SONARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              SONARR__AUTH__APIKEY:
                 valueFrom:
                   secretKeyRef:
                     name: radarr-secret
                     key: api-key
-              RADARR__LOG__LEVEL: info
-              RADARR__UPDATE__BRANCH: develop
+              SONARR__LOG__LEVEL: info
+              SONARR__UPDATE__BRANCH: develop
             probes:
               liveness:
                 enabled: true
@@ -75,7 +75,7 @@ spec:
 
     service:
       app:
-        controller: radarr
+        controller: sonarr
         ports:
           http:
             port: *port
@@ -87,7 +87,7 @@ spec:
           - name: cilium-gateway
             namespace: network
         hostnames:
-          - radarr.schwarz47.at
+          - sonarr.schwarz47.at
         rules:
           - matches:
               - path:
@@ -100,7 +100,7 @@ spec:
 
     persistence:
       config:
-        existingClaim: radarr-config
+        existingClaim: sonarr-config
       add-ons:
         type: emptyDir
       tmp:
