@@ -35,7 +35,7 @@ spec:
           app:
             image:
               repository: ghcr.io/thespad/whisparr
-              tag: 2.0.0.548-spad23@sha256:e394f9c33ad8e180f1bba27983cfdde31acda99bc50c6acd6e65fe30f4697ba7
+              tag: 2.0.0.548-spad24@sha256:d8ce126254abce31188fa8aa27a27232279aa3dc3fe3f72cfc1046a8418d5934
             env:
               WHISPARR__APP__INSTANCENAME: Whisparr
               WHISPARR__APP__THEME: dark
