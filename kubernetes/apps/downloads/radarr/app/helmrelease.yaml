@@ -37,6 +37,7 @@ spec:
               repository: ghcr.io/onedr0p/radarr-develop
               tag: 5.15.0.9412@sha256:3d922f5f80935c1aadbe49597cb4cd509e2890ca0c01d6778ac54825012fdde4
             env:
+              TZ: Europe/Vienna
               RADARR__APP__INSTANCENAME: Radarr
               RADARR__APP__THEME: dark
               RADARR__SERVER__PORT: &port 7878
