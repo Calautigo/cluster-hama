@@ -34,8 +34,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/thespad/whisparr
-              tag: 2.0.0.548-spad24@sha256:d8ce126254abce31188fa8aa27a27232279aa3dc3fe3f72cfc1046a8418d5934
+              repository: git.schwarz47.at/dominik/whisparr-nightly
+              tag: 2.0.0.548@sha256:a0c3f1adf8d42869cfbad72e669113d1f205453d56c8da5753d45065983c8e50
             env:
               WHISPARR__APP__INSTANCENAME: Whisparr
               WHISPARR__APP__THEME: dark
