@@ -35,7 +35,7 @@ spec:
           app:
             image:
               repository: git.schwarz47.at/dominik/whisparr-nightly
-              tag: 2.0.0.548@sha256:a0c3f1adf8d42869cfbad72e669113d1f205453d56c8da5753d45065983c8e50
+              tag: 2.0.0.548@sha256:81037ce7d9dfe2180946423e45ee5f6fe43ae542905d50bd5c3581705a202100
             env:
               WHISPARR__APP__INSTANCENAME: Whisparr
               WHISPARR__APP__THEME: dark
