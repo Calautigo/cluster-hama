@@ -1,4 +1,5 @@
 age
+cloudflared-bin
 direnv
 flux-bin
 go-task
@@ -9,6 +10,7 @@ jq
 kubeconform
 kubectl-bin
 kustomize
+minijinja-cli-bin
 moreutils
 sops
 stern-bin

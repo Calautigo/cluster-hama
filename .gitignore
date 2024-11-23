@@ -1,28 +1,28 @@
+# Folders
+ignore/
+logs/
+testing/
+
 # Trash
 .DS_Store
 Thumbs.db
-# k8s
+
+# Sops
+.decrypted~*
+
+# Terraform
+## Local .terraform directories
+**/.terraform/*
+
+## .tfstate files
+*.tfstate
+*.tfstate.*
+
+## terraform plan output
+*tfplan*
+
+# Other files
 kubeconfig
 talosconfig
-.decrypted~*.yaml
-.config.env
-*.agekey
-*.pub
-*.key
-# Private
-.private
-.bin
-# Ansible
-.venv*
-# Taskfile
-.task
-# Brew
-Brewfile.lock.json
-# intellij
-.idea
-# wiki
-wiki
-# Bootstrap
-/config.yaml
 
-test
+age.key
