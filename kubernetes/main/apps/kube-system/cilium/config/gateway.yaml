@@ -27,7 +27,6 @@ spec:
     - allowedRoutes:
         namespaces:
           from: All
-      hostname: '*.schwarz47.at'
       name: ssh-gateway
       protocol: TCP
       port: 22
