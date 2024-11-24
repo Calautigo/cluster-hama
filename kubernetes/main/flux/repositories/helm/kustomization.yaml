@@ -20,3 +20,5 @@ resources:
   - ./forgejo.yaml
   - ./piraeus.yaml
   - ./rook-ceph.yaml
+  - ./openebs.yaml
+  - ./kubernetes-sigs-descheduler.yaml
