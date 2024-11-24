@@ -15,7 +15,7 @@ tasks:
 
   talos:
     desc: Bootstrap the Talos cluster
-    dir: '{{.KUBERNETES_DIR}}/bootstrap/talos'
+    dir: '{{.KUBERNETES_DIR}}/talos'
     cmds:
       - '{{if eq .TALHELPER_SECRET_EXISTS "false"}}talhelper gensecret > {{.TALHELPER_SECRET_FILE}}{{end}}'
       - '{{if eq .TALHELPER_SECRET_EXISTS "false"}}sops --encrypt --in-place {{.TALHELPER_SECRET_FILE}}{{end}}'

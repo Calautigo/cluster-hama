@@ -1,6 +1,6 @@
 [env]
 # Kubernetes
-KUBECONFIG = '{{config_root}}/kubernetes/main/kubeconfig'
+KUBECONFIG = '{{config_root}}/kubeconfig'
 TALOSCONFIG = '{{config_root}}/kubernetes/main/talos/clusterconfig/talosconfig'
 # Taskfile
 TASK_X_ENV_PRECEDENCE = 1

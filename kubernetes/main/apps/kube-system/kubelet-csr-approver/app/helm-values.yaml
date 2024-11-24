@@ -1,3 +1,0 @@
----
-providerRegex: ^(delta|charlie|blue)$
-bypassDnsResolution: true

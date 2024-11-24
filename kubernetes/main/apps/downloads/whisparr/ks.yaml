@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: ./kubernetes/apps/downloads/whisparr/app
+  path: ./kubernetes/main/apps/downloads/whisparr/app
   prune: true
   sourceRef:
     kind: GitRepository

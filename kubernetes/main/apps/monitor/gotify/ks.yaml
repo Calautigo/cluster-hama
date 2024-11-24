@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/monitor/gotify/app
+  path: ./kubernetes/main/apps/monitor/gotify/app
   prune: true
   sourceRef:
     kind: GitRepository
