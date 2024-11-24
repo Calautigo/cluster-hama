@@ -27,6 +27,8 @@ spec:
           ROOT_URL: "https://git.schwarz47.at"
           SSH_DOMAIN: "git.schwarz47.at"
           DOMAIN: "git.schwarz47.at"
+    postgresql-ha:
+      enabled: false
     serviceAccount:
       create: true
       name: forgejo-account
