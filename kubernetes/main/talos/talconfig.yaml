@@ -38,7 +38,7 @@ nodes:
       - deviceSelector:
           hardwareAddr: "bc:24:11:3b:ad:53"
         dhcp: true
-        mtu: 1500
+        mtu: 9000
         vip:
           ip: *talosControlplaneVip
 
@@ -56,7 +56,7 @@ nodes:
       - deviceSelector:
           hardwareAddr: "bc:24:11:0e:b9:f5"
         dhcp: true
-        mtu: 1500
+        mtu: 9000
         vip:
           ip: *talosControlplaneVip
 
@@ -74,7 +74,7 @@ nodes:
       - deviceSelector:
           hardwareAddr: "bc:24:11:c9:47:b0"
         dhcp: true
-        mtu: 1500
+        mtu: 9000
         vip:
           ip: *talosControlplaneVip
 

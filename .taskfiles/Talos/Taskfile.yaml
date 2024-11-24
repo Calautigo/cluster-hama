@@ -25,7 +25,7 @@ tasks:
   apply-node:
     desc: Apply Talos config to a node [HOSTNAME=required]
     cmds:
-      - talosctl --nodes {{.HOSTNAME}} apply-config --mode={{.MODE}} --file {{.TALHELPER_CLUSTER_DIR}}/{{.CLUSTER_NAME}}-{{.HOSTNAME}}.yaml
+      - talosctl --nodes {{.HOSTNAME}} apply-config --mode={{.MODE}} --file {{.TALHELPER_CLUSTER_DIR}}/{{.HOSTNAME}}.yaml
       - talosctl --nodes {{.HOSTNAME}} health --wait-timeout=10m --server=false
     vars:
       CLUSTER_NAME:
@@ -36,7 +36,7 @@ tasks:
     preconditions:
       - talosctl --nodes {{.HOSTNAME}} get machineconfig &>/dev/null
       - talosctl config info &>/dev/null
-      - test -f {{.TALHELPER_CLUSTER_DIR}}/{{.CLUSTER_NAME}}-{{.HOSTNAME}}.yaml
+      - test -f {{.TALHELPER_CLUSTER_DIR}}/{{.HOSTNAME}}.yaml
       - test -f {{.TALOSCONFIG}}
       - which talosctl yq
 
@@ -80,7 +80,7 @@ tasks:
 
   reset:
     desc: Resets nodes back to maintenance mode
-    dir: "{{.KUBERNETES_DIR}}/bootstrap/talos"
+    dir: "{{.KUBERNETES_DIR}}/talos"
     prompt: This will destroy your cluster and reset the nodes back to maintenance mode... continue?
     cmd: talhelper gencommand reset --config-file {{.TALHELPER_CONFIG_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="--reboot {{- if eq .CLI_FORCE false }} --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL{{ end }} --graceful=false --wait=false" | bash
   preconditions:
