@@ -8,15 +8,15 @@ resources:
   - ./dirsigler.yaml
   - ./jetstack.yaml
   - ./metrics-server.yaml
-  - ./longhorn.yaml
   - ./postfinance.yaml
   - ./prometheus-community.yaml
   - ./spegel.yaml
   - ./stakater.yaml
   - ./external-dns.yaml
-  - ./ingress-nginx.yaml
   - ./k8s-gateway.yaml
   - ./blakeblackshear.yaml
   - ./k8sonlab.yaml
   - ./gabe565.yaml
   - ./forgejo.yaml
+  - ./piraeus.yaml
+  - ./rook-ceph.yaml
