@@ -26,3 +26,6 @@ kubeconfig
 talosconfig
 
 age.key
+
+.venv
+*venv
