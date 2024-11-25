@@ -22,6 +22,11 @@ spec:
       retries: 3
   values:
     controllers:
+      init:
+        image:
+          repository: busybox
+          tag: 1.28
+        command: ['sh', '-c', "chown 99:5000 -R /data/media"]
       radarr:
         pod:
           securityContext:
@@ -32,11 +37,6 @@ spec:
             fsGroupChangePolicy: "OnRootMismatch"
 
         containers:
-          init:
-            image:
-              repository: busybox
-              tag: 1.28
-            command: ['sh', '-c', "chown 99:5000 -R /data/media"]
           app:
             image:
               repository: ghcr.io/onedr0p/radarr-develop
