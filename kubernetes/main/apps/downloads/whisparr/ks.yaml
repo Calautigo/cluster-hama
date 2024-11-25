@@ -18,3 +18,12 @@ spec:
     kind: GitRepository
     name: home-kubernetes
   wait: false
+  dependsOn:
+      - name: rook-ceph-cluster
+      - name: volsync
+  postBuild:
+    substitute:
+      APP: *app
+      APP_UID: "2000"
+      APP_GID: "2000"
+      VOLSYNC_CLAIM: whisparr-config
