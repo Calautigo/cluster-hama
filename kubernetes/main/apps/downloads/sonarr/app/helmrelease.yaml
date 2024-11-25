@@ -23,10 +23,15 @@ spec:
   values:
     controllers:
       init:
-        image:
-          repository: busybox
-          tag: 1.28
-        command: ['sh', '-c', "chown 99:5000 -R /data/media"]
+        pod:
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+        containers:
+          image:
+            repository: busybox
+            tag: 1.28
+          command: ['sh', '-c', "chown 99:5000 -R /data/media"]
       sonarr:
         pod:
           securityContext:
