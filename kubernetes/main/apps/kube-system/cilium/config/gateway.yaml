@@ -23,9 +23,3 @@ spec:
             kind: Secret
             name: schwarz47-at-tls
         mode: Terminate
-    - allowedRoutes:
-        namespaces:
-          from: All
-      name: ssh-gateway
-      protocol: TCP
-      port: 22
