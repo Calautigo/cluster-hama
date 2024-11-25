@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./k8s-gateway/ks.yaml
-  - ./certificate/ks.yaml
+  - ./gateway/ks.yaml
