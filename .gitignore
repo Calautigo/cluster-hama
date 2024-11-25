@@ -29,3 +29,5 @@ age.key
 
 .venv
 *venv
+
+secret.yaml
