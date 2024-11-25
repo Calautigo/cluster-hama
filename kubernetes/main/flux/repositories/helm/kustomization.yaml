@@ -24,3 +24,4 @@ resources:
   - ./openebs.yaml
   - ./kubernetes-sigs-descheduler.yaml
   - ./external-secrets.yaml
+  - ./crunchydata.yaml
