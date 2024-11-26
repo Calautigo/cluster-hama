@@ -25,7 +25,7 @@ spec:
       whisparr:
         pod:
           securityContext:
-            runAsUser: 5000
+            runAsUser: 3000
             runAsGroup: 5000
             runAsNonRoot: true
             fsGroup: 5000
