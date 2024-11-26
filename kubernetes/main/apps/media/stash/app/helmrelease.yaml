@@ -78,7 +78,7 @@ spec:
         advancedMounts:
           stash:
             app:
-              - path: /stash/.stash
+              - path: /root/.stash
       cache:
         type: emptyDir
         advancedMounts:
