@@ -32,6 +32,7 @@ spec:
               repository: stashapp/stash
               tag: v0.27.2
             env:
+              TEST: TEST
               HOME: /stash
               USER: stash
               STASH_STASH: /data/
