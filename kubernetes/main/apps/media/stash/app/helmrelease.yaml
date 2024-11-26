@@ -79,6 +79,12 @@ spec:
           stash:
             app:
               - path: /root/.stash
+      blobs:
+        existingClaim: stash-blobs
+        advancedMounts:
+          stash:
+            app:
+              - path: /blobs
       cache:
         type: emptyDir
         advancedMounts:
@@ -91,14 +97,8 @@ spec:
           stash:
             app:
               - path: /metadata
-      blobs:
-        existingClaim: stash-blobs
-        advancedMounts:
-          stash:
-            app:
-              - path: /blobs
       generated:
-        existingClaim: stash-generated
+        type: emptyDir
         advancedMounts:
           stash:
             app:
