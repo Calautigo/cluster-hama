@@ -1,0 +1,122 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: plex
+spec:
+  chart:
+    spec:
+      chart: app-template
+      version: 3.5.1
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  interval: 30m
+  values:
+    controllers:
+      stash:
+
+        pod:
+          securityContext:
+            runAsUser: 5000
+            runAsGroup: 5000
+            fsGroup: 5000
+            fsGroupChangePolicy: "OnRootMismatch"
+
+        containers:
+          app:
+            image:
+              repository: stashapp/stash
+              tag: v0.27.2
+            env:
+              STASH_STASH: /data/
+              STASH_GENERATED: /generated/
+              STASH_METADATA: /metadata/
+              STASH_CACHE: /cache/
+              STASH_CONFIG: /config/
+              STASH_PORT: &port 9999
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+            resources:
+              requests:
+                cpu: 100m
+                memory: 128M
+              limits:
+                memory: 512M
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+
+    service:
+      app:
+        controller: stash
+        type: LoadBalancer
+        ports:
+          http:
+            port: *port
+
+    route:
+      app:
+        enabled: true
+        parentRefs:
+          - name: cilium-gateway
+            namespace: network
+        hostnames:
+          - stash.schwarz47.at
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - kind: Service
+                name: app
+                port: *port
+
+    persistence:
+      config:
+        existingClaim: stash-config
+        advancedMounts:
+          stash:
+            app:
+              - path: /config
+      cache:
+        type: emptyDir
+        advancedMounts:
+          stash:
+            app:
+              - path: /cache
+      metadata:
+        type: emptyDir
+        advancedMounts:
+          stash:
+            app:
+              - path: /metadata
+      blobs:
+        existingClaim: stash-blobs
+        advancedMounts:
+          stash:
+            app:
+              - path: /blobs
+      data:
+        type: nfs
+        server: 10.10.10.10
+        path: /mnt/user/media/media/adult
+        advancedMounts:
+          stash:
+            app:
+              - path: /data
