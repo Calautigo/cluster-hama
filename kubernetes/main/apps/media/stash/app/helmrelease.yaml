@@ -85,12 +85,6 @@ spec:
           stash:
             app:
               - path: /cache
-      generated:
-        type: emptyDir
-        advancedMounts:
-          stash:
-            app:
-              - path: /generated
       metadata:
         type: emptyDir
         advancedMounts:
@@ -103,6 +97,12 @@ spec:
           stash:
             app:
               - path: /blobs
+      generated:
+        existingClaim: stash-generated
+        advancedMounts:
+          stash:
+            app:
+              - path: /generated
       data:
         type: nfs
         server: 10.10.10.10
