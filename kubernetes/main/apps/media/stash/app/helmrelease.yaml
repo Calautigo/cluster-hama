@@ -33,6 +33,7 @@ spec:
               tag: v0.27.2
             env:
               HOME: /stash
+              USER: stash
               STASH_STASH: /data/
               STASH_GENERATED: /generated/
               STASH_METADATA: /metadata/
