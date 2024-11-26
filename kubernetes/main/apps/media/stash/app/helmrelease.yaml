@@ -32,6 +32,8 @@ spec:
               repository: stashapp/stash
               tag: v0.27.2
             env:
+              PUID: 5000
+              GUID: 5000
               STASH_STASH: /data/
               STASH_GENERATED: /generated/
               STASH_METADATA: /metadata/
