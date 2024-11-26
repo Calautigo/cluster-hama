@@ -36,7 +36,6 @@ spec:
               STASH_GENERATED: /generated/
               STASH_METADATA: /metadata/
               STASH_CACHE: /cache/
-              STASH_CONFIG: /config/
               STASH_PORT: &port 9999
             probes:
               liveness:
@@ -93,7 +92,7 @@ spec:
         advancedMounts:
           stash:
             app:
-              - path: /config
+              - path: /root/.stash
       cache:
         type: emptyDir
         advancedMounts:
