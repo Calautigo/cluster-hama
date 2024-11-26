@@ -24,6 +24,7 @@ spec:
               repository: stashapp/stash
               tag: v0.27.2
             env:
+              TEST: test
               STASH_STASH: /data/
               STASH_GENERATED: /generated/
               STASH_METADATA: /metadata/
