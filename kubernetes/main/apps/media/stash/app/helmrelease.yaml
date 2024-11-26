@@ -85,6 +85,12 @@ spec:
           stash:
             app:
               - path: /cache
+      generated:
+        type: emptyDir
+        advancedMounts:
+          stash:
+            app:
+              - path: /generated
       metadata:
         type: emptyDir
         advancedMounts:
