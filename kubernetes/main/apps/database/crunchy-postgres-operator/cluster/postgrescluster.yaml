@@ -85,9 +85,9 @@ spec:
       repos:
         - name: repo2 # R2
           s3: &r2
-            bucket: "crunchy-postgres-bucket"
+            bucket: crunchy-postgres-bucket
             endpoint: s3.eu-central-003.backblazeb2.com
-            region: "us-east-1"
+            region: us-east-1
           schedules:
             full: "0 2 * * 0" # Sunday at 02:00
             incremental: "0 2 * * 1-6/2" # Mon-Sat at 02:00, every 2nd day
