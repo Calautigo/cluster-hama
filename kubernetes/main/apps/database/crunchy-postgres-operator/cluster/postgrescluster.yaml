@@ -65,18 +65,18 @@ spec:
       configuration: &backupConfig
         - secret:
             name: crunchy-postgres-secret
-      global: &backupFlag
+      global:
         compress-type: "bz2"
         compress-level: "9"
         # R2
         repo2-block: "y"
         repo2-bundle: "y"
-        repo2-path: /crunchy-pgo
+        repo2-path: &repo2-path /crunchy-pgo
         repo2-retention-full: "7" # days
         repo2-retention-full-type: time
         repo2-s3-uri-style: path
       manual:
-        repoName: repo1
+        repoName: repo2
         options:
           - --type=full
       metadata:
@@ -85,7 +85,7 @@ spec:
       repos:
         - name: repo2 # R2
           s3: &r2
-            bucket: "crunchy-postgres"
+            bucket: "crunchy-postgres-bucket"
             endpoint: s3.eu-central-003.backblazeb2.com
             region: "us-east-1"
           schedules:
@@ -96,7 +96,9 @@ spec:
     pgbackrest:
       stanza: "db"
       configuration: *backupConfig
-      global: *backupFlag
+      global:
+        repo2-path: *repo2-path
+        repo2-s3-uri-style: path
       repo:
         name: "repo2"
         s3: *r2
