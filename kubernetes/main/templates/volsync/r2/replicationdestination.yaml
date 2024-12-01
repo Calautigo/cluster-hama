@@ -18,7 +18,7 @@ spec:
     enableFileDeletion: true
     copyMethod: Snapshot
     moverSecurityContext:
-      runAsUser: ${APP_UID:-5000}
+      runAsUser: ${APP_UID:-3000}
       runAsGroup: ${APP_GID:-5000}
       fsGroup: ${APP_GID:-5000}
     repository: "${APP}-volsync-r2"
