@@ -3,8 +3,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: crunchy-userinit
+  name: zalando
+  namespace: flux-system
 spec:
   interval: 30m
-  url: https://ramblurr.github.io/crunchy-userinit-controller
+  url: https://opensource.zalando.com/postgres-operator/charts/postgres-operator
   timeout: 3m

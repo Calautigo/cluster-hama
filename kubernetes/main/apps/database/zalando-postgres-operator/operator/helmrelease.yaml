@@ -1,0 +1,97 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: zalando-postgres-operator
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: postgres-operator
+      version: 1.14.0
+      sourceRef:
+        kind: HelmRepository
+        name: zalando
+        namespace: flux-system
+      interval: 5m
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
+  values:
+    configGeneral:
+      pod_environment_configmap: "postgres-operator-pod-config"
+      enable_shm_volume: true
+      enable_crd_validation: true
+      enable_pod_antiaffinity: true
+      enable_master_load_balancer: true
+      enable_replica_load_balancer: true
+
+    configKubernetes:
+      watched_namespace: "*"
+      cluster_domain: "cluster.local"
+      pod_role_label: "spilo-role"
+      pod_tpr_label: "version"
+      enable_pod_disruption_budget: true
+
+    configAwsOrGcp:
+      aws_region: "us-east-1"
+      enable_ebs_gp3: true
+      enable_ebs_encryption: true
+      enable_gcp_disk_encryption: true
+
+    configTeamsApi:
+      enable_teams_api: true
+      api_role_configuration: |-
+        {
+          "team_admin": {
+            "inherited_roles": ["editor", "viewer"],
+            "inherits_privileges": true
+          }
+        }
+
+    configLogicalBackup:
+      logical_backup_job_prefix: "logical-backup-"
+      logical_backup_provider: "s3"
+      logical_backup_s3_region: "us-east-1"
+      logical_backup_s3_sse: "AES256"
+      logical_backup_s3_retention_time: "7 days"
+      logical_backup_schedule: "30 00 * * *"
+
+      logical_backup_s3_bucket: ""
+      logical_backup_s3_endpoint: ""
+      logical_backup_s3_access_key_id: ""
+      logical_backup_s3_secret_access_key: ""
+
+      logical_backup_environment:
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: s3-backblaze-secret
+              key: s3AccessKeyId
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: s3-backblaze-secret
+              key: s3SecretAccessKey
+        - name: AWS_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: s3-backblaze-secret
+              key: s3Endpoint
+        - name: AWS_BUCKET
+          valueFrom:
+            secretKeyRef:
+              name: s3-backblaze-secret
+              key: s3Bucket
+
+    rbac:
+      create: true
+    resources:
+      limits:
+        cpu: 500m
+        memory: 256Mi
+      requests:
+        cpu: 250m
+        memory: 128Mi
