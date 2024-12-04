@@ -20,7 +20,6 @@ resources:
   - ./gabe565.yaml
   - ./forgejo.yaml
   - ./piraeus.yaml
-  - ./rook-ceph.yaml
   - ./openebs.yaml
   - ./kubernetes-sigs-descheduler.yaml
   - ./external-secrets.yaml
