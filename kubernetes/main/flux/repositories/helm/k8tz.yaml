@@ -3,10 +3,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: crunchydata
+  name: k8tz
   namespace: flux-system
 spec:
-  type: oci
   interval: 30m
-  url: oci://registry.developers.crunchydata.com/crunchydata
+  url: https://k8tz.github.io/k8tz/
   timeout: 3m
