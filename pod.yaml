@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lvm-tools
+  namespace: kube-system
+spec:
+  containers:
+    - name: lvm-tools
+      image: alpine:latest
+      command:
+        - sh
+        - -c
+        - "while true; do sleep 3600;"
+      volumeMounts:
+        - name: host-dev
+          mountPath: /host/dev
+        - name: host-sys
+          mountPath: /host/sys
+        - name: host-run
+          mountPath: /host/run
+        - name: host-proc
+          mountPath: /host/proc
+  volumes:
+    - name: host-dev
+      hostPath:
+        path: /dev
+        type: Directory
+    - name: host-sys
+      hostPath:
+        path: /sys
+        type: Directory
+    - name: host-run
+      hostPath:
+        path: /run
+        type: Directory
+    - name: host-proc
+      hostPath:
+        path: /proc
+        type: Directory
+  hostNetwork: true
+  hostPID: true
+  nodeSelector:
+    kubernetes.io/hostname: delta

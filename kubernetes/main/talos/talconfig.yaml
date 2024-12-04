@@ -64,7 +64,7 @@ nodes:
     ipAddress: 10.100.0.63
     installDiskSelector:
       size: "<= 256GB"
-    talosImageURL: factory.talos.dev/installer/dcac6b92c17d1d8947a0cee5e0e6b6904089aa878c70d66196bb1138dbd05d1a
+    talosImageURL: factory.talos.dev/installer/22e954ca5fd7bdaf9979889be53748b8b35843720af23c145dba9b49322d4508
     controlPlane: true
     machineDisks:
       - device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1
@@ -94,6 +94,7 @@ controlPlane:
           - siderolabs/i915-ucode
           - siderolabs/intel-ucode
           - siderolabs/qemu-guest-agent
+          - siderolabs/drbd
 
   patches:
     # Configure containerd
