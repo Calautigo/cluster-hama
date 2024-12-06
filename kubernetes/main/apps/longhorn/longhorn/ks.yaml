@@ -3,16 +3,16 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app linstor-cluster
+  name: &app longhorn
   namespace: flux-system
 spec:
-  targetNamespace: linstor
+  targetNamespace: longhorn
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: ./kubernetes/main/apps/linstor/linstor/operator
+  path: ./kubernetes/main/apps/longhorn/longhorn/app
   prune: true
   sourceRef:
     kind: GitRepository

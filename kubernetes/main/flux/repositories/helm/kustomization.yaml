@@ -19,7 +19,7 @@ resources:
   - ./k8sonlab.yaml
   - ./gabe565.yaml
   - ./forgejo.yaml
-  - ./piraeus.yaml
+  - ./longhorn.yaml
   - ./openebs.yaml
   - ./kubernetes-sigs-descheduler.yaml
   - ./external-secrets.yaml
