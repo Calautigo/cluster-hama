@@ -37,7 +37,7 @@
       "network": "connection",
       "networking": "connection",
       "observability": "event",
-      "rook-ceph": "base",
+      "longhorn-system": "base",
       "storage": "dump",
       "system-upgrade": "update",
       "tools": "tools",
