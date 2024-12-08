@@ -24,3 +24,5 @@ resources:
   - ./kubernetes-sigs-descheduler.yaml
   - ./external-secrets.yaml
   - ./k8tz.yaml
+  - ./piraeus.yaml
+  - ./zalando.yaml
