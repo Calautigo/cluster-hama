@@ -6,7 +6,7 @@ clusterName: &clusterName main
 endpoint: https://main.k8s.schwarz47.internal:6443
 
 # renovate: depName=ghcr.io/siderolabs/installer datasource=docker
-talosVersion: v1.8.3
+talosVersion: v1.9.0-beta.0
 # renovate: depName=ghcr.io/siderolabs/kubelet datasource=docker
 kubernetesVersion: v1.31.3
 
@@ -28,7 +28,7 @@ nodes:
     ipAddress: 10.100.0.61
     installDiskSelector:
       size: "<= 256GB"
-    talosImageURL: factory.talos.dev/installer/dcac6b92c17d1d8947a0cee5e0e6b6904089aa878c70d66196bb1138dbd05d1a
+    talosImageURL: factory.talos.dev/installer/97349bd8a02320e952ef34bdc1369278958bf77fb1b1cbddb62ec6719777a7b6
     controlPlane: true
     machineDisks:
       - device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1
@@ -45,7 +45,7 @@ nodes:
     ipAddress: 10.100.0.62
     installDiskSelector:
       size: "<= 256GB"
-    talosImageURL: factory.talos.dev/installer/dcac6b92c17d1d8947a0cee5e0e6b6904089aa878c70d66196bb1138dbd05d1a
+    talosImageURL: factory.talos.dev/installer/97349bd8a02320e952ef34bdc1369278958bf77fb1b1cbddb62ec6719777a7b6
     controlPlane: true
     machineDisks:
       - device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1
@@ -63,7 +63,7 @@ nodes:
     ipAddress: 10.100.0.63
     installDiskSelector:
       size: "<= 256GB"
-    talosImageURL: factory.talos.dev/installer/dcac6b92c17d1d8947a0cee5e0e6b6904089aa878c70d66196bb1138dbd05d1a
+    talosImageURL: factory.talos.dev/installer/97349bd8a02320e952ef34bdc1369278958bf77fb1b1cbddb62ec6719777a7b6
     controlPlane: true
     machineDisks:
       - device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1
@@ -90,9 +90,10 @@ controlPlane:
         - net.ifnames=1
       systemExtensions:
         officialExtensions:
-          - siderolabs/i915-ucode
+          - siderolabs/i915
           - siderolabs/intel-ucode
           - siderolabs/qemu-guest-agent
+          - siderolabs/util-linux-tools
 
   patches:
     # Configure containerd
