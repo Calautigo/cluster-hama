@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+<<<<<<<< HEAD:kubernetes/main/apps/database/crunchy-postgres-operator/cluster/kustomization.yaml
+  - ./externalsecret.yaml
+  - ./postgrescluster.yaml
+  - ./podmonitor.yaml
+========
+  # Pre Flux-Kustomizations
+  - ./namespace.yaml
+  # Flux-Kustomizations
+  - ./rook-ceph/ks.yaml
+>>>>>>>> parent of 3cc2ea1 (Add linstor remove ceph):kubernetes/main/apps/rook-ceph/kustomization.yaml
