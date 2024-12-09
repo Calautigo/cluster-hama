@@ -1,5 +1,6 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+# TEST
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
@@ -19,7 +20,7 @@ spec:
     name: home-kubernetes
   wait: false
   dependsOn:
-    - name: rook-ceph-cluster
+    - name: longhorn
     - name: openebs
     - name: volsync
     - name: external-secrets-stores

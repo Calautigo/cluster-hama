@@ -22,10 +22,32 @@ tasks:
       - test -f {{.SOPS_AGE_KEY_FILE}}
       - which talhelper
 
+  apply-clusterconfig:
+    desc: Apply clusterconfig for a Talos cluster
+    vars:
+      CLUSTERCONFIG_FILES:
+        sh: ls {{.TALHELPER_CLUSTER_DIR}}/*.yaml
+    preconditions:
+      - test -f {{.TALOSCONFIG}}
+      - which ls
+    requires:
+      vars:
+        - KUBERNETES_CLUSTER
+    cmds:
+      - for:
+          var: CLUSTERCONFIG_FILES
+        task: _apply-machineconfig
+        vars:
+          FILENAME: "{{.ITEM}}"
+          HOSTNAME: |-
+            {{ trimPrefix (printf "%s-" .KUBERNETES_CLUSTER) (base .ITEM) | trimSuffix "schwarz47.internal.yaml" }}
+          DRY_RUN: "{{ .DRY_RUN }}"
+          INSECURE: "{{ .INSECURE }}"
+
   apply-node:
     desc: Apply Talos config to a node [HOSTNAME=required]
     cmds:
-      - talosctl --nodes {{.HOSTNAME}} apply-config --mode={{.MODE}} --file {{.TALHELPER_CLUSTER_DIR}}/{{.HOSTNAME}}.yaml
+      - talosctl --nodes {{.HOSTNAME}} apply-config --mode={{.MODE}} --file {{.TALHELPER_CLUSTER_DIR}}/{{.KUBERNETES_CLUSTER}}-{{.HOSTNAME}}.yaml
       - talosctl --nodes {{.HOSTNAME}} health --wait-timeout=10m --server=false
     vars:
       CLUSTER_NAME:
@@ -36,7 +58,7 @@ tasks:
     preconditions:
       - talosctl --nodes {{.HOSTNAME}} get machineconfig &>/dev/null
       - talosctl config info &>/dev/null
-      - test -f {{.TALHELPER_CLUSTER_DIR}}/{{.HOSTNAME}}.yaml
+      - test -f {{.TALHELPER_CLUSTER_DIR}}/{{.KUBERNETES_CLUSTER}}-{{.HOSTNAME}}.yaml
       - test -f {{.TALOSCONFIG}}
       - which talosctl yq
 
@@ -97,3 +119,24 @@ tasks:
     cmd: flux --namespace flux-system resume kustomization --all
     preconditions:
       - which flux
+
+  _apply-machineconfig:
+    internal: true
+    desc: Apply a single Talos machineConfig to a Talos node
+    preconditions:
+      - which talosctl
+      - test -f "{{.FILENAME}}"
+    requires:
+      vars:
+        - KUBERNETES_CLUSTER
+        - HOSTNAME
+        - FILENAME
+    vars:
+      MODE: '{{.MODE | default "auto"}}'
+    cmds:
+      - talosctl apply-config
+        --nodes "{{.HOSTNAME}}"
+        --file "{{.FILENAME}}"
+        --mode="{{.MODE}}"
+        {{ if eq "true" .INSECURE }}--insecure{{ end }}
+        {{ if eq "true" .DRY_RUN }}--dry-run{{ end }}

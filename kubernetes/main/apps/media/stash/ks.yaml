@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
-  timeout: 5m
+  timeout: 10m
   path: ./kubernetes/main/apps/media/stash/app
   prune: true
   sourceRef:
@@ -19,7 +19,7 @@ spec:
     name: home-kubernetes
   wait: false
   dependsOn:
-      - name: rook-ceph-cluster
+      - name: longhorn
       - name: volsync
   postBuild:
     substitute:

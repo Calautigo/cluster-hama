@@ -1,7 +1,7 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
 
-clusterName: &clusterName cluster-main
+clusterName: &clusterName main
 
 endpoint: https://main.k8s.schwarz47.internal:6443
 
@@ -24,16 +24,19 @@ cniConfig:
   name: none
 
 nodes:
-  - hostname: delta.schwarz47.internal
+  - hostname: delta
     ipAddress: 10.100.0.61
     installDiskSelector:
       size: "<= 256GB"
-    talosImageURL: factory.talos.dev/installer/dcac6b92c17d1d8947a0cee5e0e6b6904089aa878c70d66196bb1138dbd05d1a
+    talosImageURL: factory.talos.dev/installer/930a00fbcce4d3bcd531c92e13d24412df7b676f818004fbbdfeb693e4dcb649
     controlPlane: true
     machineDisks:
       - device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1
         partitions:
           - mountpoint: /var/mnt/extra
+      - device: /dev/nvme0n1
+        partitions:
+          - mountpoint: /var/mnt/longhorn
     networkInterfaces:
       - deviceSelector:
           hardwareAddr: "bc:24:11:3b:ad:53"
@@ -41,17 +44,19 @@ nodes:
         mtu: 1500
         vip:
           ip: *talosControlplaneVip
-
-  - hostname: blue.schwarz47.internal
+  - hostname: blue
     ipAddress: 10.100.0.62
     installDiskSelector:
       size: "<= 256GB"
-    talosImageURL: factory.talos.dev/installer/dcac6b92c17d1d8947a0cee5e0e6b6904089aa878c70d66196bb1138dbd05d1a
+    talosImageURL: factory.talos.dev/installer/930a00fbcce4d3bcd531c92e13d24412df7b676f818004fbbdfeb693e4dcb649
     controlPlane: true
     machineDisks:
       - device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1
         partitions:
           - mountpoint: /var/mnt/extra
+      - device: /dev/nvme0n1
+        partitions:
+          - mountpoint: /var/mnt/longhorn
     networkInterfaces:
       - deviceSelector:
           hardwareAddr: "bc:24:11:0e:b9:f5"
@@ -60,16 +65,19 @@ nodes:
         vip:
           ip: *talosControlplaneVip
 
-  - hostname: charlie.schwarz47.internal
+  - hostname: charlie
     ipAddress: 10.100.0.63
     installDiskSelector:
       size: "<= 256GB"
-    talosImageURL: factory.talos.dev/installer/dcac6b92c17d1d8947a0cee5e0e6b6904089aa878c70d66196bb1138dbd05d1a
+    talosImageURL: factory.talos.dev/installer/930a00fbcce4d3bcd531c92e13d24412df7b676f818004fbbdfeb693e4dcb649
     controlPlane: true
     machineDisks:
       - device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1
         partitions:
           - mountpoint: /var/mnt/extra
+      - device: /dev/nvme0n1
+        partitions:
+          - mountpoint: /var/mnt/longhorn
     networkInterfaces:
       - deviceSelector:
           hardwareAddr: "bc:24:11:c9:47:b0"
@@ -93,6 +101,7 @@ controlPlane:
         officialExtensions:
           - siderolabs/i915-ucode
           - siderolabs/intel-ucode
+          - siderolabs/iscsi-tools
           - siderolabs/qemu-guest-agent
 
   patches:
@@ -150,6 +159,13 @@ controlPlane:
             - destination: /var/mnt/extra
               type: bind
               source: /var/mnt/extra
+              options:
+                - rbind
+                - rshared
+                - rw
+            - destination: /var/mnt/longhorn
+              type: bind
+              source: /var/mnt/longhorn
               options:
                 - rbind
                 - rshared
