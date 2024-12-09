@@ -1,17 +1,17 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: frigate
+  name: radarr
 spec:
   interval: 30m
   chart:
     spec:
-      chart: frigate
-      version: 7.6.0
+      chart: app-template
+      version: 3.5.1
+      interval: 30m
       sourceRef:
         kind: HelmRepository
-        name: blakeblackshear
+        name: bjw-s
         namespace: flux-system
   install:
     remediation:
@@ -21,84 +21,80 @@ spec:
     remediation:
       retries: 3
   values:
+    controllers:
+      frigate:
+        pod:
+          securityContext:
+            runAsUser: 3000
+            runAsGroup: 5000
+            runAsNonRoot: true
+            fsGroup: 5000
+            fsGroupChangePolicy: "OnRootMismatch"
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/blakeblackshear/frigate
+              tag: 0b9c4c1-rk@sha256:070f6faefb7cec6c9a8c9a5d92188a7c895e8dc4f0ae5f490f759f6f811d408c
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                cpu: 2000m
+                memory: 2000Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+
+    service:
+      app:
+        controller: frigate
+        ports:
+          http:
+            port: &port 5000
+
+    route:
+      app:
+        enabled: true
+        parentRefs:
+          - name: cilium-gateway
+            namespace: network
+        hostnames:
+          - frigate.${SECRET_DOMAIN}
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - kind: Service
+                name: app
+                port: *port
+
     persistence:
       config:
-        enabled: true
+        existingClaim: frigate-config
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp/cache
       media:
-        enabled: true
-        size: 10Gi
-    ingress:
-      enabled: true
-      ingressClassName: internal
-      hosts:
-        - host: "frigate.${SECRET_DOMAIN}"
-          paths:
-            - path: /
-              portName: http
-    config: |
-      mqtt:
-        enabled: false
-      auth:
-        enabled: false
-      tls:
-        enabled: false
-
-      # ffmpeg:
-      #   hwaccel_args: preset-intel-qsv-h264 -qsv_device /dev/dri/renderD129
-
-      go2rtc:
-          streams:
-              corridor: rtsp://camera:T6YedouFE*pvt*uUTQkVBH_kiqKrqwMw@10.40.200.104:554/stream1
-              garden_door: rtsp://camera:T6YedouFE*pvt*uUTQkVBH_kiqKrqwMw@10.40.200.108:554/stream1
-              living_room: rtsp://camera:T6YedouFE*pvt*uUTQkVBH_kiqKrqwMw@10.40.200.103:554/stream1
-              garden_chicken: rtsp://camera:T6YedouFE*pvt*uUTQkVBH_kiqKrqwMw@10.40.200.116:554/stream1
-          webrtc:
-            candidates:
-              - 192.168.1.24:8555
-              - stun:8555
-
-      cameras:
-        living_room:
-          ffmpeg:
-            inputs:
-              - path: rtsp://127.0.0.1:8554/living_room
-                input_args: preset-rtsp-restream
-          onvif:
-            host: 10.40.200.105
-            port: 2020
-            user: camera
-            password: T6YedouFE*pvt*uUTQkVBH_kiqKrqwMw
-        corridor:
-          ffmpeg:
-            inputs:
-              - path: rtsp://127.0.0.1:8554/corridor
-                input_args: preset-rtsp-restream
-          onvif:
-            host: 10.40.200.104
-            port: 2020
-            user: camera
-            password: T6YedouFE*pvt*uUTQkVBH_kiqKrqwMw
-        garden_door:
-          ffmpeg:
-            inputs:
-              - path: rtsp://127.0.0.1:8554/garden_door
-                input_args: preset-rtsp-restream
-          onvif:
-            host: 10.40.200.108
-            port: 2020
-            user: camera
-            password: T6YedouFE*pvt*uUTQkVBH_kiqKrqwMw
-        garden_chicken:
-          ffmpeg:
-            inputs:
-              - path: rtsp://127.0.0.1:8554/garden_door
-                input_args: preset-rtsp-restream
-      version: 0.14
-
-    resources:
-      requests:
-        cpu: 100m
-        memory: 256Mi
-      limits:
-        cpu: 4000m
-        memory: 2000Mi
+        type: nfs
+        server: 10.10.200.50
+        path: /mnt/storage/frigate
+        globalMounts:
+          - path: /media/frigate
