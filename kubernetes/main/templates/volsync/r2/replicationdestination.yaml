@@ -22,5 +22,5 @@ spec:
       runAsGroup: ${APP_GID:-5000}
       fsGroup: ${APP_GID:-5000}
     repository: "${APP}-volsync-r2"
-    storageClassName: "${VOLSYNC_STORAGECLASS:-longhorn}"
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-longhorn-snapshot}"
+    storageClassName: "${VOLSYNC_STORAGECLASS:-ceph-block}"
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-ceph-blockpool}"
