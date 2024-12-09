@@ -24,8 +24,8 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      APP_UID: "2000"
-      APP_GID: "2000"
+      APP_UID: "3000"
+      APP_GID: "5000"
       VOLSYNC_CLAIM: sonarr-config
       VOLSYNC_CAPACITY: 5Gi
       VOLSYNC_CACHE_CAPACITY: 5Gi
