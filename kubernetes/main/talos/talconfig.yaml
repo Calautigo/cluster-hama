@@ -28,7 +28,7 @@ nodes:
     ipAddress: 10.100.0.61
     installDiskSelector:
       size: "<= 256GB"
-    talosImageURL: factory.talos.dev/installer/930a00fbcce4d3bcd531c92e13d24412df7b676f818004fbbdfeb693e4dcb649
+    talosImageURL: factory.talos.dev/installer/dcac6b92c17d1d8947a0cee5e0e6b6904089aa878c70d66196bb1138dbd05d1a
     controlPlane: true
     machineDisks:
       - device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1
@@ -45,7 +45,7 @@ nodes:
     ipAddress: 10.100.0.62
     installDiskSelector:
       size: "<= 256GB"
-    talosImageURL: factory.talos.dev/installer/930a00fbcce4d3bcd531c92e13d24412df7b676f818004fbbdfeb693e4dcb649
+    talosImageURL: factory.talos.dev/installer/dcac6b92c17d1d8947a0cee5e0e6b6904089aa878c70d66196bb1138dbd05d1a
     controlPlane: true
     machineDisks:
       - device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1
@@ -63,7 +63,7 @@ nodes:
     ipAddress: 10.100.0.63
     installDiskSelector:
       size: "<= 256GB"
-    talosImageURL: factory.talos.dev/installer/930a00fbcce4d3bcd531c92e13d24412df7b676f818004fbbdfeb693e4dcb649
+    talosImageURL: factory.talos.dev/installer/dcac6b92c17d1d8947a0cee5e0e6b6904089aa878c70d66196bb1138dbd05d1a
     controlPlane: true
     machineDisks:
       - device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1
@@ -92,7 +92,6 @@ controlPlane:
         officialExtensions:
           - siderolabs/i915-ucode
           - siderolabs/intel-ucode
-          - siderolabs/iscsi-tools
           - siderolabs/qemu-guest-agent
 
   patches:

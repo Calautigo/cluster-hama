@@ -29,11 +29,3 @@ spec:
         certManagerIssuerRef:
           name: snapshot-controller-webhook-ca
           kind: Issuer
-    volumeSnapshotClasses:
-      - name: longhorn-snapshot
-        annotations:
-          snapshot.storage.kubernetes.io/is-default-class: "true"
-        driver: driver.longhorn.io
-        deletionPolicy: Delete
-        parameters:
-          type: snap
