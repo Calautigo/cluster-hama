@@ -5,7 +5,7 @@ metadata:
   name: &app frigate
   namespace: flux-system
 spec:
-  targetNamespace: frigate
+  targetNamespace: selfhosted
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
