@@ -20,7 +20,7 @@ spec:
     name: home-kubernetes
   wait: false
   dependsOn:
-    - name: longhorn
+    - name: rook-ceph
     - name: openebs
     - name: volsync
     - name: external-secrets-stores
