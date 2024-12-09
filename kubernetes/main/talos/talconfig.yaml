@@ -90,7 +90,7 @@ controlPlane:
         - net.ifnames=1
       systemExtensions:
         officialExtensions:
-          - siderolabs/i915
+          #- siderolabs/i915
           - siderolabs/intel-ucode
           - siderolabs/qemu-guest-agent
           - siderolabs/util-linux-tools
