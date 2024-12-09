@@ -15,6 +15,9 @@ spec:
     kind: GitRepository
     name: home-kubernetes
   wait: false
+  dependsOn:
+    - name: rook-ceph
+    - name: volsync
   interval: 30m
   timeout: 5m
   postBuild:
