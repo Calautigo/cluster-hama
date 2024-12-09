@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/main/apps/frigate/frigate/app
+  path: ./kubernetes/main/apps/selfhosted/frigate/app
   prune: true
   sourceRef:
     kind: GitRepository
