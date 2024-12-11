@@ -34,8 +34,8 @@ spec:
       wal:
         compression: bzip2
         maxParallel: 8
-      destinationPath: s3://cloudnative-pg/
-      endpointURL: s3.eu-central-003.backblazeb2.com/cluster-hama-postgres-bucket
+      destinationPath: s3://cluster-hama-postgres-bucket/
+      endpointURL: s3.eu-central-003.backblazeb2.com
       # Note: serverName version needs to be incremented
       # when recovering from an existing cnpg cluster
       serverName: &currentCluster postgres16-v1
