@@ -25,4 +25,4 @@ resources:
   - ./external-secrets.yaml
   - ./k8tz.yaml
   - ./piraeus.yaml
-  - ./zalando.yaml
+  - ./cloudnative-pg.yaml
