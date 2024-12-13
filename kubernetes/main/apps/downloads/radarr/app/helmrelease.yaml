@@ -25,10 +25,10 @@ spec:
       radarr:
         pod:
           securityContext:
-            runAsUser: 3000
-            runAsGroup: 5000
+            runAsUser: 1000
+            runAsGroup: 1000
             runAsNonRoot: true
-            fsGroup: 5000
+            fsGroup: 1000
             fsGroupChangePolicy: "OnRootMismatch"
 
         containers:
