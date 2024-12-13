@@ -30,7 +30,7 @@ spec:
               repository: codeberg.org/forgejo/forgejo
               tag: 9.0.3-rootless
             env:
-              FORGEJO__APP_NAME: "HaMa GIT"
+              APP_NAME: "HaMa GIT"
             envFrom:
               - secretRef:
                   name: forgejo-db-secret
@@ -88,13 +88,7 @@ spec:
         advancedMounts:
           forgejo:
             app:
-              - path: /etc/gitea
-      data:
-        type: nfs
-        server: 10.10.200.50
-        path: /mnt/storage/repositories
-        globalMounts:
-          - path: /var/lib/gitea
+              - path: /var/lib/gitea
       tmpfs:
         type: emptyDir
         globalMounts:
