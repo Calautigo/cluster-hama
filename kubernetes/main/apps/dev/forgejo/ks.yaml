@@ -25,7 +25,5 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      APP_UID: "2000"
-      APP_GID: "2000"
       VOLSYNC_CLAIM: forgejo-config
       VOLSYNC_CAPACITY: 15Gi
