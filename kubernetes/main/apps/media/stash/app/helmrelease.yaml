@@ -103,11 +103,9 @@ spec:
           stash:
             app:
               - path: /generated
-      data:
+      media:
         type: nfs
         server: 10.10.200.50
         path: /mnt/storage/media/media/adult
-        advancedMounts:
-          stash:
-            app:
-              - path: /data
+        globalMounts:
+          - path: /data
