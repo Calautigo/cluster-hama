@@ -30,7 +30,7 @@ spec:
           app:
             image:
               repository: ghcr.io/jellyfin/jellyfin
-              tag: 10.10.3@sha256:17c3a8d9dddb97789b5f37112840ebf96566442c14d4754193a6c2eb154bc221
+              tag: 10.10.3.20241119-033930@sha256:17c3a8d9dddb97789b5f37112840ebf96566442c14d4754193a6c2eb154bc221
             env:
               JELLYFIN_PublishedServerUrl: https://10.100.0.150:8096,https://jellyfin.schwarz47.at:443
             probes:
