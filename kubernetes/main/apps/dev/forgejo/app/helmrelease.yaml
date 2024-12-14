@@ -32,7 +32,8 @@ spec:
               repository: codeberg.org/forgejo/forgejo
               tag: 9.0.3-rootless
             env:
-              FORGEJO__webhook__ALLOWED_HOST_LIST: "*"
+              - name: FORGEJO__webhook__ALLOWED_HOST_LIST
+                value: "*"
             envFrom: *envFrom
             probes:
               liveness:
