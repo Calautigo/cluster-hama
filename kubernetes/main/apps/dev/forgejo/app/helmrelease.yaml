@@ -32,7 +32,7 @@ spec:
               repository: codeberg.org/forgejo/forgejo
               tag: 9.0.3-rootless
             env:
-              APP_NAME: "HaMa GIT"
+              FORGEJO__webhook__ALLOWED_HOST_LIST: "*"
             envFrom: *envFrom
             probes:
               liveness:
