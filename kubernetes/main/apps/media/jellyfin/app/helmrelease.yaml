@@ -1,0 +1,115 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: jellyfin
+spec:
+  chart:
+    spec:
+      chart: app-template
+      version: 3.5.1
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  interval: 30m
+  values:
+    controllers:
+      jellyfin:
+
+        pod:
+          securityContext:
+            runAsUser: 3000
+            runAsGroup: 5000
+            fsGroup: 5000
+            fsGroupChangePolicy: "OnRootMismatch"
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/jellyfin/jellyfin
+              tag: 10.10.3@sha256:17c3a8d9dddb97789b5f37112840ebf96566442c14d4754193a6c2eb154bc221
+            env:
+              JELLYFIN_PublishedServerUrl: https://10.100.0.150:8096,https://jellyfin.schwarz47.at:443
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /identity
+                    port: 32400
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 100m
+              limits:
+                # gpu.intel.com/i915: 1
+                memory: 8192M
+
+    service:
+      app:
+        controller: jellyfin
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: 10.100.0.150
+        ports:
+          http:
+            port: &port 8096
+
+    route:
+      app:
+        enabled: true
+        parentRefs:
+          - name: cilium-gateway
+            namespace: network
+        hostnames:
+          - jellyfin.schwarz47.at
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - kind: Service
+                name: app
+                port: *port
+
+    persistence:
+      config:
+        existingClaim: jellyfin-config
+        advancedMounts:
+          jellyfin:
+            app:
+              - path: /config
+      cache:
+        existingClaim: jellyfin-cache
+        advancedMounts:
+          jellyfin:
+            app:
+              - path: /cache
+      media:
+        type: nfs
+        server: 10.10.200.50
+        path: /mnt/storage/media/media
+        advancedMounts:
+          jellyfin:
+            app:
+              - path: /data
