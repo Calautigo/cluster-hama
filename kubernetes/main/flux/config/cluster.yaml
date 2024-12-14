@@ -7,7 +7,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  url: "ssh://git@github.com/Calautigo/cluster-hama.git"
+  url: "https://git.schwarz47.at/dominik/cluster-hama.git"
   secretRef:
     name: github-deploy-key
   ref:
