@@ -2,6 +2,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./namespace.yaml
-  - ./actual/ks.yaml
-  - ./immich/ks.yaml
+  - ./pvc.yaml
+  - ./helm-release.yaml
