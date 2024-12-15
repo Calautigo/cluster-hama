@@ -8,3 +8,5 @@ configMapGenerator:
   - name: immich-configmap
     envs:
     - ./config/environment
+generatorOptions:
+  disableNameSuffixHash: true
