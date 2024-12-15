@@ -106,8 +106,8 @@ spec:
           jellyfin:
             app:
               - path: /cache
-      # tmp:
-      #   type: emptyDir
+      tmp:
+        type: emptyDir
       media:
         type: nfs
         server: 10.10.200.50
