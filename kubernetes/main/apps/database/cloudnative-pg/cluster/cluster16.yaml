@@ -5,7 +5,7 @@ kind: Cluster
 metadata:
   name: postgres16
 spec:
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.6@sha256:d7822fa6eba284a6d3d035d51a51de22147bc5e72d87aa93e7dd9fa87455ed5c
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.6@sha256:30065f928c9d7a6f71382c53d416db708ecb7eeefb70d81182cb2668a1b53d56
   instances: 3
   primaryUpdateStrategy: unsupervised
   storage:
@@ -50,7 +50,11 @@ spec:
           key: aws-secret-access-key
   # Note: previousCluster needs to be set to the name of the previous
   # cluster when recovering from an existing cnpg cluster
-  # bootstrap:
+  bootstrap:
+    initdb:
+      postInitSQL:
+        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
+        - CREATE EXTENSION IF NOT EXISTS "vectors";
   #   recovery:
   #     source: &previousCluster postgres16-v0
   # Note: externalClusters is needed when recovering from an existing cnpg cluster
