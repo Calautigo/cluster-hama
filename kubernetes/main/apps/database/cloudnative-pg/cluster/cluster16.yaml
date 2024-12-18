@@ -50,11 +50,7 @@ spec:
           key: aws-secret-access-key
   # Note: previousCluster needs to be set to the name of the previous
   # cluster when recovering from an existing cnpg cluster
-  bootstrap:
-    initdb:
-      postInitSQL:
-        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
-        - CREATE EXTENSION IF NOT EXISTS "vectors";
+  # bootstrap:
   #   recovery:
   #     source: &previousCluster postgres16-v0
   # Note: externalClusters is needed when recovering from an existing cnpg cluster
