@@ -32,14 +32,14 @@ spec:
           01-init-db:
             image:
               repository: ghcr.io/onedr0p/postgres-init
-              tag: 16.5
+              tag: 16.6
             envFrom:
               - secretRef:
                   name: immich-secret
           02-init-extensions:
             image:
               repository: ghcr.io/onedr0p/postgres-init
-              tag: 16.5
+              tag: 16.6
             env:
               - name: PGDATABASE
                 value: immich
