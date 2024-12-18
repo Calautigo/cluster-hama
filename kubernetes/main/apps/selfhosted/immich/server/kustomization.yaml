@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
+  - ./sql-configmap.yaml
   - ../../../../templates/volsync
 configMapGenerator:
   - name: immich-configmap
