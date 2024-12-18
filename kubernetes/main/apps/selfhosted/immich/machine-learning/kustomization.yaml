@@ -4,3 +4,9 @@ kind: Kustomization
 resources:
   - ./pvc.yaml
   - ./helmrelease.yaml
+configMapGenerator:
+  - name: immich-configmap
+    envs:
+    - ./config/environment
+generatorOptions:
+  disableNameSuffixHash: true
