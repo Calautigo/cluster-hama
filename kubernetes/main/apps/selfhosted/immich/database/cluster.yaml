@@ -42,7 +42,7 @@ spec:
       endpointURL: https://s3.eu-central-003.backblazeb2.com
       # Note: serverName version needs to be incremented
       # when recovering from an existing cnpg cluster
-      serverName: &currentCluster postgres16-v1
+      serverName: &currentCluster immich-db-v1
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
@@ -60,7 +60,7 @@ spec:
         - CREATE EXTENSION IF NOT EXISTS "cube";
         - CREATE EXTENSION IF NOT EXISTS "earthdistance";
   #   recovery:
-  #     source: &previousCluster postgres16-v0
+  #     source: &previousCluster immich-db-v0
   # Note: externalClusters is needed when recovering from an existing cnpg cluster
   # externalClusters:
   #   - name: *previousCluster
