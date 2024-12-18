@@ -28,7 +28,7 @@ spec:
     controllers:
       immich-machine-learning:
         annotations:
-          reloader.stakater.com/auto: "true"
+          reloader.stakater.com/auto: "false"
         containers:
           app:
             image:
