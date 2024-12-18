@@ -156,11 +156,3 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /tmp
-      initdb:
-        type: configMap
-        name: initdb-configmap
-        globalMounts:
-          - path: /initdb/immich.sql
-            subPath: immich.sql
-            readOnly: true
-
