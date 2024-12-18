@@ -6,8 +6,6 @@ metadata:
   namespace: flux-system
 spec:
   targetNamespace: selfhosted
-  dependsOn:
-    - name: immich-shared
   path: "./kubernetes/main/apps/selfhosted/immich/database"
   prune: true
   sourceRef:
