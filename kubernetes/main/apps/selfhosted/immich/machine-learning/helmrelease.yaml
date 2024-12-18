@@ -43,6 +43,11 @@ spec:
               # Machine learning
               MACHINE_LEARNING_CACHE_FOLDER: /cache
               TRANSFORMERS_CACHE: /cache
+            envFrom:
+              - secretRef:
+                  name: immich-secret
+              - configMapRef:
+                 name: immich-configmap
             resources:
               requests:
                 cpu: 100m
