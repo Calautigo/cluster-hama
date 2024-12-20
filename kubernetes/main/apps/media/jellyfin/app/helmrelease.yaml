@@ -113,7 +113,7 @@ spec:
           jellyfin:
             app:
               - path: /config/cache
-                subPath: /cache
+                subPath: cache
               - path: /tmp/jellyfin
                 subPath: tmp
 
