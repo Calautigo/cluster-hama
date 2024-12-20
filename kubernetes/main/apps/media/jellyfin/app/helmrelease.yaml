@@ -111,8 +111,12 @@ spec:
         type: emptyDir
         advancedMounts:
           jellyfin:
-            main:
+            app:
               - path: /config/cache
+                subPath: /cache
+              - path: /tmp/jellyfin
+                subPath: tmp
+
       media:
         type: nfs
         server: 10.10.200.50
