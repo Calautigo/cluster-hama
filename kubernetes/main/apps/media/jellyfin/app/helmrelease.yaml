@@ -18,20 +18,25 @@ spec:
   values:
     controllers:
       jellyfin:
+        annotations:
+          reloader.stakater.com/auto: "true"
 
         pod:
           securityContext:
-            runAsUser: 3000
-            runAsGroup: 5000
+            runAsUser: 1000
+            runAsGroup: 1000
             fsGroup: 5000
             fsGroupChangePolicy: "OnRootMismatch"
-
+            supplementalGroups:
+              - 44
+              - 109
         containers:
           app:
             image:
               repository: ghcr.io/jellyfin/jellyfin
               tag: 10.10.3.20241119-033930@sha256:17c3a8d9dddb97789b5f37112840ebf96566442c14d4754193a6c2eb154bc221
             env:
+              DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
               JELLYFIN_PublishedServerUrl: https://10.100.0.150:8096,https://jellyfin.schwarz47.at:443
             probes:
               liveness: &probes
@@ -40,17 +45,14 @@ spec:
                 spec:
                   httpGet:
                     path: /health
-                    port: 8096
+                    port: &port 8096
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
               startup:
-                enabled: true
-                spec:
-                  failureThreshold: 30
-                  periodSeconds: 10
+                enabled: false
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -60,10 +62,11 @@ spec:
             resources:
               requests:
                 cpu: 100m
+                # gpu.intel.com/i915: 1
                 memory: 128M
               limits:
                 # gpu.intel.com/i915: 1
-                memory: 4G
+                memory: 8G
 
     service:
       app:
@@ -73,7 +76,7 @@ spec:
           lbipam.cilium.io/ips: 10.100.0.150
         ports:
           http:
-            port: &port 8096
+            port: *port
 
     route:
       app:
@@ -91,7 +94,7 @@ spec:
             backendRefs:
               - kind: Service
                 name: app
-                port: *port
+                port: http
 
     persistence:
       config:
@@ -100,14 +103,16 @@ spec:
           jellyfin:
             app:
               - path: /config
+      transcode:
+        existingClaim: jellyfin-transcode
+        globalMounts:
+          - path: /config/transcodes
       cache:
-        existingClaim: jellyfin-cache
+        type: emptyDir
         advancedMounts:
           jellyfin:
-            app:
-              - path: /cache
-      tmp:
-        type: emptyDir
+            main:
+              - path: /config/cache
       media:
         type: nfs
         server: 10.10.200.50
@@ -115,4 +120,5 @@ spec:
         advancedMounts:
           jellyfin:
             app:
-              - path: /data
+              - path: /media
+                readOnly: true
