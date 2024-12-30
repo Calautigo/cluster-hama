@@ -58,14 +58,10 @@ spec:
             securityContext:
               privileged: true
             probes:
-              liveness: &probes
+              liveness:
                 enabled: true
-                spec:
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
+              readiness:
+                enabled: true
               startup:
                 enabled: false
 
