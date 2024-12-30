@@ -76,25 +76,24 @@ spec:
               startup:
                 enabled: false
 
-    ingress:
+    route:
       app:
-        className: "nginx"
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/description: CCTV Smart object detection
-          gethomepage.dev/group: Home Automation
-          gethomepage.dev/icon: sh-frigate.svg
-          gethomepage.dev/name: Frigate
-        hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
+        enabled: true
+        parentRefs:
+          - name: cilium-gateway
+            namespace: network
+        hostnames:
+          - frigate.${SECRET_DOMAIN}
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - kind: Service
+                name: app
+                port: http
+
 
     service:
       app:
