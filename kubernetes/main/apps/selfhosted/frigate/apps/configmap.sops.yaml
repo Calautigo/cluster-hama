@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frigate-configmap
+data:
+  config.yml: ENC[AES256_GCM,data:lJ1Qxvhf8LB2QzA8LsSUiJnyQyxR2So1qoPh7gAaU9JdVnAB1uvqxzGu5gR8Y12mew7nRXNfdmPQz0hJQPB9v4w/9Lr1hswPBmu2NDdQNCnybYmMx9NFWzNJ95kmjW4FWnFWCK7UT/CgB4iSrWeD35hlh1VNy11pp1FVu7BHzOSSlGr/U1KzsB7H2l0bsdBlyP9iv//4TrhQQytkw8BNwJbkun5jIButfVk8SPLsTPumcOW+98yn1uqKVleLAJG2p32Sy7pCi0XTtTn4T+RPtCmIPaQcSVzTrOZ4qI0f81ciWLxAEBdiYkYPvlLv4D1+myG6Wk8UuzIiXfetCN6meMIwzoD//IPGJ2VXyqB15uYvwtxWEwHsp0hBJ/vRySpJl+sX2IXHWs8wb1VeAyBZnCevaadXNIpecT01u6mKoZM2k7HL9E6/OQlUzXEX3OPJbD9VGFS7gIAr8tFp9Bytf39EdS0IQIK62+qBPRKBy/0lcorluMOG4RimWO7aqZsGZ5b2xxiv1QW+cFHtcbC7fKfAmG8mlfILQ2VrWwnAJ/Hhzbrt0v1n1mi7dgHNtu6/v9tXiXJpIcJci3bsfG7kc3CYpmACEclrb1jW4f8Fghp1pyjkWZWP0atTYWFhGerBFbPSWPdEPHiNZGRG9vqtXxKrIKYqhkJYBkU1cDChZxL7Ilv0ZaEx1xnqW1IzYYDi+0duzcEu5/AqDVzYMMJjMXQpkoODKV/BNQF9WDKxYm9je4l3NUP4LlYPbWfyZKZn2UQNepGKPLoxBMW2NRalRFB932GFMFMJw4urCq+MJ3Z+ScPmhCwTOSAi4kqbvuqy3P+bRxBXr3cpfGYPjm6hPoT3+jy8db8t8xG7LmxM8NoJ5XrJk+cgFQtsqkBCCCE3VfcT1XrcqWnBiY8UvSOucnasJKaUJEyiuymAMfUz+u0ysQmxVsC6FgKMt/bfFZc86AM1WX1A6assWQJPK0igPOIrOwYMnKnux78x0Lp38UJlJkZZKA1Hz5+jCR7F+QM0iq18ViSGBnPJEbZ9Q1YmbcL1OMo5eEQKOuMIb6UtN4m7HuvGzrHXFfc6+lUxNwtO/vhdFQmRhQ6kcgqF0lCvLh/XkWT2xHD2bslSJC4+zRVjABH/tRUPFPlDgm8HSmXeQAsg0Oms41WeEax3L2OQG6lOirOTvRsVl718mPRNyTjSbMc464tK1WmjvSzEeB9Ad08h0U12Eklon7ATC9sgbDjUOPSj40IuMHADp+nffKfvaxV0NwMmd5oWpaEm1gBRTkjTkjbOjT8VgfXyH6zhNnc+PmTJXhx5USWltrEoSM/RLjndYptaqsoh+LyTV3BtPLALvzZqDhRl3IJuolgJNKeykpfJ88K42qA3iuSkIFjh0flBB2Iyhv0bAuNnb5u9gWJQ4/+BzN47ZXQB5SbpyAztEvlmzLcli3fxVQjtGPcR+ef3fvMyoU98V1kc4ikHItGbQDzMyg6yZSr4p93ZhcCTz1LkFNsvvwiDKaLILcJBSTVbUM192BYyLDqP6FMde9aisRdY3h1DzbrMfnkCGRe2/zWU6h2K8KnAjPVpVzdQDWvkN7sTEHh0HzowmVlOpsjabP4B0Vz6kMhzW4aS5ddJijC73tDWNjO8xS97Zhr0Nu14bPJ+Cl030hfYDI3cyQDvW+UCY506QWJ/qFJUMZKxeQR5h8WpMXMhnzo/AuC6N0lEY3Sf8XXP19uO5pC8Qy2vQliL8iHwNTRwY/k9MeJIsAo0F0NLWEoVQGlMNb57UO/G9Q4eaxMCRum19oqSZIb9CwmnupIhidDCXypNziOxdhYCHI+9yKCok94ei6LBTkVJL5wknWla4STlu4yF1Q+/o8omhSxP46in2yQUK9QMgnMlEAh6gXCdjPz0wxVVwbNQUexStasGXMaJ+1XxTeel3ICn+FNeF5V4LeeE72kcf1HnA7HAtOlpohzODkPkpnQrTjwuwAfOW149z+aOE2McZrZg4nFrFcpGbXWIslDhLzJjQu0CDH+gekt3oun4pofe3c9mp9MiGuySbyAGLhLV1/9wTv6+0FRiTQ==,iv:Xh80gxkJyoZunhOBLNysoeJC5yCdcawG9GLmxav6eec=,tag:MWisGnffZ9F6e6mkrpiuSA==,type:str]
+sops:
+  kms: []
+  gcp_kms: []
+  azure_kv: []
+  hc_vault: []
+  age:
+    - recipient: age1073mcvy7lha3qgk4ssjqq9l47yqvv8urdxl0q3e6nu83n42m2cjqhwfwdw
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBJVC91TEh5SVpXVGVyQSs1
+        YU1WNXdkKytISFdiMUtQbUE1YXl4d2FXSTJBCmw4Smp1NXByWm9EdEpDaXZ5cWE5
+        MG9RUWhqakxyekIyczZVOVB5NW1aVzgKLS0tIGdoK0kyM3JsR1JNVEhpdkVCKzIx
+        RE8rQklUb3dqeUQvV2NXd2R2V25SMTAKA+/1FiBVsqFLTDMmesvIraiKlzPACTOT
+        dDUsNILz2vnRkXKPb3NnhmAbdQVP4dePUBCz0sUkB5L/8sL/g3uTTw==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2024-12-30T20:16:23Z"
+  mac: ENC[AES256_GCM,data:PJpT7oJHJ28TyRRHBihs0E8S2Q9xEBr17YTLQYBUtEvaHc3xHzs4YCQ//FXWQ0nF0hq/wdLaGoqtUMkGV4wGgNZh5hzgsIRxLYWxbCMKswp92csFGfL95+iVz0zcIdi46/ODdCaiarliKi/2NtuvC29iGMa3n6bv2BgMhRK8gRs=,iv:va6pjWiCIP7Rb6JvR+nPdB3Xc5rQLt1B6f8/xDn5zVA=,tag:M2KjCITg/i5a03c4bjlg2g==,type:str]
+  pgp: []
+  encrypted_regex: ^(data|stringData)$
+  mac_only_encrypted: true
+  version: 3.9.1
