@@ -103,10 +103,12 @@ spec:
           jellyfin:
             app:
               - path: /config
+
       transcode:
         existingClaim: jellyfin-transcode
         globalMounts:
           - path: /config/transcodes
+
       cache:
         type: emptyDir
         advancedMounts:
