@@ -31,10 +31,10 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
 
-        pod:
-          nodeSelector:
-            google.feature.node.kubernetes.io/coral: "true"
-            intel.feature.node.kubernetes.io/gpu: "true"
+        # pod:
+        #   nodeSelector:
+        #     google.feature.node.kubernetes.io/coral: "true"
+        #     intel.feature.node.kubernetes.io/gpu: "true"
 
         containers:
           app:
@@ -42,21 +42,21 @@ spec:
               repository: ghcr.io/blakeblackshear/frigate
               tag: 0.14.1
 
-            env:
-              LIBVA_DRIVER_NAME: "i965"
+            # env:
+            #   LIBVA_DRIVER_NAME: "i965"
 
-            envFrom:
-              - secretRef:
-                  name: frigate-secret
+            # envFrom:
+            #   - secretRef:
+            #       name: frigate-secret
 
             resources:
               requests:
                 cpu: 1000m
-                memory: 2000M
-                gpu.intel.com/i915: "1"
+                memory: 256Mi
+                # gpu.intel.com/i915: "1"
               limits:
-                memory: 4000M
-                gpu.intel.com/i915: "1"
+                memory: 4Gi
+                # gpu.intel.com/i915: "1"
 
             securityContext:
               privileged: true
