@@ -16,15 +16,12 @@ spec:
         namespace: flux-system
       interval: 30m
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     controllers:
       frigate:
@@ -119,7 +116,7 @@ spec:
         globalMounts:
           - path: /config/config.yml
             subPath: config.yml
-            readOnly: true
+            # readOnly: true
 
       cache:
         type: emptyDir
