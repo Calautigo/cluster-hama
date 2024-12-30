@@ -79,6 +79,6 @@ spec:
       data:
         existingClaim: mealie-data
         advancedMounts:
-          actual:
+          mealie:
             app:
               - path: /app/data/
