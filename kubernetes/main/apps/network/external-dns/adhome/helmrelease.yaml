@@ -51,13 +51,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /healthz
-            port: healthz
+            port: http-webhook
           initialDelaySeconds: 10
           timeoutSeconds: 5
         readinessProbe:
           httpGet:
             path: /healthz
-            port: healthz
+            port: http-webhook
           initialDelaySeconds: 10
           timeoutSeconds: 5
     policy: sync
