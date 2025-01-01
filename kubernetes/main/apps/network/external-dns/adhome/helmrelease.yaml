@@ -28,22 +28,22 @@ spec:
       name: webhook
       webhook:
         image:
-          repository: ghcr.io/zekker6/external-dns-provider-adguard
-          tag: v1.0.0@sha256:20f2fb1d2f9da1a3c704f06982fb00ec80a758affee1c9cb52a3f89130422795
+          repository: ghcr.io/muhlba91/external-dns-provider-adguard
+          tag: v8.0.0@sha256:1a7b12b3fef352626345653809716ada3d7569c930b1bf85c2e1b98e022ca9aa
         env:
           - name: LOG_LEVEL
             value: debug
-          - name: ADGUARD_HOME_USER
+          - name: ADGUARD_USER
             valueFrom:
               secretKeyRef:
                 name: &secret external-dns-adhome-secrets
                 key: USER
-          - name: ADGUARD_HOME_PASS
+          - name: ADGUARD_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: *secret
                 key: PASS
-          - name: ADGUARD_HOME_URL
+          - name: ADGUARD_URL
             valueFrom:
               secretKeyRef:
                 name: *secret
@@ -51,17 +51,20 @@ spec:
         livenessProbe:
           httpGet:
             path: /healthz
-            port: http-webhook
+            port: healthz
           initialDelaySeconds: 10
           timeoutSeconds: 5
         readinessProbe:
           httpGet:
-            path: /readyz
-            port: http-webhook
+            path: /healthz
+            port: healthz
           initialDelaySeconds: 10
           timeoutSeconds: 5
     policy: sync
+    extraArgs:
+      webhook-provider-url: http://localhost:8888
     sources:
+      - crd
       - gateway-httproute
       - gateway-tlsroute
       - gateway-tcproute
