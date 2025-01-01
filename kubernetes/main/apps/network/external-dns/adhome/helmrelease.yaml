@@ -62,7 +62,7 @@ spec:
           timeoutSeconds: 5
     policy: sync
     extraArgs:
-      webhook-provider-url: http://localhost:8888
+      - --webhook-provider-url=http://localhost:8888
     sources:
       - crd
       - gateway-httproute
