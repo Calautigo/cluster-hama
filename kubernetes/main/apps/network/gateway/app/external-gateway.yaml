@@ -3,9 +3,9 @@ kind: Gateway
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
-  name: cilium-gateway
+  name: cilium-gateway-external
 spec:
-  gatewayClassName: cilium-external
+  gatewayClassName: cilium
   infrastructure:
     annotations:
       io.cilium/lb-ipam-ips: 10.100.0.47
