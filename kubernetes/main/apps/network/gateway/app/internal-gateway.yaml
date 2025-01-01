@@ -4,6 +4,8 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
   name: cilium-gateway
+  labels:
+    gateway-type: internal
 spec:
   gatewayClassName: cilium
   infrastructure:

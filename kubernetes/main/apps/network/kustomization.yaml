@@ -4,5 +4,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./gateway/ks.yaml
-  - ./k8s-gateway/ks.yaml
   - ./openspeedtest/ks.yaml
