@@ -52,7 +52,7 @@ spec:
                   secretKeyRef:
                     name: hoarder-secret
                     key: encryption_key
-              NEXTAUTH_URL: *host
+              NEXTAUTH_URL: hoarder.${SECRET_DOMAIN}
               DISABLE_NEW_RELEASE_CHECK: true
             probes:
               liveness:
@@ -141,7 +141,7 @@ spec:
           - name: cilium-gateway
             namespace: network
         hostnames:
-          - &host hoarder.${SECRET_DOMAIN}
+          - hoarder.${SECRET_DOMAIN}
         rules:
           - matches:
               - path:
