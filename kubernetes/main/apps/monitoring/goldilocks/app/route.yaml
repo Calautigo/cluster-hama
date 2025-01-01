@@ -10,4 +10,4 @@ spec:
   rules:
   - backendRefs:
     - name: goldilocks
-      port: http
+      port: 80
