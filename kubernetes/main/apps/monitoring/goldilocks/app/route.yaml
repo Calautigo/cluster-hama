@@ -9,5 +9,5 @@ spec:
   - goldilocks.${SECRET_DOMAIN}
   rules:
   - backendRefs:
-    - name: goldilocks
+    - name: goldilocks-dashboard
       port: 80
