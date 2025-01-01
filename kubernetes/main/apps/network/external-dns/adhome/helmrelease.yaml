@@ -3,13 +3,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app external-dns-opnsense
+  name: &app external-dns-adhome
 spec:
   interval: 30m
   chart:
     spec:
       chart: external-dns
-      version: 1.15.0
+      version: 1.16.0
       sourceRef:
         kind: HelmRepository
         name: external-dns
@@ -24,30 +24,30 @@ spec:
       retries: 3
   values:
     fullnameOverride: *app
-    # logLevel: debug
     provider:
       name: webhook
       webhook:
         image:
-          repository: ghcr.io/crutonjohn/external-dns-opnsense-webhook
-          tag: v0.1.0@sha256:72d4f5c79e515b8a70bb2e48f6472c746671a3ae3d8ad224aa686dd7192e1609
+          repository: ghcr.io/zekker6/external-dns-provider-adguard
+          tag: v1.0.0@sha256:20f2fb1d2f9da1a3c704f06982fb00ec80a758affee1c9cb52a3f89130422795
         env:
-          - name: OPNSENSE_HOST
-            value: http://10.10.0.1
-          - name: OPNSENSE_SKIP_TLS_VERIFY
-            value: "true"
           - name: LOG_LEVEL
             value: debug
-          - name: OPNSENSE_API_KEY
+          - name: ADGUARD_HOME_USER
             valueFrom:
               secretKeyRef:
-                name: &secret external-dns-opnsense-secrets
-                key: API_KEY
-          - name: OPNSENSE_API_SECRET
+                name: &secret external-dns-adhome-secrets
+                key: USER
+          - name: ADGUARD_HOME_PASS
             valueFrom:
               secretKeyRef:
                 name: *secret
-                key: API_SECRET
+                key: PASS
+          - name: ADGUARD_HOME_URL
+            valueFrom:
+              secretKeyRef:
+                name: *secret
+                key: URL
         livenessProbe:
           httpGet:
             path: /healthz
