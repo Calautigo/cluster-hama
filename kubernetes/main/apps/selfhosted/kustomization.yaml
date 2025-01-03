@@ -12,3 +12,4 @@ resources:
   - ./mealie/ks.yaml
   - ./ocis/ks.yaml
   - ./paperless/ks.yaml
+  - ./vikunja/ks.yaml
