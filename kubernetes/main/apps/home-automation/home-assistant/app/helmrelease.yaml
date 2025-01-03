@@ -161,7 +161,7 @@ spec:
           - name: cilium-gateway
             namespace: network
         hostnames:
-          - hass-code.${SECRET_DOMAIN}
+          - code.${SECRET_DOMAIN}
         rules:
           - matches:
               - path:
