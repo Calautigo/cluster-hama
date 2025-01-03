@@ -40,7 +40,7 @@ spec:
               VIKUNJA_FILES_BASEPATH: /files
               VIKUNJA_SERVICE_ENABLECALDAV: false
               VIKUNJA_SERVICE_ENABLELINKSHARING: false
-              VIKUNJA_SERVICE_ENABLEREGISTRATION: false
+              VIKUNJA_SERVICE_ENABLEREGISTRATION: true
               VIKUNJA_SERVICE_PUBLICURL: https://vikunja.schwarz47.at/
             probes:
               liveness:
