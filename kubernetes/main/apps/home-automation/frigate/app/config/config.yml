@@ -66,11 +66,11 @@ cameras:
       width: 640
       height: 360
       fps: 15
-    onvif:
-      host: 10.40.200.105
-      port: 2020
-      user: {FRIGATE_CAMERA_USER}
-      password: {FRIGATE_CAMERA_PASSWORD}
+    # onvif:
+    #   host: 10.40.200.105
+    #   port: 2020
+    #   user: {FRIGATE_CAMERA_USER}
+    #   password: {FRIGATE_CAMERA_PASSWORD}
   corridor:
     ffmpeg:
       inputs:
@@ -86,11 +86,11 @@ cameras:
       width: 640
       height: 360
       fps: 15
-    onvif:
-      host: 10.40.200.104
-      port: 2020
-      user: {FRIGATE_CAMERA_USER}
-      password: {FRIGATE_CAMERA_PASSWORD}
+    # onvif:
+    #   host: 10.40.200.104
+    #   port: 2020
+    #   user: {FRIGATE_CAMERA_USER}
+    #   password: {FRIGATE_CAMERA_PASSWORD}
   garden_door:
     ffmpeg:
       inputs:
@@ -104,11 +104,11 @@ cameras:
       width: 640
       height: 360
       fps: 15
-    onvif:
-      host: 10.40.200.108
-      port: 2020
-      user: {FRIGATE_CAMERA_USER}
-      password: {FRIGATE_CAMERA_PASSWORD}
+    # onvif:
+    #   host: 10.40.200.108
+    #   port: 2020
+    #   user: {FRIGATE_CAMERA_USER}
+    #   password: {FRIGATE_CAMERA_PASSWORD}
   garden_chicken:
     ffmpeg:
       inputs:
