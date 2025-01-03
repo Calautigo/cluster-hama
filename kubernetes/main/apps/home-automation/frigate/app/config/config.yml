@@ -1,0 +1,124 @@
+---
+version: 0.14
+
+logger:
+  default: info
+
+mqtt:
+  enabled: false
+
+auth:
+  enabled: false
+
+tls:
+  enabled: false
+
+database:
+  path: /config/frigate.db
+
+ffmpeg:
+  global_args: [-hide_banner, -loglevel, info]
+#   hwaccel_args: preset-intel-qsv-h264 -qsv_device /dev/dri/renderD129
+
+snapshots:
+  enabled: true
+  timestamp: true
+  bounding_box: true
+  retain:
+    default: 7
+
+record:
+  enabled: true
+  retain:
+    days: 7
+    mode: all
+
+objects:
+  track: [person]
+  filters:
+    person:
+      min_area: 5000
+      max_area: 100000
+      threshold: 0.7
+
+go2rtc:
+    streams:
+        corridor: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.104:554/stream1
+        corridor_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.104:554/stream2
+        garden_door: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.108:554/stream1
+        garden_door_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.108:554/stream2
+        living_room: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.103:554/stream1
+        living_room_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.103:554/stream2
+        garden_chicken: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.116:554/stream1
+        garden_chicken_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.116:554/stream2
+
+cameras:
+  living_room:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/living_room
+          input_args: preset-rtsp-restream
+          roles: [record]
+        - path: rtsp://127.0.0.1:8554/living_room_sub
+          input_args: preset-rtsp-restream
+          roles: [detect]
+    detect:
+      width: 640
+      height: 360
+      fps: 15
+    onvif:
+      host: 10.40.200.105
+      port: 2020
+      user: {FRIGATE_CAMERA_USER}
+      password: {FRIGATE_CAMERA_PASSWORD}
+  corridor:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/corridor
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+            - detect
+        - path: rtsp://127.0.0.1:8554/corridor_sub
+          input_args: preset-rtsp-restream
+          roles: [detect]
+    detect:
+      width: 640
+      height: 360
+      fps: 15
+    onvif:
+      host: 10.40.200.104
+      port: 2020
+      user: {FRIGATE_CAMERA_USER}
+      password: {FRIGATE_CAMERA_PASSWORD}
+  garden_door:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/garden_door
+          input_args: preset-rtsp-restream
+          roles: [record]
+        - path: rtsp://127.0.0.1:8554/garden_door_sub
+          input_args: preset-rtsp-restream
+          roles: [detect]
+    detect:
+      width: 640
+      height: 360
+      fps: 15
+    onvif:
+      host: 10.40.200.108
+      port: 2020
+      user: {FRIGATE_CAMERA_USER}
+      password: {FRIGATE_CAMERA_PASSWORD}
+  garden_chicken:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/garden_door
+          input_args: preset-rtsp-restream
+          roles: [record]
+        - path: rtsp://127.0.0.1:8554/garden_door_sub
+          input_args: preset-rtsp-restream
+          roles: [detect]
+    detect:
+      width: 640
+      height: 360
+      fps: 15

@@ -5,10 +5,4 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./actual/ks.yaml
-  - ./hoarder/ks.yaml
-  - ./immich/ks.yaml
-  - ./mealie/ks.yaml
-  - ./ocis/ks.yaml
-  - ./paperless/ks.yaml
-  - ./vikunja/ks.yaml
+  - ./frigate/ks.yaml

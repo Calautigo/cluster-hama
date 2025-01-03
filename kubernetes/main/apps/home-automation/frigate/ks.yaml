@@ -6,13 +6,13 @@ metadata:
   name: &app frigate
   namespace: flux-system
 spec:
-  targetNamespace: selfhosted
+  targetNamespace: home-automation
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: ./kubernetes/main/apps/selfhosted/frigate/app
+  path: ./kubernetes/main/apps/home-automation/frigate/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -24,7 +24,5 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      APP_UID: "1000"
-      APP_GID: "1000"
       VOLSYNC_CLAIM: frigate-config
       VOLSYNC_CAPACITY: 5Gi

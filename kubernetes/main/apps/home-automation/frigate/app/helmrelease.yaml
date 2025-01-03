@@ -30,7 +30,6 @@ spec:
 
         # pod:
         #   nodeSelector:
-        #     google.feature.node.kubernetes.io/coral: "true"
         #     intel.feature.node.kubernetes.io/gpu: "true"
 
         containers:
@@ -42,9 +41,9 @@ spec:
             # env:
             #   LIBVA_DRIVER_NAME: "i965"
 
-            # envFrom:
-            #   - secretRef:
-            #       name: frigate-secret
+            envFrom:
+              - secretRef:
+                  name: frigate-secret
 
             resources:
               requests:
@@ -85,9 +84,15 @@ spec:
     service:
       app:
         controller: frigate
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        loadBalancerIP: 10.100.55.100
         ports:
           http:
             port: 5000
+          rtsp:
+            enabled: true
+            port: 8554
 
     persistence:
       media:
