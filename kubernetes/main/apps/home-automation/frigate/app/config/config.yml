@@ -47,10 +47,10 @@ go2rtc:
         corridor_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.104:554/stream2
         garden_door: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.108:554/stream1
         garden_door_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.108:554/stream2
-        living_room: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.103:554/stream1
-        living_room_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.103:554/stream2
-        garden_chicken: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.116:554/stream1
-        garden_chicken_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.116:554/stream2
+        living_room: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.133:554/stream1
+        living_room_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.133:554/stream2
+        garden_chicken: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.103:554/stream1
+        garden_chicken_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.103:554/stream2
 
 cameras:
   living_room:
@@ -84,11 +84,11 @@ cameras:
       width: 640
       height: 360
       fps: 5
-    # onvif:
-    #   host: 10.40.200.104
-    #   port: 2020
-    #   user: {FRIGATE_CAMERA_USER}
-    #   password: {FRIGATE_CAMERA_PASSWORD}
+    onvif:
+      host: 10.40.200.104
+      port: 2020
+      user: ${FRIGATE_CAMERA_USER}
+      password: ${FRIGATE_CAMERA_PASSWORD}
   garden_door:
     ffmpeg:
       inputs:
