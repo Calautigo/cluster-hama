@@ -65,7 +65,7 @@ cameras:
     detect:
       width: 640
       height: 360
-      fps: 15
+      fps: 5
     # onvif:
     #   host: 10.40.200.105
     #   port: 2020
@@ -83,7 +83,7 @@ cameras:
     detect:
       width: 640
       height: 360
-      fps: 15
+      fps: 5
     # onvif:
     #   host: 10.40.200.104
     #   port: 2020
@@ -101,7 +101,7 @@ cameras:
     detect:
       width: 640
       height: 360
-      fps: 15
+      fps: 5
     # onvif:
     #   host: 10.40.200.108
     #   port: 2020
@@ -119,4 +119,4 @@ cameras:
     detect:
       width: 640
       height: 360
-      fps: 15
+      fps: 5
