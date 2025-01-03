@@ -1,0 +1,202 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: home-assistant
+  namespace: home
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.0
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+
+  values:
+    controllers:
+      home-assistant:
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+            envFrom: &envFrom
+              - secretRef:
+                  name: home-assistant-secret
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/onedr0p/home-assistant
+              tag: 2025.1.0@sha256:2abed005d6bfd8dbe0605bd1d9eb5380b14b657401c5c3880e4ba4fa20e636a1
+
+            envFrom: *envFrom
+
+            resources:
+              requests:
+                cpu: 47m
+                memory: 1254M
+              limits:
+                memory: 1254M
+
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+
+          code-server:
+            image:
+              repository: ghcr.io/coder/code-server
+              tag: 4.96.2@sha256:6b8c0e944caec80057e71d2c2f352cee38fe00ae4b7515fc4458eb300844f699
+            args: [
+              "--auth", "none",
+              "--disable-telemetry", "--disable-update-check",
+              "--user-data-dir", "/config/.code-server",
+              "--extensions-dir", "/config/.code-server",
+              "--port", "12321",
+              "/config"
+            ]
+            env:
+              HASS_SERVER: http://home-assistant:8123
+              HASS_TOKEN:
+                valueFrom:
+                  secretKeyRef:
+                    name: home-assistant-secret
+                    key: VSCODE_TOKEN
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 512Mi
+
+          # music-assistant:
+          #   image:
+          #     repository: ghcr.io/music-assistant/server
+          #     tag: 2.3.2@sha256:2e6f769f0a9863acea3a39d3207e41b39f325d3f36536851cc7e0509272d8a19
+          #   probes:
+          #     liveness:
+          #       enabled: false
+          #     readiness:
+          #       enabled: false
+          #     startup:
+          #       enabled: false
+          #   resources:
+          #     requests:
+          #       cpu: 5m
+          #       memory: 1374M
+          #     limits:
+          #       memory: 2Gi
+          #   securityContext:
+          #     apparmor:
+          #       enabled: false # Disables apparmor
+          #     allowPrivilegeEscalation: true
+          #     readOnlyRootFilesystem: false
+          #     capabilities:
+          #       add:
+          #         - SYS_ADMIN
+          #         - DAC_READ_SEARCH
+          #       drop:
+          #         - ALL
+
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+
+    service:
+      app:
+        controller: home-assistant
+        ports:
+          http:
+            port: 8123
+          code-server:
+            port: 12321
+          # music-server:
+          #   port: 8095
+
+    route:
+      app:
+        enabled: true
+        parentRefs:
+          - name: cilium-gateway
+            namespace: network
+        hostnames:
+          - hass.${SECRET_DOMAIN}
+        rules:
+          - matches:
+            # - path:
+            #     type: PathPrefix
+            #     value: /music/
+            #   backendRefs:
+            #     - kind: Service
+            #       name: app
+            #       port: music-server
+            - path:
+                type: PathPrefix
+                value: /
+              backendRefs:
+                - kind: Service
+                  name: app
+                  port: http
+      code-server:
+        enabled: true
+        parentRefs:
+          - name: cilium-gateway
+            namespace: network
+        hostnames:
+          - hass-code.${SECRET_DOMAIN}
+        rules:
+          - matches:
+            - path:
+                type: PathPrefix
+                value: /
+              backendRefs:
+                - kind: Service
+                  name: app
+                  port: code-server
+
+    persistence:
+      config:
+        existingClaim: home-assistant-config
+        advancedMounts:
+          home-assistant:
+            app:
+              - path: /config
+            code-server:
+              - path: /config
+            # music-assistant:
+            #   - path: /data
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/logs
+      tts:
+        type: emptyDir
+        globalMounts:
+          - path: /config/tts
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          home-assistant:
+            app:
+              - path: /tmp
+                subPath: hass-tmp
+            code-server:
+              - path: /tmp
+                subPath: code-server-tmp
+              - path: /nonexistent
+                subPath: nonexistent

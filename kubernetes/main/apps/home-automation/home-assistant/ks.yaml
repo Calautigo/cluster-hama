@@ -3,16 +3,16 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app frigate
+  name: &app home-assistant
   namespace: flux-system
 spec:
-  targetNamespace: home-automation
+  targetNamespace: home
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: ./kubernetes/main/apps/home-automation/frigate/app
+  path: ./kubernetes/main/apps/home-automation/home-assistant/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -25,5 +25,5 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CLAIM: frigate-config
+      VOLSYNC_CLAIM: home-assistant-config
       VOLSYNC_CAPACITY: 5Gi
