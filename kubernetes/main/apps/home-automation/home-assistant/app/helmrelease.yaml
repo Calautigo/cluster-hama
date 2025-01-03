@@ -38,6 +38,9 @@ spec:
               repository: ghcr.io/onedr0p/home-assistant
               tag: 2025.1.0@sha256:2abed005d6bfd8dbe0605bd1d9eb5380b14b657401c5c3880e4ba4fa20e636a1
 
+            env:
+              TRUSTED_PROXIES: 10.0.0.0/8
+
             envFrom: *envFrom
 
             resources:
