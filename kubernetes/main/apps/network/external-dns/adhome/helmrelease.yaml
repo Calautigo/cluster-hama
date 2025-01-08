@@ -64,6 +64,7 @@ spec:
     extraArgs:
       - --webhook-provider-url=http://localhost:8888
     sources:
+      - service
       - crd
       - gateway-httproute
       - gateway-tlsroute
