@@ -104,6 +104,11 @@ spec:
               - kind: Service
                 name: app
                 port: http
+            filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  set:
+                    X-Forwarded-Proto: https
 
     persistence:
       config:
