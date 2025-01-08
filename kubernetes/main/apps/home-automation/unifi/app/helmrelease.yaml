@@ -52,12 +52,12 @@ spec:
       app:
         controller: *app
         type: LoadBalancer
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
         loadBalancerIP: 10.100.55.101
         ports:
           http:
             port: 8443
-            protocol: HTTP
+            protocol: HTTPS
           controller:
             enabled: true
             port: 8080
