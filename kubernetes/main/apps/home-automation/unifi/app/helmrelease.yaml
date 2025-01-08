@@ -44,9 +44,6 @@ spec:
               JVM_INIT_HEAP_SIZE:
               JVM_MAX_HEAP_SIZE: 1024M
             resources:
-              limits:
-                memory: 128Mi
-                cpu: 50m
               requests:
                 memory: 2Gi
                 cpu: 50m
