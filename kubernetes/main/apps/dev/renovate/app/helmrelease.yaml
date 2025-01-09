@@ -113,18 +113,18 @@ spec:
           # language=javascript
           config.js: |
             module.exports = {
-              platform: "gitea",
-              endpoint: "https://git.schwarz47.at/api/v1",
-              token: process.env.FORGEJO_API_TOKEN,
-              autodiscover: true,
-              cacheHardTtlMinutes: 240,
-              onboardingConfigFileName: "renovate.json",
-              onboardingConfig: {
+              "platform": "gitea",
+              "endpoint": "https://git.schwarz47.at/api/v1",
+              "token": "process.env.FORGEJO_API_TOKEN",
+              "autodiscover": true,
+              "cacheHardTtlMinutes": 240,
+              "onboardingConfigFileName": "renovate.json",
+              "onboardingConfig": {
                 "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-                "extends": ["config:base"]
+                "extends": ["config:recommended"]
               },
-              detectHostRulesFromEnv: true,
-              onboardingRebaseCheckbox: true,
-              assignees: ["dominik"],
-              labels: ["renovate"]
+              "detectHostRulesFromEnv": true,
+              "onboardingRebaseCheckbox": true,
+              "assignees": ["dominik"],
+              "labels": ["renovate"]
             };
