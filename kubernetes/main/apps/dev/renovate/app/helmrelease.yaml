@@ -39,7 +39,7 @@ spec:
               tag: 39.99.0-full@sha256:7214066a3901aa16395ff66794f4836d7c2abf6606a9f863adf3383d032d9676
               pullPolicy: IfNotPresent
             env:
-              LOG_LEVEL: info
+              LOG_LEVEL: debug
               RENOVATE_PAGINATE_ALL: "true"
               RENOVATE_CONFIG_FILE: /usr/src/app/config.js
               RENOVATE_CRON: "0 3 * * *"
