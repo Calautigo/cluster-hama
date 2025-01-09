@@ -118,13 +118,11 @@ spec:
               "token": process.env.FORGEJO_API_TOKEN,
               "autodiscover": true,
               "cacheHardTtlMinutes": 240,
-              "onboardingConfigFileName": "renovate.json",
+              "onboardingConfigFileName": "renovate.json5",
               "onboardingConfig": {
                 "$schema": "https://docs.renovatebot.com/renovate-schema.json",
                 "extends": ["config:recommended"]
               },
               "detectHostRulesFromEnv": true,
               "onboardingRebaseCheckbox": true,
-              "assignees": ["dominik"],
-              "labels": ["renovate"]
             };
