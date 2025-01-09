@@ -42,6 +42,7 @@ spec:
               LOG_LEVEL: info
               RENOVATE_PAGINATE_ALL: "true"
               RENOVATE_CONFIG_FILE: /usr/src/app/config.js
+              RENOVATE_CRON: "0 3 * * *"
             envFrom:
               - secretRef:
                   name: renovate-secret
@@ -115,11 +116,13 @@ spec:
               token: process.env.FORGEJO_API_TOKEN,
               autodiscover: true,
               cacheHardTtlMinutes: 240,
-              onboardingConfigFileName: ".forgejo/renovate.json",
+              onboardingConfigFileName: "renovate.json",
               onboardingConfig: {
                 "$schema": "https://docs.renovatebot.com/renovate-schema.json",
                 "extends": ["config:base"]
               },
               detectHostRulesFromEnv: true,
-              onboardingRebaseCheckbox: true
+              onboardingRebaseCheckbox: true,
+              assignees: ["dominik"],
+              labels: ["renovate"]
             };
