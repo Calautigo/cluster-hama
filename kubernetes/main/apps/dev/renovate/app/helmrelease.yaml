@@ -115,7 +115,7 @@ spec:
             module.exports = {
               "platform": "gitea",
               "endpoint": "https://git.schwarz47.at/api/v1",
-              "token": "process.env.FORGEJO_API_TOKEN",
+              "token": process.env.FORGEJO_API_TOKEN,
               "autodiscover": true,
               "cacheHardTtlMinutes": 240,
               "onboardingConfigFileName": "renovate.json",
