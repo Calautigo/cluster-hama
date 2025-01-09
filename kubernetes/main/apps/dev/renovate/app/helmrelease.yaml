@@ -41,7 +41,7 @@ spec:
             env:
               MEND_RNV_ACCEPT_TOS: "y"
               LOG_LEVEL: info
-              MEND_RNV_PLATFORM: "github"
+              MEND_RNV_PLATFORM: "gitea"
               MEND_RNV_CRON_JOB_SCHEDULER_ALL: "0 */4 * * *"
               MEND_RNV_CRON_APP_SYNC: "0 */4 * * *"
               MEND_RNV_AUTODISCOVER_FILTER: "dominik/*"
