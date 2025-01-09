@@ -118,7 +118,7 @@ spec:
               onboardingConfigFileName: ".forgejo/renovate.json",
               onboardingConfig: {
                 "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-                "extends": []
+                "extends": ["config:base"]
               },
               detectHostRulesFromEnv: true,
               onboardingRebaseCheckbox: true
