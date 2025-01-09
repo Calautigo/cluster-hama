@@ -35,19 +35,13 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/mend/renovate-ce
-              tag: 9.1.1-full@sha256:ccfdf8eefb15c09b35eb7734c607cfdc397839dde5e2a23be945bb8f49c6b0fc
+              repository: ghcr.io/renovatebot/renovate
+              tag: 39.99.0-full@sha256:7214066a3901aa16395ff66794f4836d7c2abf6606a9f863adf3383d032d9676
               pullPolicy: IfNotPresent
             env:
-              MEND_RNV_ACCEPT_TOS: "y"
               LOG_LEVEL: info
-              MEND_RNV_PLATFORM: "gitea"
-              MEND_RNV_CRON_JOB_SCHEDULER_ALL: "0 */4 * * *"
-              MEND_RNV_CRON_APP_SYNC: "0 */4 * * *"
-              MEND_RNV_AUTODISCOVER_FILTER: "dominik/*"
               RENOVATE_PAGINATE_ALL: "true"
-              MEND_RNV_ADMIN_API_ENABLED: "true"
-              MEND_RNV_REPORTING_ENABLED: "true"
+              RENOVATE_CONFIG_FILE: /usr/src/app/config.js
             envFrom:
               - secretRef:
                   name: renovate-secret
