@@ -1,0 +1,120 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.6.0/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: renovate
+  namespace: renovate
+spec:
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.0
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        namespace: flux-system
+        name: bjw-s
+  interval: 1h
+  driftDetection:
+    mode: enabled
+  values:
+    controllers:
+      renovate:
+        annotations:
+          secret.reloader.stakater.com/reload: renovate-secret
+        containers:
+          app:
+            image:
+              repository: ghcr.io/mend/renovate-ce
+              tag: 9.1.1-full@sha256:ccfdf8eefb15c09b35eb7734c607cfdc397839dde5e2a23be945bb8f49c6b0fc
+              pullPolicy: IfNotPresent
+            env:
+              MEND_RNV_ACCEPT_TOS: "y"
+              LOG_LEVEL: info
+              MEND_RNV_CRON_JOB_SCHEDULER: "0 */4 * * *"
+              MEND_RNV_CRON_APP_SYNC: "0 */4 * * *"
+              MEND_RNV_AUTODISCOVER_FILTER: "dominik/*"
+              RENOVATE_PAGINATE_ALL: "true"
+              MEND_RNV_ADMIN_API_ENABLED: "true"
+              MEND_RNV_REPORTING_ENABLED: "true"
+            envFrom:
+              - secretRef:
+                  name: renovate-secret
+            resources:
+              requests:
+                cpu: 250m
+                memory: 128Mi
+              limits:
+                cpu: 2000m
+                memory: 4Gi
+            probes:
+              liveness: &probe
+                enabled: true
+                type: HTTP
+                path: /health
+              readiness: *probe
+              startup:
+                <<: *probe
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+
+    service:
+      renovate:
+        controller: renovate
+        ports:
+          http:
+            port: 8080
+
+    route:
+      app:
+        enabled: true
+        parentRefs:
+          - name: cilium-gateway
+            namespace: network
+        hostnames:
+          - git.schwarz47.at
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - kind: Service
+                name: app
+                port: http
+
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: renovate-config
+        globalMounts:
+          - path: /usr/src/app/config.js
+            subPath: config.js
+      cache:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /tmp/renovate
+
+    configMaps:
+      config:
+        enabled: true
+        data:
+          # language=javascript
+          config.js: |
+            module.exports = {
+              platform: "gitea",
+              endpoint: "https://git.schwarz47.at/api/v1",
+              token: process.env.FORGEJO_API_TOKEN,
+              autodiscover: true,
+              cacheHardTtlMinutes: 240,
+              onboardingConfigFileName: ".forgejo/renovate.json",
+              onboardingConfig: {
+                "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+                "extends": []
+              },
+              detectHostRulesFromEnv: true,
+              onboardingRebaseCheckbox: true
+            };
