@@ -44,8 +44,6 @@ spec:
               RENOVATE_CONFIG_FILE: /usr/src/app/config.js
               RENOVATE_CRON: "0 3 * * *"
               RENOVATE_GIT_AUTHOR: "Renovate Bot <renovate@schwarz47.at>"
-              GIT_AUTHOR_NAME: "Renovate Bot"
-              GIT_AUTHOR_EMAIL: "renovate@schwarz47.at"
             envFrom:
               - secretRef:
                   name: renovate-secret
