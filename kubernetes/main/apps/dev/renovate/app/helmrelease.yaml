@@ -63,6 +63,7 @@ spec:
               startup:
                 <<: *probe
                 spec:
+                  initialDelaySeconds: 60
                   failureThreshold: 30
                   periodSeconds: 5
 
