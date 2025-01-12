@@ -141,7 +141,7 @@
       commitMessageTopic: "dashboard {{depName}}",
       commitMessageExtra: "( {{currentVersion}} → {{newVersion}} )",
     }
-  ]
+  ],
   customDatasources: {
     "grafana-dashboards": {
       defaultRegistryUrlTemplate: "https://grafana.com/api/dashboards/{{packageName}}",
