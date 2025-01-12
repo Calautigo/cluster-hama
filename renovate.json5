@@ -10,10 +10,6 @@
     ":separatePatchReleases",
     ":skipStatusChecks",
     ":timezone(Europe/Vienna)",
-    "./.renovate/groups.json5",
-    "./.renovate/versioning.json5",
-    "./.renovate/autoMerge.json5",
-    "./.renovate/grafanaDashboard.json5",
   ],
   "ignorePaths": ["**/*.sops.*", "**/resources/**"],
   "flux": {
@@ -30,5 +26,140 @@
     "fileMatch": [
       "(^|/)kubernetes/.+\\.ya?ml$"
     ]
-  }
+  },
+  packageRules: [
+    {
+      description: "Loose versioning for non-semver packages",
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+      ],
+      versioning: "loose",
+    },
+    {
+      description: "Custom versioning for http-https-echo",
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+
+      ],
+      versioning: "regex:^(?<major>\\d+)$",
+    },
+    {
+      description: "Rook-Ceph image and chart",
+      groupName: "Rook Ceph",
+      matchPackagePatterns: ["rook.ceph"],
+      matchDatasources: ["docker", "helm"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+        commitMessageSuffix: ""
+      },
+    },
+    {
+      description: "Cilium image and chart",
+      groupName: "cilium",
+      matchPackageNames: [
+        "quay.io/cilium/cilium",
+        "quay.io/cilium/operator-generic",
+        "cilium",
+      ],
+      matchDatasources: ["helm", "docker"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+        commitMessageSuffix: ""
+      },
+    },
+    {
+      description: "Actions Runner Controller charts",
+      groupName: "ARC",
+      matchPackageNames: [
+        "actions-runner-controller-charts/gha-runner-scale-set-controller",
+        "actions-runner-controller-charts/gha-runner-scale-set",
+      ],
+      matchDatasources: ["helm", "docker"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+        commitMessageSuffix: ""
+      },
+      separateMinorPatch: false,
+    },
+    {
+      description: "Talos",
+      groupName: "Talos",
+      matchPackageNames: [
+        "ghcr.io/siderolabs/installer",
+        "ghcr.io/siderolabs/talosctl",
+      ],
+      matchDatasources: ["docker"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+        commitMessageSuffix: ""
+      },
+    },
+    {
+      description: "silence-operator image and CRD",
+      groupName: "silence-operator",
+      matchPackagePatterns: ["silence-operator"],
+      matchDatasources: ["docker", "github-releases"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+        commitMessageSuffix: ""
+      },
+    },
+    {
+      description: ["Flux Operator Group"],
+      groupName: "Flux Operator",
+      matchPackagePatterns: ["flux-operator", "flux-instance"],
+      matchDatasources: ["docker"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+        commitMessageSuffix: ""
+      },
+    },
+    {
+      description: "Auto merge container digests",
+      matchDatasources: ["docker"],
+      automerge: true,
+      automergeType: "branch",
+      matchUpdateTypes: ["digest"],
+      matchPackagePrefixes: ["ghcr.io/onedr0p", "ghcr.io/bjw-s", "ghcr.io/bjw-s-labs"],
+      ignoreTests: true,
+    },
+    {
+      description: "Auto merge KPS minors and patches",
+      matchDatasources: ["helm"],
+      automerge: true,
+      matchUpdateTypes: ["minor", "patch"],
+      ignoreTests: false,
+    },
+    {
+      addLabels: ["renovate/grafana-dashboard"],
+      automerge: true,
+      automergeType: "branch",
+      matchDatasources: ["custom.grafana-dashboards"],
+      matchUpdateTypes: ["major"],
+      semanticCommitScope: "grafana-dashboards",
+      semanticCommitType: "chore",
+      commitMessageTopic: "dashboard {{depName}}",
+      commitMessageExtra: "( {{currentVersion}} → {{newVersion}} )",
+    }
+  ]
+  customDatasources: {
+    "grafana-dashboards": {
+      defaultRegistryUrlTemplate: "https://grafana.com/api/dashboards/{{packageName}}",
+      format: "json",
+      transformTemplates: ['{"releases":[{"version": $string(revision)}]}'],
+    },
+  },
+  customManagers: [
+    {
+      customType: "regex",
+      description: "Process Grafana dashboards",
+      fileMatch: ["(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"],
+      matchStrings: [
+        '# renovate: dashboardName="(?<depName>.*)"\\n(?<indentation>\\s+)gnetId: (?<packageName>\\d+)\\n.+revision: (?<currentValue>\\d+)',
+      ],
+      autoReplaceStringTemplate: '# renovate: dashboardName="{{{depName}}}"\n{{{indentation}}}gnetId: {{{packageName}}}\n{{{indentation}}}revision: {{{newValue}}}',
+      datasourceTemplate: "custom.grafana-dashboards",
+      versioningTemplate: "regex:^(?<major>\\d+)$",
+    },
+  ],
 }
