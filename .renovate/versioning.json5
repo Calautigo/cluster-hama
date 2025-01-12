@@ -1,0 +1,20 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  packageRules: [
+    {
+      description: "Loose versioning for non-semver packages",
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+      ],
+      versioning: "loose",
+    },
+    {
+      description: "Custom versioning for http-https-echo",
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+
+      ],
+      versioning: "regex:^(?<major>\\d+)$",
+    }
+  ],
+}
