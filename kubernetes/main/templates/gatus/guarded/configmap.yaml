@@ -16,7 +16,7 @@ data:
           hide-hostname: true
           hide-url: true
         dns:
-          query-name: "${GATUS_SUBDOMAIN:-${APP}}.rafaribe.com"
+          query-name: "${GATUS_SUBDOMAIN:-${APP}}.schwarz47.at"
           query-type: A
         conditions:
           - "len([BODY]) == 0"
