@@ -16,9 +16,20 @@ data:
           hide-hostname: true
           hide-url: true
         dns:
-          query-name: "${GATUS_SUBDOMAIN:-${APP}}.schwarz47.at"
+          query-name: "${GATUS_SUBDOMAIN:-${APP}}.${SECRET_DOMAIN}"
           query-type: A
         conditions:
-          - "len([BODY]) == 0"
+          - "[BODY] == 10.100.0.48"
+        alerts:
+          - type: pushover
+
+      - name: "${APP}"
+        group: internal
+        url: "https://${GATUS_SUBDOMAIN:-${APP}}.${SECRET_DOMAIN}${GATUS_PATH:-/}"
+        interval: 1m
+        client:
+          dns-resolver: tcp://10.100.0.1:53
+        conditions:
+          - "[STATUS] == ${GATUS_STATUS:-200}"
         alerts:
           - type: pushover
