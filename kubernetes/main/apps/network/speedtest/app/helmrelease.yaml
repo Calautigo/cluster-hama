@@ -43,6 +43,8 @@ spec:
               tag: 1.0.3@sha256:4e092c11812cf22ff75500965e77203bc5c04530f97ac4ee107da824681b480c
             env:
               DISPLAY_TIMEZONE: Europe/Vienna
+              CHART_DATETIME_FORMAT: "d.m.Y G:i:s"
+              DATETIME_FORMAT: "d.m.Y G:i:s"
               DB_CONNECTION: pgsql
               SPEEDTEST_SCHEDULE: "0 */1 * * *"
               SPEEDTEST_SERVERS: "3744"
