@@ -13,6 +13,8 @@ spec:
   dependsOn:
     - name: cloudnative-pg-cluster
     - name: external-secrets-stores
+    - name: rook-ceph
+    - name: volsync
   path: ./kubernetes/main/apps/network/speedtest/app
   prune: true
   sourceRef:
