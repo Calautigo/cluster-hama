@@ -36,7 +36,7 @@ spec:
           - name: ADGUARD_USER
             valueFrom:
               secretKeyRef:
-                name: &secret external-dns-adhome-secrets
+                name: &secret external-dns-adhome-secret
                 key: USER
           - name: ADGUARD_PASSWORD
             valueFrom:
