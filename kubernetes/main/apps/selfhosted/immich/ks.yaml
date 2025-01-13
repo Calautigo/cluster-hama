@@ -26,6 +26,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      GATUS_SUBDOMAIN: photos
       VOLSYNC_CLAIM: immich-data
       VOLSYNC_CAPACITY: 100Gi
 ---

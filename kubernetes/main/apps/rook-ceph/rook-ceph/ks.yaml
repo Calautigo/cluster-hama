@@ -41,3 +41,6 @@ spec:
   dependsOn:
     - name: rook-ceph
     - name: snapshot-controller
+  postBuild:
+    substitute:
+      GATUS_SUBDOMAIN: ceph

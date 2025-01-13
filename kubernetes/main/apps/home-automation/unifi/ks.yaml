@@ -24,4 +24,5 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      GATUS_SUBDOMAIN: controller
       VOLSYNC_CLAIM: unifi-data
