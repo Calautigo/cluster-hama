@@ -6,3 +6,4 @@ resources:
   - ./external-dns/ks.yaml
   - ./gateway/ks.yaml
   - ./openspeedtest/ks.yaml
+  - ./speedtest/ks.yaml

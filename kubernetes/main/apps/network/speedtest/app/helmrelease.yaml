@@ -1,0 +1,112 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app speedtest
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: volsync
+      namespace: storage
+  values:
+    controllers:
+      speedtest:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+              pullPolicy: IfNotPresent
+            envFrom:
+              - secretRef:
+                  name: &secret speedtest-tracker-secret
+        containers:
+          app:
+            image:
+              repository: lscr.io/linuxserver/speedtest-tracker
+              tag: 1.0.3@sha256:4e092c11812cf22ff75500965e77203bc5c04530f97ac4ee107da824681b480c
+            env:
+              DISPLAY_TIMEZONE: Europe/Vienna
+              DB_CONNECTION: pgsql
+              SPEEDTEST_SCHEDULE: "0 */1 * * *"
+              SPEEDTEST_SERVERS: "29093" #29094 stopped responding for some reason, swapping temporarily.
+              PRUNE_RESULTS_OLDER_THAN: 120
+            envFrom:
+              - secretRef:
+                  name: *secret
+            resources:
+              requests:
+                cpu: 10m
+                memory: 50Mi
+              limits:
+                memory: 256Mi
+
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: 80
+
+    route:
+      app:
+        enabled: true
+        parentRefs:
+          - name: cilium-gateway
+            namespace: network
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - kind: Service
+                name: app
+                port: http
+    # ingress:
+    #   app:
+    #     className: internal
+    #     annotations:
+    #       gethomepage.dev/enabled: "true"
+    #       gethomepage.dev/icon: https://raw.githubusercontent.com/smbonn2005/homeops/main/icons/speedtest.png
+    #       gethomepage.dev/name: Speedtest
+    #       gethomepage.dev/group: Observability
+    #       gethomepage.dev/widget.type: speedtest
+    #       gethomepage.dev/widget.url: http://speedtest.default
+    #     hosts:
+    #       - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+    #         paths:
+    #           - path: /
+    #             pathType: Prefix
+    #             service:
+    #               identifier: app
+    #               port: http
+    #     tls:
+    #       - hosts: [*host]
+    persistence:
+      config:
+        enabled: true
+        existingClaim: speedtest-config
