@@ -3,7 +3,6 @@ kind: Gateway
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
-    external-dns.alpha.kubernetes.io/target: external.schwarz47.at
   name: cilium-gateway-external
   labels:
     gateway-type: external
