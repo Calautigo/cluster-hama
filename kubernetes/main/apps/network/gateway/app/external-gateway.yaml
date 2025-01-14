@@ -10,6 +10,7 @@ spec:
   gatewayClassName: cilium
   infrastructure:
     annotations:
+      external-dns.alpha.kubernetes.io/target: external.schwarz47.at
       io.cilium/lb-ipam-ips: 10.100.0.49
   listeners:
     - allowedRoutes:

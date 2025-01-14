@@ -41,12 +41,9 @@ spec:
             key: *name
     extraArgs:
       - --cloudflare-dns-records-per-page=1000
-      - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
-      - --crd-source-kind=DNSEndpoint
-      - --gateway-label-filter=gateway-type==external
+      - --gateway-label-filter="gateway-type=external"
       - --zone-id-filter=13814a2f731485e96034beda301811d5
       - --domain-filter=schwarz47.at
-      - --default-targets=vpn.hamavil.schwarz47.at
     triggerLoopOnEvent: true
     policy: sync
     sources:
