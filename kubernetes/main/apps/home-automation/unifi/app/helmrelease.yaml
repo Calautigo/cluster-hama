@@ -108,7 +108,8 @@ spec:
               - type: RequestHeaderModifier
                 requestHeaderModifier:
                   set:
-                    X-Forwarded-Proto: https
+                    - name: X-Forwarded-Proto
+                      value: https
 
     persistence:
       config:
