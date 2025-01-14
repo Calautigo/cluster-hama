@@ -4,6 +4,8 @@ kind: Kustomization
 resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
+  # Network Policy
+  - ./networkPolicy.yaml
   # Flux-Kustomizations
   - ./k8tz/ks.yaml
   - ./kubelet-csr-approver/ks.yaml

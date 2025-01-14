@@ -5,7 +5,9 @@ kind: Kustomization
 resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
+  # Network Policy
+  - ./networkPolicy.yaml
   # Flux-Kustomizations
   - ./jellyfin/ks.yaml
   - ./jellyseerr/ks.yaml
-  # - ./stash/ks.yaml
+  - ./stash/ks.yaml
