@@ -23,6 +23,22 @@ spec:
     remediation:
       retries: 3
   values:
+    defaultPodOptions:
+      enableServiceLinks: false
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups: [65537]
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: *app
+
     controllers:
       immich-server:
         annotations:
@@ -98,6 +114,11 @@ spec:
               limits:
                 memory: 4096Mi
 
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+
             probes:
               liveness: &probes
                 enabled: true
@@ -122,6 +143,8 @@ spec:
                   periodSeconds: 5
                   successThreshold: 1
                   timeoutSeconds: 1
+
+
 
     service:
       app:
@@ -150,6 +173,7 @@ spec:
 
     persistence:
       data:
+
         existingClaim: immich-data
         globalMounts:
           - path: *mediaPath

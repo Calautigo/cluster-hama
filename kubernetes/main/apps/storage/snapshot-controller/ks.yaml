@@ -6,13 +6,13 @@ metadata:
   name: &appname snapshot-controller
   namespace: flux-system
 spec:
-  targetNamespace: system-controllers
+  targetNamespace: storage
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
   interval: 30m
   timeout: 5m
-  path: ./kubernetes/main/apps/system-controllers/snapshot-controller/app
+  path: ./kubernetes/main/apps/storage/snapshot-controller/app
   prune: true
   sourceRef:
     kind: GitRepository
