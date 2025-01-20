@@ -54,10 +54,16 @@ spec:
                 memory: 256Mi
               limits:
                 memory: 4Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
 
     defaultPodOptions:
       affinity:
-        nodeAffinity:
+        podAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
               matchExpressions:
@@ -67,11 +73,13 @@ spec:
                 - immich-server
             topologyKey: "kubernetes.io/hostname"
       securityContext:
+        runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-        supplementalGroups: [65537]
+        supplementalGroups:
+          - 65537
 
     service:
       app:
