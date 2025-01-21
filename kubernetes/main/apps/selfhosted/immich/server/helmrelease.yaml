@@ -27,6 +27,8 @@ spec:
       immich-server:
         annotations:
           reloader.stakater.com/auto: "true"
+        labels:
+          app: immich
 
         initContainers:
           01-init-db:
@@ -164,3 +166,14 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /tmp
+
+    affinity:
+      podAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+            - key: app
+              operator: In
+              values:
+              - immich
+          topologyKey: "kubernetes.io/hostname"

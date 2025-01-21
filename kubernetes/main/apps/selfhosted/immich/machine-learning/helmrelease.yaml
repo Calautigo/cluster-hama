@@ -29,6 +29,8 @@ spec:
       immich-machine-learning:
         annotations:
           reloader.stakater.com/auto: "false"
+        labels:
+          app: immich
         containers:
           app:
             image:
@@ -88,8 +90,8 @@ spec:
         requiredDuringSchedulingIgnoredDuringExecution:
         - labelSelector:
             matchExpressions:
-            - key: app.kubernetes.io/name
+            - key: app
               operator: In
               values:
-              - immich-server
+              - immich
           topologyKey: "kubernetes.io/hostname"
