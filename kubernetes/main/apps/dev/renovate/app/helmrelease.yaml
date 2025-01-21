@@ -72,7 +72,7 @@ spec:
         controller: renovate
         ports:
           http:
-            port: 8080
+            port: &port 8080
 
     route:
       app:
@@ -90,7 +90,7 @@ spec:
             backendRefs:
               - kind: Service
                 name: app
-                port: http
+                port: *port
 
     persistence:
       config:
