@@ -8,7 +8,7 @@ spec:
   - name: cilium-gateway
     namespace: network
   hostnames:
-  - "ceph.schwarz47.at"
+  - "rook.schwarz47.at"
   rules:
   - backendRefs:
     - name: rook-ceph-mgr-dashboard

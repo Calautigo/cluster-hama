@@ -22,14 +22,3 @@ data:
           - "len([BODY]) == 0"
         alerts:
           - type: pushover
-
-      - name: "${APP}"
-        group: internal
-        url: "https://${GATUS_SUBDOMAIN:-${APP}}.${SECRET_DOMAIN}${GATUS_PATH:-/}"
-        interval: 1m
-        client:
-          dns-resolver: tcp://10.100.0.1:53
-        conditions:
-          - "[STATUS] == ${GATUS_STATUS:-200}"
-        alerts:
-          - type: pushover

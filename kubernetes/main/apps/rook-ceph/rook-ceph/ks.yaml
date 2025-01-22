@@ -44,4 +44,4 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      GATUS_SUBDOMAIN: ceph
+      GATUS_SUBDOMAIN: rook
