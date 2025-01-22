@@ -173,12 +173,8 @@ spec:
     persistence:
       config:
         existingClaim: home-assistant-config
-        advancedMounts:
-          home-assistant:
-            app:
-              - path: /config
-            code-server:
-              - path: /config
+        globalMounts:
+          - path: /config
             # music-assistant:
             #   - path: /data
       logs:
