@@ -5,3 +5,13 @@ metadata:
   name: rook-ceph
   labels:
     kustomize.toolkit.fluxcd.io/prune: enabled
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: quota
+  namespace: rook-ceph
+spec:
+  hard:
+    requests.ephemeral-storage: "500Mi"
+    limits.ephemeral-storage: "4Gi"
