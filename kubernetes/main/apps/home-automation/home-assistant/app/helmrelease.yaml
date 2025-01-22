@@ -158,7 +158,7 @@ spec:
           - name: cilium-gateway
             namespace: network
         hostnames:
-          - code.${SECRET_DOMAIN}
+          - hass.code.${SECRET_DOMAIN}
         rules:
           - matches:
               - path:
@@ -166,7 +166,7 @@ spec:
                   value: /
             backendRefs:
               - kind: Service
-                name: app
+                name: code-server
                 port: code-server
 
     persistence:
