@@ -28,6 +28,7 @@ spec:
 
     controllers:
       main:
+        type: statefulset
         annotations:
           reloader.stakater.com/auto: "true"
 
@@ -119,11 +120,13 @@ spec:
 
     service:
       main:
+        type: ClusterIP
         controller: main
         ports:
           http:
             port: 8123
       code:
+        type: ClusterIP
         controller: main
         ports:
           http:
