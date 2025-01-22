@@ -188,11 +188,11 @@ spec:
       tmp:
         type: emptyDir
         advancedMounts:
-          home-assistant:
-            app:
+          main:
+            main:
               - path: /tmp
                 subPath: hass-tmp
-            code-server:
+            code:
               - path: /tmp
                 subPath: code-server-tmp
               - path: /nonexistent
