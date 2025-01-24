@@ -45,8 +45,6 @@ spec:
               repository: ghcr.io/immich-app/immich-machine-learning
               tag: v1.124.2@sha256:a134652b47278edfdac3187d61558e78679be39c810536193a41e9e0d894c5f4
             env:
-              # General
-              IMMICH_MEDIA_LOCATION: &mediaPath /usr/src/app/upload
               # Ports
               MACHINE_LEARNING_HOST: 0.0.0.0
               MACHINE_LEARNING_PORT: &port 3003
@@ -79,10 +77,6 @@ spec:
             port: *port
 
     persistence:
-      data:
-        existingClaim: immich-data
-        globalMounts:
-          - path: *mediaPath
       tmpfs:
         type: emptyDir
         globalMounts:
