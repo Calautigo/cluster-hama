@@ -63,6 +63,16 @@ spec:
                 drop:
                   - ALL
 
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups:
+          - 65537
+
     service:
       app:
         controller: immich-machine-learning
@@ -84,14 +94,3 @@ spec:
         existingClaim: immich-machine-learning-cache
         globalMounts:
           - path: /cache
-
-    affinity:
-      podAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-            - key: app
-              operator: In
-              values:
-              - immich
-          topologyKey: "kubernetes.io/hostname"
