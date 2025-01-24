@@ -77,10 +77,6 @@ spec:
             port: *port
 
     persistence:
-      config:
-        type: emptyDir
-        globalMounts:
-          - path: /.config/
       tmpfs:
         type: emptyDir
         globalMounts:
@@ -89,4 +85,4 @@ spec:
         type: persistentVolumeClaim
         existingClaim: immich-machine-learning-cache
         globalMounts:
-          - path: /cache
+          - path: /.cache
