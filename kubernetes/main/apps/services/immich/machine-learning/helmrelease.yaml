@@ -77,12 +77,11 @@ spec:
             port: *port
 
     persistence:
+      cache:
+        type: emptyDir
+        globalMounts:
+          - path: /cache
       tmpfs:
         type: emptyDir
         globalMounts:
           - path: /tmp
-      cache:
-        type: persistentVolumeClaim
-        existingClaim: immich-machine-learning-cache
-        globalMounts:
-          - path: /cache
