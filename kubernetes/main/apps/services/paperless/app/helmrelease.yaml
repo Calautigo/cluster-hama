@@ -63,7 +63,7 @@ spec:
               PAPERLESS_OCR_LANGUAGES: deu
               PAPERLESS_OCR_LANGUAGE: deu
               # Configure redis integration
-              PAPERLESS_REDIS: redis://paperless-redis.selfhosted.svc.cluster.local:6379
+              PAPERLESS_REDIS: redis://paperless-redis.services.svc.cluster.local:6379
               # Configure user permissions
               USERMAP_UID: "1000"
               USERMAP_GID: "1000"

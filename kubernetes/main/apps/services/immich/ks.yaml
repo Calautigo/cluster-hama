@@ -5,13 +5,13 @@ metadata:
   name: &app immich-server
   namespace: flux-system
 spec:
-  targetNamespace: selfhosted
+  targetNamespace: services
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: "./kubernetes/main/apps/selfhosted/immich/server"
+  path: "./kubernetes/main/apps/services/immich/server"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -36,13 +36,13 @@ metadata:
   name: &app immich-ml
   namespace: flux-system
 spec:
-  targetNamespace: selfhosted
+  targetNamespace: services
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: "./kubernetes/main/apps/selfhosted/immich/machine-learning"
+  path: "./kubernetes/main/apps/services/immich/machine-learning"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -58,13 +58,13 @@ metadata:
   name: &app immich-valkey
   namespace: flux-system
 spec:
-  targetNamespace: selfhosted
+  targetNamespace: services
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: "./kubernetes/main/apps/selfhosted/immich/valkey"
+  path: "./kubernetes/main/apps/services/immich/valkey"
   prune: true
   sourceRef:
     kind: GitRepository

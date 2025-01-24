@@ -3,16 +3,16 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app hoarder
+  name: &app paperless
   namespace: flux-system
 spec:
-  targetNamespace: selfhosted
+  targetNamespace: services
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: ./kubernetes/main/apps/selfhosted/hoarder/app
+  path: ./kubernetes/main/apps/services/paperless/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -25,4 +25,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CLAIM: hoarder-data
+      APP_UID: "1000"
+      APP_GID: "1000"
+      VOLSYNC_CLAIM: paperless-data
+      VOLSYNC_CAPACITY: 15Gi

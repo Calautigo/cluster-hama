@@ -3,16 +3,16 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app paperless
+  name: &app actual
   namespace: flux-system
 spec:
-  targetNamespace: selfhosted
+  targetNamespace: services
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: ./kubernetes/main/apps/selfhosted/paperless/app
+  path: "./kubernetes/main/apps/services/actual/app"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -25,7 +25,4 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      APP_UID: "1000"
-      APP_GID: "1000"
-      VOLSYNC_CLAIM: paperless-data
-      VOLSYNC_CAPACITY: 15Gi
+      VOLSYNC_CLAIM: actual-data

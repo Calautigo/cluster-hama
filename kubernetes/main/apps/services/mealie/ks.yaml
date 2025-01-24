@@ -6,13 +6,13 @@ metadata:
   name: &app mealie
   namespace: flux-system
 spec:
-  targetNamespace: selfhosted
+  targetNamespace: services
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: "./kubernetes/main/apps/selfhosted/mealie/app"
+  path: "./kubernetes/main/apps/services/mealie/app"
   prune: true
   sourceRef:
     kind: GitRepository
