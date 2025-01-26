@@ -1,0 +1,20 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: network
+resources:
+  - ./echo-server/ks.yaml
+  - ./external-dns/ks.yaml
+  - ./gateway/ks.yaml
+  - ./openspeedtest/ks.yaml
+  - ./speedtest/ks.yaml
+components:
+  - ../../components/namespace
+  - ../../components/flux/alerts
+patches:
+  - patch: |
+      - op: add
+        path: /metadata/name
+        value: network
+    target:
+      kind: Namespace
