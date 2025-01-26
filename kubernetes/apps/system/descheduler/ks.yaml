@@ -13,7 +13,7 @@ spec:
   path: ./kubernetes/apps/system/descheduler/app
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
+    name: flux-system
     namespace: flux-system
   interval: 30m
   timeout: 5m
