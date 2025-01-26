@@ -43,6 +43,7 @@ spec:
   dependsOn:
     - name: rook-ceph
     - name: snapshot-controller
+      namespace: system-controllers
   postBuild:
     substitute:
       APP: *app
