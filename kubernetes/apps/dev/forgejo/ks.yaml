@@ -18,9 +18,13 @@ spec:
   wait: false
   dependsOn:
     - name: external-secrets-stores
+      namespace: external-secrets
     - name: rook-ceph
+      namespace: rook-ceph
     - name: volsync
+      namespace: system
     - name: cloudnative-pg-cluster
+      namespace: database
   interval: 30m
   timeout: 5m
   postBuild:
