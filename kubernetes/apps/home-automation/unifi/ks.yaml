@@ -21,7 +21,9 @@ spec:
   wait: false
   dependsOn:
     - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: volsync
+      namespace: system
   postBuild:
     substitute:
       APP: *app

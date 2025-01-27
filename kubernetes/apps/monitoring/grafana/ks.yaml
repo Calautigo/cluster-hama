@@ -20,5 +20,5 @@ spec:
     namespace: flux-system
   wait: false
   dependsOn:
-    - name: gcp-secret-store
-      namespace: security
+    - name: external-secrets-stores
+      namespace: external-secrets

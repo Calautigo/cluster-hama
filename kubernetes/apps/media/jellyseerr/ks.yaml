@@ -12,8 +12,11 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: external-secrets-stores
+      namespace: external-secrets
     - name: volsync
-    - name: rook-ceph
+      namespace: system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   path: ./kubernetes/apps/media/jellyseerr/app
   prune: true
   sourceRef:

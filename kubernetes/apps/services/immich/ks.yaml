@@ -19,10 +19,14 @@ spec:
     namespace: flux-system
   wait: true
   dependsOn:
-    - name: rook-ceph-cluster
-    - name: volsync
     - name: external-secrets-stores
+      namespace: external-secrets
+    - name: volsync
+      namespace: system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: cloudnative-pg-cluster
+      namespace: database
     - name: immich-valkey
   postBuild:
     substitute:
@@ -52,6 +56,7 @@ spec:
   wait: true
   dependsOn:
     - name: openebs
+      namespace: openebs
     - name: immich-server
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1

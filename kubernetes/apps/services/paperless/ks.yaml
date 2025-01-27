@@ -20,9 +20,12 @@ spec:
     namespace: flux-system
   wait: false
   dependsOn:
-    - name: rook-ceph-cluster
-    - name: volsync
     - name: external-secrets-stores
+      namespace: external-secrets
+    - name: volsync
+      namespace: system
+    - name: cloudnative-pg-cluster
+      namespace: database
   postBuild:
     substitute:
       APP: *app
