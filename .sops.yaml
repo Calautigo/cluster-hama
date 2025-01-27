@@ -1,17 +1,20 @@
 ---
+keys:
+  - &user_dominik age1073mcvy7lha3qgk4ssjqq9l47yqvv8urdxl0q3e6nu83n42m2cjqhwfwdw
+
 creation_rules:
   - path_regex: kubernetes/.*/talos/.*\.sops\.ya?ml$
-    mac_only_encrypted: true
     key_groups:
       - age:
-          - "age1073mcvy7lha3qgk4ssjqq9l47yqvv8urdxl0q3e6nu83n42m2cjqhwfwdw"
-  - path_regex: kubernetes/.*\.sops\.ya?ml$
-    encrypted_regex: ^(data|stringData)$
-    mac_only_encrypted: true
-    key_groups:
-      - age:
-          - "age1073mcvy7lha3qgk4ssjqq9l47yqvv8urdxl0q3e6nu83n42m2cjqhwfwdw"
+          - *user_dominik
 
-stores:
-  yaml:
-    indent: 2
+  - path_regex: kubernetes/.*\.sops\.ya?ml$
+    encrypted_regex: "^(data|stringData)$"
+    key_groups:
+      - age:
+          - *user_dominik
+
+  - path_regex: .*\.sops\.ya?ml$
+    key_groups:
+      - age:
+          - *user_dominik

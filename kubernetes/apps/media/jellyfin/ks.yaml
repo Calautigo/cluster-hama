@@ -21,9 +21,13 @@ spec:
   wait: true
   dependsOn:
     - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: volsync
+      namespace: system
     - name: openebs
+      namespace: openebs
     - name: external-secrets-stores
+      namespace: external-secrets
   postBuild:
     substitute:
       APP: *app

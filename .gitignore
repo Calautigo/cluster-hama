@@ -25,9 +25,4 @@ Thumbs.db
 kubeconfig
 talosconfig
 
-age.key
-
-.venv
-*venv
-
-secret.yaml
+bootstrap.env
