@@ -42,13 +42,11 @@ spec:
               WHISPARR__SERVER__PORT: &port 6969
               WHISPARR__AUTH__METHOD: External
               WHISPARR__AUTH__REQUIRED: DisabledForLocalAddresses
-              WHISPARR__AUTH__APIKEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: whisparr-secret
-                    key: api-key
               WHISPARR__LOG__LEVEL: info
               WHISPARR__UPDATE__BRANCH: develop
+            envFrom:
+              - secretRef:
+                  name: whisparr-secret
             probes:
               liveness:
                 enabled: true
