@@ -26,6 +26,8 @@ spec:
       namespace: system
     - name: external-secrets-stores
       namespace: external-secrets
+    - name: cloudnative-pg-cluster
+      namespace: database
   postBuild:
     substitute:
       APP: *app

@@ -21,4 +21,4 @@ spec:
   wait: false
   dependsOn:
     - name: gcp-secret-store
-      namespace: security
+      namespace: external-secrets

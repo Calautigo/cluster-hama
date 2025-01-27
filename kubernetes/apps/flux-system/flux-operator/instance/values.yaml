@@ -12,7 +12,7 @@ instance:
     - notification-controller
   sync:
     kind: GitRepository
-    url:  https://github.com/calautigo/cluster-hama.git #https://git.schwarz47.at/dominik/cluster-hama.git
+    url:  https://git.schwarz47.at/dominik/cluster-hama.git
     ref: refs/heads/main
     path: kubernetes/flux/cluster
   commonMetadata:
