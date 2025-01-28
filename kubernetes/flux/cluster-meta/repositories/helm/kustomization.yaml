@@ -5,6 +5,8 @@ resources:
   - ./backube.yaml
   - ./bjw-s.yaml
   - ./cilium.yaml
+  - ./cloudnative-pg.yaml
+  - ./controlplaneio.yaml
   - ./coredns.yaml
   - ./dirsigler.yaml
   - ./jetstack.yaml
@@ -18,6 +20,7 @@ resources:
   - ./blakeblackshear.yaml
   - ./k8sonlab.yaml
   - ./gabe565.yaml
+  - ./grafana.yaml
   - ./fairwinds.yaml
   - ./forgejo.yaml
   - ./rook-ceph.yaml
@@ -26,4 +29,3 @@ resources:
   - ./external-secrets.yaml
   - ./k8tz.yaml
   - ./piraeus.yaml
-  - ./cloudnative-pg.yaml
