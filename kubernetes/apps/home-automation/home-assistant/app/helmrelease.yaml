@@ -120,8 +120,10 @@ spec:
 
     service:
       main:
-        type: ClusterIP
         controller: main
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: 10.100.0.160
         ports:
           http:
             port: 8123
