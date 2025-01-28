@@ -79,30 +79,21 @@ spec:
           stash:
             app:
               - path: /root/.stash
-      blobs:
-        existingClaim: stash-blobs
-        advancedMounts:
-          stash:
-            app:
-              - path: /blobs
+
       cache:
-        type: emptyDir
+        existingClaim: stash-cache
         advancedMounts:
           stash:
             app:
               - path: /cache
-      metadata:
-        type: emptyDir
-        advancedMounts:
-          stash:
-            app:
+                subPath: cache
+              - path: /blobs
+                subPath: blobs
               - path: /metadata
-      generated:
-        type: emptyDir
-        advancedMounts:
-          stash:
-            app:
+                subPath: metadata
               - path: /generated
+                subPath: generated
+
       media:
         type: nfs
         server: 10.10.200.50
