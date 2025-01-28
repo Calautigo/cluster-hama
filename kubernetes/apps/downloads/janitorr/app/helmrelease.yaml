@@ -61,7 +61,7 @@ spec:
               JELLYSEERR_API_KEY:
                 valueFrom:
                   secretKeyRef:
-                    name: *app
+                    name: janitorr-secret
                     key: jellyseerr_api_key
 
             probes:
