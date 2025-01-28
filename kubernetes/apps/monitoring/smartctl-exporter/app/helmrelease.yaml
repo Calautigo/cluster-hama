@@ -18,6 +18,9 @@ spec:
   values:
     fullnameOverride: smartctl-exporter
 
+    config:
+      device_exclude: /dev/sd.*
+
     image:
       registry: quay.io
 
@@ -28,7 +31,7 @@ spec:
           regex: (pod)
         - action: replace
           regex: (.*)
-          replacement: $1.bjw-s.internal
+          replacement: $1.schwarz47.internal
           sourceLabels:
             - __meta_kubernetes_endpoint_node_name
           targetLabel: instance
