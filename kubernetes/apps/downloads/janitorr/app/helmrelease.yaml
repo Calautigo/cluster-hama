@@ -107,3 +107,6 @@ spec:
 
       logs:
         type: emptyDir
+
+      tmp:
+        type: emptyDir
