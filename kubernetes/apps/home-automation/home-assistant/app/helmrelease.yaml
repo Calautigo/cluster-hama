@@ -123,7 +123,7 @@ spec:
         controller: main
         type: LoadBalancer
         annotations:
-          lbipam.cilium.io/ips: 10.100.0.160
+          lbipam.cilium.io/ips: 10.100.55.102
         ports:
           http:
             port: 8123
