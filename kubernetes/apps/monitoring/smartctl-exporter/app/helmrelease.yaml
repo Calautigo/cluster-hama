@@ -19,7 +19,7 @@ spec:
     fullnameOverride: smartctl-exporter
 
     config:
-      device_exclude: /dev/sd.*
+      device_exclude: "^/dev/sd[a-z]$"
 
     image:
       registry: quay.io
