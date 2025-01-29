@@ -57,7 +57,6 @@ spec:
                   secretKeyRef:
                     name: radarr-secret
                     key: RADARR__AUTH__APIKEY
-
               JELLYSEERR_API_KEY:
                 valueFrom:
                   secretKeyRef:

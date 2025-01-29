@@ -47,6 +47,12 @@ spec:
             envFrom:
               - secretRef:
                   name: renovate-secret
+            probes:
+              liveness: &probe
+                type: HTTP
+                path: /health
+              readiness: *probe
+              startup: *probe
             resources:
               requests:
                 cpu: 250m
