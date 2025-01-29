@@ -46,7 +46,7 @@ spec:
         controller: code-server
         ports:
           http:
-            port: &port 8443
+            port: &port 8080
 
     route:
       app:
