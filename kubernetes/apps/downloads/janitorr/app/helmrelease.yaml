@@ -70,9 +70,9 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /
-                    port: 80
-                  initialDelaySeconds: 0
+                    path: /health
+                    port: 8081
+                  initialDelaySeconds: 30
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
