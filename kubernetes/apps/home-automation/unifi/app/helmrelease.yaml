@@ -102,7 +102,7 @@ spec:
                   value: /
             backendRefs:
               - kind: Service
-                name: app
+                name: *app
                 port: http
             filters:
               - type: RequestHeaderModifier

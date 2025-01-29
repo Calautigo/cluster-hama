@@ -2,8 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: code-server
-  namespace: code-server
+  name: &app code-server
 spec:
   chart:
     spec:
@@ -43,7 +42,7 @@ spec:
 
     service:
       code-server:
-        controller: code-server
+        controller: *app
         ports:
           http:
             port: &port 8080
@@ -63,7 +62,7 @@ spec:
                   value: /
             backendRefs:
               - kind: Service
-                name: app
+                name: *app
                 port: *port
 
     persistence:
