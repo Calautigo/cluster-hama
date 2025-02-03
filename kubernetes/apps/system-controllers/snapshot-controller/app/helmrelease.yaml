@@ -17,12 +17,22 @@ spec:
       interval: 30m
   install:
     crds: CreateReplace
+    remediation:
+      retries: 3
   upgrade:
+    cleanupOnFail: true
     crds: CreateReplace
+    remediation:
+      strategy: rollback
+      retries: 3
   dependsOn:
     - name: cert-manager
       namespace: cert-manager
   values:
     controller:
+      args:
+        enableDistributedSnapshotting: true
       serviceMonitor:
         create: true
+    webhook:
+      enabled: false
