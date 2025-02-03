@@ -40,7 +40,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/speedtest-tracker
-              tag: 1.2.0@sha256:5c72b26875f195fe4044de26951cbbfa82dee668001fdc7d95bcae9735f2b22c
+              tag: 1.2.1@sha256:1abafc86b3762e9ea2cb12f313e92ddc0e0eebeb890b91cb33f35f40a7763855
             env:
               DISPLAY_TIMEZONE: Europe/Vienna
               CHART_DATETIME_FORMAT: "d.m.Y G:i:s"
