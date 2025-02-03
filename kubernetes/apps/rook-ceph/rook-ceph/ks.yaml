@@ -13,12 +13,12 @@ spec:
   interval: 30m
   timeout: 5m
   path: ./kubernetes/apps/rook-ceph/rook-ceph/operator
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: true
+  wait: false
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -34,12 +34,12 @@ spec:
   interval: 30m
   timeout: 5m
   path: ./kubernetes/apps/rook-ceph/rook-ceph/cluster
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: true
+  wait: false
   dependsOn:
     - name: rook-ceph
     - name: snapshot-controller

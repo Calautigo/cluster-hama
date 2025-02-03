@@ -14,6 +14,14 @@ spec:
         kind: HelmRepository
         name: rook-ceph
         namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
   values:
     monitoring:
       enabled: true
@@ -32,10 +40,14 @@ spec:
         enabled: true
         urlPrefix: /
         ssl: false
-        #prometheusEndpoint: http://prometheus-operated.monitoring.svc.cluster.local:9090
+        prometheusEndpoint: http://prometheus-operated.monitoring.svc.cluster.local:9090
       mgr:
         modules:
+          - name: insights
+            enabled: true
           - name: pg_autoscaler
+            enabled: true
+          - name: rook
             enabled: true
       network:
         provider: host
