@@ -45,11 +45,6 @@ spec:
                 sabnzbd.downloads.svc.cluster,
                 sabnzbd.downloads.svc.cluster.local,
                 sabnzbd.schwarz47.at
-              SABNZBD__API_KEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: sabnzbd-secret
-                    key: api-key
             probes:
               liveness:
                 enabled: true
