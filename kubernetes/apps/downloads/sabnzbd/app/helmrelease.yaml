@@ -130,3 +130,5 @@ spec:
             app:
               - path: /incomplete
                 subPath: incomplete
+              - path: /nzb-backup
+                subPath: nzb-backup
