@@ -84,5 +84,8 @@ spec:
         globalMounts:
           - path: /data
 
-      tmp:
+      tmpfs:
         type: emptyDir
+        globalMounts:
+          - path: /tmp
+          - path: /etc
