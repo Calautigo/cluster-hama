@@ -31,6 +31,18 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
 
+        initContainers:
+          init-nginx:
+            image:
+              repository: busybox
+              tag: 1.28
+            command: ['mkdir', '-p', '/etc/nginx/sites-templates/']
+          init-initd:
+            image:
+              repository: busybox
+              tag: 1.28
+            command: ['mkdir', '-p', '/etc/init.d/']
+
         containers:
           main:
             image:
