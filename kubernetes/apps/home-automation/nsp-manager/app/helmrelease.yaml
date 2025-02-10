@@ -27,7 +27,7 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
 
     controllers:
-      main:
+      nspmanager:
         annotations:
           reloader.stakater.com/auto: "true"
 
@@ -53,7 +53,8 @@ spec:
 
 
     service:
-      main:
+      app:
+        controller: nspmanager
         type: ClusterIP
         ports:
           http:
@@ -74,7 +75,7 @@ spec:
                   value: /
             backendRefs:
               - kind: Service
-                name: main
+                name: app
                 port: http
 
     persistence:
