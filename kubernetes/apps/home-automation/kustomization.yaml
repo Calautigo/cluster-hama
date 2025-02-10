@@ -5,6 +5,7 @@ namespace: home-automation
 resources:
   - ./frigate/ks.yaml
   - ./home-assistant/ks.yaml
+  - ./nsp-manager/ks.yaml
   - ./unifi/ks.yaml
 components:
   - ../../components/namespace
