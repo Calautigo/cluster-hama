@@ -61,7 +61,7 @@ spec:
             port: 8000
 
     route:
-      main:
+      app:
         enabled: true
         parentRefs:
           - name: cilium-gateway
@@ -82,7 +82,7 @@ spec:
       config:
         existingClaim: nsp-manager-config
         globalMounts:
-          - path: /config
+          - path: /data
 
       tmp:
         type: emptyDir
