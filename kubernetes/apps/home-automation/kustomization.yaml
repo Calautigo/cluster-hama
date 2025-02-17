@@ -7,6 +7,7 @@ resources:
   - ./home-assistant/ks.yaml
   - ./nsp-manager/ks.yaml
   - ./unifi/ks.yaml
+  - ./zigbee2mqtt/ks.yaml
 components:
   - ../../components/namespace
   - ../../components/flux/alerts
