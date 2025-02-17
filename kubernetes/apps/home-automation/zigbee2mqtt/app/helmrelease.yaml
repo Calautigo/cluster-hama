@@ -163,7 +163,7 @@ spec:
           - name: cilium-gateway
             namespace: network
         hostnames:
-          - hass.schwarz47.at
+          - zigbee2mqtt.schwarz47.at
         rules:
           - matches:
               - path:
