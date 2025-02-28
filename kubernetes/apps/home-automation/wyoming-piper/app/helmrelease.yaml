@@ -22,13 +22,6 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
-  dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
-    - name: volsync
-      namespace: system
-    - name: emqx-cluster
-      namespace: database
   values:
     controllers:
       wyoming-piper:

@@ -18,6 +18,13 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: volsync
+      namespace: system
+    - name: emqx-cluster
+      namespace: database
   wait: false
   interval: 30m
   timeout: 5m
