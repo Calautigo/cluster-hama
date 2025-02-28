@@ -28,7 +28,7 @@ spec:
         containers:
           app:
             image:
-              repository: rhasspy/wyoming-faster-whisper
+              repository: rhasspy/wyoming-whisper
               tag: latest
             args:
               - --model
