@@ -98,5 +98,8 @@ spec:
         type: nfs
         server: 10.10.200.50
         path: /mnt/storage/media/media/adult
-        globalMounts:
-          - path: /data
+        advancedMounts:
+          stash:
+            app:
+              - path: /data
+                readOnly: true
