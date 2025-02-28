@@ -28,11 +28,11 @@ spec:
         containers:
           app:
             image:
-              repository: rhasspy/wyoming-whisper
+              repository: rhasspy/wyoming-faster-whisper
               tag: latest
             args:
               - --model
-              - large
+              - Systran/faster-whisper-large-v3
               - --language
               - de
     service:
