@@ -32,7 +32,7 @@ spec:
               tag: latest
             args:
               - --voice
-              - de-de-thorsten-high
+              - de_DE-thorsten-high
     service:
       app:
         controller: *app
