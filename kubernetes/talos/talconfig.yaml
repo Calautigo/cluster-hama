@@ -6,7 +6,7 @@ clusterName: &clusterName home-ops
 endpoint: https://k8s.schwarz47.internal:6443
 
 # renovate: depName=ghcr.io/siderolabs/installer datasource=docker
-talosVersion: v1.9.2
+talosVersion: v1.9.4
 # renovate: depName=ghcr.io/siderolabs/kubelet datasource=docker
 kubernetesVersion: v1.32.1
 
@@ -28,7 +28,7 @@ nodes:
     ipAddress: 10.100.0.61
     installDiskSelector:
       size: "<= 256GB"
-    talosImageURL: factory.talos.dev/installer/97349bd8a02320e952ef34bdc1369278958bf77fb1b1cbddb62ec6719777a7b6
+    talosImageURL: factory.talos.dev/installer/63bf20abd567bb4d3ce4eb9db3f19630a3cf706fc27070da05d7a47687191e39
     controlPlane: true
     machineDisks:
       - device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1
@@ -46,7 +46,7 @@ nodes:
     ipAddress: 10.100.0.62
     installDiskSelector:
       size: "<= 256GB"
-    talosImageURL: factory.talos.dev/installer/97349bd8a02320e952ef34bdc1369278958bf77fb1b1cbddb62ec6719777a7b6
+    talosImageURL: factory.talos.dev/installer/63bf20abd567bb4d3ce4eb9db3f19630a3cf706fc27070da05d7a47687191e39
     controlPlane: true
     machineDisks:
       - device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1

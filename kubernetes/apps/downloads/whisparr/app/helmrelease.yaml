@@ -34,8 +34,8 @@ spec:
         containers:
           app:
             image:
-              repository: git.schwarz47.at/dominik/whisparr-nightly
-              tag: 2.0.0.548@sha256:81037ce7d9dfe2180946423e45ee5f6fe43ae542905d50bd5c3581705a202100
+              repository: ghcr.io/jfroy/whisparr-nightly
+              tag: 2.0.0.787@sha256:15b02a8ebf60b26bf55f8a6b5583389fb4a1b17eb15e5025cb75972a210be1dc
             env:
               WHISPARR__APP__INSTANCENAME: Whisparr
               WHISPARR__APP__THEME: dark
@@ -43,33 +43,28 @@ spec:
               WHISPARR__AUTH__METHOD: External
               WHISPARR__AUTH__REQUIRED: DisabledForLocalAddresses
               WHISPARR__LOG__LEVEL: info
-              WHISPARR__UPDATE__BRANCH: develop
+              WHISPARR__BRANCH: nightly
             envFrom:
               - secretRef:
                   name: whisparr-secret
             probes:
-              liveness:
+              liveness: &probe
                 enabled: true
-              readiness:
-                enabled: true
-              startup:
-                enabled: true
+                custom: true
                 spec:
-                  failureThreshold: 30
-                  periodSeconds: 5
-            resources:
-              requests:
-                cpu: 20m
-                memory: 128Mi
-              limits:
-                cpu: 1000m
-                memory: 512Mi
+                  httpGet:
+                    path: /ping
+                    port: *port
+              readiness: *probe
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 1Gi
 
     service:
       app:
@@ -99,8 +94,6 @@ spec:
     persistence:
       config:
         existingClaim: whisparr-config
-      add-ons:
-        type: emptyDir
       tmp:
         type: emptyDir
       media:
