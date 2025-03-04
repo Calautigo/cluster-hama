@@ -28,15 +28,13 @@ spec:
         containers:
           app:
             image:
-              repository: abtools/wyoming-whisper-cuda
-              tag: latest
+              repository: captnspdr/wyoming-whisper-trt
+              tag: latest-amd64
             args:
               - --model
               - small-int8
               - --language
               - de
-              - --beam-size
-              - '5'
               - --device
               - cuda
             resources:
