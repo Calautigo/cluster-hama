@@ -18,7 +18,7 @@ database:
 
 ffmpeg:
   global_args: [-hide_banner, -loglevel, info]
-#   hwaccel_args: preset-intel-qsv-h264 -qsv_device /dev/dri/renderD129
+  hwaccel_args: preset-nvidia
 
 snapshots:
   enabled: true

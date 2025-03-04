@@ -49,10 +49,10 @@ spec:
               requests:
                 cpu: 1000m
                 memory: 256Mi
-                # gpu.intel.com/i915: "1"
+                nvidia.com/gpu: "1"
               limits:
                 memory: 6Gi
-                # gpu.intel.com/i915: "1"
+                nvidia.com/gpu: "1"
 
             probes:
               liveness:
