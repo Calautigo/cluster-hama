@@ -41,7 +41,7 @@ spec:
         enable: true
         force: true
     toolkit:
-      enabled: false
+      enabled: true
       env:
         - name: CONTAINERD_CONFIG
           value: /etc/containerd/config.toml
