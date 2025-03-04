@@ -94,12 +94,6 @@ controlPlane:
         - mitigations=off # Less security, more speed
         - security=none # Less security, more speed
         - net.ifnames=1 # Enable predictable NIC naming
-      systemExtensions:
-        officialExtensions:
-          - siderolabs/i915
-          - siderolabs/intel-ucode
-          - siderolabs/qemu-guest-agent
-          - siderolabs/util-linux-tools
 
   patches:
     # Configure containerd
@@ -271,3 +265,5 @@ controlPlane:
               - os:admin
             allowedKubernetesNamespaces:
               - system-upgrade
+
+    - "@./patches/controller/gpu-controller-patch.yaml"

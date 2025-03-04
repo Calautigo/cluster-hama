@@ -31,12 +31,14 @@ spec:
       repository: nvcr.io/nvidia/k8s-device-plugin
       tag: v0.17.0
     runtimeClassName: nvidia
+    devicePlugin.enabled: true
+    nfd.enabled: false
     config:
       map:
         default: |-
           version: v1
           flags:
-            migStrategy: none
+            migStrategy: mixed
           sharing:
             timeSlicing:
               renameByDefault: false

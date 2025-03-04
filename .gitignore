@@ -26,3 +26,6 @@ kubeconfig
 talosconfig
 
 bootstrap.env
+
+kubectl
+talosctl
