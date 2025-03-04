@@ -28,13 +28,15 @@ spec:
         containers:
           app:
             image:
-              repository: rhasspy/wyoming-whisper
+              repository: abtools/wyoming-whisper-cuda
               tag: latest
             args:
               - --model
               - small-int8
               - --language
               - de
+              - --beam-size
+              - '5'
               - --device
               - cuda
             resources:
