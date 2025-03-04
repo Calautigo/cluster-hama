@@ -26,6 +26,7 @@ resources:
   - ./rook-ceph.yaml
   - ./openebs.yaml
   - ./kubernetes-sigs-descheduler.yaml
+  - ./kubernetes-sigs-nfd.yaml
   - ./external-secrets.yaml
   - ./k8tz.yaml
   - ./piraeus.yaml
