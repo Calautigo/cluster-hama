@@ -32,9 +32,10 @@ spec:
     worker:
       config:
         core:
-          sources:
+          labelSources:
             - pci
             - system
+            - kernel
             - usb
         sources:
           usb:
