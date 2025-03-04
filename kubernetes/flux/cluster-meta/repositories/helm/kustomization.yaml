@@ -30,3 +30,5 @@ resources:
   - ./external-secrets.yaml
   - ./k8tz.yaml
   - ./piraeus.yaml
+  - ./intel.yaml
+  - ./nvidia.yaml
