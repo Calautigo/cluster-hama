@@ -34,7 +34,12 @@ spec:
     nfd:
       enabled: false
     driver:
-      enabled: false
+      enabled: true
+      upgradePolicy:
+      autoUpgrade: true
+      drain:
+        enable: true
+        force: true
     toolkit:
       enabled: false
       env:
