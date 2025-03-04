@@ -32,7 +32,7 @@ spec:
               tag: latest
             args:
               - --model
-              - large
+              - Systran/faster-whisper-large-v3
               - --language
               - de
             resources:
