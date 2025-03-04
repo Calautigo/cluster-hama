@@ -28,13 +28,15 @@ spec:
         containers:
           app:
             image:
-              repository: abtools/wyoming-whisper-cuda
+              repository: rhasspy/wyoming-whisper
               tag: latest
             args:
               - --model
               - small-int8
               - --language
               - de
+              - --device
+              - cuda
             resources:
               limits:
                 nvidia.com/gpu: 1
