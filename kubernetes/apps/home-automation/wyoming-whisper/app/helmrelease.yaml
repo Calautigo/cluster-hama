@@ -28,18 +28,17 @@ spec:
         containers:
           app:
             image:
-              repository: captnspdr/wyoming-whisper-trt
-              tag: latest-amd64
+              repository: wchomik/wyoming-faster-whisper-cuda
+              tag: latest
             args:
               - --model
-              - small-int8
+              - base
               - --language
               - de
-              - --device
-              - cuda
             resources:
               limits:
                 nvidia.com/gpu: 1
+
     service:
       app:
         controller: *app
@@ -49,6 +48,7 @@ spec:
             primary: true
             port: 10300
             protocol: TCP
+
     persistence:
       data:
         enabled: true
