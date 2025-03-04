@@ -31,10 +31,11 @@ spec:
     operator:
       cleanupCRD: true
       upgradeCRD: true
+      defaultRuntime: containerd
     nfd:
       enabled: false
     driver:
-      enabled: true
+      enabled: false
     toolkit:
       enabled: true
       env:
