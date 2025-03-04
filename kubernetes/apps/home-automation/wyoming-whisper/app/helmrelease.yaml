@@ -28,7 +28,7 @@ spec:
         containers:
           app:
             image:
-              repository: rhasspy/wyoming-whisper-cuda
+              repository: abtools/wyoming-whisper-cuda
               tag: latest
             args:
               - --model
