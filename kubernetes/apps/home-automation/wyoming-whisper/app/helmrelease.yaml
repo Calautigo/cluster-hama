@@ -28,13 +28,16 @@ spec:
         containers:
           app:
             image:
-              repository: rhasspy/wyoming-whisper
+              repository: rhasspy/wyoming-whisper-cuda
               tag: latest
             args:
               - --model
-              - Systran/faster-whisper-large-v3
+              - small-int8
               - --language
               - de
+            resources:
+              limits:
+                nvidia.com/gpu: 1
     service:
       app:
         controller: *app
