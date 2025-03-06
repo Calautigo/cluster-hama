@@ -43,7 +43,7 @@ spec:
 
             resources:
               requests:
-                cpu: 1000m
+                cpu: 8000m
                 memory: 256Mi
                 nvidia.com/gpu: "1"
               limits:
@@ -58,7 +58,7 @@ spec:
                   httpGet:
                     path: /api/version
                     port: &port 5000
-                  initialDelaySeconds: 3000
+                  initialDelaySeconds: 10
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
