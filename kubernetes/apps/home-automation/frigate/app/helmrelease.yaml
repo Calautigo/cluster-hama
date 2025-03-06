@@ -23,6 +23,9 @@ spec:
     remediation:
       retries: 3
   values:
+    defaultPodOptions:
+      restartPolicy: Never
+
     controllers:
       frigate:
         annotations:
@@ -30,7 +33,6 @@ spec:
 
         containers:
           app:
-            restartPolicy: Never
             image:
               repository: ghcr.io/blakeblackshear/frigate
               tag: 0.15.0-tensorrt
