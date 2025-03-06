@@ -30,6 +30,7 @@ spec:
 
         containers:
           app:
+            restartPolicy: Never
             image:
               repository: ghcr.io/blakeblackshear/frigate
               tag: 0.15.0-tensorrt
@@ -52,7 +53,7 @@ spec:
 
             probes:
               liveness: &probes
-                enabled: false
+                enabled: true
                 custom: true
                 spec:
                   httpGet:
