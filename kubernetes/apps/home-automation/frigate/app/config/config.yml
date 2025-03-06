@@ -73,8 +73,8 @@ cameras:
           input_args: preset-rtsp-restream
           roles: [detect]
     detect:
-      width: 640
-      height: 360
+      width: 416
+      height: 416
       fps: 5
     # onvif:
     #   host: 10.40.200.105
@@ -91,8 +91,8 @@ cameras:
           input_args: preset-rtsp-restream
           roles: [detect]
     detect:
-      width: 640
-      height: 360
+      width: 416
+      height: 416
       fps: 5
     onvif:
       host: 10.40.200.104
@@ -109,8 +109,8 @@ cameras:
           input_args: preset-rtsp-restream
           roles: [detect]
     detect:
-      width: 640
-      height: 360
+      width: 416
+      height: 416
       fps: 5
     # onvif:
     #   host: 10.40.200.108
@@ -127,6 +127,6 @@ cameras:
           input_args: preset-rtsp-restream
           roles: [detect]
     detect:
-      width: 640
-      height: 360
+      width: 416
+      height: 416
       fps: 5
