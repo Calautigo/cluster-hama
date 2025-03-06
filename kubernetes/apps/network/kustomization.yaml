@@ -6,6 +6,7 @@ resources:
   - ./echo-server/ks.yaml
   - ./external-dns/ks.yaml
   - ./gateway/ks.yaml
+  - ./multus/ks.yaml
   - ./openspeedtest/ks.yaml
   - ./speedtest/ks.yaml
 components:
