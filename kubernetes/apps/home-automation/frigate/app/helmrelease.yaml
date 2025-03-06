@@ -124,3 +124,9 @@ spec:
         sizeLimit: 4Gi
         globalMounts:
           - path: /dev/shm
+
+      tmp:
+        type: emptyDir
+        sizeLimit: 4Gi
+        globalMounts:
+          - path: /tmp/cache
