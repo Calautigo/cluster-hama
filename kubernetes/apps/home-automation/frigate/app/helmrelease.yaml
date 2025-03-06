@@ -23,9 +23,6 @@ spec:
     remediation:
       retries: 3
   values:
-    defaultPodOptions:
-      restartPolicy: Never
-
     controllers:
       frigate:
         annotations:
@@ -61,7 +58,7 @@ spec:
                   httpGet:
                     path: /api/version
                     port: &port 5000
-                  initialDelaySeconds: 0
+                  initialDelaySeconds: 300
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
