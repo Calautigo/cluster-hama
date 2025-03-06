@@ -28,18 +28,14 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
 
-        # pod:
-        #   nodeSelector:
-        #     intel.feature.node.kubernetes.io/gpu: "true"
-
         containers:
           app:
             image:
-              repository: ghcr.io/blakeblackshear/frigate
+              repository: ghcr.io/blakeblackshear/frigate-tensorrt
               tag: 0.14.1
 
-            # env:
-            #   LIBVA_DRIVER_NAME: "i965"
+            env:
+              YOLO_MODELS: yolov4-416,yolov7-320
 
             envFrom:
               - secretRef:

@@ -20,6 +20,18 @@ ffmpeg:
   global_args: [-hide_banner, -loglevel, info]
   hwaccel_args: preset-nvidia
 
+detectors:
+  tensorrt:
+    type: tensorrt
+    device: 0
+
+model:
+  path: /config/model_cache/tensorrt/yolov7-320.trt
+  input_tensor: nchw
+  input_pixel_format: rgb
+  width: 320
+  height: 320
+
 snapshots:
   enabled: true
   timestamp: true
