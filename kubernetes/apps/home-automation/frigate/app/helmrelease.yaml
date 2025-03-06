@@ -31,8 +31,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/blakeblackshear/frigate-tensorrt
-              tag: 0.14.1
+              repository: ghcr.io/blakeblackshear/frigate
+              tag: 0.15.0-tensorrt
 
             env:
               YOLO_MODELS: yolov4-416,yolov7-320
