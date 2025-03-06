@@ -6,6 +6,7 @@ namespace: media
 resources:
   - ./jellyfin/ks.yaml
   - ./jellyseerr/ks.yaml
+  - ./music-assistant/ks.yaml
   - ./stash/ks.yaml
 components:
   - ../../components/namespace

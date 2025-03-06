@@ -1,0 +1,107 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: music-assistant
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.7.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      interval: 30m
+  values:
+    controllers:
+      music-assistant:
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        pod:
+          # annotations:
+          #   k8s.v1.cni.cncf.io/networks: |
+          #     [{
+          #       "name":"multus-iot",
+          #       "namespace": "networking",
+          #       "ips": ["10.1.20.95/24"],
+          #       "mac": "92:cf:d7:05:70:80"
+          #     }]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: "OnRootMismatch"
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/music-assistant/server
+              tag: 2.3.6@sha256:7c43aadfaf9109feab4c514648124701bf6b70410932ffcbf0c9daa7bdfbc2b2
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+            resources:
+              requests:
+                cpu: 47m
+                memory: 512Mi
+              limits:
+                memory: 1024Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+
+    service:
+      app:
+        controller: music-assistant
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: 10.100.55.103
+        ports:
+          http:
+            port: 8095
+          stream:
+            port: 8097
+
+    route:
+      app:
+        enabled: true
+        parentRefs:
+          - name: cilium-gateway
+            namespace: network
+        hostnames:
+          - music-assistant.schwarz47.at
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - kind: Service
+                name: app
+                port: http
+
+    persistence:
+      data:
+        existingClaim: "${VOLSYNC_CLAIM}"
+      # media:
+      #   type: nfs
+      #   server: 10.1.10.10
+      #   path: /mnt/zstore/media/music
+      #   globalMounts:
+      #     - path: /mnt/media/music
+      #       readOnly: true
