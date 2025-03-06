@@ -124,3 +124,4 @@ spec:
         sizeLimit: 4Gi
         globalMounts:
           - path: /dev/shm
+          - path: /tmp/cache
