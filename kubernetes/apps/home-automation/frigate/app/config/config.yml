@@ -40,16 +40,24 @@ snapshots:
 record:
   enabled: true
   retain:
-    days: 7
+    days: 3
     mode: all
+  alerts:
+    retain:
+      days: 30
+      mode: motion
+  detections:
+    retain:
+      days: 30
+      mode: motion
 
 objects:
-  track: [person]
-  filters:
-    person:
-      min_area: 5000
-      max_area: 100000
-      threshold: 0.7
+  track:
+    - person
+    - bicycle
+    - motorcycle
+    - car
+    - dog
 
 go2rtc:
     streams:
@@ -72,12 +80,11 @@ cameras:
         - path: rtsp://127.0.0.1:8554/living_room_sub
           input_args: preset-rtsp-restream
           roles: [detect]
-    detect:
-      width: 640
-      height: 360
-      fps: 5
+    review:
+      detections:
+        labels: []
     # onvif:
-    #   host: 10.40.200.105
+    #   host: 10.40.200.133
     #   port: 2020
     #   user: {FRIGATE_CAMERA_USER}
     #   password: {FRIGATE_CAMERA_PASSWORD}
@@ -90,15 +97,14 @@ cameras:
         - path: rtsp://127.0.0.1:8554/corridor_sub
           input_args: preset-rtsp-restream
           roles: [detect]
-    detect:
-      width: 640
-      height: 360
-      fps: 5
-    onvif:
-      host: 10.40.200.104
-      port: 2020
-      user: ${FRIGATE_CAMERA_USER}
-      password: ${FRIGATE_CAMERA_PASSWORD}
+    review:
+      detections:
+        labels: []
+    # onvif:
+    #   host: 10.40.200.104
+    #   port: 2020
+    #   user: ${FRIGATE_CAMERA_USER}
+    #   password: ${FRIGATE_CAMERA_PASSWORD}
   garden_door:
     ffmpeg:
       inputs:
@@ -108,10 +114,6 @@ cameras:
         - path: rtsp://127.0.0.1:8554/garden_door_sub
           input_args: preset-rtsp-restream
           roles: [detect]
-    detect:
-      width: 640
-      height: 360
-      fps: 5
     # onvif:
     #   host: 10.40.200.108
     #   port: 2020
@@ -120,13 +122,9 @@ cameras:
   garden_chicken:
     ffmpeg:
       inputs:
-        - path: rtsp://127.0.0.1:8554/garden_door
+        - path: rtsp://127.0.0.1:8554/garden_chicken
           input_args: preset-rtsp-restream
           roles: [record]
-        - path: rtsp://127.0.0.1:8554/garden_door_sub
+        - path: rtsp://127.0.0.1:8554/garden_chicken_sub
           input_args: preset-rtsp-restream
           roles: [detect]
-    detect:
-      width: 640
-      height: 360
-      fps: 5
