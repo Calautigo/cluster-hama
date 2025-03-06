@@ -97,7 +97,7 @@ spec:
 
     persistence:
       data:
-        existingClaim: "${VOLSYNC_CLAIM}"
+        existingClaim: music-assistant-config
       # media:
       #   type: nfs
       #   server: 10.1.10.10
