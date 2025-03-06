@@ -43,10 +43,11 @@ spec:
 
             resources:
               requests:
-                cpu: 8000m
+                cpu: 1000m
                 memory: 256Mi
                 nvidia.com/gpu: "1"
               limits:
+                cpu: 8000m
                 memory: 6Gi
                 nvidia.com/gpu: "1"
 
