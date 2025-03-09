@@ -69,6 +69,8 @@ go2rtc:
         living_room_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.133:554/stream2
         garden_chicken: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.103:554/stream1
         garden_chicken_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.103:554/stream2
+        garden_doors: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.134:554/stream1
+        garden_doors_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.134:554/stream2
 
 cameras:
   living_room:
@@ -126,5 +128,14 @@ cameras:
           input_args: preset-rtsp-restream
           roles: [record]
         - path: rtsp://127.0.0.1:8554/garden_chicken_sub
+          input_args: preset-rtsp-restream
+          roles: [detect]
+  garden_doors:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/garden_doors
+          input_args: preset-rtsp-restream
+          roles: [record]
+        - path: rtsp://127.0.0.1:8554/garden_doors_sub
           input_args: preset-rtsp-restream
           roles: [detect]
