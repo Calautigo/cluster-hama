@@ -36,7 +36,7 @@ spec:
           app:
             image:
               repository: ghcr.io/renovatebot/renovate
-              tag: 39.156.1-full@sha256:c9bd981b3b2078532ec921e0f2d5fb27d9edd884acb398dbacf197df689121cb
+              tag: 39.197.0-full@sha256:6bce63bf4fb1fb08ae6f15d5ad2624b7bf89bbde0ba117af248077e390dbcc92
               pullPolicy: IfNotPresent
             env:
               LOG_LEVEL: debug
