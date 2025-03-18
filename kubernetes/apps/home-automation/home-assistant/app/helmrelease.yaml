@@ -144,13 +144,6 @@ spec:
           - hass.schwarz47.at
         rules:
           - matches:
-            # - path:
-            #     type: PathPrefix
-            #     value: /music/
-            #   backendRefs:
-            #     - kind: Service
-            #       name: app
-            #       port: music-server
               - path:
                   type: PathPrefix
                   value: /
