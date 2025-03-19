@@ -70,7 +70,6 @@ go2rtc:
         garden_chicken: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.103:554/stream1
         garden_chicken_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.103:554/stream2
         garden_carport: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.134:554/stream1
-        garden_carport_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.134:554/stream2
 
 cameras:
   living_room:
@@ -140,9 +139,6 @@ cameras:
         - path: rtsp://127.0.0.1:8554/garden_carport
           input_args: preset-rtsp-restream
           roles: [record]
-        - path: rtsp://127.0.0.1:8554/garden_carport_sub
-          input_args: preset-rtsp-restream
-          roles: [detect]
 
     objects:
       track:
