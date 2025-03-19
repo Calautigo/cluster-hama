@@ -69,8 +69,8 @@ go2rtc:
         living_room_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.133:554/stream2
         garden_chicken: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.103:554/stream1
         garden_chicken_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.103:554/stream2
-        garden_doors: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.134:554/stream1
-        garden_doors_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.134:554/stream2
+        garden_carport: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.134:554/stream1
+        garden_carport_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.134:554/stream2
 
 cameras:
   living_room:
@@ -90,6 +90,7 @@ cameras:
     #   port: 2020
     #   user: {FRIGATE_CAMERA_USER}
     #   password: {FRIGATE_CAMERA_PASSWORD}
+
   corridor:
     ffmpeg:
       inputs:
@@ -107,6 +108,7 @@ cameras:
     #   port: 2020
     #   user: ${FRIGATE_CAMERA_USER}
     #   password: ${FRIGATE_CAMERA_PASSWORD}
+
   garden_door:
     ffmpeg:
       inputs:
@@ -121,6 +123,7 @@ cameras:
     #   port: 2020
     #   user: {FRIGATE_CAMERA_USER}
     #   password: {FRIGATE_CAMERA_PASSWORD}
+
   garden_chicken:
     ffmpeg:
       inputs:
@@ -130,12 +133,31 @@ cameras:
         - path: rtsp://127.0.0.1:8554/garden_chicken_sub
           input_args: preset-rtsp-restream
           roles: [detect]
-  garden_doors:
+
+  garden_carport:
     ffmpeg:
       inputs:
-        - path: rtsp://127.0.0.1:8554/garden_doors
+        - path: rtsp://127.0.0.1:8554/garden_carport
           input_args: preset-rtsp-restream
           roles: [record]
-        - path: rtsp://127.0.0.1:8554/garden_doors_sub
+        - path: rtsp://127.0.0.1:8554/garden_carport_sub
           input_args: preset-rtsp-restream
           roles: [detect]
+
+    objects:
+      track:
+        - person
+      filters:
+        person:
+          min_area: 5000
+          max_area: 100000
+          threshold: 0.65
+
+    zones:
+      main-door-person:
+        coordinates:
+          0.118,0.472,0.42,0.463,0.424,0.165,0.372,0.194,0.37,0.331,0.232,0.329
+        objects:
+          - person
+        inertia: 3
+        loitering_time: 0
