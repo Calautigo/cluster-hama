@@ -28,8 +28,13 @@ spec:
         containers:
           app:
             image:
-              repository: captnspdr/wyoming-whisper-trt
-              tag: 1.0.8-amd64
+              repository: wchomik/wyoming-faster-whisper-cuda
+              tag: latest
+            args:
+              - --model
+              - Systran/faster-whisper-small
+              - --language
+              - de
             resources:
               limits:
                 nvidia.com/gpu: 1
