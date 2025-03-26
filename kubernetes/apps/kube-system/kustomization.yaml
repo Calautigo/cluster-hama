@@ -6,7 +6,6 @@ resources:
   - ./cilium/ks.yaml
   - ./coredns/ks.yaml
   - ./metrics-server/ks.yaml
-  - ./gateway-api-crds/ks.yaml
 components:
   - ../../components/namespace
   - ../../components/flux/alerts
