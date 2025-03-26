@@ -61,30 +61,30 @@ spec:
                 cpu: 2000m
                 memory: 4Gi
 
-    service:
-      renovate:
-        controller: renovate
-        ports:
-          http:
-            port: &port 8080
+    # service:
+    #   renovate:
+    #     controller: renovate
+    #     ports:
+    #       http:
+    #         port: &port 8080
 
-    route:
-      app:
-        enabled: true
-        parentRefs:
-          - name: cilium-gateway
-            namespace: network
-        hostnames:
-          - git.schwarz47.at
-        rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /
-            backendRefs:
-              - kind: Service
-                name: app
-                port: *port
+    # route:
+    #   app:
+    #     enabled: true
+    #     parentRefs:
+    #       - name: cilium-gateway
+    #         namespace: network
+    #     hostnames:
+    #       - git.schwarz47.at
+    #     rules:
+    #       - matches:
+    #           - path:
+    #               type: PathPrefix
+    #               value: /
+    #         backendRefs:
+    #           - kind: Service
+    #             name: app
+    #             port: *port
 
     persistence:
       config:
