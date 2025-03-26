@@ -77,7 +77,7 @@ spec:
             backendRefs:
               - kind: Service
                 name: app
-                port: http
+                port: 9093
 
     persistence:
       config:

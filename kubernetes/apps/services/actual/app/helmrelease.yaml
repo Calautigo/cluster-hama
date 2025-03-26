@@ -71,7 +71,7 @@ spec:
             backendRefs:
               - kind: Service
                 name: app
-                port: http
+                port: *httpPort
 
     persistence:
       data:

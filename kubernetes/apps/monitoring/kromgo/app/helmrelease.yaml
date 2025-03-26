@@ -75,9 +75,9 @@ spec:
         ports:
           http:
             primary: true
-            port: *port
+            port: 8080
           health:
-            port: *hport
+            port: 8888
 
     route:
       app:

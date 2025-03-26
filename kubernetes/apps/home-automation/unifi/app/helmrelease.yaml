@@ -89,7 +89,7 @@ spec:
             backendRefs:
               - kind: Service
                 name: app
-                port: http
+                port: 8443
             filters:
               - type: RequestHeaderModifier
                 requestHeaderModifier:
