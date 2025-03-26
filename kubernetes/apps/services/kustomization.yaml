@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: services
 resources:
   - ./actual/ks.yaml
-  - ./hoarder/ks.yaml
   - ./immich/ks.yaml
   - ./mealie/ks.yaml
   - ./ocis/ks.yaml
