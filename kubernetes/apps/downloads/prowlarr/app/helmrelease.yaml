@@ -80,16 +80,21 @@ spec:
 
     route:
       app:
+        enabled: true
+        parentRefs:
+          - name: cilium-gateway
+            namespace: network
         hostnames:
           - prowlarr.schwarz47.at
-        parentRefs:
-          - name: internal
-            namespace: kube-system
-            sectionName: https
         rules:
-          - backendRefs:
-            - name: prowlarr
-              port: *port
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - kind: Service
+                name: app
+                port: *port
 
     persistence:
       config:
