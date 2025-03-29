@@ -4,25 +4,21 @@ metadata:
   name: sabnzbd
 spec:
   interval: 30m
-  chart:
-    spec:
-      chart: app-template
-      version: 3.7.2
-      interval: 30m
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: openebs
+      namespace: openebs
   values:
     controllers:
       sabnzbd:
+        annotations:
+          reloader.stakater.com/auto: "true"
+
         pod:
           securityContext:
             runAsUser: 3000
@@ -34,8 +30,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/onedr0p/sabnzbd
-              tag: 4.4.1@sha256:36674664a94760ae934c09b1d97546a3e79a0f110edda88085e74778c26d68e3
+              repository: ghcr.io/home-operations/sabnzbd
+              tag: 4.4.1
             env:
               SABNZBD__PORT: &port 8080
               SABNZBD__HOST_WHITELIST_ENTRIES: >-
@@ -45,22 +41,35 @@ spec:
                 sabnzbd.downloads.svc.cluster,
                 sabnzbd.downloads.svc.cluster.local,
                 sabnzbd.schwarz47.at
+              SABNZBD__API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: sabnzbd-secret
+                    key: api_key
+              SABNZBD__NZB_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: sabnzbd-secret
+                    key: nzb_key
             probes:
-              liveness:
+              liveness: &probes
                 enabled: true
-              readiness:
-                enabled: true
-              startup:
-                enabled: true
+                custom: true
                 spec:
-                  failureThreshold: 30
-                  periodSeconds: 5
+                  httpGet:
+                    path: /api?mode=version
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
             resources:
               requests:
                 cpu: 20m
                 memory: 1024Mi
               limits:
-                memory: 8192Mi
+                memory: 6144Mi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -74,24 +83,6 @@ spec:
         ports:
           http:
             port: *port
-
-    route:
-      app:
-        enabled: true
-        parentRefs:
-          - name: cilium-gateway
-            namespace: network
-        hostnames:
-          - sabnzbd.schwarz47.at
-        rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /
-            backendRefs:
-              - kind: Service
-                name: app
-                port: *port
 
     persistence:
       config:
@@ -127,3 +118,16 @@ spec:
                 subPath: incomplete
               - path: /nzb-backup
                 subPath: nzb-backup
+
+    route:
+      app:
+        hostnames:
+          - sabnzbd.schwarz47.at
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: sabnzbd
+                port: *port
