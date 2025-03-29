@@ -20,7 +20,7 @@ spec:
     namespace: flux-system
   wait: false
   dependsOn:
-    - name: external-secret-store
+    - name: external-secret-stores
       namespace: external-secrets
     - name: volsync
       namespace: system
