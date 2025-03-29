@@ -9,7 +9,6 @@ resources:
   - ./controlplaneio.yaml
   - ./coredns.yaml
   - ./dirsigler.yaml
-  - ./jetstack.yaml
   - ./metrics-server.yaml
   - ./postfinance.yaml
   - ./prometheus-community.yaml
