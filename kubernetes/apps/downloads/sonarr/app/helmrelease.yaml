@@ -97,7 +97,6 @@ spec:
             namespace: kube-system
             sectionName: https
         rules:
-          backendRefs:
-            - kind: Service
-              name: sonarr
-              port: *port
+          - backendRefs:
+              - name: sonarr
+                port: *port
