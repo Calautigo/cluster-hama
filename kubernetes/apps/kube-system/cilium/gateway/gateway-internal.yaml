@@ -33,4 +33,3 @@ spec:
         certificateRefs:
           - kind: Secret
             name: schwarz47-at-tls
-            namespace: network
