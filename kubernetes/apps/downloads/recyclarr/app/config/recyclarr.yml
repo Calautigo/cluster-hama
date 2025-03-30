@@ -10,58 +10,56 @@ sonarr:
 
     include:
       - template: sonarr-quality-definition-series
-      # 1080p
-      - template: sonarr-v4-quality-profile-hd-remux-web-german
-      - template: sonarr-v4-custom-formats-hd-remux-web-german
-      # 2160p
       - template: sonarr-v4-quality-profile-uhd-remux-web-german
       - template: sonarr-v4-custom-formats-uhd-remux-web-german
 
     quality_profiles:
-      - name: WEB-1080p
+      - name: UHD Remux + WEB (GER)
         min_format_score: 10000 # Uncomment this line to skip English Releases
-      - name: WEB-2160p
-        min_format_score: 10000 # Uncomment this line to skip English Releases
-
 
     custom_formats:
-      # HDR Formats
+### Optional
       - trash_ids:
-          # Comment out the next line if you and all of your users' setups are fully DV compatible
+         - 32b367365729d530ca1c124a0b180c64 # Bad Dual Groups
+         - 82d40da2bc6923f41e14394075dd4b03 # No-RlsGroup
+         - e1a997ddb54e3ecbfe06341ad323c458 # Obfuscated
+         - 06d66ab109d4d2eddb2794d21526d140 # Retags
+         - 1b3994c551cbb92a2c781af061f4ab44 # Scene
+        assign_scores_to:
+          - name: UHD Remux + WEB (GER)
+
+### HDR / DV
+      - trash_ids:
+# Comment out the next line if you and all of your users' setups are fully DV compatible
           - 9b27ab6498ec0f31a3353992e19434ca # DV (WEBDL)
 
-          # HDR10+ Boost - Uncomment the next two lines if any of your devices DO support HDR10+
-          - 0dad0a507451acddd754fe6dc3a7f5e7 # HDR10+ Boost
+# HDR10+ Boost - Uncomment the next two lines if any of your devices DO support HDR10+
+          - 0dad0a507451acddd754fe6dc3a7f5e7 # HDR10Plus Boost
           - 385e9e8581d33133c3961bdcdeffb7b4 # DV HDR10+ Boost
         assign_scores_to:
-          - name: WEB-2160p
+          - name: UHD Remux + WEB (GER)
 
-      # Optional
+### Optional SDR
+# Only ever use ONE of the following custom formats:
+# SDR - block ALL SDR releases
+# SDR (no WEBDL) - block UHD/4k Remux and Bluray encode SDR releases, but allow SDR WEB
       - trash_ids:
-          - 32b367365729d530ca1c124a0b180c64 # Bad Dual Groups
-          - 82d40da2bc6923f41e14394075dd4b03 # No-RlsGroup
-          - e1a997ddb54e3ecbfe06341ad323c458 # Obfuscated
-          - 06d66ab109d4d2eddb2794d21526d140 # Retags
-          - 1b3994c551cbb92a2c781af061f4ab44 # Scene
+#          - 2016d1676f5ee13a5b7257ff86ac9a93 # SDR
+         - 83304f261cf516bb208c18c54c0adf97 # SDR (no WEBDL)
         assign_scores_to:
-          - name: WEB-1080p
-          - name: WEB-2160p
+          - name: UHD Remux + WEB (GER)
+
+### x265 - IMPORTANT: Only use on of below options.
+      - trash_ids:
+         - 9b64dff695c2115facf1b6ea59c9bd07 # Uncomment this to allow only HDR/DV x265 HD releases
+        assign_scores_to:
+          - name: UHD Remux + WEB (GER)
 
       - trash_ids:
-          - 9b64dff695c2115facf1b6ea59c9bd07 # x265 (no HDR/DV)
+#          - 47435ece6b99a0b477caf360e79ba0bb # Uncomment this to block all x265 HD releases
         assign_scores_to:
-          - name: WEB-1080p
-          - name: WEB-2160p
-
-      # Optional SDR
-      # Only ever use ONE of the following custom formats:
-      # SDR - block ALL SDR releases
-      # SDR (no WEBDL) - block UHD/4k Remux and Bluray encode SDR releases, but allow SDR WEB
-      - trash_ids:
-          # - 2016d1676f5ee13a5b7257ff86ac9a93 # SDR
-          - 83304f261cf516bb208c18c54c0adf97 # SDR (no WEBDL)
-        assign_scores_to:
-          - name: WEB-2160p
+          - name: UHD Remux + WEB (GER)
+            score: -35000
 
 radarr:
   radarr_main:
