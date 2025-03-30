@@ -16,6 +16,13 @@ sonarr:
     quality_profiles:
       - name: UHD Remux + WEB (GER)
         min_format_score: 10000 # Uncomment this line to skip English Releases
+        qualities:
+          - name: WEB 1080p
+            qualities:
+              - WEBDL-1080p
+              - WEBRip-1080p
+          - name: Bluray-1080p
+          - name: Bluray-720p
 
     custom_formats:
 ### Optional
@@ -78,6 +85,13 @@ radarr:
     quality_profiles:
       - name: Remux + WEB 2160p (GER)
         min_format_score: 10000 # Uncomment this line to skip English Releases
+        qualities:
+          - name: WEB 1080p
+            qualities:
+              - WEBDL-1080p
+              - WEBRip-1080p
+          - name: Bluray-1080p
+          - name: Bluray-720p
 
     custom_formats:
 ### Audio
