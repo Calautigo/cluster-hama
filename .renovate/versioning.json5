@@ -7,14 +7,6 @@
       matchPackageNames: [
       ],
       versioning: "loose",
-    },
-    {
-      description: "Custom versioning for http-https-echo",
-      matchDatasources: ["docker"],
-      matchPackageNames: [
-
-      ],
-      versioning: "regex:^(?<major>\\d+)$",
     }
   ],
 }
