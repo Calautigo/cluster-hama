@@ -1,6 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
+    "config:recommended",
     "local>dominik/cluster-hama//.renovate/groups.json5",
     "local>dominik/cluster-hama//.renovate/versioning.json5",
     "local>dominik/cluster-hama//.renovate/autoMerge.json5",
