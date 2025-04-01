@@ -11,7 +11,11 @@ spec:
     kind: OCIRepository
     name: app-template
     namespace: flux-system
-
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: cloudnative-pg
+      namespace: database
   values:
     controllers:
       main:
@@ -21,9 +25,9 @@ spec:
 
         pod:
           securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
+            runAsUser: 65534
+            runAsGroup: 65533
+            fsGroup: 65533
             fsGroupChangePolicy: OnRootMismatch
 
         initContainers:
@@ -38,17 +42,17 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/onedr0p/home-assistant
-              tag: 2025.3.3@sha256:9e2a7177b4600653d6cb46dff01b1598189a5ae93be0b99242fbc039d32d79f1
-
+              repository: ghcr.io/home-operations/home-assistant
+              tag: 2025.3.4
+            env:
+              VENV_FOLDER: /venv
             envFrom: *envFrom
-
             resources:
               requests:
                 cpu: 47m
-                memory: 1254M
+                memory: 1Gi
               limits:
-                memory: 1254M
+                memory: 2Gi
 
             securityContext:
               allowPrivilegeEscalation: false
@@ -61,7 +65,7 @@ spec:
             dependsOn: main
             image:
               repository: ghcr.io/coder/code-server
-              tag: 4.96.4@sha256:f93810f7f6636b3af3b1a750faf612349cddb89fbb6d28d69123a214fc75ee9e
+              tag: 4.98.2@sha256:9ed588a05d4e81aa464e753a409bc3b2b93267323d1c3975fbddf6f9aef84c26
             args: [
               "--auth", "none",
               "--disable-telemetry", "--disable-update-check",
@@ -71,7 +75,7 @@ spec:
               "/config"
             ]
             env:
-              HASS_SERVER: http://home-assistant:8123
+              HASS_SERVER: http://localhost:8123
               HASS_TOKEN:
                 valueFrom:
                   secretKeyRef:
@@ -81,102 +85,34 @@ spec:
               requests:
                 cpu: 10m
               limits:
-                memory: 512Mi
-
-          # music-assistant:
-          #   image:
-          #     repository: ghcr.io/music-assistant/server
-          #     tag: 2.3.2@sha256:2e6f769f0a9863acea3a39d3207e41b39f325d3f36536851cc7e0509272d8a19
-          #   probes:
-          #     liveness:
-          #       enabled: false
-          #     readiness:
-          #       enabled: false
-          #     startup:
-          #       enabled: false
-          #   resources:
-          #     requests:
-          #       cpu: 5m
-          #       memory: 1374M
-          #     limits:
-          #       memory: 2Gi
-          #   securityContext:
-          #     apparmor:
-          #       enabled: false # Disables apparmor
-          #     allowPrivilegeEscalation: true
-          #     readOnlyRootFilesystem: false
-          #     capabilities:
-          #       add:
-          #         - SYS_ADMIN
-          #         - DAC_READ_SEARCH
-          #       drop:
-          #         - ALL
+                memory: 1Gi
 
     service:
-      main:
-        controller: main
-        type: LoadBalancer
-        annotations:
-          lbipam.cilium.io/ips: 10.100.55.102
+      app:
+        controller: home-assistant
         ports:
           http:
             port: 8123
-      code:
-        type: ClusterIP
-        controller: main
-        ports:
-          http:
+            primary: true
+          code-server:
             port: 12321
-
-    route:
-      main:
-        enabled: true
-        parentRefs:
-          - name: cilium-gateway
-            namespace: network
-        hostnames:
-          - hass.schwarz47.at
-        rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /
-            backendRefs:
-              - kind: Service
-                name: main
-                port: 8123
-      code-server:
-        enabled: true
-        parentRefs:
-          - name: cilium-gateway
-            namespace: network
-        hostnames:
-          - hass-code.schwarz47.at
-        rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /
-            backendRefs:
-              - kind: Service
-                name: code
-                port: 12321
 
     persistence:
       config:
         existingClaim: home-assistant-config
-        globalMounts:
-          - path: /config
-            # music-assistant:
-            #   - path: /data
-      logs:
-        type: emptyDir
-        globalMounts:
-          - path: /config/logs
-      tts:
-        type: emptyDir
-        globalMounts:
-          - path: /config/tts
+        advancedMounts:
+          home-assistant:
+            app:
+              - path: /config
+            code-server:
+              - path: /config
+      hass-cache:
+        existingClaim: hass-cache
+        advancedMounts:
+          home-assistant:
+            app:
+              - path: /venv
+                subPath: hass-venv
       tmp:
         type: emptyDir
         advancedMounts:
@@ -187,5 +123,29 @@ spec:
             code:
               - path: /tmp
                 subPath: code-server-tmp
-              - path: /nonexistent
-                subPath: nonexistent
+
+    route:
+      app:
+        hostnames:
+          - hass.schwarz47.at
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /code/
+            filters:
+              - type: URLRewrite
+                urlRewrite:
+                  path:
+                    type: ReplacePrefixMatch
+                    replacePrefixMatch: /
+            backendRefs:
+              - name: home-assistant
+                port: 12321
+          - backendRefs:
+              - name: home-assistant
+                port: 8123
