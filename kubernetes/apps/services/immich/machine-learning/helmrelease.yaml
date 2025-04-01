@@ -31,7 +31,7 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v1.129.0@sha256:072b5eec074476726c38994ca80edc8d19e14859d49b0f1b6aaa04b0ce415f0c
+              tag: v1.131.1@sha256:838757ea055071269e12bb8a4fb43109fb7dbe2340fffd96cb07ecf26b939e25
             env:
               # Ports
               MACHINE_LEARNING_HOST: 0.0.0.0
