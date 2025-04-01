@@ -35,7 +35,7 @@ spec:
               - "docker:docker://ghcr.io/catthehacker/ubuntu:act-latest,x86_64:docker://ghcr.io/catthehacker/ubuntu:act-latest,linux:docker://ghcr.io/catthehacker/ubuntu:act-latest,pc:docker://ghcr.io/catthehacker/ubuntu:act-latest,ubuntu-x86_64:docker://ghcr.io/catthehacker/ubuntu:act-latest,linux:host"
             envFrom:
               - secretRef:
-                  name: forgjo-runner-secret
+                  name: forgejo-runner-secret
         containers:
           daemon:
             image:
