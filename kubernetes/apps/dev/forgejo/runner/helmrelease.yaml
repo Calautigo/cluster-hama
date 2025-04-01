@@ -1,0 +1,92 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app forgejo-runner
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: cloudnative-pg-cluster
+      namespace: database
+  values:
+    controllers:
+      forgejo-runner:
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        replicas: 2
+        initContainers:
+          runner-register:
+            image:
+              repository: code.forgejo.org/forgejo/runner
+              tag: 6.3.1
+            command:
+              - "forgejo-runner"
+              - "register"
+              - "--no-interactive"
+              - "--token"
+              - $(RUNNER_TOKEN)
+              - "--name"
+              - $(RUNNER_NAME)
+              - "--instance"
+              - "https://git.schwarz47.at/"
+              - "--labels"
+              - "docker:docker://ghcr.io/catthehacker/ubuntu:act-latest,x86_64:docker://ghcr.io/catthehacker/ubuntu:act-latest,linux:docker://ghcr.io/catthehacker/ubuntu:act-latest,pc:docker://ghcr.io/catthehacker/ubuntu:act-latest,ubuntu-x86_64:docker://ghcr.io/catthehacker/ubuntu:act-latest,linux:host"
+            envFrom:
+              - secretRef:
+                  name: forgjo-runner-secret
+        containers:
+          daemon:
+            image:
+              repository: docker
+              tag: 28.0.4-dind
+            securityContext:
+              privileged: true
+            env:
+              - name: DOCKER_TLS_CERTDIR
+                value: /certs
+          app:
+            image:
+              repository: code.forgejo.org/forgejo/runner
+              tag: 6.3.1
+            command:
+              - "sh"
+              - "-c"
+              - "while ! nc -z localhost 2376 </dev/null; do echo 'waiting for docker daemon...'; sleep 5; done; forgejo-runner --config /config/config.yml daemon"
+            env:
+              - name: DOCKER_HOST
+                value: tcp://localhost:2376
+              - name: DOCKER_CERT_PATH
+                value: /certs/client
+              - name: DOCKER_TLS_VERIFY
+                value: "1"
+
+    service:
+      app:
+        controller: forgejo-runner
+        ports:
+          http:
+            port: 45315
+
+    persistence:
+      docker-certs:
+        type: emptyDir
+        globalMounts:
+          - path: /certs
+      runner-data:
+        type: emptyDir
+        globalMounts:
+          - path: /data
+      config:
+        type: configMap
+        name: forgejo-runner-configmap
+        globalMounts:
+          - path: /config/config.yml
+            subPath: config.yml
+            readOnly: true

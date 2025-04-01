@@ -46,10 +46,12 @@
       "tools": "tools",
       "volsync": "aws"
   },
-  "sops.defaults.ageKeyFile": "age.key",
   "yaml.schemaStore.enable": true,
   "yaml.schemas": {
     "kubernetes": ["kubernetes/*.yml", "kubernetes/*.yaml"]
   },
   "git.ignoreLimitWarning": true,
+  "markdownlint.config": {
+    "extends": ".markdownlint.yaml"
+  }
 }
