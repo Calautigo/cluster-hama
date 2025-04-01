@@ -20,10 +20,10 @@ spec:
     namespace: flux-system
   wait: false
   dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
     - name: volsync
       namespace: system
+    - name: external-secrets-stores
+      namespace: external-secrets
   postBuild:
     substitute:
       APP: *app
