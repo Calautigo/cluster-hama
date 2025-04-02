@@ -24,8 +24,6 @@ spec:
       namespace: external-secrets
     - name: volsync
       namespace: system
-    - name: cloudnative-pg-cluster
-      namespace: database
   postBuild:
     substitute:
       APP: *app
