@@ -99,6 +99,7 @@ spec:
               - "gotenberg"
               - "--chromium-disable-javascript=true"
               - "--chromium-allow-list=file:///tmp/.*"
+
       redis:
         containers:
           redis:
@@ -150,5 +151,5 @@ spec:
             sectionName: https
         rules:
           - backendRefs:
-              - name: paperless
+              - name: paperless-app
                 port: *port
