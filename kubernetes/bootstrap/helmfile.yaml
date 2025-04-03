@@ -8,12 +8,8 @@ helmDefaults:
   force: true
 
 repositories:
-  - name: postfinance
-    url: https://postfinance.github.io/kubelet-csr-approver
   - name: cilium
     url: https://helm.cilium.io
-  - name: coredns
-    url: https://coredns.github.io/helm
   - name: jetstack
     url: https://charts.jetstack.io
 
@@ -21,7 +17,7 @@ releases:
   - name: prometheus-operator-crds
     namespace: monitoring
     chart: oci://ghcr.io/prometheus-community/charts/prometheus-operator-crds
-    version: 17.0.2
+    version: 19.0.0
 
   - name: cilium
     namespace: kube-system
@@ -34,7 +30,7 @@ releases:
 
   - name: coredns
     namespace: kube-system
-    chart: coredns/coredns
+    chart: oci://ghcr.io/coredns/charts/coredns
     version: 1.39.2
     values:
       - ../apps/kube-system/coredns/app/values.yaml
@@ -48,19 +44,10 @@ releases:
     needs:
       - kube-system/coredns
 
-  - name: kubelet-csr-approver
-    namespace: system-controllers
-    chart: postfinance/kubelet-csr-approver
-    version: 1.2.6
-    values:
-      - ../apps/system-controllers/kubelet-csr-approver/app/values.yaml
-    needs:
-      - kube-system/coredns
-
   - name: flux-operator
     namespace: flux-system
     chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
-    version: 0.13.0
+    version: 0.18.0
     values:
       - ../apps/flux-system/flux-operator/app/values.yaml
     needs:
@@ -69,7 +56,7 @@ releases:
   - name: flux-instance
     namespace: flux-system
     chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance
-    version: 0.13.0
+    version: 0.18.0
     wait: false
     values:
       - ../apps/flux-system/flux-operator/instance/values.yaml
