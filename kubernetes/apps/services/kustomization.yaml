@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: services
 resources:
   - ./immich/ks.yaml
+  - ./it-tools/ks.yaml
   - ./mealie/ks.yaml
   - ./paperless/ks.yaml
 components:
