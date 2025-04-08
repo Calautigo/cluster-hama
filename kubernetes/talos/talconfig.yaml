@@ -42,6 +42,7 @@ nodes:
         vip:
           ip: *talosControlplaneVip
 
+
   - hostname: blue.schwarz47.internal
     ipAddress: 10.100.0.62
     installDiskSelector:
@@ -226,7 +227,7 @@ controlPlane:
         time:
           disabled: false
           servers:
-           - 10.100.0.1
+           - /dev/ptp0
 
     # Configure custom sysctls
     - |-

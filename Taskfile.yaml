@@ -13,7 +13,7 @@ includes:
   k8s-bootstrap: .taskfiles/k8s-bootstrap/Taskfile.yaml
   # postgres: .taskfiles/postgres/Taskfile.yaml
   # sops: .taskfiles/sops/Taskfile.yaml
-  # talos: .taskfiles/talos/Taskfile.yaml
+  talos: .taskfiles/talos/Taskfile.yaml
   # volsync: .taskfiles/volsync/Taskfile.yaml
   workstation: .taskfiles/workstation/Taskfile.yaml
 
