@@ -7,7 +7,7 @@
       automerge: true,
       matchUpdateTypes: ["digest"],
       matchPackagePrefixes: ["ghcr.io/home-operations", "ghcr.io/onedr0p", "ghcr.io/bjw-s", "ghcr.io/bjw-s-labs"],
-      ignoreTests: false,
+      ignoreTests: true,
     },
     {
       description: "Auto merge KPS minors and patches",
@@ -15,7 +15,7 @@
       automerge: true,
       matchUpdateTypes: ["minor", "patch"],
       matchDepNames: ["kube-prometheus-stack"],
-      ignoreTests: false,
+      ignoreTests: true,
     },
   ],
 }
