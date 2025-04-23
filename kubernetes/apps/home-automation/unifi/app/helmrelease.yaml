@@ -75,35 +75,22 @@ spec:
             port: 10001
             protocol: UDP
 
-    route:
-      app:
-        enabled: true
-        parentRefs:
-          - name: cilium-gateway
-            namespace: network
-        hostnames:
-          - controller.schwarz47.at
-        rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /
-            backendRefs:
-              - kind: Service
-                name: app
-                port: *port
-            timeouts:
-              requests: 0s
-            filters:
-              - type: RequestHeaderModifier
-                requestHeaderModifier:
-                  set:
-                    - name: X-Forwarded-Proto
-                      value: https
-
     persistence:
       config:
         enabled: true
         existingClaim: unifi-data
         globalMounts:
           - path: /unifi
+
+    route:
+      app:
+        hostnames:
+          - controller.schwarz47.at
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: unifi
+                port: *port
