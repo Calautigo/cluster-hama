@@ -30,8 +30,10 @@ spec:
               JVM_MAX_HEAP_SIZE: 1024M
             resources:
               requests:
-                memory: 2Gi
+                memory: 1Gi
                 cpu: 50m
+              limits:
+                memory: 1250Mi
 
     service:
       app:
@@ -42,7 +44,11 @@ spec:
         ports:
           http:
             enabled: true
-            port: 8443
+            port: 8080
+            protocol: HTTP
+          https:
+            primary: false
+            port: &port 8443
             protocol: HTTPS
           controller:
             enabled: true
@@ -89,7 +95,9 @@ spec:
             backendRefs:
               - kind: Service
                 name: app
-                port: 8443
+                port: *port
+            timeouts:
+              requests: 0s
             filters:
               - type: RequestHeaderModifier
                 requestHeaderModifier:
