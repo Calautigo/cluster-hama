@@ -43,39 +43,35 @@ spec:
         loadBalancerIP: 10.100.55.101
         ports:
           http:
-            enabled: true
+            primary: true
             port: 8080
             protocol: HTTP
           https:
             primary: false
             port: &port 8443
             protocol: HTTPS
-          controller:
-            enabled: true
-            port: 8080
-            protocol: TCP
           portal-http:
-            enabled: false
+            primary: false
             port: 8880
             protocol: HTTP
           portal-https:
-            enabled: false
+            primary: false
             port: 8843
             protocol: HTTPS
           speedtest:
-            enabled: true
+            primary: true
             port: 6789
             protocol: TCP
           stun:
-            enabled: true
+            primary: true
             port: 3478
             protocol: UDP
           syslog:
-            enabled: true
+            primary: true
             port: 5514
             protocol: UDP
           discovery:
-            enabled: true
+            primary: true
             port: 10001
             protocol: UDP
 
