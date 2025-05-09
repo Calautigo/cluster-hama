@@ -89,8 +89,8 @@ spec:
         existingClaim: sabnzbd-config
       media:
         type: nfs
-        server: 10.10.200.50
-        path: /mnt/storage/media/usenet
+        server: 10.100.44.81
+        path: /Media/media/usenet
         globalMounts:
           - path: /data
       temp:
