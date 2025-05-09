@@ -23,7 +23,7 @@ spec:
           app:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 2.14.7
+              tag: 2.15.3
             env:
               # Configure application
               PAPERLESS_SECRET_KEY:
@@ -91,7 +91,7 @@ spec:
           gotenberg:
             image:
               repository: gotenberg/gotenberg
-              tag: 8.19.1
+              tag: 8.20.1
               pullPolicy: IfNotPresent
             ports:
               - containerPort: 3000
@@ -105,7 +105,7 @@ spec:
           redis:
             image:
               repository: docker.io/valkey/valkey
-              tag: 8.1.0
+              tag: 8.1.1
             resources:
               requests:
                 cpu: 5m
