@@ -71,7 +71,7 @@ spec:
         type: emptyDir
       media:
         type: nfs
-        server: 10.100.44.81
+        server: 10.100.0.81
         path: /Media
         globalMounts:
           - path: /data/media
