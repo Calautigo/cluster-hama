@@ -90,7 +90,7 @@ spec:
       media:
         type: nfs
         server: 10.100.44.81
-        path: /Media/media/usenet
+        path: /Media/usenet
         globalMounts:
           - path: /data
       temp:
