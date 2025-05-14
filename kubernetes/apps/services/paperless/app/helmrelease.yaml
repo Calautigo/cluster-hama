@@ -132,14 +132,14 @@ spec:
           paperless:
             app:
               - path: /data/local
-      nas:
-        type: nfs
-        server: 10.10.200.50
-        path: /mnt/storage/docs/paperless
-        advancedMounts:
-          paperless:
-            app:
-              - path: /data/nas
+      # nas:
+      #   type: nfs
+      #   server: 10.10.200.50
+      #   path: /mnt/storage/docs/paperless
+      #   advancedMounts:
+      #     paperless:
+      #       app:
+      #         - path: /data/nas
 
     route:
       app:
