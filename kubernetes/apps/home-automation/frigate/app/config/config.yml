@@ -80,9 +80,6 @@ cameras:
         - path: rtsp://127.0.0.1:8554/living_room
           input_args: preset-rtsp-restream
           roles: [record]
-        - path: rtsp://127.0.0.1:8554/living_room_sub
-          input_args: preset-rtsp-restream
-          roles: [detect]
     review:
       detections:
         labels: []
@@ -141,9 +138,6 @@ cameras:
         - path: rtsp://127.0.0.1:8554/kids_nils
           input_args: preset-rtsp-restream
           roles: [record]
-        - path: rtsp://127.0.0.1:8554/kids_nils_sub
-          input_args: preset-rtsp-restream
-          roles: [detect]
     review:
       detections:
         labels: []
