@@ -79,7 +79,9 @@ cameras:
       inputs:
         - path: rtsp://127.0.0.1:8554/living_room
           input_args: preset-rtsp-restream
-          roles: [record]
+          roles:
+            - record
+            - detect
     review:
       detections:
         labels: []
@@ -137,7 +139,9 @@ cameras:
       inputs:
         - path: rtsp://127.0.0.1:8554/kids_nils
           input_args: preset-rtsp-restream
-          roles: [record]
+          roles:
+            - record
+            - detect
     review:
       detections:
         labels: []
@@ -147,7 +151,9 @@ cameras:
       inputs:
         - path: rtsp://127.0.0.1:8554/garden_carport
           input_args: preset-rtsp-restream
-          roles: [record]
+          roles:
+            - record
+            - detect
 
     objects:
       track:
