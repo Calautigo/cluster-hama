@@ -36,7 +36,7 @@ spec:
                 nvidia.com/gpu: "1"
               limits:
                 cpu: 8000m
-                memory: 6Gi
+                memory: 10Gi
                 nvidia.com/gpu: "1"
 
             probes:
