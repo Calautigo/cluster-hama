@@ -67,6 +67,8 @@ go2rtc:
         garden_door_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.108:554/stream2
         living_room: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.133:554/stream1
         living_room_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.133:554/stream2
+        living_room_couch: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.138:554/stream1
+        living_room_couch_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.138:554/stream2
         garden_chicken: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.103:554/stream1
         garden_chicken_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.103:554/stream2
         garden_carport: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.134:554/stream1
@@ -90,6 +92,18 @@ cameras:
     #   port: 2020
     #   user: {FRIGATE_CAMERA_USER}
     #   password: {FRIGATE_CAMERA_PASSWORD}
+
+  living_room_couch:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/living_room_couch
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+            - detect
+    review:
+      detections:
+        labels: []
 
   corridor:
     ffmpeg:
