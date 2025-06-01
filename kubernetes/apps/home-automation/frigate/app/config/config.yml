@@ -46,10 +46,6 @@ record:
     retain:
       days: 30
       mode: motion
-  detections:
-    retain:
-      days: 30
-      mode: motion
 
 objects:
   track:
@@ -83,6 +79,8 @@ cameras:
         - path: rtsp://127.0.0.1:8554/living_room
           input_args: preset-rtsp-restream
           roles: [record]
+    detect:
+      enabled: false
 
   living_room_couch:
     ffmpeg:
@@ -90,6 +88,8 @@ cameras:
         - path: rtsp://127.0.0.1:8554/living_room_couch
           input_args: preset-rtsp-restream
           roles: [record]
+    detect:
+      enabled: false
 
   corridor:
     ffmpeg:
@@ -97,6 +97,8 @@ cameras:
         - path: rtsp://127.0.0.1:8554/corridor
           input_args: preset-rtsp-restream
           roles: [record]
+    detect:
+      enabled: false
 
   kids_nils:
     ffmpeg:
@@ -104,6 +106,8 @@ cameras:
         - path: rtsp://127.0.0.1:8554/kids_nils
           input_args: preset-rtsp-restream
           roles: [record]
+    detect:
+      enabled: false
 
   garden_door:
     ffmpeg:
