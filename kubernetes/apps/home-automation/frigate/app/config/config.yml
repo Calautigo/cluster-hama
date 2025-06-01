@@ -31,11 +31,7 @@ model:
   height: 416
 
 snapshots:
-  enabled: true
-  timestamp: true
-  bounding_box: true
-  retain:
-    default: 7
+  enabled: false
 
 record:
   enabled: true
