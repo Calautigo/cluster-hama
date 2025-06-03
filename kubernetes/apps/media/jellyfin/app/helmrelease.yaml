@@ -5,16 +5,11 @@ kind: HelmRelease
 metadata:
   name: jellyfin
 spec:
-  chart:
-    spec:
-      chart: app-template
-      version: 3.7.2
-      interval: 30m
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
   interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
   values:
     controllers:
       jellyfin:
@@ -30,6 +25,7 @@ spec:
             supplementalGroups:
               - 44
               - 109
+
         containers:
           app:
             image:
@@ -71,30 +67,9 @@ spec:
     service:
       app:
         controller: jellyfin
-        type: LoadBalancer
-        annotations:
-          lbipam.cilium.io/ips: 10.100.0.150
         ports:
           http:
             port: *port
-
-    route:
-      app:
-        enabled: true
-        parentRefs:
-          - name: cilium-gateway
-            namespace: network
-        hostnames:
-          - jellyfin.schwarz47.at
-        rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /
-            backendRefs:
-              - kind: Service
-                name: app
-                port: http
 
     persistence:
       config:
@@ -103,12 +78,10 @@ spec:
           jellyfin:
             app:
               - path: /config
-
       transcode:
         existingClaim: jellyfin-transcode
         globalMounts:
           - path: /config/transcodes
-
       cache:
         type: emptyDir
         advancedMounts:
@@ -118,13 +91,25 @@ spec:
                 subPath: cache
               - path: /tmp/jellyfin
                 subPath: tmp
-
       media:
         type: nfs
-        server: 10.10.200.50
-        path: /mnt/storage/media/media
+        server: 10.100.0.81
+        path: /Media/media
         advancedMounts:
           jellyfin:
             app:
               - path: /media
                 readOnly: true
+
+    route:
+      app:
+        hostnames:
+          - jellyfin.schwarz47.at
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: jellyfin
+                port: *port

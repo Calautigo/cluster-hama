@@ -2,18 +2,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app code-server
+  name: code-server
 spec:
-  chart:
-    spec:
-      chart: app-template
-      version: 3.7.2
-      reconcileStrategy: ChartVersion
-      sourceRef:
-        kind: HelmRepository
-        namespace: flux-system
-        name: bjw-s
-  interval: 1h
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
   values:
     controllers:
       code-server:
@@ -21,11 +16,10 @@ spec:
           app:
             image:
               repository: ghcr.io/coder/code-server
-              tag: 4.96.4@sha256:f93810f7f6636b3af3b1a750faf612349cddb89fbb6d28d69123a214fc75ee9e
+              tag: 4.99.4@sha256:316b7f60051b44b81fdf8972293735c2b0fda9a2b1e88fb6b77195df0c9b9b78
               pullPolicy: IfNotPresent
             env:
               DISABLE_TELEMETRY: true
-
             probes:
               liveness: &probe
                 type: HTTP
@@ -42,31 +36,26 @@ spec:
 
     service:
       code-server:
-        controller: *app
+        controller: code-server
         ports:
           http:
             port: &port 8080
-
-    route:
-      app:
-        enabled: true
-        parentRefs:
-          - name: cilium-gateway
-            namespace: network
-        hostnames:
-          - code.schwarz47.at
-        rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /
-            backendRefs:
-              - kind: Service
-                name: *app
-                port: *port
 
     persistence:
       data:
         existingClaim: code-server-storage
         globalMounts:
           - path: /home/coder
+
+    route:
+      app:
+        hostnames:
+          - code.schwarz47.at
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: code-server
+                port: *port

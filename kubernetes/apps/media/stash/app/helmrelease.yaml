@@ -91,8 +91,8 @@ spec:
 
       media:
         type: nfs
-        server: 10.10.200.50
-        path: /mnt/storage/media/media/adult
+        server: 10.100.0.81
+        path: /Media/media/adult
         advancedMounts:
           stash:
             app:

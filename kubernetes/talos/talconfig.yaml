@@ -49,6 +49,7 @@ nodes:
           - network: 10.44.0.0/16
             gateway: 10.44.0.1
 
+
   - hostname: blue.schwarz47.internal
     ipAddress: 10.100.0.62
     installDiskSelector:
@@ -247,7 +248,7 @@ controlPlane:
         time:
           disabled: false
           servers:
-           - 10.100.0.1
+           - /dev/ptp0
 
     # Configure custom sysctls
     - |-

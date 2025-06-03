@@ -6,16 +6,10 @@ metadata:
   name: mealie
 spec:
   interval: 30m
-  chart:
-    spec:
-      chart: app-template
-      version: 3.7.2
-      interval: 30m
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
-
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
   values:
     controllers:
       mealie:
@@ -30,7 +24,7 @@ spec:
           app:
             image:
               repository: ghcr.io/mealie-recipes/mealie
-              tag: v2.5.0
+              tag: v2.8.0
             env:
               ALLOW_SIGNUP: "false"
               PUID: 1000
@@ -55,25 +49,7 @@ spec:
         controller: mealie
         ports:
           http:
-            port: 9000
-
-    route:
-      app:
-        enabled: true
-        parentRefs:
-          - name: cilium-gateway
-            namespace: network
-        hostnames:
-          - mealie.schwarz47.at
-        rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /
-            backendRefs:
-              - kind: Service
-                name: app
-                port: http
+            port: &port 9000
 
     persistence:
       data:
@@ -82,3 +58,16 @@ spec:
           mealie:
             app:
               - path: /app/data/
+
+    route:
+      app:
+        hostnames:
+          - mealie.schwarz47.at
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: mealie
+                port: *port

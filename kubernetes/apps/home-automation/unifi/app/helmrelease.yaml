@@ -19,7 +19,7 @@ spec:
           app:
             image:
               repository: jacobalberty/unifi
-              tag: v9.0.108@sha256:18f9e126fde4d45b457ef222dc6a52bc1f8b943f80b023ed6db54bcc012c540e
+              tag: v9.1.120@sha256:150af8f7bd96f597e7441f4598bd82435c2ee73b03b833179d30e6e2666be12b
               pullPolicy: IfNotPresent
             env:
               RUNAS_UID0: "false"
@@ -30,8 +30,10 @@ spec:
               JVM_MAX_HEAP_SIZE: 1024M
             resources:
               requests:
-                memory: 2Gi
+                memory: 1Gi
                 cpu: 50m
+              limits:
+                memory: 1250Mi
 
     service:
       app:
@@ -41,61 +43,37 @@ spec:
         loadBalancerIP: 10.100.55.101
         ports:
           http:
-            enabled: true
-            port: 8443
-            protocol: HTTPS
-          controller:
-            enabled: true
+            primary: true
             port: 8080
-            protocol: TCP
+            protocol: HTTP
+          https:
+            primary: false
+            port: &port 8443
+            protocol: HTTPS
           portal-http:
-            enabled: false
+            primary: false
             port: 8880
             protocol: HTTP
           portal-https:
-            enabled: false
+            primary: false
             port: 8843
             protocol: HTTPS
           speedtest:
-            enabled: true
+            primary: true
             port: 6789
             protocol: TCP
           stun:
-            enabled: true
+            primary: true
             port: 3478
             protocol: UDP
           syslog:
-            enabled: true
+            primary: true
             port: 5514
             protocol: UDP
           discovery:
-            enabled: true
+            primary: true
             port: 10001
             protocol: UDP
-
-    route:
-      app:
-        enabled: true
-        parentRefs:
-          - name: cilium-gateway
-            namespace: network
-        hostnames:
-          - controller.schwarz47.at
-        rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /
-            backendRefs:
-              - kind: Service
-                name: app
-                port: 8443
-            filters:
-              - type: RequestHeaderModifier
-                requestHeaderModifier:
-                  set:
-                    - name: X-Forwarded-Proto
-                      value: https
 
     persistence:
       config:
@@ -103,3 +81,16 @@ spec:
         existingClaim: unifi-data
         globalMounts:
           - path: /unifi
+
+    route:
+      app:
+        hostnames:
+          - controller.schwarz47.at
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: unifi
+                port: *port

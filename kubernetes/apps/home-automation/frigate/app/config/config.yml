@@ -31,11 +31,7 @@ model:
   height: 416
 
 snapshots:
-  enabled: true
-  timestamp: true
-  bounding_box: true
-  retain:
-    default: 7
+  enabled: false
 
 record:
   enabled: true
@@ -43,10 +39,6 @@ record:
     days: 3
     mode: all
   alerts:
-    retain:
-      days: 30
-      mode: motion
-  detections:
     retain:
       days: 30
       mode: motion
@@ -67,9 +59,14 @@ go2rtc:
         garden_door_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.108:554/stream2
         living_room: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.133:554/stream1
         living_room_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.133:554/stream2
+        living_room_couch: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.138:554/stream1
+        living_room_couch_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.138:554/stream2
         garden_chicken: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.103:554/stream1
         garden_chicken_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.103:554/stream2
         garden_carport: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.134:554/stream1
+        garden_carport_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.134:554/stream2
+        kids_nils: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.137:554/stream1
+        kids_nils_sub: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.137:554/stream2
 
 cameras:
   living_room:
@@ -78,17 +75,17 @@ cameras:
         - path: rtsp://127.0.0.1:8554/living_room
           input_args: preset-rtsp-restream
           roles: [record]
-        - path: rtsp://127.0.0.1:8554/living_room_sub
+    detect:
+      enabled: false
+
+  living_room_couch:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/living_room_couch
           input_args: preset-rtsp-restream
-          roles: [detect]
-    review:
-      detections:
-        labels: []
-    # onvif:
-    #   host: 10.40.200.133
-    #   port: 2020
-    #   user: {FRIGATE_CAMERA_USER}
-    #   password: {FRIGATE_CAMERA_PASSWORD}
+          roles: [record]
+    detect:
+      enabled: false
 
   corridor:
     ffmpeg:
@@ -96,17 +93,17 @@ cameras:
         - path: rtsp://127.0.0.1:8554/corridor
           input_args: preset-rtsp-restream
           roles: [record]
-        - path: rtsp://127.0.0.1:8554/corridor_sub
+    detect:
+      enabled: false
+
+  kids_nils:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/kids_nils
           input_args: preset-rtsp-restream
-          roles: [detect]
-    review:
-      detections:
-        labels: []
-    # onvif:
-    #   host: 10.40.200.104
-    #   port: 2020
-    #   user: ${FRIGATE_CAMERA_USER}
-    #   password: ${FRIGATE_CAMERA_PASSWORD}
+          roles: [record]
+    detect:
+      enabled: false
 
   garden_door:
     ffmpeg:
@@ -117,11 +114,6 @@ cameras:
         - path: rtsp://127.0.0.1:8554/garden_door_sub
           input_args: preset-rtsp-restream
           roles: [detect]
-    # onvif:
-    #   host: 10.40.200.108
-    #   port: 2020
-    #   user: {FRIGATE_CAMERA_USER}
-    #   password: {FRIGATE_CAMERA_PASSWORD}
 
   garden_chicken:
     ffmpeg:
@@ -139,7 +131,9 @@ cameras:
         - path: rtsp://127.0.0.1:8554/garden_carport
           input_args: preset-rtsp-restream
           roles: [record]
-
+        - path: rtsp://127.0.0.1:8554/garden_carport_sub
+          input_args: preset-rtsp-restream
+          roles: [detect]
     objects:
       track:
         - person
@@ -148,7 +142,6 @@ cameras:
           min_area: 5000
           max_area: 100000
           threshold: 0.65
-
     zones:
       main-door-person:
         coordinates:

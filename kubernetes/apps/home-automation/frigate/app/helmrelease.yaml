@@ -10,13 +10,6 @@ spec:
     kind: OCIRepository
     name: app-template
     namespace: flux-system
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     controllers:
       frigate:
@@ -27,7 +20,7 @@ spec:
           app:
             image:
               repository: ghcr.io/blakeblackshear/frigate
-              tag: 0.15.0-tensorrt
+              tag: 0.15.1-tensorrt
 
             env:
               YOLO_MODELS: yolov4-416
@@ -42,8 +35,8 @@ spec:
                 memory: 256Mi
                 nvidia.com/gpu: "1"
               limits:
-                cpu: 8000m
-                memory: 6Gi
+                cpu: 1000m
+                memory: 20Gi
                 nvidia.com/gpu: "1"
 
             probes:
