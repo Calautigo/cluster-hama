@@ -41,6 +41,13 @@ nodes:
         mtu: 1500
         vip:
           ip: *talosControlplaneVip
+      - interface: ens19
+        addresses:
+          - 10.44.0.61
+        mtu: 1500
+        routes:
+          - network: 10.44.0.0/16
+            gateway: 10.44.0.1
 
   - hostname: blue.schwarz47.internal
     ipAddress: 10.100.0.62
@@ -59,6 +66,13 @@ nodes:
         mtu: 1500
         vip:
           ip: *talosControlplaneVip
+      - interface: ens19
+        addresses:
+          - 10.44.0.62
+        routes:
+          - network: 10.44.0.0/16
+            gateway: 10.44.0.1
+        mtu: 1500
 
   - hostname: charlie.schwarz47.internal
     ipAddress: 10.100.0.63
@@ -77,6 +91,13 @@ nodes:
         mtu: 1500
         vip:
           ip: *talosControlplaneVip
+      - interface: ens19
+        addresses:
+          - 10.44.0.63
+        mtu: 1500
+        routes:
+          - network: 10.44.0.0/16
+            gateway: 10.44.0.1
 
 controlPlane:
   nodeLabels:

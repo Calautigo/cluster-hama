@@ -20,7 +20,7 @@ spec:
     repository: ${APP}-volsync-r2
     retain:
       daily: 7
-    storageClassName: "${VOLSYNC_STORAGECLASS:-ceph-block}"
+    storageClassName: "${VOLSYNC_STORAGECLASS:-ceph-rbd}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-ceph-blockpool}"
     moverAffinity:
       podAntiAffinity:
