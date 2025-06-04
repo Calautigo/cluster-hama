@@ -5,7 +5,7 @@ kind: Cluster
 metadata:
   name: postgres16
 spec:
-  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.5-v0.3.0@sha256:be3f025d79aa1b747817f478e07e71be43236e14d00d8a9eb3914146245035ba
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.9-v0.4.0@sha256:d92dedeeb2c1c70110b72270e3f5ba90f222dcc6fb93988d9adb4d0da15a6a9d
   instances: 3
   primaryUpdateStrategy: unsupervised
   storage:
@@ -43,7 +43,7 @@ spec:
       endpointURL: https://s3.eu-central-003.backblazeb2.com
       # Note: serverName version needs to be incremented
       # when recovering from an existing cnpg cluster
-      serverName: postgres16-v5
+      serverName: postgres16-v6
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
