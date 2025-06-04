@@ -43,7 +43,7 @@ spec:
       endpointURL: https://s3.eu-central-003.backblazeb2.com
       # Note: serverName version needs to be incremented
       # when recovering from an existing cnpg cluster
-      serverName: postgres16-v3
+      serverName: postgres16-v5
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
