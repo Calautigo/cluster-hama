@@ -25,3 +25,4 @@ spec:
     storageClass:
       create: true
       clusterID: "394577ce-72a4-47f6-a132-f83e841482fe"
+      pool: k8s-rbd
