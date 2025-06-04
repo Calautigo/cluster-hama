@@ -23,7 +23,6 @@ resources:
   - ./grafana.yaml
   - ./fairwinds.yaml
   - ./forgejo.yaml
-  - ./rook-ceph.yaml
   - ./openebs.yaml
   - ./kubernetes-sigs-descheduler.yaml
   - ./kubernetes-sigs-nfd.yaml
