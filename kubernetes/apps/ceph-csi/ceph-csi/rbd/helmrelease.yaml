@@ -14,7 +14,7 @@ spec:
         name: ceph-csi
         namespace: flux-system
       interval: 5m
-  #See https://github.com/ceph/ceph-csi/blob/devel/charts/ceph-csi-cephfs/values.yaml
+  #See https://github.com/ceph/ceph-csi/blob/devel/charts/ceph-csi-rbd/values.yaml
   values:
     csiConfig:
     - clusterID: "394577ce-72a4-47f6-a132-f83e841482fe"
