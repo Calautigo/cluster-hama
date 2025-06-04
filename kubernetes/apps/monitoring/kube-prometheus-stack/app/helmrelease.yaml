@@ -21,8 +21,8 @@ spec:
   upgrade:
     crds: Skip
   dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: ceph-csi-rbd
+      namespace: ceph-csi
   values:
     crds:
       enabled: false

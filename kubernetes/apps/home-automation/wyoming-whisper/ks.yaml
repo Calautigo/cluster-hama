@@ -19,8 +19,8 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: ceph-rbd
+      namespace: ceph-csi
     - name: volsync
       namespace: system
     - name: emqx-cluster

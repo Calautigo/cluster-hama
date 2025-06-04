@@ -9,8 +9,8 @@ spec:
     name: app-template
     namespace: flux-system
   dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: ceph-csi-rbd
+      namespace: ceph-csi
   values:
     controllers:
       sonarr:
