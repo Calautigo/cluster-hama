@@ -21,7 +21,7 @@ spec:
     retain:
       daily: 7
     storageClassName: "${VOLSYNC_STORAGECLASS:-csi-rbd-sc}"
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-ceph-blockpool}"
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-rbd-snapclass}"
     moverAffinity:
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:

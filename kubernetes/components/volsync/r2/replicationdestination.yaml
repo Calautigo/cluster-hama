@@ -23,4 +23,4 @@ spec:
       fsGroup: ${APP_GID:-2000}
     repository: "${APP}-volsync-r2"
     storageClassName: "${VOLSYNC_STORAGECLASS:-csi-rbd-sc}"
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-ceph-blockpool}"
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-rbd-snapclass}"
