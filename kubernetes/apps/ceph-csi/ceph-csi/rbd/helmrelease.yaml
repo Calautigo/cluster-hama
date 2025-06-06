@@ -22,6 +22,7 @@ spec:
       - 10.44.0.56:6789
       - 10.44.0.57:6789
       - 10.44.0.58:6789
+    mounter: rbd
     storageClass:
       create: true
       clusterID: "394577ce-72a4-47f6-a132-f83e841482fe"
