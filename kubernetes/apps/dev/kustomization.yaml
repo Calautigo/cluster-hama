@@ -6,7 +6,6 @@ resources:
   - ./code-server/ks.yaml
   - ./forgejo/ks.yaml
   - ./n8n/ks.yaml
-  - ./renovate/ks.yaml
 components:
   - ../../components/namespace
   - ../../components/flux/alerts
