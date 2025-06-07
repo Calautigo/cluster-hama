@@ -6,3 +6,5 @@ namespace: minio-system
 resources:
   # Flux-Kustomizations
   - ./minio/ks.yaml
+components:
+  - ../../components/namespace
