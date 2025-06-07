@@ -44,10 +44,10 @@ spec:
       serverName: pg16-v1
       s3Credentials:
         accessKeyId:
-          name: cloudnative-pg-secret
+          name: s3-secret
           key: aws-access-key-id
         secretAccessKey:
-          name: cloudnative-pg-secret
+          name: s3-secret
           key: aws-secret-access-key
   # Note: previousCluster needs to be set to the name of the previous
   # cluster when recovering from an existing cnpg cluster
