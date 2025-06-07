@@ -37,8 +37,8 @@ spec:
       wal:
         compression: bzip2
         maxParallel: 8
-      destinationPath: s3://cluster-hama-pg16-bucket/
-      endpointURL: https://s3.eu-central-003.backblazeb2.com
+      destinationPath: s3://cluster-hama-pg16/
+      endpointURL: https://s3.schwarz47.at
       # Note: serverName version needs to be incremented
       # when recovering from an existing cnpg cluster
       serverName: pg16-v1
