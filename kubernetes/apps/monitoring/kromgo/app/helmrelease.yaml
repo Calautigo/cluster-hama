@@ -75,7 +75,7 @@ spec:
         ports:
           http:
             primary: true
-            port: 8080
+            port: &http 8080
           health:
             port: 8888
 
@@ -95,7 +95,7 @@ spec:
             backendRefs:
               - kind: Service
                 name: app
-                port: http
+                port: *http
 
     persistence:
       config-file:
