@@ -45,7 +45,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /api
+                    path: /api/stats
                     port: &port 5000
                   initialDelaySeconds: 10
                   periodSeconds: 10
