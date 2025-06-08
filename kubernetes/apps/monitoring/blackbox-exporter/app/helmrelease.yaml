@@ -96,8 +96,6 @@ spec:
     serviceMonitor:
       enabled: true
       defaults:
-        labels:
-          release: prometheus
         interval: 1m
         scrapeTimeout: 30s
       targets:
