@@ -2,10 +2,10 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
-    "github>>calautigo/cluster-hama//.renovate/groups.json5",
-    "github>>calautigo/cluster-hama//.renovate/versioning.json5",
-    "github>>calautigo/cluster-hama//.renovate/autoMerge.json5",
-    "github>>calautigo/cluster-hama//.renovate/grafanaDashboards.json5",
+    "github>calautigo/cluster-hama//.renovate/groups.json5",
+    "github>calautigo/cluster-hama//.renovate/versioning.json5",
+    "github>calautigo/cluster-hama//.renovate/autoMerge.json5",
+    "github>calautigo/cluster-hama//.renovate/grafanaDashboards.json5",
   ],
   "flux": {
     "fileMatch": ["^kubernetes/.+\\.ya?ml$"],
