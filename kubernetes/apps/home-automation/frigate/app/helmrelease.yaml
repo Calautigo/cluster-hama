@@ -20,7 +20,7 @@ spec:
           app:
             image:
               repository: ghcr.io/blakeblackshear/frigate
-              tag: 0.15.1-tensorrt
+              tag: 0.16.0-beta3-tensorrt
 
             env:
               YOLO_MODELS: yolov4-416
@@ -45,7 +45,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /api/stats
+                    path: /api
                     port: &port 5000
                   initialDelaySeconds: 10
                   periodSeconds: 10
