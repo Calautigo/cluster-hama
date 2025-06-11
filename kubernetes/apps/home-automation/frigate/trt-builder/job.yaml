@@ -24,6 +24,9 @@ spec:
               mountPath: /tmp/cache
             - name: shm
               mountPath: /dev/shm
+      resources:
+        limits:
+          nvidia.com/gpu: 1
       volumes:
         - name: trt-cache
           persistentVolumeClaim:
