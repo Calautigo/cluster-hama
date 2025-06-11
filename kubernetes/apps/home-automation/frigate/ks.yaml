@@ -3,6 +3,34 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: &app frigate-trt-builder
+  namespace: &namespace home-automation
+spec:
+  targetNamespace: *namespace
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  interval: 30m
+  timeout: 5m
+  path: ./kubernetes/apps/home-automation/frigate/trt-builder
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: false
+  dependsOn:
+    - name: external-secrets-stores
+      namespace: external-secrets
+    - name: volsync
+      namespace: system
+    - name: ceph-rbd
+      namespace: ceph-csi
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: &app frigate
   namespace: &namespace home-automation
 spec:
@@ -26,6 +54,8 @@ spec:
       namespace: system
     - name: ceph-rbd
       namespace: ceph-csi
+    - name: frigate-trt-builder
+      namespace: *namespace
   postBuild:
     substitute:
       APP: *app
