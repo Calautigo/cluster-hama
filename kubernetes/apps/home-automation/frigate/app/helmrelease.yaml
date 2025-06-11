@@ -106,15 +106,50 @@ spec:
             subPath: config.yml
             readOnly: true
 
+      tmp:
+        existingClaim: frigate-trt-cache
+        globalMounts:
+          - path: /tmp/cache
+
       cache:
         type: emptyDir
         medium: Memory
-        sizeLimit: 4Gi
+        sizeLimit: 1Gi
         globalMounts:
           - path: /dev/shm
 
-      tmp:
-        type: emptyDir
-        sizeLimit: 4Gi
-        globalMounts:
-          - path: /tmp/cache
+    additionalObjects:
+    - apiVersion: batch/v1
+      kind: Job
+      metadata:
+        name: frigate-trt-builder
+        labels:
+          app.kubernetes.io/name: frigate
+      spec:
+        ttlSecondsAfterFinished: 600
+        backoffLimit: 0
+        template:
+          metadata:
+            labels:
+              app.kubernetes.io/name: frigate
+          spec:
+            restartPolicy: Never
+            containers:
+              - name: build-trt
+                image: ghcr.io/blakeblackshear/frigate:0.16.0-beta3-tensorrt
+                env:
+                  - name: YOLO_MODELS
+                    value: yolov4-416
+                volumeMounts:
+                  - name: trt-cache
+                    mountPath: /tmp/cache
+                  - name: shm
+                    mountPath: /dev/shm
+            volumes:
+              - name: trt-cache
+                persistentVolumeClaim:
+                  claimName: frigate-trt-cache
+              - name: shm
+                emptyDir:
+                  medium: Memory
+                  sizeLimit: 1Gi

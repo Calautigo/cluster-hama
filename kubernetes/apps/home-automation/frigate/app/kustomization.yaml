@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./media-pvc.yaml
+  - ./trt-cache-pvc.yaml
   - ./helmrelease.yaml
   - ../../../../components/volsync
 configMapGenerator:
