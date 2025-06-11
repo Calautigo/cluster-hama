@@ -25,7 +25,7 @@ spec:
             - name: shm
               mountPath: /dev/shm
       resources:
-        limits:
+        requests:
           nvidia.com/gpu: 1
       volumes:
         - name: trt-cache
