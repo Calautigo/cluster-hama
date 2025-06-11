@@ -72,7 +72,7 @@ spec:
       media:
         type: nfs
         server: 10.100.0.81
-        path: /Media
+        path: /media
         globalMounts:
           - path: /data/media
 
