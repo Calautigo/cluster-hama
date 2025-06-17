@@ -1,7 +1,15 @@
 ---
 autoDirectNodeRoutes: true
+bandwidthManager:
+  bbr: true
+  enabled: true
+bgpControlPlane:
+  enabled: true
 bpf:
-  masquerade: false # Required for Talos `.machine.features.hostDNS.forwardKubeDNSToHost`
+  datapathMode: netkit
+  masquerade: true
+  preallocateMaps: true
+bpfClockProbe: true
 cgroup:
   automount:
     enabled: false
@@ -11,30 +19,52 @@ cluster:
   name: "main"
 cni:
   exclusive: false
-# NOTE: devices might need to be set if you have more than one active NIC on your hosts
-# devices: eno+ eth+
+dashboards:
+  enabled: true
+  annotations:
+    grafana_folder: Cilium
+devices: ens18
+enableRuntimeDeviceDetection: true
 endpointRoutes:
   enabled: true
 envoy:
-  enabled: false
+  enabled: true
+  rollOutPods: true
+gatewayAPI:
+  enabled: true
+  enableAlpn: true
+  xffNumTrustedHops: 1
 hubble:
   enabled: false
 ipam:
-  mode: kubernetes
+  mode: "kubernetes"
 ipv4NativeRoutingCIDR: "10.69.0.0/16"
 k8sServiceHost: 127.0.0.1
 k8sServicePort: 7445
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 l2announcements:
-  enabled: true
+  enabled: false
 loadBalancer:
   algorithm: maglev
-  mode: snat
+  mode: dsr
 localRedirectPolicy: true
 operator:
-  replicas: 1
+  dashboards:
+    enabled: true
+    annotations:
+      grafana_folder: Cilium
+  prometheus:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  replicas: 2
   rollOutPods: true
+prometheus:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    trustCRDsExist: true
 rollOutCiliumPods: true
 routingMode: native
 securityContext:
@@ -47,6 +77,8 @@ securityContext:
       - IPC_LOCK
       - SYS_ADMIN
       - SYS_RESOURCE
+      - PERFMON
+      - BPF
       - DAC_OVERRIDE
       - FOWNER
       - SETGID
@@ -55,4 +87,3 @@ securityContext:
       - NET_ADMIN
       - SYS_ADMIN
       - SYS_RESOURCE
-    keepCapNetBindService: true

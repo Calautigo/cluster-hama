@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/cert-manager/cert-manager/app
+  path: ./clusters/gryffindor/prod/apps/cert-manager/cert-manager/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -34,7 +34,7 @@ spec:
       namespace: cert-manager
     - name: external-secrets-stores
       namespace: external-secrets
-  path: ./kubernetes/apps/cert-manager/cert-manager/issuers
+  path: ./clusters/gryffindor/prod/apps/cert-manager/cert-manager/issuers
   prune: true
   sourceRef:
     kind: GitRepository

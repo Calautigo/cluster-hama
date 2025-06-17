@@ -13,7 +13,7 @@
   "explorer.autoReveal": false,
   "files.associations": {
       "**/*.json5": "jsonc",
-      "kubernetes/**/*.sops.toml": "plaintext"
+      "clusters/**/*.sops.toml": "plaintext"
   },
   "prettier.configPath": ".prettierrc.yaml",
   "prettier.ignorePath": ".prettierignore",
@@ -48,7 +48,7 @@
   },
   "yaml.schemaStore.enable": true,
   "yaml.schemas": {
-    "kubernetes": ["kubernetes/*.yml", "kubernetes/*.yaml"]
+    "kubernetes": ["clusters/*.yml", "clusters/*.yaml"]
   },
   "git.ignoreLimitWarning": true,
   "markdownlint.config": {

@@ -8,7 +8,7 @@ metadata:
 spec:
   targetNamespace: flux-system
   interval: 30m
-  path: ./kubernetes/flux/repositories
+  path: ./clusters/gryffindor/prod/flux/repositories
   prune: true
   wait: false
   sourceRef:
@@ -23,7 +23,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: ./kubernetes/apps
+  path: ./clusters/gryffindor/prod/apps
   prune: true
   sourceRef:
     kind: GitRepository

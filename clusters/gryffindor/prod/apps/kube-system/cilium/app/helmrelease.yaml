@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: cilium
-      version: 1.17.3
+      version: 1.17.4
       sourceRef:
         kind: HelmRepository
         name: cilium
@@ -22,10 +22,8 @@ spec:
       retries: 3
   valuesFrom:
     - kind: ConfigMap
-      name: cilium-helm-values
+      name: cilium-values
   values:
-    gatewayAPI:
-      enabled: true
     hubble:
       enabled: true
       metrics:
@@ -41,8 +39,6 @@ spec:
           enabled: true
         dashboards:
           enabled: true
-          annotations:
-            grafana_folder: Cilium
       relay:
         enabled: true
         rollOutPods: true
@@ -53,20 +49,4 @@ spec:
         enabled: true
         rollOutPods: true
     operator:
-      prometheus:
-        enabled: true
-        serviceMonitor:
-          enabled: true
-      dashboards:
-        enabled: true
-        annotations:
-          grafana_folder: Cilium
-    prometheus:
-      enabled: true
-      serviceMonitor:
-        enabled: true
-        trustCRDsExist: true
-    dashboards:
-      enabled: true
-      annotations:
-        grafana_folder: Cilium
+      tolerations: []

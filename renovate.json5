@@ -8,12 +8,12 @@
     "github>calautigo/cluster-hama//.renovate/grafanaDashboards.json5",
   ],
   flux: {
-    managerFilePatterns: ["/^kubernetes/.+\\.ya?ml$/"],
+    managerFilePatterns: ["/^clusters/.+\\.ya?ml$/"],
   },
   "helm-values": {
-    managerFilePatterns: ["/^kubernetes/.+\\.ya?ml$/"],
+    managerFilePatterns: ["/^clusters/.+\\.ya?ml$/"],
   },
   kubernetes: {
-    managerFilePatterns: ["/^kubernetes/.+\\.ya?ml$/"],
+    managerFilePatterns: ["/^clusters/.+\\.ya?ml$/"],
   },
 }
