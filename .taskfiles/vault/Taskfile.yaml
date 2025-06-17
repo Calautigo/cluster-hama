@@ -1,0 +1,12 @@
+version: '3'
+
+tasks:
+  vault:bootstrap:
+    desc: "Initialize Vault"
+    cmds:
+      - bash scripts/vault-bootstrap.sh
+    env:
+      VAULT_ADDR: http://vault.vault.svc:8200
+      VAULT_TOKEN: "{{.VAULT_TOKEN}}"
+    requires:
+      vars: ["VAULT_TOKEN"]

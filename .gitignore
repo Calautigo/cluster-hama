@@ -25,8 +25,8 @@ Thumbs.db
 kubeconfig
 talosconfig
 
-bootstrap.env
+bootstrap.json
 
-kubectl
-talosctl
-test.yaml
+talsecret.yaml
+
+age.agekey

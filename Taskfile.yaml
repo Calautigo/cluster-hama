@@ -18,12 +18,14 @@ includes:
   workstation: .taskfiles/workstation/Taskfile.yaml
 
 vars:
-  K8S_DIR: "{{.ROOT_DIR}}/kubernetes"
+  CLUSTER_DIR: "gryffindor/prod"
+  K8S_DIR: "{{.ROOT_DIR}}/clusters/{{.CLUSTER_DIR}}"
   KUBECONFIG: "{{.K8S_DIR}}/kubeconfig"
   MINIJINJA_CONFIG_FILE: "{{.ROOT_DIR}}/.minijinja.toml"
   TALOSCONFIG: "{{.K8S_DIR}}/talos/clusterconfig/talosconfig"
 
 env:
+  ROOT_DIR: "{{.ROOT_DIR}}"
   KUBECONFIG: "{{.KUBECONFIG}}"
   MINIJINJA_CONFIG_FILE: "{{.MINIJINJA_CONFIG_FILE}}"
   TALOSCONFIG: "{{.TALOSCONFIG}}"

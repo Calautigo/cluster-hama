@@ -1,0 +1,14 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: "schwarz47-at"
+spec:
+  secretName: "schwarz47-at-tls"
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: "schwarz47.at"
+  dnsNames:
+    - "schwarz47.at"
+    - "*.schwarz47.at"

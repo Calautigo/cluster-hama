@@ -1,0 +1,33 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./backube.yaml
+  - ./bjw-s.yaml
+  - ./ceph-csi.yaml
+  - ./cilium.yaml
+  - ./cloudnative-pg.yaml
+  - ./controlplaneio.yaml
+  - ./coredns.yaml
+  - ./dirsigler.yaml
+  - ./metrics-server.yaml
+  - ./postfinance.yaml
+  - ./prometheus-community.yaml
+  - ./spegel.yaml
+  - ./stakater.yaml
+  - ./external-dns.yaml
+  - ./k8s-gateway.yaml
+  - ./blakeblackshear.yaml
+  - ./k8sonlab.yaml
+  - ./gabe565.yaml
+  - ./grafana.yaml
+  - ./fairwinds.yaml
+  - ./forgejo.yaml
+  - ./openebs.yaml
+  - ./kubernetes-sigs-descheduler.yaml
+  - ./kubernetes-sigs-nfd.yaml
+  - ./external-secrets.yaml
+  - ./k8tz.yaml
+  - ./piraeus.yaml
+  - ./intel.yaml
+  - ./nvidia.yaml
