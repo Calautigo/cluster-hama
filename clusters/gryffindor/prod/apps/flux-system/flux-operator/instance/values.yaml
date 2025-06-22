@@ -10,6 +10,16 @@ instance:
     - kustomize-controller
     - helm-controller
     - notification-controller
+  componentsOverrides:
+    - name: source-controller
+      service:
+        metadata:
+          name: source-controller
+        spec:
+          ports:
+            - name: http
+              port: 80
+              targetPort: 8080
   sync:
     kind: GitRepository
     url: https://github.com/Calautigo/cluster-hama.git
