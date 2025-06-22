@@ -12,7 +12,7 @@ instance:
     - notification-controller
   sync:
     kind: GitRepository
-    url:  https://git.schwarz47.at/dominik/cluster-hama.git
+    url:  https://github.com/dominik/cluster-hama.git
     ref: refs/heads/main
     path: clusters/gryffindor/prod/flux/cluster
   commonMetadata:

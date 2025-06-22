@@ -10,7 +10,7 @@ shopt:
 includes:
   # flux: .taskfiles/flux/Taskfile.yaml
   # k8s: .taskfiles/k8s/Taskfile.yaml
-  k8s-bootstrap: .taskfiles/k8s-bootstrap/Taskfile.yaml
+  bootstrap: .taskfiles/bootstrap/Taskfile.yaml
   # postgres: .taskfiles/postgres/Taskfile.yaml
   # sops: .taskfiles/sops/Taskfile.yaml
   talos: .taskfiles/talos/Taskfile.yaml
@@ -22,12 +22,14 @@ vars:
   K8S_DIR: "{{.ROOT_DIR}}/clusters/{{.CLUSTER_DIR}}"
   KUBECONFIG: "{{.K8S_DIR}}/kubeconfig"
   MINIJINJA_CONFIG_FILE: "{{.ROOT_DIR}}/.minijinja.toml"
-  TALOSCONFIG: "{{.K8S_DIR}}/talos/clusterconfig/talosconfig"
+  TALOS_DIR: "{{.K8S_DIR}}/talos"
+  TALOSCONFIG: "{{.TALOS_DIR}}/clusterconfig/talosconfig"
 
 env:
   ROOT_DIR: "{{.ROOT_DIR}}"
   KUBECONFIG: "{{.KUBECONFIG}}"
   MINIJINJA_CONFIG_FILE: "{{.MINIJINJA_CONFIG_FILE}}"
+  TALOS_DIR: "{{.TALOS_DIR}}"
   TALOSCONFIG: "{{.TALOSCONFIG}}"
 
 tasks:
