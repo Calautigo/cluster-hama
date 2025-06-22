@@ -69,16 +69,6 @@ releases:
     needs:
       - kube-system/coredns
 
-  - name: vault
-    namespace: vault
-    atomic: true
-    chart: hashicorp/vault
-    version: 0.27.0
-    values:
-      - ./templates/vault.gotmpl
-    needs:
-      - cert-manager/cert-manager
-
   - name: flux-operator
     namespace: flux-system
     atomic: true
