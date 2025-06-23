@@ -67,6 +67,8 @@ prometheus:
     trustCRDsExist: true
 rollOutCiliumPods: true
 routingMode: native
+serviceMesh:
+  enabled: true
 securityContext:
   capabilities:
     ciliumAgent:
