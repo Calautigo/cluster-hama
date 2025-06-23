@@ -25,7 +25,7 @@ instance:
     url: https://github.com/Calautigo/cluster-hama.git
     ref: refs/heads/main
     path: ./clusters/gryffindor/prod/flux/cluster
-    interval: 1h
+    interval: 1m
   commonMetadata:
     labels:
       app.kubernetes.io/name: flux
