@@ -19,8 +19,8 @@ spec:
               - will-match-and-announce-all-services
       neighbors:
         - peerAddress: 10.100.10.61/32
-          peerASN: 64512
+          peerASN: 64513
         - peerAddress: 10.100.10.62/32
-          peerASN: 64512
+          peerASN: 64513
         - peerAddress: 10.100.10.63/32
-          peerASN: 64512
+          peerASN: 64513
