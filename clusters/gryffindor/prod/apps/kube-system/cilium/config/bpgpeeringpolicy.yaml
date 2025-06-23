@@ -3,7 +3,7 @@
 apiVersion: cilium.io/v2alpha1
 kind: CiliumBGPPeeringPolicy
 metadata:
-  name: l3-policy
+  name: bgp-policy
 spec:
   nodeSelector:
     matchLabels:
@@ -18,5 +18,9 @@ spec:
             values:
               - will-match-and-announce-all-services
       neighbors:
-        - peerAddress: 10.1.0.1/32
-          peerASN: 64513
+        - peerAddress: 10.100.10.61/32
+          peerASN: 64512
+        - peerAddress: 10.100.10.62/32
+          peerASN: 64512
+        - peerAddress: 10.100.10.63/32
+          peerASN: 64512
