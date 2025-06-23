@@ -3,4 +3,4 @@ kind: Kustomization
 namespace: ceph-rbd
 resources:
 - helmrelease.yaml
-- secret.yaml
+- externalsecret.yaml
