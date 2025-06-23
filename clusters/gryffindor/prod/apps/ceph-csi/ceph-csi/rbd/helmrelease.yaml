@@ -26,6 +26,5 @@ spec:
       create: true
       clusterID: "394577ce-72a4-47f6-a132-f83e841482fe"
       pool: k8s-prod-rbd
-      provisionerSecret: ceph-secret
       annotations:
         storageclass.kubernetes.io/is-default-class: "true"
