@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *appname
   interval: 30m
   timeout: 5m
-  path: ./kubernetes/apps/ceph-csi/ceph-csi/rbd
+  path: ./clusters/gryffindor/prod/apps/ceph-csi/ceph-csi/rbd
   prune: true
   sourceRef:
     kind: GitRepository
