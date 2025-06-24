@@ -100,8 +100,8 @@ spec:
       app:
         enabled: true
         parentRefs:
-          - name: cilium-gateway
-            namespace: network
+          - name: cilium-gateway-internal
+            namespace: kube-system
         hostnames:
           - minio.schwarz47.at
         rules:
@@ -116,8 +116,8 @@ spec:
       s3:
         enabled: true
         parentRefs:
-          - name: cilium-gateway
-            namespace: network
+          - name: cilium-gateway-internal
+            namespace: kube-system
         hostnames:
           - s3.schwarz47.at
         rules:
