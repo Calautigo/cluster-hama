@@ -49,10 +49,11 @@ nodes:
           ip: *talosControlplaneVip
       - interface: ens19
         addresses:
-          - 10.44.10.61
-        mtu: 1500
+          - 10.44.0.71/16
         routes:
-          - network: 10.44.10.0/24
+          - network: 10.44.0.0/16
+            gateway: 10.44.0.1
+        mtu: 1500
 
 
   - hostname: blue.k8s.gryffindor.prod.schwarz47.at
@@ -80,9 +81,10 @@ nodes:
           ip: *talosControlplaneVip
       - interface: ens19
         addresses:
-          - 10.44.10.62
+          - 10.44.0.72/16
         routes:
-          - network: 10.44.10.0/24
+          - network: 10.44.0.0/16
+            gateway: 10.44.0.1
         mtu: 1500
 
   - hostname: charlie.k8s.gryffindor.prod.schwarz47.at
@@ -110,10 +112,11 @@ nodes:
           ip: *talosControlplaneVip
       - interface: ens19
         addresses:
-          - 10.44.10.63
-        mtu: 1500
+          - 10.44.0.73/16
         routes:
-          - network: 10.44.10.0/24
+          - network: 10.44.0.0/16
+            gateway: 10.44.0.1
+        mtu: 1500
 
 controlPlane:
   nodeLabels:
