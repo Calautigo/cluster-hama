@@ -33,7 +33,7 @@ envoy:
   log:
     defaultLevel: debug
 gatewayAPI:
-  enabled: true
+  enabled: false
   enableAlpn: true
   xffNumTrustedHops: 1
 hubble:
