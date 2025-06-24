@@ -79,7 +79,7 @@ spec:
 
     service:
       app:
-        controller: minio
+        controller: &service minio
         ports:
           http:
             port: &http 9001
@@ -111,7 +111,7 @@ spec:
                   value: /
             backendRefs:
               - kind: Service
-                name: app
+                name: *service
                 port: *http
       s3:
         enabled: true
@@ -127,7 +127,7 @@ spec:
                   value: /
             backendRefs:
               - kind: Service
-                name: app
+                name: *service
                 port: *s3
 
     persistence:
