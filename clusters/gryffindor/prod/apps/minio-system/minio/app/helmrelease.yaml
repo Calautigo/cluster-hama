@@ -83,6 +83,8 @@ spec:
         ports:
           http:
             port: &http 9001
+            protocol: TCP
+            appProtocol: http
           s3:
             port: &s3 9000
 
@@ -129,6 +131,12 @@ spec:
               - kind: Service
                 name: *service
                 port: *s3
+            filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  add:
+                    - name: X-Forwarded-Proto
+                      value: https
 
     persistence:
       data:
