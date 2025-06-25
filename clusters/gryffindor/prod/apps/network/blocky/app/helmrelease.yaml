@@ -62,7 +62,7 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Local
         annotations:
-          metallb.io/loadBalancerIPs: 10.100.90.100
+            "lbipam.cilium.io/ips": "10.100.90.100"
         ports:
           http:
             port: 4000
