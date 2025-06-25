@@ -29,6 +29,10 @@ data:
         snape.infra.gryffindor.schwarz47.at: 10.10.0.1
         gringotts.infra.gryffindor.schwarz47.at: 10.100.0.81
 
+        pve-01.infra.gryffindor.schwarz47.at: 10.100.0.56
+        pve-02.infra.gryffindor.schwarz47.at: 10.100.0.57
+        pve-03.infra.gryffindor.schwarz47.at: 10.100.0.58
+
         controller.schwarz47.at: 10.100.55.101
         k8s.schwarz47.at: 10.100.0.60
         delta.schwarz47.internal: 10.100.0.61
