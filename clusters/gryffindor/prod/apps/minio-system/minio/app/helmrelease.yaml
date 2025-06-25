@@ -33,7 +33,7 @@ spec:
             env:
               MINIO_API_CORS_ALLOW_ORIGIN: https://minio.schwarz47.at,https://s3.schwarz47.at
               MINIO_BROWSER_REDIRECT_URL: https://minio.schwarz47.at
-              MINIO_PROMETHEUS_JOB_ID: minio
+              # MINIO_PROMETHEUS_JOB_ID: minio
               # MINIO_PROMETHEUS_URL: https://prometheus.schwarz47.at
               MINIO_PROMETHEUS_AUTH_TYPE: public
               MINIO_SERVER_URL: https://s3.schwarz47.at
@@ -83,8 +83,6 @@ spec:
         ports:
           http:
             port: &http 9001
-            protocol: TCP
-            appProtocol: http
           s3:
             port: &s3 9000
 

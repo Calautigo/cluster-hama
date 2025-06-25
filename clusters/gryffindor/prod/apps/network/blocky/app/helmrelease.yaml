@@ -1,0 +1,99 @@
+---
+## REF: https://github.com/billimek/k8s-gitops/blob/2d48e3ba92d984e21e5c2267d10d48e867898e0b/default/blocky/blocky.yaml
+## REF: https://github.com/jr0dd/home-ops/blob/main/cluster/apps/networking/blocky/helm-release.yaml
+## TODO create config map to sort the ip madness in this ns
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app blocky
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  interval: 1h
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      blocky:
+        replicas: 2
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: ghcr.io/0xerr0r/blocky
+              tag: v0.26@sha256:b259ada3f943e73283f1fc5e84ac39a791afec7de86515d1aeccc03d2c39e595
+            env:
+              TZ: Europe/Vienna
+            resources:
+              requests:
+                cpu: 10m
+                memory: 50Mi
+              limits:
+                memory: 750Mi
+      cache:
+        containers:
+          server:
+            image:
+              repository: public.ecr.aws/docker/library/redis
+              tag: 8.0.2@sha256:1b835e5a8d5db58e8b718850bf43a68ef5a576fc68301fd08a789b20b4eecb61
+            command: redis-server
+            env:
+              REDIS_REPLICATION_MODE: master
+            resources:
+              requests:
+                cpu: 10m
+                memory: 10Mi
+              limits:
+                memory: 100Mi
+
+    service:
+      app:
+        controller: *app
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        annotations:
+          metallb.io/loadBalancerIPs: 10.100.90.100
+        ports:
+          http:
+            port: 4000
+            protocol: TCP
+          dns-tcp:
+            port: 53
+            protocol: TCP
+          dns-udp:
+            port: 53
+            protocol: UDP
+      cache:
+        controller: cache
+        ports:
+          http:
+            port: 6379
+    # serviceMonitor:
+    #   main:
+    #     enabled: true
+    #     serviceName: *app
+    #     endpoints:
+    #       - interval: 30s
+    #         path: /metrics
+    #         port: http
+    #         scrapeTimeout: 10s
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: blocky
+        advancedMounts:
+          blocky:
+            app:
+              - path: /app/config.yml
+                subPath: config.yml
