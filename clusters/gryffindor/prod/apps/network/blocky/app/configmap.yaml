@@ -25,7 +25,7 @@ data:
       customTTL: 1h
       filterUnmappedTypes: true
       mapping:
-        ${INTERNAL_HOSTNAME}: 192.168.0.230
+        schwarz47.at: 10.100.90.50
     blocking:
       denylists:
         ads:
