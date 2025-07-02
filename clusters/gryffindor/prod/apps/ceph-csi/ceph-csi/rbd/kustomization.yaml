@@ -4,4 +4,5 @@ namespace: ceph-rbd
 resources:
   - ./helmrepository.yaml
   - ./externalsecret.yaml
+  - ./volumesnapshotclass.yaml
   - ./helmrelease.yaml
