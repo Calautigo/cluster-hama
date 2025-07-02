@@ -1,0 +1,100 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: stash
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  values:
+    controllers:
+      stash:
+        containers:
+          app:
+            image:
+              repository: stashapp/stash
+              tag: v0.28.1
+            env:
+              STASH_STASH: /data/
+              STASH_GENERATED: /generated/
+              STASH_METADATA: /metadata/
+              STASH_CACHE: /cache/
+              STASH_PORT: &port 9999
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+            resources:
+              requests:
+                cpu: 100m
+                memory: 128M
+              limits:
+                memory: 2G
+
+    service:
+      app:
+        controller: stash
+        type: LoadBalancer
+        ports:
+          http:
+            port: *port
+
+    route:
+      app:
+        enabled: true
+        parentRefs:
+          - name: cilium-gateway
+            namespace: network
+        hostnames:
+          - stash.schwarz47.at
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - kind: Service
+                name: app
+                port: *port
+
+    persistence:
+      config:
+        existingClaim: stash-config
+        advancedMounts:
+          stash:
+            app:
+              - path: /root/.stash
+
+      cache:
+        existingClaim: stash-cache
+        advancedMounts:
+          stash:
+            app:
+              - path: /cache
+                subPath: cache
+              - path: /blobs
+                subPath: blobs
+              - path: /metadata
+                subPath: metadata
+              - path: /generated
+                subPath: generated
+
+      media:
+        type: nfs
+        server: 10.100.0.81
+        path: /media/media/adult
+        advancedMounts:
+          stash:
+            app:
+              - path: /data
+                readOnly: true
