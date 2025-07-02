@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: stash
+  name: &app stash
 spec:
   interval: 30m
   chartRef:
@@ -15,7 +15,7 @@ spec:
       namespace: ceph-csi
   values:
     controllers:
-      stash:
+      *app :
         containers:
           app:
             image:
@@ -46,8 +46,7 @@ spec:
 
     service:
       app:
-        controller: stash
-        type: LoadBalancer
+        controller: *app
         ports:
           http:
             port: *port
@@ -60,15 +59,6 @@ spec:
             namespace: network
         hostnames:
           - stash.schwarz47.at
-        rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /
-            backendRefs:
-              - kind: Service
-                name: app
-                port: *port
 
     persistence:
       config:

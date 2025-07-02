@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: jellyseerr
+  name: &app jellyseerr
 spec:
   interval: 30m
   chartRef:
@@ -15,7 +15,7 @@ spec:
       namespace: ceph-csi
   values:
     controllers:
-      jellyseerr:
+      *app :
 
         annotations:
           reloader.stakater.com/auto: "true"
@@ -70,7 +70,7 @@ spec:
 
     service:
       app:
-        controller: jellyseerr
+        controller: *app
         ports:
           http:
             port: *port
@@ -83,15 +83,6 @@ spec:
             namespace: network
         hostnames:
           - requests.schwarz47.at
-        rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /
-            backendRefs:
-              - kind: Service
-                name: app
-                port: *port
 
     persistence:
       config:
