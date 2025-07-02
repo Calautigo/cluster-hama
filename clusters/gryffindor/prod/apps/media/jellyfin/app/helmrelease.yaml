@@ -10,6 +10,9 @@ spec:
     kind: OCIRepository
     name: app-template
     namespace: flux-system
+  dependsOn:
+    - name: ceph-csi-rbd
+      namespace: ceph-csi
   values:
     controllers:
       jellyfin:
@@ -18,13 +21,10 @@ spec:
 
         pod:
           securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 5000
+            runAsUser: 2000
+            runAsGroup: 2000
+            fsGroup: 2000
             fsGroupChangePolicy: "OnRootMismatch"
-            supplementalGroups:
-              - 44
-              - 109
 
         containers:
           app:
@@ -33,7 +33,7 @@ spec:
               tag: 10.10.6-amd64.20250216-215628@sha256:443b68d38b5afb6fbe44d6b4d647ea169dcd059f2bb601d55e18644f51e20c26
             env:
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
-              JELLYFIN_PublishedServerUrl: http://10.100.0.150:8096,https://jellyfin.schwarz47.at:443
+              JELLYFIN_PublishedServerUrl: http://10.100.90.50:8096,https://jellyfin.schwarz47.at:443
             probes:
               liveness: &probes
                 enabled: true
@@ -58,11 +58,9 @@ spec:
             resources:
               requests:
                 cpu: 100m
-                # gpu.intel.com/i915: 1
-                memory: 128M
               limits:
                 # gpu.intel.com/i915: 1
-                memory: 8G
+                memory: 12G
 
     service:
       app:
@@ -107,9 +105,9 @@ spec:
           - jellyfin.schwarz47.at
         parentRefs:
           - name: internal
-            namespace: kube-system
+            namespace: network
             sectionName: https
-        rules:
-          - backendRefs:
-              - name: jellyfin
-                port: *port
+        # rules:
+        #   - backendRefs:
+        #       - name: jellyfin
+        #         port: *port
