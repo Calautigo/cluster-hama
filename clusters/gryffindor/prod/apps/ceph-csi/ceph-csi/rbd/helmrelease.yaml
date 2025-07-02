@@ -12,7 +12,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: ceph-csi
-        namespace: flux-system
       interval: 5m
   #See https://github.com/ceph/ceph-csi/blob/devel/charts/ceph-csi-rbd/values.yaml
   values:
