@@ -10,6 +10,9 @@ spec:
     kind: OCIRepository
     name: app-template
     namespace: flux-system
+  dependsOn:
+    - name: ceph-csi-rbd
+      namespace: ceph-csi
   values:
     controllers:
       stash:

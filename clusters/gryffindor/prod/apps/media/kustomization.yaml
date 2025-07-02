@@ -5,8 +5,8 @@ kind: Kustomization
 namespace: media
 resources:
   - ./jellyfin/ks.yaml
-  # - ./jellyseerr/ks.yaml
-  # - ./stash/ks.yaml
+  - ./jellyseerr/ks.yaml
+  - ./stash/ks.yaml
 components:
   - ../../components/namespace
 patches:
