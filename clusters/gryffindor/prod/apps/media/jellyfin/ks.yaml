@@ -24,6 +24,8 @@ spec:
       namespace: system
     - name: openebs
       namespace: openebs
+  components:
+    - ../../../../components/volsync
   postBuild:
     substitute:
       APP: *app
