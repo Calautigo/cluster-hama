@@ -5,7 +5,6 @@ kind: Kustomization
 namespace: storage
 resources:
   # Flux-Kustomizations
-  - ./snapshot-controller/ks.yaml
   - ./versity/ks.yaml
 components:
   - ../../components/namespace

@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/system-controllers/k8tz/app
+  path: ./clusters/gryffindor/prod/apps/system-controllers/k8tz/app
   prune: true
   sourceRef:
     kind: GitRepository
