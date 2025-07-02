@@ -2,9 +2,9 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: minio-system
+namespace: storage
 resources:
   # Flux-Kustomizations
-  - ./minio/ks.yaml
+  - ./versity/ks.yaml
 components:
   - ../../components/namespace
