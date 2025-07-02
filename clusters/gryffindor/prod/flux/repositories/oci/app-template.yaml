@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://k8s-schemas.bjw-s.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
@@ -12,4 +12,4 @@ spec:
     operation: copy
   url: oci://ghcr.io/bjw-s-labs/helm/app-template
   ref:
-    tag: 4.1.1
+    tag: 4.1.2
