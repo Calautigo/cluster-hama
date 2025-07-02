@@ -30,6 +30,5 @@ spec:
         storageclass.kubernetes.io/is-default-class: "true"
     volumeSnapshotClass:
       create: true
-      name: csi-rbd-snapclass
       clusterID: "394577ce-72a4-47f6-a132-f83e841482fe"
       deletionPolicy: Delete
