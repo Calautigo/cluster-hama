@@ -56,7 +56,7 @@ spec:
       app:
         enabled: true
         parentRefs:
-          - name: cilium-gateway
+          - name: internal
             namespace: network
         hostnames:
           - stash.schwarz47.at
