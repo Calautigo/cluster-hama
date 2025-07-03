@@ -5,12 +5,11 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
-  - ../../../../components/volsync
 
 configMapGenerator:
-  - name: janitorr
+  - name: recyclarr
     files:
-      - config/application.yml
+      - config/recyclarr.yml
 generatorOptions:
   annotations:
     kustomize.toolkit.fluxcd.io/substitute: disabled

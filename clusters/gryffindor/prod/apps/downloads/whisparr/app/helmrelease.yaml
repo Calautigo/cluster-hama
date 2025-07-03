@@ -1,0 +1,86 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: whisparr
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  dependsOn:
+    - name: ceph-csi-rbd
+      namespace: ceph-csi
+  values:
+    controllers:
+      whisparr:
+        pod:
+          securityContext:
+            runAsUser: 2000
+            runAsGroup: 2000
+            runAsNonRoot: true
+            fsGroup: 2000
+            fsGroupChangePolicy: "OnRootMismatch"
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/jfroy/whisparr-nightly
+              tag: 2.0.0.987@sha256:fb192831a387029676fa25de3a304542a6c19ae0bd50b0d1ba51bb959d5e540a
+            env:
+              WHISPARR__ANALYTICS_ENABLED: "False"
+              WHISPARR__APP__INSTANCENAME: Whisparr
+              WHISPARR__PORT: &port 6969
+              WHISPARR__AUTH__METHOD: External
+              WHISPARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              WHISPARR__LOG__LEVEL: info
+              WHISPARR__BRANCH: nightly
+            envFrom:
+              - secretRef:
+                  name: whisparr-secret
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: *port
+              readiness: *probe
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 1Gi
+
+    service:
+      app:
+        controller: whisparr
+        ports:
+          http:
+            port: *port
+
+    persistence:
+      config:
+        existingClaim: whisparr-config
+      tmp:
+        type: emptyDir
+      media:
+        type: nfs
+        server: 10.100.0.81
+        path: /media
+        globalMounts:
+          - path: /data/media
+
+    route:
+      app:
+        hostnames:
+          - whisparr.schwarz47.at
+        parentRefs:
+          - name: internal
+            namespace: network
+            sectionName: https

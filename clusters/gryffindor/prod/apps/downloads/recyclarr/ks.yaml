@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app janitorr
+  name: &app recyclarr
   namespace: &namespace downloads
 spec:
   targetNamespace: *namespace
@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: "./kubernetes/apps/downloads/janitorr/app"
+  path: "./clusters/gryffindor/prod/apps/downloads/recyclarr/app"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -20,11 +20,13 @@ spec:
     namespace: flux-system
   wait: false
   dependsOn:
-    - name: volsync
-      namespace: system
     - name: external-secrets-stores
       namespace: external-secrets
+    - name: volsync
+      namespace: system
+  components:
+    - ../../../../components/volsync
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CLAIM: janitorr-config
+      VOLSYNC_CLAIM: recyclarr-config

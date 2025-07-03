@@ -1,9 +1,7 @@
----
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: janitorr
+  name: radarr
 spec:
   interval: 30m
   chartRef:
@@ -15,20 +13,31 @@ spec:
       namespace: ceph-csi
   values:
     controllers:
-      janitorr:
+      radarr:
         pod:
           securityContext:
-            runAsUser: 3000
-            runAsGroup: 5000
+            runAsUser: 2000
+            runAsGroup: 2000
             runAsNonRoot: true
-            fsGroup: 5000
+            fsGroup: 2000
             fsGroupChangePolicy: "OnRootMismatch"
 
         containers:
           app:
             image:
-              repository: ghcr.io/schaka/janitorr
-              tag: v1.7.1
+              repository: ghcr.io/home-operations/radarr
+              tag: 5.23.1.9914
+            env:
+              RADARR__APP__INSTANCENAME: Radarr
+              RADARR__APP__THEME: dark
+              RADARR__SERVER__PORT: &port 7878
+              RADARR__AUTH__METHOD: External
+              RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              RADARR__LOG__LEVEL: info
+              RADARR__UPDATE__BRANCH: develop
+            envFrom:
+              - secretRef:
+                  name: radarr-secret
             probes:
               liveness:
                 enabled: true
@@ -42,10 +51,9 @@ spec:
             resources:
               requests:
                 cpu: 20m
-                memory: 128Mi
+                memory: 256Mi
               limits:
-                cpu: 1000m
-                memory: 512Mi
+                memory: 2Gi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -55,14 +63,16 @@ spec:
 
     service:
       app:
-        controller: janitorr
+        controller: radarr
         ports:
           http:
-            port: &port 8978
+            port: *port
 
     persistence:
       config:
-        existingClaim: janitorr-config
+        existingClaim: radarr-config
+      add-ons:
+        type: emptyDir
       tmp:
         type: emptyDir
       media:
@@ -75,12 +85,8 @@ spec:
     route:
       app:
         hostnames:
-          - janitorr.schwarz47.at
+          - radarr.schwarz47.at
         parentRefs:
           - name: internal
-            namespace: kube-system
+            namespace: network
             sectionName: https
-        rules:
-          - backendRefs:
-              - name: janitorr
-                port: *port

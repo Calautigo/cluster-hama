@@ -24,7 +24,7 @@ spec:
             runAsUser: 2000
             runAsGroup: 2000
             fsGroup: 2000
-            fsGroupChangePolicy: "OnRootMismatch"
+            fsGroupChangePolicy: OnRootMismatch
 
         containers:
           app:
@@ -79,7 +79,7 @@ spec:
       transcode:
         existingClaim: jellyfin-transcode
         globalMounts:
-          - path: /config/transcodes
+          - path: /cache/transcodes
       cache:
         type: emptyDir
         advancedMounts:
@@ -107,7 +107,3 @@ spec:
           - name: internal
             namespace: network
             sectionName: https
-        # rules:
-        #   - backendRefs:
-        #       - name: jellyfin
-        #         port: *port
