@@ -10,6 +10,7 @@
       matchUpdateTypes: ["minor", "patch", "digest"],
       minimumReleaseAge: "3 days",
     },
+    {
       description: "Auto merge container digests",
       matchDatasources: ["docker"],
       automerge: true,
