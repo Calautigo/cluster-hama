@@ -23,27 +23,25 @@ spec:
         image:
           registry: quay.io/
           repository: openebs/provisioner-localpv
+        # TODO: Change path to /var/mnt/extra/openebs/local
+        basePath: &hostPath /var/mnt/extra
       hostpathClass:
         enabled: true
         name: openebs-hostpath
         isDefaultClass: false
-        basePath: /var/mnt/extra
+        basePath: *hostPath
 
     openebs-crds:
       csi:
         volumeSnapshots:
           enabled: false
           keep: false
-
     zfs-localpv:
       enabled: false
-
     lvm-localpv:
       enabled: false
-
     mayastor:
       enabled: false
-
     engines:
       local:
         lvm:
@@ -53,3 +51,9 @@ spec:
       replicated:
         mayastor:
           enabled: false
+    loki:
+      enabled: false
+    alloy:
+      enabled: false
+    minio:
+      enabled: false
