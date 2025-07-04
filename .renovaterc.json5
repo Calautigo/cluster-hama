@@ -15,8 +15,8 @@
     "github>calautigo/cluster-hama//.renovate/grafanaDashboards.json5",
     "github>calautigo/cluster-hama//.renovate/groups.json5",
     "github>calautigo/cluster-hama//.renovate/labels.json5",
-    "github>calautigo/cluster-hama//.renovate/packageRules.json5",
-    "github>calautigo/cluster-hama//.renovate/semanticCommits.json5"
+    "github>calautigo/cluster-hama//.renovate/semanticCommits.json5",
+    "github>calautigo/cluster-hama//.renovate/versioning.json5"
   ],
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
