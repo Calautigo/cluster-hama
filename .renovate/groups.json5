@@ -59,15 +59,6 @@
       },
     },
     {
-      description: "Rook-Ceph Group",
-      groupName: "Rook-Ceph",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["/rook-ceph/", "/rook-ceph-cluster/"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-    },
-    {
       description: "Silence-Operator Group",
       groupName: "Silence-Operator",
       matchPackageNames: ["/silence-operator/"],
@@ -75,6 +66,24 @@
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
+          {
+      description: "Spegel Group",
+      groupName: "Spegel",
+      matchDatasources: ["docker"],
+      matchPackagePatterns: ["spegel"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+    },
+    {
+      description: "Talos Group",
+      groupName: "Talos",
+      matchDatasources: ["docker"],
+      matchPackagePatterns: ["siderolabs/talosctl", "siderolabs/installer"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+    },
     },
   ],
 }

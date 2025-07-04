@@ -27,8 +27,8 @@ talosconfig
 
 bootstrap.json
 
-talsecret.yaml
-
-age.agekey
+*.agekey
+*.pub
+*.key
 
 test.yaml

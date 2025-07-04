@@ -1,0 +1,46 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "docker:enableMajor",
+    ":disableRateLimiting",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":automergeDigest",
+    ":automergeBranch",
+    ":skipStatusChecks",
+    ":timezone(Europe/Berlin)",
+    "github>calautigo/cluster-hama//.renovate/allowedVersions.json5",
+    "github>calautigo/cluster-hama//.renovate/autoMerge.json5",
+    "github>calautigo/cluster-hama//.renovate/grafanaDashboards.json5",
+    "github>calautigo/cluster-hama//.renovate/groups.json5",
+    "github>calautigo/cluster-hama//.renovate/labels.json5",
+    "github>calautigo/cluster-hama//.renovate/packageRules.json5",
+    "github>calautigo/cluster-hama//.renovate/semanticCommits.json5"
+  ],
+  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
+  "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
+  "rebaseWhen": "conflicted",
+  "ignorePaths": ["**/*.sops.*", "**/.archive/**", "**/resources/**"],
+  "docker-compose": {
+    "fileMatch": [
+      "(^|/)docker/.+\\.ya?ml$"
+    ]
+  },
+  "flux": {
+    "fileMatch": [
+      "(^|/)clusters/.+\\.ya?ml$"
+    ]
+  },
+  "helm-values": {
+    "fileMatch": [
+      "(^|/)clusters/.+\\.ya?ml$"
+    ]
+  },
+  "kubernetes": {
+    "fileMatch": [
+      "(^|/)\\.taskfiles/.+\\.ya?ml$",
+      "(^|/)clusters/.+\\.ya?ml$"
+    ]
+  }
+}

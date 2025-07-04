@@ -1,29 +1,26 @@
 ---
-ignore: |
-  .ansible/
-  .direnv/
-  .private/
-  .vscode/
-  *.sops.*
-  ansible/roles/xanmanning.k3s/
-
 extends: default
 
+yaml-files:
+  - '*.yaml'
+  - '*.yml'
 rules:
-  truthy:
-    allowed-values: ["true", "false", "on"]
-
-  comments:
-    min-spaces-from-content: 1
-
-  line-length: disable
-
-  braces:
-    min-spaces-inside: 0
-    max-spaces-inside: 1
-
   brackets:
-    min-spaces-inside: 0
-    max-spaces-inside: 0
-
-  indentation: enable
+    max-spaces-inside: 1
+  document-start:
+    ignore: |
+      *.sops.yaml
+      *.sops.yml
+  empty-lines:
+    max: 1
+  line-length: disable
+  indentation:
+    spaces: 2
+    indent-sequences: consistent
+    level: warning
+    ignore: |
+      *.sops.yaml
+      *.sops.yml
+  new-line-at-end-of-file: disable
+  truthy:
+    check-keys: false

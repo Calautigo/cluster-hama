@@ -2,15 +2,21 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: "3"
 
+vars:
+  SOPS_CONFIG_FILE: "{{.ROOT_DIR}}/.sops.yaml"
+
 tasks:
-  re-encrypt:
-    desc: Decrypt and re-encrypt all sops secrets
-    vars:
-      SECRET_FILES:
-        sh: find . -type f -name '*.sops.yaml' ! -name ".sops.yaml"
-    cmds:
-      - for:
-          var: SECRET_FILES
-        cmd: |
-          sops --decrypt --in-place "{{ .ITEM }}"
-          sops --encrypt --in-place "{{ .ITEM }}"
+  age-keygen:
+    desc: Initialize Age Key for Sops
+    cmd: age-keygen --output {{.SOPS_AGE_FILE}}
+    status:
+      - test -f "{{.SOPS_AGE_FILE}}"
+
+  .encrypt-file:
+    internal: true
+    cmd: sops --encrypt --in-place {{.FILE}}
+    requires:
+      vars: [FILE]
+    preconditions:
+      - { msg: "Missing Sops config file", sh: "test -f {{.SOPS_CONFIG_FILE}}" }
+      - { msg: "Missing Sops Age key file", sh: "test -f {{.AGE_FILE}}" }
