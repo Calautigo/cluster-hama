@@ -19,19 +19,24 @@ ffmpeg:
   hwaccel_args: preset-vaapi
 
 detectors:
-  ov_0:
-    type: openvino
-    device: CPU
-  ov_1:
-    type: openvino
-    device: CPU
+  cpu:
+    type: cpu
+    num_threads: 4
 
-snapshots:
-  enabled: true
-  timestamp: false
-  bounding_box: true
-  retain:
-    default: 20
+# detectors:
+#   ov_0:
+#     type: openvino
+#     device: CPU
+#   ov_1:
+#     type: openvino
+#     device: CPU
+
+# snapshots:
+#   enabled: true
+#   timestamp: false
+#   bounding_box: true
+#   retain:
+#     default: 20
 
 record:
   enabled: true

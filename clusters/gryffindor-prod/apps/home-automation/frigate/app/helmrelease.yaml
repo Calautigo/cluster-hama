@@ -32,6 +32,9 @@ spec:
               - secretRef:
                   name: frigate-secret
 
+            securityContext:
+              privileged: true
+
             resources:
               requests:
                 cpu: 500m
