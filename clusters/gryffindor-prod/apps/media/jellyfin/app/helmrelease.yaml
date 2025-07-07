@@ -35,7 +35,21 @@ spec:
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
               JELLYFIN_PublishedServerUrl: http://10.100.90.50:8096,https://jellyfin.schwarz47.at:443
             probes:
-              liveness: &probes
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - sh
+                      - -c
+                      - |
+                        used=$(df /cache/transcodes | awk 'NR==2 {print $5}' | tr -d '%'); [ "$used" -lt 95 ]
+                  initialDelaySeconds: 10
+                  periodSeconds: 30
+                  timeoutSeconds: 2
+                  failureThreshold: 3
+              readiness:
                 enabled: true
                 custom: true
                 spec:
@@ -46,7 +60,6 @@ spec:
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
-              readiness: *probes
               startup:
                 enabled: false
             securityContext:
@@ -77,7 +90,8 @@ spec:
             app:
               - path: /config
       transcode:
-        existingClaim: jellyfin-transcode
+        type: emptyDir
+        sizeLimit: 10Gi
         globalMounts:
           - path: /cache/transcodes
       cache:
