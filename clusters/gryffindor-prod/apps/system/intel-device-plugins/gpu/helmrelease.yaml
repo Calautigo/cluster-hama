@@ -13,6 +13,6 @@ spec:
     - name: intel-device-plugins-operator
       namespace: system
   values:
-    name: xe
-    nodeFeatureRule: false
+    name: i915
+    nodeFeatureRule: true
     sharedDevNum: 5

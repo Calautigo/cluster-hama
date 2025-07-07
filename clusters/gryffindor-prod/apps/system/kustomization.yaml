@@ -6,6 +6,7 @@ namespace: system
 resources:
   # Flux-Kustomizations
   - ./intel-device-plugins/ks.yaml
+  - ./node-feature-discovery/ks.yaml
   - ./volsync/ks.yaml
 components:
   - ../../components/namespace
