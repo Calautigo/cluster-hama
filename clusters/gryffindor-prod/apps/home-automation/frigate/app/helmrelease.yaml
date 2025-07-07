@@ -75,7 +75,6 @@ spec:
             port: 8554
       ws:
         enabled: true
-        controller: *app
         ports:
           http:
             port: &wsPort 5000
