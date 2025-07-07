@@ -73,20 +73,48 @@ spec:
           rtsp:
             enabled: true
             port: 8554
+      ws:
+        enabled: true
+        controller: *app
+        ports:
+          http:
+            port: &wsPort 5000
+            appProtocol: wss
 
     route:
-      frigate:
+      app:
         enabled: true
         parentRefs:
           - name: internal
             namespace: network
-        hostnames: ["frigate.schwarz47.at"]
+        hostnames:
+          - "frigate.schwarz47.at"
+        rules:
+          - backendRefs:
+            - port: *port
+              name: frigate-app
+      ws:
+        enabled: true
+        parentRefs:
+          - name: internal
+            namespace: network
+        hostnames:
+          - "frigate.schwarz47.at"
+        rules:
+          - backendRefs:
+            - port: *wsPort
+              name: frigate-ws
       go2rtc:
         enabled: true
         parentRefs:
           - name: internal
             namespace: network
-        hostnames: ["go2rtc.schwarz47.at"]
+        hostnames:
+          - "go2rtc.schwarz47.at"
+        rules:
+          - backendRefs:
+            - port: *apiPort
+              name: frigate-app
 
     persistence:
       media:
