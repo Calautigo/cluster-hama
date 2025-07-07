@@ -17,7 +17,12 @@ spec:
     controllers:
       frigate:
         annotations:
-          reloader.stakater.com/auto: "true"
+          secret.reloader.stakater.com/reload: frigate-secret
+          configmap.reloader.stakater.com/reload: frigate-configmap
+
+        pod:
+          nodeSelector:
+            intel.feature.node.kubernetes.io/gpu: "true"
 
         containers:
           app:
@@ -37,13 +42,12 @@ spec:
 
             resources:
               requests:
-                cpu: 500m
+                cpu: 100m
                 memory: 256Mi
-                # nvidia.com/gpu: "1"
+                gpu.intel.com/i915: 1
               limits:
-                cpu: 8000m
-                memory: 16Gi
-                # nvidia.com/gpu: "1"
+                memory: 6Gi
+                gpu.intel.com/i915: 1
 
             probes:
               liveness: &probes
