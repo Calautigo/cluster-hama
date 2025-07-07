@@ -34,7 +34,7 @@ spec:
     - name: node-feature-discovery
       namespace: system
   interval: 30m
-  path: ./clusters/gryffindor-prod/apps/kube-system/node-feature-discovery/rules
+  path: ./clusters/gryffindor-prod/apps/system/node-feature-discovery/rules
   prune: true
   sourceRef:
     kind: GitRepository
