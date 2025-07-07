@@ -1,0 +1,96 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app unifi
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  values:
+    controllers:
+      unifi:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: jacobalberty/unifi
+              tag: v9.1.120@sha256:150af8f7bd96f597e7441f4598bd82435c2ee73b03b833179d30e6e2666be12b
+              pullPolicy: IfNotPresent
+            env:
+              RUNAS_UID0: "false"
+              UNIFI_UID: "1000"
+              UNIFI_GID: "1000"
+              UNIFI_STDOUT: "true"
+              JVM_INIT_HEAP_SIZE:
+              JVM_MAX_HEAP_SIZE: 1024M
+            resources:
+              requests:
+                memory: 1Gi
+                cpu: 50m
+              limits:
+                memory: 1250Mi
+
+    service:
+      app:
+        controller: *app
+        type: LoadBalancer
+        externalTrafficPolicy: Cluster
+        loadBalancerIP: 10.100.55.101
+        ports:
+          http:
+            primary: true
+            port: 8080
+            protocol: HTTP
+          https:
+            primary: false
+            port: &port 8443
+            protocol: HTTPS
+          portal-http:
+            primary: false
+            port: 8880
+            protocol: HTTP
+          portal-https:
+            primary: false
+            port: 8843
+            protocol: HTTPS
+          speedtest:
+            primary: true
+            port: 6789
+            protocol: TCP
+          stun:
+            primary: true
+            port: 3478
+            protocol: UDP
+          syslog:
+            primary: true
+            port: 5514
+            protocol: UDP
+          discovery:
+            primary: true
+            port: 10001
+            protocol: UDP
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: unifi-data
+        globalMounts:
+          - path: /unifi
+
+    route:
+      app:
+        hostnames:
+          - controller.schwarz47.at
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: unifi
+                port: *port
