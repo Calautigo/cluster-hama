@@ -16,8 +16,7 @@ database:
 
 ffmpeg:
   global_args: [-hide_banner, -loglevel, info]
-  hwaccel_args: preset-nvidia
-  input_retry_interval: 10
+  hwaccel_args: preset-vaapi
 
 detectors:
   ov_0:
@@ -31,7 +30,7 @@ snapshots:
   enabled: true
   timestamp: false
   bounding_box: true
-  retrain:
+  retain:
     default: 20
 
 record:
