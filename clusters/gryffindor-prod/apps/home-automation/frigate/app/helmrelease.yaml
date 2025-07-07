@@ -75,7 +75,7 @@ spec:
             port: 8554
 
     route:
-      app:
+      frigate:
         enabled: true
         parentRefs:
           - name: internal
