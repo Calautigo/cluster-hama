@@ -99,7 +99,7 @@ spec:
         advancedMounts:
           jellyfin:
             app:
-              - path: /config/cache
+              - path: /cache
                 subPath: cache
               - path: /tmp/jellyfin
                 subPath: tmp
