@@ -141,8 +141,8 @@ spec:
                     type: ReplacePrefixMatch
                     replacePrefixMatch: /
             backendRefs:
-              - name: home-assistant-code-server
+              - name: code-server
                 port: 12321
           - backendRefs:
-              - name: home-assistant-app
+              - name: app
                 port: 8123
