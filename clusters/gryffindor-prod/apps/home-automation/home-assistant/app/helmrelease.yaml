@@ -43,7 +43,7 @@ spec:
               tag: 2025.4.4
             env:
               VENV_FOLDER: /venv
-            envFrom: *envFrom
+            # envFrom: *envFrom
             resources:
               requests:
                 cpu: 47m
