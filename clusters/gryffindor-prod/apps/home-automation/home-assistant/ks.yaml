@@ -22,11 +22,12 @@ spec:
   dependsOn:
     - name: volsync
       namespace: system
-    - name: external-secrets-stores
-      namespace: external-secrets
+  components:
+    - ../../../../components/volsync
   postBuild:
     substitute:
       APP: *app
-      GATUS_SUBDOMAIN: hass
+      APP_UID: "65534"
+      APP_GID: "65533"
       VOLSYNC_CLAIM: home-assistant-config
-      VOLSYNC_CAPACITY: 5Gi
+      VOLSYNC_CAPACITY: 8Gi
