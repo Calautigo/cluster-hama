@@ -87,8 +87,8 @@ spec:
         ports:
           http:
             port: 8123
-      # code-server:
-      #   ports:
+      code-server:
+        ports:
           code-server:
             port: 12321
 
@@ -141,8 +141,8 @@ spec:
                     type: ReplacePrefixMatch
                     replacePrefixMatch: /
             backendRefs:
-              - name: code-server
+              - name: home-assistant-code-server
                 port: 12321
           - backendRefs:
-              - name: app
+              - name: home-assistant-app
                 port: 8123
