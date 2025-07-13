@@ -107,7 +107,7 @@ spec:
               spec:
                 accessModes:
                   - ReadWriteOnce
-                storageClassName: "openebs-hostpath"
+                storageClassName: csi-rbd-sc
                 resources:
                   requests:
                     storage: 300Gi
