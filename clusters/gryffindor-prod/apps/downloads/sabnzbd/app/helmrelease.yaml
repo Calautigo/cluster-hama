@@ -110,7 +110,7 @@ spec:
                 storageClassName: "openebs-hostpath"
                 resources:
                   requests:
-                    storage: 90Gi
+                    storage: 300Gi
         advancedMounts:
           sabnzbd:
             app:
