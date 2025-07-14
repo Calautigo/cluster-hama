@@ -59,9 +59,9 @@ spec:
             resources:
               requests:
                 cpu: 20m
-                memory: 1024Mi
+                memory: 1Gi
               limits:
-                memory: 6144Mi
+                memory: 4Gi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -107,17 +107,15 @@ spec:
               spec:
                 accessModes:
                   - ReadWriteOnce
-                storageClassName: csi-rbd-sc
+                storageClassName: openebs-hostpath
                 resources:
                   requests:
-                    storage: 300Gi
+                    storage: 1Mi # Will be ignored
         advancedMounts:
           sabnzbd:
             app:
               - path: /incomplete
                 subPath: incomplete
-              - path: /nzb-backup
-                subPath: nzb-backup
 
     route:
       app:
