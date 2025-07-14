@@ -77,6 +77,16 @@ spec:
         fsGroup: 2000
         fsGroupChangePolicy: OnRootMismatch
 
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: disktype
+              operator: In
+              values:
+              - ssd
+
     service:
       app:
         controller: sabnzbd
