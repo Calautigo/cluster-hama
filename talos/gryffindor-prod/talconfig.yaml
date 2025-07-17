@@ -183,7 +183,7 @@ controlPlane:
       machine:
         network:
           nameservers:
-            - 10.10.20.30
+            - 10.10.10.31
 
     # # Enable cluster discovery
     # - |-

@@ -31,4 +31,4 @@ bootstrap.json
 *.pub
 *.key
 
-test.yaml
+talsecret.yaml
