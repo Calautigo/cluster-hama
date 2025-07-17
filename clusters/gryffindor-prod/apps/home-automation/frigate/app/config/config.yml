@@ -86,20 +86,20 @@ record:
 
 go2rtc:
     streams:
-        corridor: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.104:554/stream1
-        corridor_low: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.104:554/stream2
-        garden_door: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.108:554/stream1
-        garden_door_low: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.108:554/stream2
-        living_room: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.133:554/stream1
-        living_room_low: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.133:554/stream2
-        living_room_couch: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.141:554/stream1
-        living_room_couch_low: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.141:554/stream2
-        garden_chicken: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.103:554/stream1
-        garden_chicken_low: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.103:554/stream2
-        garden_carport: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.134:554/stream1
-        garden_carport_low: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.134:554/stream2
-        kids_nils: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.137:554/stream1
-        kids_nils_low: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.40.200.137:554/stream2
+        corridor: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.52:554/stream1
+        corridor_low: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.52:554/stream2
+        garden_door: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.53:554/stream1
+        garden_door_low: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.53:554/stream2
+        living_room: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.54:554/stream1
+        living_room_low: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.54:554/stream2
+        living_room_couch: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.57:554/stream1
+        living_room_couch_low: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.57:554/stream2
+        garden_chicken: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.51:554/stream1
+        garden_chicken_low: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.51:554/stream2
+        garden_carport: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@RA	10.10.40.53:554/stream1
+        garden_carport_low: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@RA	10.10.40.53:554/stream2
+        kids_nils: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.56:554/stream1
+        kids_nils_low: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.56:554/stream2
 
 cameras:
   living_room:
