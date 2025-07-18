@@ -10,6 +10,9 @@ spec:
     kind: OCIRepository
     name: app-template
     namespace: flux-system
+  dependsOn:
+    - name: ceph-csi-rbd
+      namespace: ceph-csi
   values:
     controllers:
       unifi:
@@ -40,7 +43,8 @@ spec:
         controller: *app
         type: LoadBalancer
         externalTrafficPolicy: Cluster
-        loadBalancerIP: 10.100.55.101
+        annotations:
+          lbipam.cilium.io/ips: 10.100.90.81
         ports:
           http:
             primary: true
@@ -88,7 +92,7 @@ spec:
           - controller.schwarz47.at
         parentRefs:
           - name: internal
-            namespace: kube-system
+            namespace: network
             sectionName: https
         rules:
           - backendRefs:
