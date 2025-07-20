@@ -34,8 +34,8 @@ nodes:
       - name: extra
         provisioning:
           diskSelector:
-            match: disk.size >= 90u * GB
-          maxSize: 500GB
+            match: disk.size >= 500u * GB
+          maxSize: 900GB
     networkInterfaces:
       - interface: ens18
         dhcp: false
@@ -66,8 +66,8 @@ nodes:
       - name: extra
         provisioning:
           diskSelector:
-            match: disk.size >= 90u * GB
-          maxSize: 500GB
+            match: disk.size >= 500u * GB
+          maxSize: 900GB
     networkInterfaces:
       - interface: ens18
         dhcp: false
@@ -110,8 +110,8 @@ nodes:
       - name: extra
         provisioning:
           diskSelector:
-            match: disk.size >= 90u * GB
-          maxSize: 500GB
+            match: disk.size >= 500u * GB
+          maxSize: 900GB
     networkInterfaces:
       - interface: ens18
         dhcp: false
