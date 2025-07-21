@@ -88,8 +88,8 @@ go2rtc:
     streams:
         corridor: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.52:554/stream1
         corridor_low: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.52:554/stream2
-        garden_door: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.53:554/stream1
-        garden_door_low: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.53:554/stream2
+        garden_door: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.55:554/stream1
+        garden_door_low: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.55:554/stream2
         living_room: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.54:554/stream1
         living_room_low: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.54:554/stream2
         living_room_couch: rtsp://{FRIGATE_CAMERA_USER}:{FRIGATE_CAMERA_PASSWORD}@10.10.40.57:554/stream1
