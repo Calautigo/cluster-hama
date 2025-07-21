@@ -54,7 +54,13 @@ nodes:
           - network: 10.44.0.0/16
             gateway: 10.44.0.1
         mtu: 1500
-
+      - interface: ens20
+        addresses:
+          - 10.10.20.61/24
+        routes:
+          - network: 10.10.20.0/24
+            gateway: 10.10.20.1
+        mtu: 1500
 
   - hostname: blue.k8s.gryffindor.prod.schwarz47.at
     ipAddress: 10.100.10.62
@@ -86,6 +92,13 @@ nodes:
           - network: 10.44.0.0/16
             gateway: 10.44.0.1
         mtu: 1500
+      - interface: ens20
+        addresses:
+          - 10.10.20.62/24
+        routes:
+          - network: 10.10.20.0/24
+            gateway: 10.10.20.1
+        mtu: 1500
     kernelModules:
       - name: nvidia
       - name: nvidia_modeset
@@ -97,8 +110,6 @@ nodes:
           officialExtensions:
             - siderolabs/nvidia-container-toolkit-production
             - siderolabs/nonfree-kmod-nvidia-production
-
-
 
   - hostname: charlie.k8s.gryffindor.prod.schwarz47.at
     ipAddress: 10.100.10.63
@@ -129,6 +140,13 @@ nodes:
         routes:
           - network: 10.44.0.0/16
             gateway: 10.44.0.1
+        mtu: 1500
+      - interface: ens20
+        addresses:
+          - 10.10.20.63/24
+        routes:
+          - network: 10.10.20.0/24
+            gateway: 10.10.20.1
         mtu: 1500
 
 controlPlane:
