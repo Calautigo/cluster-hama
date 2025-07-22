@@ -120,7 +120,7 @@ spec:
                 subPath: nonexistent
       deploy-key:
         type: secret
-        name: esphome-deploy-key
+        name: esphome-deploykey
         defaultMode: 256
         advancedMounts:
           esphome:
