@@ -3,10 +3,33 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app envoy-gateway
-  namespace: flux-system
+  name: &app envoy-gateway-crds
+  namespace: &namespace network
 spec:
-  targetNamespace: network
+  targetNamespace: *namespace
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  path: ./clusters/gryffindor-prod/apps/network/envoy-gateway/crds
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: false
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+---
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app envoy-gateway
+  namespace: &namespace network
+spec:
+  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -16,8 +39,11 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  dependsOn:
+    - name: envoy-gateway-crds
+      namespace: *namespace
   wait: false
-  interval: 30m
+  interval: 1h
   retryInterval: 1m
   timeout: 5m
 ---
@@ -25,23 +51,22 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: envoy-gateway-gateways
-  namespace: flux-system
+  name: envoy-gateway-internal
+  namespace: &namespace network
 spec:
+  targetNamespace: *namespace
   dependsOn:
     - name: cert-manager-issuers
+      namespace: network
     - name: envoy-gateway
-    - name: gateway-api
-    - name: cilium-config
-      namespace: kube-system
-  targetNamespace: network
-  path: ./clusters/gryffindor-prod/apps/network/envoy-gateway/gateways
+      namespace: *namespace
+  path: ./clusters/gryffindor-prod/apps/network/envoy-gateway/internal
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   wait: false
-  interval: 30m
+  interval: 1h
   retryInterval: 1m
   timeout: 5m
