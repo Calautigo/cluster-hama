@@ -8,7 +8,7 @@ spec:
   gatewayClassName: envoy-gateway
   addresses:
     - type: IPAddress
-      value: 10.100.90.50
+      value: 10.100.90.60
   listeners:
     - name: http
       protocol: HTTP
