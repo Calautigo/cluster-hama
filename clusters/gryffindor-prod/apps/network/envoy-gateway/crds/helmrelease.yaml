@@ -19,3 +19,10 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 5
+  values:
+    crds:
+      gatewayAPI:
+        enabled: true
+        channel: standard
+      envoyGateway:
+        enabled: true
