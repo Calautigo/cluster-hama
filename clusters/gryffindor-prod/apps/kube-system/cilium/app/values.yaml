@@ -5,11 +5,6 @@ bandwidthManager:
   enabled: true
 bgpControlPlane:
   enabled: true
-bpf:
-  datapathMode: netkit
-  masquerade: true
-  preallocateMaps: true
-bpfClockProbe: true
 cgroup:
   automount:
     enabled: false
@@ -28,13 +23,10 @@ enableRuntimeDeviceDetection: true
 endpointRoutes:
   enabled: true
 envoy:
-  enabled: true
-  rollOutPods: true
-  log:
-    defaultLevel: debug
+  enabled: false
 gatewayAPI:
   enabled: false
-  enableAlpn: true
+  enableAlpn: false
   xffNumTrustedHops: 1
 hubble:
   enabled: false
@@ -69,8 +61,6 @@ prometheus:
     trustCRDsExist: true
 rollOutCiliumPods: true
 routingMode: native
-# serviceMesh:
-#   enabled: true
 securityContext:
   capabilities:
     ciliumAgent:
@@ -81,8 +71,6 @@ securityContext:
       - IPC_LOCK
       - SYS_ADMIN
       - SYS_RESOURCE
-      - PERFMON
-      - BPF
       - DAC_OVERRIDE
       - FOWNER
       - SETGID
