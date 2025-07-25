@@ -40,6 +40,7 @@ spec:
               requests:
                 cpu: 100m
                 memory: 256Mi
+                gpu.intel.com/i915: 1
               limits:
                 memory: 6Gi
                 gpu.intel.com/i915: 1
@@ -50,9 +51,9 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /api
+                    path: /api/version
                     port: &port 5000
-                  initialDelaySeconds: 180
+                  initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
@@ -72,47 +73,26 @@ spec:
           rtsp:
             enabled: true
             port: 8554
-      ws:
-        enabled: true
-        ports:
-          http:
-            port: &wsPort 5000
-            appProtocol: wss
 
     route:
       app:
-        enabled: true
         parentRefs:
           - name: internal
             namespace: network
+            sectionName: https
         hostnames:
           - "frigate.schwarz47.at"
         rules:
-          - backendRefs:
-            - port: *port
-              name: frigate-app
-      ws:
-        enabled: true
-        parentRefs:
-          - name: internal
-            namespace: network
-        hostnames:
-          - "frigate.schwarz47.at"
-        rules:
-          - backendRefs:
-            - port: *wsPort
-              name: frigate-ws
+          - backendRefs: [{}]
       go2rtc:
-        enabled: true
         parentRefs:
           - name: internal
             namespace: network
+            sectionName: https
         hostnames:
           - "go2rtc.schwarz47.at"
         rules:
-          - backendRefs:
-            - port: *apiPort
-              name: frigate-app
+          - backendRefs: [{}]
 
     persistence:
       media:
