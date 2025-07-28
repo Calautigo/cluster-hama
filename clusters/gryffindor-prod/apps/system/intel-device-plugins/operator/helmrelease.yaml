@@ -15,7 +15,7 @@ spec:
     crds: CreateReplace
   dependsOn:
     - name: cert-manager
-      namespace: network
+      namespace: cert-manager
   values:
     manager:
       devices:

@@ -60,7 +60,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cert-manager-issuers
-      namespace: network
+      namespace: cert-manager
     - name: envoy-gateway
       namespace: *namespace
   path: ./clusters/gryffindor-prod/apps/network/envoy-gateway/internal

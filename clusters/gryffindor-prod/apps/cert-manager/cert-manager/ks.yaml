@@ -3,13 +3,13 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app cert-manager
-  namespace: &namespace network
+  namespace: &namespace cert-manager
 spec:
   targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./clusters/gryffindor-prod/apps/network/cert-manager/app
+  path: ./clusters/gryffindor-prod/apps/cert-manager/cert-manager/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -23,7 +23,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app cert-manager-issuers
-  namespace: &namespace network
+  namespace: &namespace cert-manager
 spec:
   targetNamespace: *namespace
   commonMetadata:
@@ -31,9 +31,10 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cert-manager
+      namespace: cert-manager
     - name: external-secrets-stores
       namespace: external-secrets
-  path: ./clusters/gryffindor-prod/apps/network/cert-manager/issuers
+  path: ./clusters/gryffindor-prod/apps/cert-manager/cert-manager/issuers
   prune: true
   sourceRef:
     kind: GitRepository
