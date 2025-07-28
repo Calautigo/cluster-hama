@@ -116,7 +116,7 @@ spec:
           - "go2rtc.schwarz47.at"
         rules:
           - backendRefs:
-              - port: *api-port
+              - port: *apiPort
                 identifier: app
             timeouts:
               backendRequest: 10m
