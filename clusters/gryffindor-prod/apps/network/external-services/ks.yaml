@@ -21,6 +21,6 @@ spec:
   timeout: 3m
   postBuild:
     substitute:
-      APP: gryffindor-hass
+      APP: hass
       IP: 10.100.200.104
       PORT: '8123'
