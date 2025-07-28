@@ -105,7 +105,7 @@ spec:
                 port: *wsPort
             matches:
               - path:
-                  type: Prefix
+                  type: PathPrefix
                   value: /ws
       go2rtc:
         parentRefs:
