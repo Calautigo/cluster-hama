@@ -6,7 +6,7 @@ namespace: network
 resources:
   # Flux-Kustomizations
   - ./envoy-gateway/ks.yaml
+  - ./external-services/ks.yaml
   - ./k8s-gateway/ks.yaml
-  - ./multus/ks.yaml
 components:
   - ../../components/namespace
