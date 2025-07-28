@@ -1,0 +1,59 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres17
+spec:
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.5@sha256:9de626b82bf15bea05ed1172bfc0e45a3687662ec76ac8cbda8f95d02198db39
+  instances: 3
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 20Gi
+    storageClass: openebs-hostpath
+  superuserSecret:
+    name: cloudnative-pg-secret
+  enableSuperuserAccess: true
+  postgresql:
+    parameters:
+      max_connections: "400"
+      shared_buffers: 512MB
+  resources:
+    requests:
+      cpu: 500m
+      memory: 512Mi
+    limits:
+      memory: 4Gi
+  monitoring:
+    enablePodMonitor: true
+  backup:
+    retentionPolicy: 30d
+    barmanObjectStore: &barmanObjectStore
+      data:
+        compression: bzip2
+      wal:
+        compression: bzip2
+        maxParallel: 8
+      destinationPath: s3://cnpg-cluster-gryffindor-prod-bucket/
+      endpointURL: https://versity.schwarz47.at
+      # Note: serverName version needs to be incremented
+      # when recovering from an existing cnpg cluster
+      serverName: postgres17-v1
+      s3Credentials:
+        accessKeyId:
+          name: cloudnative-pg-secret
+          key: aws-access-key-id
+        secretAccessKey:
+          name: cloudnative-pg-secret
+          key: aws-secret-access-key
+  # # Note: previousCluster needs to be set to the name of the previous
+  # # cluster when recovering from an existing cnpg cluster
+  # bootstrap:
+  #   recovery:
+  #     source: &previousCluster postgres16-v6
+  # # Note: externalClusters is needed when recovering from an existing cnpg cluster
+  # externalClusters:
+  #   - name: *previousCluster
+  #     barmanObjectStore:
+  #       <<: *barmanObjectStore
+  #       serverName: *previousCluster
