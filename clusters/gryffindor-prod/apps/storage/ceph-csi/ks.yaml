@@ -3,16 +3,16 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app snapshot-controller
-  namespace: &namespace system-controllers
+  name: &appname ceph-rbd
+  namespace: &namespace storage
 spec:
   targetNamespace: *namespace
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *app
+      app.kubernetes.io/name: *appname
   interval: 30m
   timeout: 5m
-  path: ./clusters/gryffindor-prod/apps/system-controllers/snapshot-controller/app
+  path: ./clusters/gryffindor-prod/apps/storage/ceph-csi/rbd
   prune: true
   sourceRef:
     kind: GitRepository
