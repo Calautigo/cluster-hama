@@ -21,7 +21,7 @@ spec:
     - name: external-secrets-stores
       namespace: external-secrets
     - name: volsync
-      namespace: system
+      namespace: storage
   components:
     - ../../../../components/volsync
   interval: 30m

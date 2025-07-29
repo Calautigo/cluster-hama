@@ -21,7 +21,7 @@ spec:
   wait: false
   dependsOn:
     - name: volsync
-      namespace: system
+      namespace: storage
     - name: openebs
       namespace: openebs
   components:
