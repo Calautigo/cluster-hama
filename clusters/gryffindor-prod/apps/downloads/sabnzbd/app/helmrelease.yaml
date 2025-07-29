@@ -10,7 +10,7 @@ spec:
     namespace: flux-system
   dependsOn:
     - name: ceph-csi-rbd
-      namespace: ceph-csi
+      namespace: storage
     - name: openebs
       namespace: openebs
   values:
