@@ -27,7 +27,6 @@ spec:
         replicas: 2
         strategy: RollingUpdate
         pod:
-          hostUsers: false
           securityContext:
             runAsNonRoot: true
             runAsUser: 1000
@@ -61,6 +60,7 @@ spec:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
+
     service:
       app:
         ports:
