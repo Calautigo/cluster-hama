@@ -3,14 +3,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: flux-repositories
-  namespace: flux-system
+  name: flux-settings
+  namespace: &namespace flux-system
 spec:
-  targetNamespace: flux-system
   interval: 30m
-  path: ./clusters/gryffindor-prod/flux/repositories
-  prune: true
-  wait: false
+  timeout: 10m
+  targetNamespace: *namespace
+  path: ./clusters/gryffindor-prod/flux/meta/settings
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -19,14 +19,14 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps
-  namespace: flux-system
+  name: flux-repositories
+  namespace: &namespace flux-system
 spec:
-  interval: 10m
-  path: ./clusters/gryffindor-prod/apps
-  prune: true
+  interval: 30m
+  timeout: 10m
+  targetNamespace: *namespace
+  path: ./clusters/gryffindor-prod/flux/meta/repositories
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
-  dependsOn:
-    - name: flux-repositories
