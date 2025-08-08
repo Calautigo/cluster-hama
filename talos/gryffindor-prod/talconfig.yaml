@@ -99,17 +99,6 @@ nodes:
           - network: 10.10.20.0/24
             gateway: 10.10.20.1
         mtu: 1500
-    kernelModules:
-      - name: nvidia
-      - name: nvidia_modeset
-      - name: nvidia_uvm
-      - name: nvidia_drm
-    schematic:
-      customization:
-        systemExtensions:
-          officialExtensions:
-            - siderolabs/nvidia-container-toolkit-production
-            - siderolabs/nonfree-kmod-nvidia-production
 
   - hostname: charlie.k8s.gryffindor.prod.schwarz47.at
     ipAddress: 10.100.10.63
