@@ -34,7 +34,7 @@ nodes:
       - name: extra
         provisioning:
           diskSelector:
-            match: disk.size >= 500u * GB
+            match: disk.size >= 200u * GB
           maxSize: 900GB
     networkInterfaces:
       - interface: ens18
@@ -72,7 +72,7 @@ nodes:
       - name: extra
         provisioning:
           diskSelector:
-            match: disk.size >= 500u * GB
+            match: disk.size >= 200u * GB
           maxSize: 900GB
     networkInterfaces:
       - interface: ens18
@@ -110,7 +110,7 @@ nodes:
       - name: extra
         provisioning:
           diskSelector:
-            match: disk.size >= 500u * GB
+            match: disk.size >= 200u * GB
           maxSize: 900GB
     networkInterfaces:
       - interface: ens18
