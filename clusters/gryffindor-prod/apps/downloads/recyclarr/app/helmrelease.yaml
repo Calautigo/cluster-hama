@@ -43,12 +43,6 @@ spec:
             envFrom:
               - secretRef:
                   name: recyclarr-secret
-            resources:
-              requests:
-                cpu: 5m
-                memory: 36M
-              limits:
-                memory: 512M
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
