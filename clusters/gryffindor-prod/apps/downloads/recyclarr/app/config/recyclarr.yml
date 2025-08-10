@@ -11,6 +11,22 @@ radarr:
     quality_profiles:
       - name: Remux + WEB 2160p (GER)
         min_format_score: 10000 # Skip English Releases
+        qualities:
+          - name: Merged QPs
+            qualities:
+              - Remux-2160p
+              - WEBDL-2160p
+              - WEBRip-2160p
+          - name: WEB 1080p
+            qualities:
+              - WEBDL-1080p
+              - WEBRip-1080p
+          - name: Bluray-1080p
+          - name: Bluray-720p
+          - name: WEB 480p
+            qualities:
+              - WEBDL-480p
+              - WEBRip-480p
     custom_formats:
 ### Audio
       - trash_ids:
@@ -74,6 +90,22 @@ sonarr:
     quality_profiles:
       - name: UHD Bluray + WEB (GER)
         min_format_score: 10000 # Skip English Releases
+        qualities:
+          - name: Merged QPs
+            qualities:
+              - Remux-2160p
+              - WEBDL-2160p
+              - WEBRip-2160p
+          - name: WEB 1080p
+            qualities:
+              - WEBDL-1080p
+              - WEBRip-1080p
+          - name: Bluray-1080p
+          - name: Bluray-720p
+          - name: WEB 480p
+            qualities:
+              - WEBDL-480p
+              - WEBRip-480p
     custom_formats:
 ### Optional
       - trash_ids:
