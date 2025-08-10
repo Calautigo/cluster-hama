@@ -1,3 +1,6 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/recyclarr/recyclarr/master/schemas/config-schema.json
+
 radarr:
   radarr:
     base_url: http://radarr.downloads.svc.cluster.local:7878
@@ -75,8 +78,7 @@ radarr:
          - 839bea857ed2c0a8e084f3cbdbd65ecb # Uncomment this line to allow HDR/DV x265 HD releases
         assign_scores_to:
           - name: Remux + WEB 2160p (GER)
----
-# yaml-language-server: $schema=https://raw.githubusercontent.com/recyclarr/recyclarr/master/schemas/config-schema.json
+
 sonarr:
   sonarr:
     base_url: http://sonarr.downloads.svc.cluster.local:8989
