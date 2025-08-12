@@ -30,4 +30,4 @@ spec:
   allowFirstLastIPs: "Yes"
   blocks:
     - start: 10.100.90.50
-      stop: 10.100.90.100
+      stop: 10.100.90.120

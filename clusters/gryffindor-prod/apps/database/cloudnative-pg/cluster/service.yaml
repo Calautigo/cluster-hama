@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: postgres17-lb
   annotations:
-    lbipam.cilium.io/ips: 10.100.90.120
+    lbipam.cilium.io/ips: 10.100.90.84
 spec:
   type: LoadBalancer
   ports:
