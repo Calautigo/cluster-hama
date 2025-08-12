@@ -12,7 +12,7 @@ spec:
   dependsOn:
     - name: external-secrets-stores
       namespace: external-secrets
-  path: ./clusters/gryffindor-prod/apps/networking/smtp-relay/app
+  path: ./clusters/gryffindor-prod/apps/network/smtp-relay/app
   prune: true
   sourceRef:
     kind: GitRepository
