@@ -32,4 +32,5 @@ spec:
     substitute:
       APP: *app
       GATUS_SUBDOMAIN: id
+      VOLSYNC_CLAIM: pocket-id-config
       VOLSYNC_CAPACITY: 1Gi
