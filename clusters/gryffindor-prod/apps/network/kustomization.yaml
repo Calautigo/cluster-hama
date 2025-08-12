@@ -10,5 +10,6 @@ resources:
   - ./k8s-gateway/ks.yaml
   - ./multus/ks.yaml
   - ./netboot/ks.yaml
+  - ./newt/ks.yaml
 components:
   - ../../components/namespace
