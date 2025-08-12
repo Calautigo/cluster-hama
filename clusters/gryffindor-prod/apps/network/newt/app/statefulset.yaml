@@ -49,6 +49,8 @@ spec:
           volumeMounts:
             - name: tmp
               mountPath: /tmp
+            - name: config
+              mountPath: /.config
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
@@ -68,4 +70,6 @@ spec:
       terminationGracePeriodSeconds: 30
       volumes:
         - name: tmp
+          emptyDir: {}
+        - name: config
           emptyDir: {}
