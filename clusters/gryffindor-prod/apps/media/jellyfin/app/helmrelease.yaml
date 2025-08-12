@@ -79,18 +79,6 @@ spec:
                 memory: 8Gi
                 gpu.intel.com/i915: 1
 
-
-    defaultPodOptions:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: disktype
-                operator: In
-                values:
-                - ssd
-
     service:
       app:
         controller: jellyfin
