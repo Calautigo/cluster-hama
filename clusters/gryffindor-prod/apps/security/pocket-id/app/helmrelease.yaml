@@ -8,6 +8,9 @@ spec:
   chartRef:
     kind: OCIRepository
     name: app-template
+  dependsOn:
+    - name: ceph-csi-rbd
+      namespace: storage
   values:
     controllers:
       pocket-id:
