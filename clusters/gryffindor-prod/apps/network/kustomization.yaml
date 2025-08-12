@@ -11,5 +11,6 @@ resources:
   - ./multus/ks.yaml
   - ./netboot/ks.yaml
   - ./newt/ks.yaml
+  - ./smtp-relay/ks.yaml
 components:
   - ../../components/namespace
