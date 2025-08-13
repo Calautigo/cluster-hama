@@ -54,9 +54,6 @@ spec:
               # LDAP_ATTRIBUTE_GROUP_MEMBER: member
               # LDAP_ATTRIBUTE_GROUP_NAME: cn
               # LDAP_ATTRIBUTE_ADMIN_GROUP: ID-Admin
-              SMTP_FROM: noreply@schwarz47.at
-              SMTP_HOST: smtp-relay.network.svc.cluster.local
-              SMTP_PORT: 2525
               SESSION_DURATION: 43800
               TRUST_PROXY: true
               UPLOAD_PATH: /app/data/uploads
