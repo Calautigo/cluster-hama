@@ -18,9 +18,11 @@ radarr:
         qualities:
           - name: Merged QPs
             qualities:
+              - Remux-2160p
               - Bluray-2160p
               - WEBDL-2160p
               - WEBRip-2160p
+              - Remux-1080p
               - Bluray-1080p
               - WEBDL-1080p
               - WEBRip-1080p
