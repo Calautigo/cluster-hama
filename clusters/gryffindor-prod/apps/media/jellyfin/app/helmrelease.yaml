@@ -33,7 +33,7 @@ spec:
           app:
             image:
               repository: ghcr.io/jellyfin/jellyfin
-              tag: 10.10.6-amd64.20250216-215628@sha256:443b68d38b5afb6fbe44d6b4d647ea169dcd059f2bb601d55e18644f51e20c26
+              tag: 10.11.0-rc5.20250814-152146@sha256:4942cd79d431aeb5596d764982072aa4c6acdd450da10c229f7f79380245e270
             env:
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
               JELLYFIN_PublishedServerUrl: http://10.100.90.60:8096,https://jellyfin.schwarz47.at:443
