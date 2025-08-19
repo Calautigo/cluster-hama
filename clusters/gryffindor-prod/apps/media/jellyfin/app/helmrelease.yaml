@@ -93,11 +93,6 @@ spec:
           jellyfin:
             app:
               - path: /config
-      transcode:
-        type: emptyDir
-        sizeLimit: 10Gi
-        globalMounts:
-          - path: /cache/transcodes
       cache:
         type: emptyDir
         advancedMounts:
@@ -107,6 +102,14 @@ spec:
                 subPath: cache
               - path: /tmp/jellyfin
                 subPath: tmp
+              - path: /config/log
+                subPath: log
+              - path: /config/metadata
+                subPath: metadata
+              - path: /config/transcode
+                subPath: transcode
+              - path: /config/cache
+                subPath: cache
       media:
         type: nfs
         server: 10.100.0.81
