@@ -5,7 +5,9 @@ metadata:
 spec:
   gatewayClassName: envoy-gateway
   infrastructure:
-    envoyProxy:
+    parametersRef:
+      group: gateway.envoyproxy.io
+      kind: EnvoyProxy
       name: eg-external
   addresses:
     - type: IPAddress
