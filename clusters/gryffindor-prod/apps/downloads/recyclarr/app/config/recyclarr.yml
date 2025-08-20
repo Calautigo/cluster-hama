@@ -143,6 +143,13 @@ sonarr:
               - WEBRip-720p
 
     custom_formats:
+### Language
+      - trash_ids:
+         - f845be10da4f442654c13e1f2c3d6cd5 # German DL (German + Original)
+        assign_scores_to:
+          - name: UHD Remux + WEB (GER)
+            score: 10001
+
 ### Optional
       - trash_ids:
          - 32b367365729d530ca1c124a0b180c64 # Bad Dual Groups
