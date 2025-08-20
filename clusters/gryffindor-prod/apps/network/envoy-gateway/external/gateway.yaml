@@ -17,6 +17,9 @@ spec:
       protocol: HTTPS
       port: 443
       hostname: "*.schwarz47.at"
+      allowedRoutes:
+        namespaces:
+          from: All
       tls:
         certificateRefs:
           - kind: Secret
