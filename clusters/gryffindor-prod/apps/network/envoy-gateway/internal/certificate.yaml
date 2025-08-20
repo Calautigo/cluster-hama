@@ -2,9 +2,9 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: "schwarz47-at"
+  name: schwarz47-at
 spec:
-  secretName: "schwarz47-at-tls"
+  secretName: schwarz47-at-tls
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
