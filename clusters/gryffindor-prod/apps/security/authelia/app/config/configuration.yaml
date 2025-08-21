@@ -36,7 +36,7 @@ session:
   redis:
     database_index: 2
     host: dragonfly.database.svc.cluster.local
-    password: '{{ env "REDIS_PASSWORD" }}'
+    password: "${REDIS_PASSWORD}"
 
 notifier:
   disable_startup_check: true
