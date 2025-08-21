@@ -95,11 +95,6 @@ identity_providers:
           - alt_emails
           - preferred_username
           - name
-    jwks:
-      - key: |
-          {{ secret "/config/secret/OIDC_JWKS_KEY" | mindent 10 "|" | msquote }}
-        certificate_chain: |
-          {{ secret "/config/secret/OIDC_JWKS_CERT" | mindent 10 "|" | msquote }}
     cors:
       endpoints:
         - authorization
