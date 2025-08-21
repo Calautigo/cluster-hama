@@ -89,7 +89,7 @@ spec:
               whenUnsatisfiable: DoNotSchedule
               labelSelector:
                 matchLabels:
-                  app.kubernetes.io/name: *app
+                  app.kubernetes.io/name: authelia
 
     service:
       app:
@@ -113,7 +113,7 @@ spec:
     route:
       app:
         hostnames:
-          - "auth.schwarz47.at"
+          - auth.schwarz47.at
         parentRefs:
           - name: external
             namespace: network
