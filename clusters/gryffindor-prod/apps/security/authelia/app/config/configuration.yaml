@@ -36,7 +36,7 @@ session:
   redis:
     database_index: 2
     host: dragonfly.database.svc.cluster.local
-    password: "${REDIS_PASSWORD}"
+    password: '{{ secret "/config/secret/REDIS_PASSWORD" | trim }}'
 
 notifier:
   disable_startup_check: true
@@ -89,14 +89,14 @@ identity_providers:
   oidc:
     jwks:
       - key: |
-          {{ secret "/config/secret/OIDC_JWKS_KEY" | mindent 10 "|" | msquote }}
+          {{ secret "/config/secret/oidc_jwk.json" | trim }}
     cors:
       endpoints: ["authorization", "token", "revocation", "introspection"]
       allowed_origins_from_client_redirect_uris: true
     clients:
       - client_id: "jellyfin"
         client_name: "jellyfin"
-        client_secret: "${JELLYFIN_OAUTH_CsLIENT_SECRET}"
+        client_secret: '{{ secret "/config/secret/JELLYFIN_OAUTH_CLIENT_SECRET" | trim }}'
         public: false
         authorization_policy: "two_factor"
         require_pkce: true
