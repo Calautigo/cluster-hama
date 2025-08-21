@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: authelia-inspect
+  namespace: security
+  labels:
+    app.kubernetes.io/name: authelia-inspect
+spec:
+  restartPolicy: Never
+  enableServiceLinks: false
+  securityContext:
+    runAsUser: 568
+    runAsGroup: 568
+    runAsNonRoot: true
+  containers:
+    - name: inspector
+      image: ghcr.io/authelia/authelia:4.39.6@sha256:08776367d54d4482c54ac8ca75b18f7db3287b751106e19736780c5f6811374d
+      command: ["sh","-c","sleep infinity"]
+      env:
+        - name: AUTHELIA_LOG_LEVEL
+          value: info
+        - name: AUTHELIA_SERVER_DISABLE_HEALTHCHECK
+          value: "true"
+        - name: X_AUTHELIA_CONFIG
+          value: /config/configuration.yaml
+        - name: X_AUTHELIA_CONFIG_FILTERS
+          value: template
+      envFrom:
+        - secretRef:
+            name: authelia-secret   # gleiche ENV-Overrides wie im Deployment
+            optional: true
+      volumeMounts:
+        # exakt wie im HelmRelease: ConfigMap-Datei unter /config/configuration.yaml (subPath!)
+        - name: cfg
+          mountPath: /config/configuration.yaml
+          subPath: configuration.yaml
+          readOnly: true
+  volumes:
+    - name: cfg
+      configMap:
+        name: authelia-configmap
+        items:
+          - key: configuration.yaml
+            path: configuration.yaml

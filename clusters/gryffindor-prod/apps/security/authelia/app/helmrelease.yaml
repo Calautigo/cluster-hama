@@ -44,17 +44,13 @@ spec:
               repository: ghcr.io/authelia/authelia
               tag: 4.39.6@sha256:08776367d54d4482c54ac8ca75b18f7db3287b751106e19736780c5f6811374d
             env:
-              AUTHELIA_LOG_LEVEL: info
-              AUTHELIA_NOTIFIER_SMTP_SENDER: "Authelia <noreply@schwarz47.at>"
+              AUTHELIA_SERVER_ADDRESS: tcp://0.0.0.0:80
               AUTHELIA_SERVER_DISABLE_HEALTHCHECK: "true"
-              AUTHELIA_SERVER_ADDRESS: tcp://0.0.0.0:9091
               AUTHELIA_TELEMETRY_METRICS_ADDRESS: tcp://0.0.0.0:8080
               AUTHELIA_TELEMETRY_METRICS_ENABLED: "true"
               AUTHELIA_THEME: dark
-              AUTHELIA_TOTP_ISSUER: authelia.com
-              AUTHELIA_WEBAUTHN_DISABLE: "true"
               X_AUTHELIA_CONFIG: /config/configuration.yaml
-              X_AUTHELIA_CONFIG_FILTERS: template
+              X_AUTHELIA_CONFIG_FILTERS: expand-env
             envFrom: *envFrom
             probes:
               liveness: &probes
@@ -63,7 +59,7 @@ spec:
                 spec:
                   httpGet:
                     path: /api/health
-                    port: &port 9091
+                    port: &port 80
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
