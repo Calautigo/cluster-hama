@@ -20,7 +20,7 @@ spec:
       retries: 3
   dependsOn:
     - name: lldap
-    - name: smtp-relay
+    # - name: smtp-relay
   values:
     defaultPodOptions:
       enableServiceLinks: false
@@ -98,7 +98,6 @@ spec:
 
     service:
       app:
-        controller: authelia
         ports:
           http:
             port: *port
@@ -126,7 +125,7 @@ spec:
             sectionName: https
         rules:
           - backendRefs:
-              - identifier: authelia
+              - identifier: app
                 port: *port
 
     persistence:
