@@ -87,13 +87,16 @@ password_policy:
 
 identity_providers:
   oidc:
+    jwks:
+      - key: |
+          {{ secret "/config/secret/OIDC_JWKS_KEY" | mindent 10 "|" | msquote }}
     cors:
       endpoints: ["authorization", "token", "revocation", "introspection"]
       allowed_origins_from_client_redirect_uris: true
     clients:
-      - id: jellyfin
-        description: jellyfin
-        client_secret: "${JELLYFIN_OAUTH_CLIENT_SECRET}"
+      - client_id: "jellyfin"
+        client_name: "jellyfin"
+        client_secret: "${JELLYFIN_OAUTH_CsLIENT_SECRET}"
         public: false
         authorization_policy: "two_factor"
         require_pkce: true
