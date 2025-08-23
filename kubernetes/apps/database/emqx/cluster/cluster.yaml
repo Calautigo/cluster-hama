@@ -5,7 +5,7 @@ kind: EMQX
 metadata:
   name: emqx
 spec:
-  image: public.ecr.aws/emqx/emqx:5.8.6
+  image: public.ecr.aws/emqx/emqx:5.8.7
   config:
     data: |
       authentication {
@@ -56,7 +56,6 @@ spec:
   listenersServiceTemplate:
     metadata:
       annotations:
-        external-dns.alpha.kubernetes.io/hostname: "mqtt.schwarz47.at."
-        lbipam.cilium.io/ips: 10.100.55.105
+        lbipam.cilium.io/ips: 10.100.90.83
     spec:
       type: LoadBalancer

@@ -7,4 +7,10 @@ resources:
   - ./cert-manager/ks.yaml
 components:
   - ../../components/namespace
-  - ../../components/flux/alerts
+patches:
+  - patch: |
+      - op: add
+        path: /metadata/name
+        value: cert-manager
+    target:
+      kind: Namespace

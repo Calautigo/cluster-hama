@@ -12,7 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: metrics-server
-        namespace: flux-system
+      interval: 30m
   install:
     remediation:
       retries: 3
@@ -26,6 +26,7 @@ spec:
       - --kubelet-use-node-status-port
       - --metric-resolution=15s
       - --kubelet-request-timeout=2s
+      - --kubelet-insecure-tls
     metrics:
       enabled: true
     serviceMonitor:

@@ -1,20 +1,15 @@
 ---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: network
 resources:
-  - ./external-dns/ks.yaml
-  - ./gateway/ks.yaml
+  # Flux-Kustomizations
+  - ./envoy-gateway/ks.yaml
+  - ./external-services/ks.yaml
+  - ./k8s-gateway/ks.yaml
   - ./multus/ks.yaml
-  - ./openspeedtest/ks.yaml
-  - ./speedtest/ks.yaml
+  - ./newt/ks.yaml
+  - ./smtp-relay/ks.yaml
 components:
   - ../../components/namespace
-  - ../../components/flux/alerts
-patches:
-  - patch: |
-      - op: add
-        path: /metadata/name
-        value: network
-    target:
-      kind: Namespace

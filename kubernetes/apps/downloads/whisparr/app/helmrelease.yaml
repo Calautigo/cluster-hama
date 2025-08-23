@@ -10,16 +10,16 @@ spec:
     namespace: flux-system
   dependsOn:
     - name: ceph-csi-rbd
-      namespace: ceph-csi
+      namespace: storage
   values:
     controllers:
       whisparr:
         pod:
           securityContext:
-            runAsUser: 3000
-            runAsGroup: 5000
+            runAsUser: 2000
+            runAsGroup: 2000
             runAsNonRoot: true
-            fsGroup: 5000
+            fsGroup: 2000
             fsGroupChangePolicy: "OnRootMismatch"
 
         containers:
@@ -82,9 +82,5 @@ spec:
           - whisparr.schwarz47.at
         parentRefs:
           - name: internal
-            namespace: kube-system
+            namespace: network
             sectionName: https
-        rules:
-          - backendRefs:
-              - name: whisparr
-                port: *port

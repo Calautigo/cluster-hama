@@ -4,7 +4,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: downloads
 resources:
-  - ./janitorr/ks.yaml
+  - ./huntarr/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
   - ./recyclarr/ks.yaml
@@ -13,7 +13,6 @@ resources:
   - ./whisparr/ks.yaml
 components:
   - ../../components/namespace
-  - ../../components/flux/alerts
 patches:
   - patch: |
       - op: add

@@ -10,6 +10,9 @@ spec:
     kind: OCIRepository
     name: app-template
     namespace: flux-system
+  dependsOn:
+    - name: ceph-csi-rbd
+      namespace: storage
   values:
     controllers:
       unifi:
@@ -19,7 +22,7 @@ spec:
           app:
             image:
               repository: jacobalberty/unifi
-              tag: v9.1.120@sha256:150af8f7bd96f597e7441f4598bd82435c2ee73b03b833179d30e6e2666be12b
+              tag: v9.3.45@sha256:6f1cc8eeda6a2303a3939f8f6565d4e4ca963b18b2d5dfae7e1ed4799d102eeb
               pullPolicy: IfNotPresent
             env:
               RUNAS_UID0: "false"
@@ -40,7 +43,8 @@ spec:
         controller: *app
         type: LoadBalancer
         externalTrafficPolicy: Cluster
-        loadBalancerIP: 10.100.55.101
+        annotations:
+          lbipam.cilium.io/ips: 10.100.90.81
         ports:
           http:
             primary: true
@@ -88,7 +92,7 @@ spec:
           - controller.schwarz47.at
         parentRefs:
           - name: internal
-            namespace: kube-system
+            namespace: network
             sectionName: https
         rules:
           - backendRefs:

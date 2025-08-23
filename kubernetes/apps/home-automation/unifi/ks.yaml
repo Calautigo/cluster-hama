@@ -20,10 +20,10 @@ spec:
     namespace: flux-system
   wait: false
   dependsOn:
-    - name: ceph-rbd
-      namespace: ceph-csi
     - name: volsync
-      namespace: system
+      namespace: storage
+  components:
+    - ../../../../components/volsync
   postBuild:
     substitute:
       APP: *app

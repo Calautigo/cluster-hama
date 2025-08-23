@@ -4,15 +4,10 @@ kind: HelmRelease
 metadata:
   name: cilium
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: cilium
-      version: 1.17.3
-      sourceRef:
-        kind: HelmRepository
-        name: cilium
-        namespace: flux-system
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: cilium
   install:
     remediation:
       retries: 3
@@ -24,8 +19,6 @@ spec:
     - kind: ConfigMap
       name: cilium-helm-values
   values:
-    gatewayAPI:
-      enabled: true
     hubble:
       enabled: true
       metrics:
@@ -41,8 +34,6 @@ spec:
           enabled: true
         dashboards:
           enabled: true
-          annotations:
-            grafana_folder: Cilium
       relay:
         enabled: true
         rollOutPods: true
@@ -52,21 +43,9 @@ spec:
       ui:
         enabled: true
         rollOutPods: true
-    operator:
-      prometheus:
-        enabled: true
-        serviceMonitor:
+        ingress:
           enabled: true
-      dashboards:
-        enabled: true
-        annotations:
-          grafana_folder: Cilium
-    prometheus:
-      enabled: true
-      serviceMonitor:
-        enabled: true
-        trustCRDsExist: true
-    dashboards:
-      enabled: true
-      annotations:
-        grafana_folder: Cilium
+          className: internal
+          hosts: ["hubble.schwarz47.at"]
+    operator:
+      tolerations: []

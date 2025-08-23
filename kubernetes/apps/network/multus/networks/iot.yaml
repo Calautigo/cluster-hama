@@ -8,14 +8,20 @@ spec:
     {
       "cniVersion": "0.3.1",
       "name": "multus-iot",
-      "type": "macvlan",
-      "master": "ens19",
-      "capabilities": { "ips": true },
-      "ipam": {
-        "type": "host-local",
-        "subnet": "10.20.0.0/16",
-        "rangeStart": "10.20.55.100",
-        "rangeEnd": "10.20.55.150",
-        "gateway": "10.20.0.1"
-      }
+      "plugins": [
+        {
+          "type": "macvlan",
+          "master": "ens20",
+          "mode": "bridge",
+          "ipam": {
+            "type": "static",
+            "routes": [
+              { "dst": "0.0.0.0/0", "gw": "10.10.20.1" }
+            ]
+          }
+        },
+        {
+          "type": "sbr"
+        }
+      ]
     }

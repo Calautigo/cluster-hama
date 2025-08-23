@@ -22,21 +22,10 @@ spec:
   values:
     prometheus:
       enable: true
-    master:
-      resources:
-        requests:
-          cpu: 21m
-          memory: 51Mi
-        limits:
-          memory: 51Mi
     worker:
       config:
         core:
-          labelSources:
-            - pci
-            - system
-            - kernel
-            - usb
+          sources: ["custom", "pci", "usb", "kernel"]
         sources:
           usb:
             deviceClassWhitelist: ["02", "03", "0e", "ef", "fe", "ff"]
@@ -46,7 +35,7 @@ spec:
             deviceLabelFields: ["vendor"]
       resources:
         requests:
-          cpu: 5m
-          memory: 48Mi
+          cpu: 15m
+          memory: 64Mi
         limits:
-          memory: 48Mi
+          memory: 64Mi

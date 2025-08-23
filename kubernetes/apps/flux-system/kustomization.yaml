@@ -8,8 +8,6 @@ resources:
   # - ./kustomize-mutating-webhook/ks.yaml
 components:
   - ../../components/namespace
-  - ../../components/flux/alerts
-  - ../../components/flux/sops
 patches:
   - patch: |
       - op: add

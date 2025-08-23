@@ -19,17 +19,6 @@ spec:
     pruneIntervalDays: 7
     repository: ${APP}-volsync-r2
     retain:
-      daily: 7
+      daily: 3
     storageClassName: "${VOLSYNC_STORAGECLASS:-csi-rbd-sc}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-rbd-snapclass}"
-    moverAffinity:
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - topologyKey: kubernetes.io/hostname
-            labelSelector:
-              matchLabels:
-                app.kubernetes.io/created-by: volsync
-            namespaceSelector:
-              matchExpressions:
-                - key: kubernetes.io/metadata.name
-                  operator: Exists

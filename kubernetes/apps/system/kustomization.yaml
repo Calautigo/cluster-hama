@@ -5,20 +5,10 @@ kind: Kustomization
 namespace: system
 resources:
   - ./descheduler/ks.yaml
-  - ./fstrim/ks.yaml
   - ./intel-device-plugins/ks.yaml
+  - ./k8tz/ks.yaml
   - ./node-feature-discovery/ks.yaml
-  - ./nvidia-device-plugin/ks.yaml
   - ./reloader/ks.yaml
-  - ./spegel/ks.yaml
-  - ./volsync/ks.yaml
+  - ./smtp-relay/ks.yaml
 components:
   - ../../components/namespace
-  - ../../components/flux/alerts
-patches:
-  - patch: |
-      - op: add
-        path: /metadata/name
-        value: system
-    target:
-      kind: Namespace
