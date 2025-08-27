@@ -5,6 +5,5 @@ kind: Kustomization
 namespace: security
 resources:
   - ./lldap/ks.yaml
-  - ./zitadel/ks.yaml
 components:
   - ../../components/namespace
