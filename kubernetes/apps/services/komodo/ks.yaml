@@ -48,7 +48,7 @@ spec:
       namespace: external-secrets
     - name: komodo-db
       namespace: *namespace
-  components:
+  components: []
     # - ../../../../components/gatus/internal
   path: ./kubernetes/apps/services/komodo/app
   prune: true
