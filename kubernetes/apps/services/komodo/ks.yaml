@@ -18,7 +18,7 @@ spec:
       namespace: storage
   components:
     - ../../../../components/volsync
-  path: ./kubernetes/apps/default/komodo/db
+  path: ./kubernetes/apps/services/komodo/db
   prune: true
   sourceRef:
     kind: GitRepository
@@ -50,7 +50,7 @@ spec:
       namespace: *namespace
   components:
     # - ../../../../components/gatus/internal
-  path: ./kubernetes/apps/default/komodo/app
+  path: ./kubernetes/apps/services/komodo/app
   prune: true
   sourceRef:
     kind: GitRepository
