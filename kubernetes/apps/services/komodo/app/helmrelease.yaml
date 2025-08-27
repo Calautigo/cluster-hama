@@ -20,7 +20,7 @@ spec:
               repository: ghcr.io/moghtech/komodo-core
               tag: 1.19.1@sha256:0de6a575c5f09c3514fdae21ee70079aee1e9992827f8f6f35b3be156d548e7b
             env:
-              KOMODO_DATABASE_ADDRESS: komodo-db.default.svc.cluster.local:27017
+              KOMODO_DATABASE_ADDRESS: komodo-db.services.svc.cluster.local:27017
               KOMODO_DISABLE_CONFIRM_DIALOG: true
               KOMODO_DISABLE_USER_REGISTRATION: true
               KOMODO_FIRST_SERVER_NAME: nas01
