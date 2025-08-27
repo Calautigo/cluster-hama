@@ -44,7 +44,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: onepassword
+    - name: external-secrets-stores
       namespace: external-secrets
     - name: komodo-db
       namespace: *namespace
