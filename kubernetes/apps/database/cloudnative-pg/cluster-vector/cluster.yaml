@@ -3,29 +3,29 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: pg16
+  name: postgres17-vector
+  annotations:
+    cnpg.io/skipEmptyWalArchiveCheck: "enabled"
 spec:
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.9
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.4.2@sha256:4a6f5ca2212018322823a92250230d471e2fa33c287ed8b400bd58a3cc3a4e6b
   instances: 3
   primaryUpdateStrategy: unsupervised
   storage:
-    size: 20Gi
+    size: 10Gi
     storageClass: openebs-hostpath
   superuserSecret:
     name: cloudnative-pg-secret
   enableSuperuserAccess: true
   postgresql:
+    shared_preload_libraries: ["vchord.so"]
     parameters:
-      max_connections: "600"
-      max_slot_wal_keep_size: 10GB
+      max_connections: "400"
       shared_buffers: 512MB
-    enableAlterSystem: true
   resources:
     requests:
       cpu: 500m
-      memory: 512Mi
     limits:
-      # hugepages-2Mi: 2Gi # Requires sysctl set on the host
+      hugepages-2Mi: 2Gi
       memory: 4Gi
   monitoring:
     enablePodMonitor: true
@@ -37,24 +37,24 @@ spec:
       wal:
         compression: bzip2
         maxParallel: 8
-      destinationPath: s3://cluster-hama-pg16/
-      endpointURL: https://s3.schwarz47.at
+      destinationPath: s3://cnpg-vector-cluster-gryffindor-prod-bucket/
+      endpointURL: https://versity.schwarz47.at
       # Note: serverName version needs to be incremented
       # when recovering from an existing cnpg cluster
-      serverName: pg16-v1
+      serverName: postgres17-vector-v1
       s3Credentials:
         accessKeyId:
-          name: s3-secret
+          name: cloudnative-pg-secret
           key: aws-access-key-id
         secretAccessKey:
-          name: s3-secret
+          name: cloudnative-pg-secret
           key: aws-secret-access-key
-  # Note: previousCluster needs to be set to the name of the previous
-  # cluster when recovering from an existing cnpg cluster
+  # # Note: previousCluster needs to be set to the name of the previous
+  # # cluster when recovering from an existing cnpg cluster
   # bootstrap:
   #   recovery:
-  #     source: &previousCluster pg16-v1
-  # Note: externalClusters is needed when recovering from an existing cnpg cluster
+  #     source: &previousCluster postgres16-v6
+  # # Note: externalClusters is needed when recovering from an existing cnpg cluster
   # externalClusters:
   #   - name: *previousCluster
   #     barmanObjectStore:
