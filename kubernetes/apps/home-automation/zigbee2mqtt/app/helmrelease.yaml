@@ -166,7 +166,7 @@ spec:
                   value: /
             backendRefs:
               - kind: Service
-                name: app
+                identifier: app
                 port: 8080
           - matches:
               - path:
@@ -174,7 +174,7 @@ spec:
                   value: /code/
             backendRefs:
               - kind: Service
-                name: app
+                identifier: app
                 port: 12321
 
 
