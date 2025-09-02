@@ -9,7 +9,7 @@ resources:
   - ./unifi/ks.yaml
   # - ./wyoming-piper/ks.yaml
   # - ./wyoming-whisper/ks.yaml
-  # - ./zigbee2mqtt/ks.yaml
+  - ./zigbee2mqtt/ks.yaml
 components:
   - ../../components/namespace
 patches:
