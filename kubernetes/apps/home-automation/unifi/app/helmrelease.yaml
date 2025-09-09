@@ -58,7 +58,7 @@ spec:
           lbipam.cilium.io/ips: 10.100.90.81
         ports:
           https:
-            port: 8443
+            port: &port 8443
             protocol: HTTPS
           controller:
             enabled: true
@@ -114,7 +114,7 @@ spec:
         rules:
           - backendRefs:
               - identifier: app
-                port: https
+                port: *port
             timeouts:
               request: 0s # websocket, never time out
               backendRequest: 0s # websocket, never time out
