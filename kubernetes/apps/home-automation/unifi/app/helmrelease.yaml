@@ -18,10 +18,21 @@ spec:
       unifi:
         annotations:
           reloader.stakater.com/auto: "true"
+
+        pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |
+              [{
+                "name":"multus-mgt",
+                "namespace": "network",
+                "ips": ["10.10.10.81/24"],
+                "mac": "48:C3:71:81:39:77"
+              }]
+
         containers:
           app:
             image:
-              repository: jacobalberty/unifi
+              repository: ghcr.io/jacobalberty/unifi-docker
               tag: v9.4.19@sha256:ef032346e2ebdcadaadeb27e38be55f97e6b5ed6cea333d5d82ae9b58ae4068b
               pullPolicy: IfNotPresent
             env:
@@ -42,25 +53,16 @@ spec:
       app:
         controller: *app
         type: LoadBalancer
-        externalTrafficPolicy: Cluster
-        annotations:
-          lbipam.cilium.io/ips: 10.100.90.81
+        externalTrafficPolicy: Local
+        loadBalancerIP: 10.100.90.81
         ports:
-          http:
+          https:
             port: 8443
             protocol: HTTPS
           controller:
             enabled: true
             port: 8080
             protocol: TCP
-          portal-http:
-            enabled: false
-            port: 8880
-            protocol: HTTP
-          portal-https:
-            enabled: false
-            port: 8843
-            protocol: HTTPS
           speedtest:
             enabled: true
             port: 6789
@@ -96,4 +98,7 @@ spec:
         rules:
           - backendRefs:
               - identifier: app
-                port: http
+                port: https
+            timeouts:
+              request: 0s # websocket, never time out
+              backendRequest: 0s # websocket, never time out
