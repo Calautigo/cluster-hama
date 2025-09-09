@@ -16,4 +16,4 @@ spec:
     jks:
       create: true
       alias: unifi
-      password: hamavilla
+      password: aircontrolenterprise

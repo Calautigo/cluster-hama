@@ -54,7 +54,8 @@ spec:
         controller: *app
         type: LoadBalancer
         externalTrafficPolicy: Local
-        loadBalancerIP: 10.100.90.81
+        annotations:
+          lbipam.cilium.io/ips: 10.100.90.81
         ports:
           https:
             port: 8443
