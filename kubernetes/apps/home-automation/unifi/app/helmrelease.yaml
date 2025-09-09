@@ -47,35 +47,34 @@ spec:
           lbipam.cilium.io/ips: 10.100.90.81
         ports:
           http:
-            primary: true
-            port: 8080
-            protocol: HTTP
-          https:
-            primary: false
-            port: &port 8443
+            port: 8443
             protocol: HTTPS
+          controller:
+            enabled: true
+            port: 8080
+            protocol: TCP
           portal-http:
-            primary: false
+            enabled: false
             port: 8880
             protocol: HTTP
           portal-https:
-            primary: false
+            enabled: false
             port: 8843
             protocol: HTTPS
           speedtest:
-            primary: true
+            enabled: true
             port: 6789
             protocol: TCP
           stun:
-            primary: true
+            enabled: true
             port: 3478
             protocol: UDP
           syslog:
-            primary: true
+            enabled: true
             port: 5514
             protocol: UDP
           discovery:
-            primary: true
+            enabled: true
             port: 10001
             protocol: UDP
 
@@ -96,5 +95,5 @@ spec:
             sectionName: https
         rules:
           - backendRefs:
-              - name: unifi
-                port: *port
+              - identifier: app
+                port: http
