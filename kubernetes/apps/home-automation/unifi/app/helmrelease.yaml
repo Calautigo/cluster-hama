@@ -19,16 +19,6 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
 
-        pod:
-          annotations:
-            k8s.v1.cni.cncf.io/networks: |
-              [{
-                "name":"multus-mgt",
-                "namespace": "network",
-                "ips": ["10.10.10.81/24"],
-                "mac": "48:C3:71:81:39:77"
-              }]
-
         containers:
           app:
             image:
