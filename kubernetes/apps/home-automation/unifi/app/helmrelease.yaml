@@ -98,6 +98,9 @@ spec:
               - path: /unifi/cert/privkey.pem
                 subPath: tls.key
                 readOnly: true
+              - path: /unifi/data/keystore
+                subPath: keystore.jks
+                readOnly: false
 
     route:
       app:
