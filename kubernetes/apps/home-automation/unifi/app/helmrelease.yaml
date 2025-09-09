@@ -86,6 +86,18 @@ spec:
         existingClaim: unifi-data
         globalMounts:
           - path: /unifi
+      cert:
+        type: secret
+        name: 'schwarz47-at-unifi'
+        advancedMounts:
+          unifi:
+            app:
+              - path: /unifi/cert/cert.pem
+                subPath: tls.crt
+                readOnly: true
+              - path: /unifi/cert/privkey.pem
+                subPath: tls.key
+                readOnly: true
 
     route:
       app:
