@@ -1,0 +1,10 @@
+apiVersion: cilium.io/v2alpha1
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: lb-vips-l2
+  namespace: kube-system
+spec:
+  loadBalancerIPs: true
+  interfaces:
+    - ens18
+    - ens19
