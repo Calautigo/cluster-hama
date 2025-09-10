@@ -38,10 +38,10 @@ k8sServicePort: 7445
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 l2announcements:
-  enabled: false
+  enabled: true
 loadBalancer:
   algorithm: maglev
-  mode: dsr
+  mode: snat
 localRedirectPolicy: true
 operator:
   dashboards:
