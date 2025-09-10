@@ -3,7 +3,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres17-vector
+  name: immich
   annotations:
     cnpg.io/skipEmptyWalArchiveCheck: "enabled"
 spec:
@@ -11,22 +11,21 @@ spec:
   instances: 3
   primaryUpdateStrategy: unsupervised
   storage:
-    size: 10Gi
-    storageClass: openebs-hostpath
+    size: 20Gi
+    storageClass: csi-rbd-sc
   superuserSecret:
     name: cloudnative-pg-secret
   enableSuperuserAccess: true
   postgresql:
-    shared_preload_libraries: ["vchord.so"]
     parameters:
       max_connections: "400"
       shared_buffers: 512MB
-  resources:
-    requests:
-      cpu: 500m
-    limits:
-      hugepages-2Mi: 2Gi
-      memory: 4Gi
+    shared_preload_libraries:
+      - "vchord.so"
+  bootstrap:
+    initdb:
+      postInitSQL:
+        - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
   monitoring:
     enablePodMonitor: true
   backup:
