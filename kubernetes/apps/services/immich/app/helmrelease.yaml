@@ -110,7 +110,7 @@ spec:
         type: emptyDir
         advancedMounts:
           server:
-            main:
+            app:
               - path: /cache/matplotlib
 
       library:
@@ -119,14 +119,14 @@ spec:
         path: /photos
         advancedMounts:
           server:
-            main:
+            app:
               - path: /usr/src/app/upload
 
       machine-learning-cache:
         existingClaim: immich-machine-learning-cache
         advancedMounts:
           machine-learning:
-            main:
+            app:
               - path: /cache
                 subPath: cache
               - path: /.cache
@@ -135,7 +135,7 @@ spec:
         type: emptyDir
         advancedMounts:
           server:
-            main:
+            app:
               - path: /usr/src/app/.reverse-geocoding-dump
                 subPath: geocoding
               - path: /usr/src/app/.transformers_cache
