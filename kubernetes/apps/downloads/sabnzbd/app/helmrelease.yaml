@@ -99,7 +99,7 @@ spec:
       media:
         type: nfs
         server: 10.100.0.81
-        path: /media/usenet
+        path: /media/media/usenet
         globalMounts:
           - path: /data
       temp:
