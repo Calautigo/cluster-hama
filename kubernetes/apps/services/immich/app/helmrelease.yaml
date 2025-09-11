@@ -31,8 +31,7 @@ spec:
             image:
               repository: ghcr.io/immich-app/immich-server
               tag: v1.141.1@sha256:6d48910532cb8e2bc85737e52a633c2e65eeb499f6307e106cd131c5778ec634
-            env: &env-common
-              TZ: ${TZ}
+            env:
               REDIS_HOSTNAME: dragonfly.database.svc.cluster.local
               REDIS_PORT: "6379"
               REDIS_DBINDEX: "1"
@@ -82,7 +81,6 @@ spec:
         ports:
           http:
             port: &port 2283
-
       machine-learning:
         controller: machine-learning
         ports:
