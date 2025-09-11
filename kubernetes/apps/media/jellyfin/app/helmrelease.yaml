@@ -110,12 +110,11 @@ spec:
       media:
         type: nfs
         server: 10.100.0.81
-        path: /media
+        path: /media/media/media
         advancedMounts:
           jellyfin:
             app:
               - path: /media
-                subPath: media
                 readOnly: true
 
     route:
