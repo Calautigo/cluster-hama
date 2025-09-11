@@ -28,26 +28,26 @@ spec:
         - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
   monitoring:
     enablePodMonitor: true
-  backup:
-    retentionPolicy: 30d
-    barmanObjectStore: &barmanObjectStore
-      data:
-        compression: bzip2
-      wal:
-        compression: bzip2
-        maxParallel: 8
-      destinationPath: s3://cnpg-vector-cluster-gryffindor-prod-bucket/
-      endpointURL: https://versity.schwarz47.at
-      # Note: serverName version needs to be incremented
-      # when recovering from an existing cnpg cluster
-      serverName: postgres17-vector-v1
-      s3Credentials:
-        accessKeyId:
-          name: immich-db-secret
-          key: aws-access-key-id
-        secretAccessKey:
-          name: immich-db-secret
-          key: aws-secret-access-key
+  # backup:
+  #   retentionPolicy: 30d
+  #   barmanObjectStore: &barmanObjectStore
+  #     data:
+  #       compression: bzip2
+  #     wal:
+  #       compression: bzip2
+  #       maxParallel: 8
+  #     destinationPath: s3://cnpg-vector-cluster-gryffindor-prod-bucket/
+  #     endpointURL: https://versity.schwarz47.at
+  #     # Note: serverName version needs to be incremented
+  #     # when recovering from an existing cnpg cluster
+  #     serverName: postgres17-vector-v1
+  #     s3Credentials:
+  #       accessKeyId:
+  #         name: immich-db-secret
+  #         key: aws-access-key-id
+  #       secretAccessKey:
+  #         name: immich-db-secret
+  #         key: aws-secret-access-key
   # # Note: previousCluster needs to be set to the name of the previous
   # # cluster when recovering from an existing cnpg cluster
   # bootstrap:

@@ -5,5 +5,5 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./cluster.yaml
-  - ./scheduledbackup.yaml
+  # - ./scheduledbackup.yaml
   - ./service.yaml
