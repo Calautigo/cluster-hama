@@ -114,7 +114,7 @@ spec:
         advancedMounts:
           server:
             app:
-              - path: /config/matplotlib
+              - path: /.config/matplotlib
 
       library:
         type: nfs
