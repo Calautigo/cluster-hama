@@ -14,7 +14,7 @@ spec:
     size: 20Gi
     storageClass: csi-rbd-sc
   superuserSecret:
-    name: cloudnative-pg-secret
+    name: immich-db-secret
   enableSuperuserAccess: true
   postgresql:
     parameters:
@@ -43,10 +43,10 @@ spec:
       serverName: postgres17-vector-v1
       s3Credentials:
         accessKeyId:
-          name: cloudnative-pg-secret
+          name: immich-db-secret
           key: aws-access-key-id
         secretAccessKey:
-          name: cloudnative-pg-secret
+          name: immich-db-secret
           key: aws-secret-access-key
   # # Note: previousCluster needs to be set to the name of the previous
   # # cluster when recovering from an existing cnpg cluster
