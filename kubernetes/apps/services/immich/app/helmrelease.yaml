@@ -30,7 +30,7 @@ spec:
               repository: ghcr.io/home-operations/postgres-init
               tag: 17.6@sha256:86a1992d46273c58fd4ad95b626081dfaabfe16bd56944675169e406d1a660dd
               pullPolicy: IfNotPresent
-            envFrom: &envFrom
+            envFrom:
               - secretRef:
                   name: immich-secret
 
@@ -39,16 +39,11 @@ spec:
             image:
               repository: ghcr.io/immich-app/immich-server
               tag: v1.141.1@sha256:6d48910532cb8e2bc85737e52a633c2e65eeb499f6307e106cd131c5778ec634
-            envFrom: *envFrom
-            env: &env
-              PUBLIC_IMMICH_SERVER_URL: https://photos.schwarz47.at
-              REDIS_HOSTNAME: immich-valkey.services.svc.cluster.local
-              LOG_LEVEL: debug
-              NODE_ENV: "production"
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: {drop: ["ALL"]}
+            envFrom:
+              - secretRef:
+                  name: immich-secret
+              - configMapRef:
+                  name: immich-configmap
             resources:
               requests:
                 cpu: 100m
@@ -74,8 +69,13 @@ spec:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
               tag: v1.141.1@sha256:a315e714c8af88894c2b711127af9c383bdaa6d213eae87273967251dff8e488
-            envFrom: *envFrom
-            env: *env
+            envFrom:
+              - secretRef:
+                  name: immich-secret
+              - configMapRef:
+                  name: immich-configmap
+            env:
+              MPLCONFIGDIR: "/cache/matplotlib"
             resources:
               requests:
                 cpu: 100m
@@ -120,6 +120,13 @@ spec:
                 port: *port
 
     persistence:
+      matplotlib:
+        type: emptyDir
+        advancedMounts:
+          server:
+            main:
+              - path: /config/matplotlib
+
       library:
         type: nfs
         server: 10.100.0.81
@@ -138,13 +145,6 @@ spec:
                 subPath: cache
               - path: /.cache
                 subPath: dotCache
-
-      matplotlib:
-        type: emptyDir
-        advancedMounts:
-          machine-learning:
-            app:
-              - path: /.config/matplotlib
 
       tmpfs:
         type: emptyDir
