@@ -63,6 +63,7 @@ spec:
                 cpu: 100m
               limits:
                 memory: 4Gi
+
       valkey:
         containers:
           app:
@@ -109,13 +110,6 @@ spec:
                 port: *port
 
     persistence:
-      matplotlib:
-        type: emptyDir
-        advancedMounts:
-          server:
-            app:
-              - path: /.config/matplotlib
-
       library:
         type: nfs
         server: 10.100.0.81
@@ -134,6 +128,13 @@ spec:
                 subPath: cache
               - path: /.cache
                 subPath: dotCache
+
+      matplotlib:
+        type: emptyDir
+        advancedMounts:
+          machine-learning:
+            app:
+              - path: /.config/matplotlib
 
       tmpfs:
         type: emptyDir
