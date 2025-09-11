@@ -4,7 +4,7 @@ kind: Dragonfly
 metadata:
   name: dragonfly
 spec:
-  image: ghcr.io/dragonflydb/dragonfly:v1.33.0
+  image: ghcr.io/dragonflydb/dragonfly:v1.33.1
   replicas: 3 # set to the number of nodes in the cluster
   env:
     - name: MAX_MEMORY
@@ -18,10 +18,10 @@ spec:
     - --cluster_mode=emulated
     - --default_lua_flags=allow-undeclared-keys
     - --lock_on_hashtags
-  authentication:
-    passwordFromSecret:
-      name: dragonfly-secret
-      key: DRAGONFLY_PASSWORD
+  # authentication:
+  #   passwordFromSecret:
+  #     name: dragonfly-secret
+  #     key: DRAGONFLY_PASSWORD
   resources:
     requests:
       cpu: 100m
