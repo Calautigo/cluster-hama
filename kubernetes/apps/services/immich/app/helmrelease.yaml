@@ -117,8 +117,6 @@ spec:
             app:
               - path: /cache
                 subPath: cache
-              - path: /.cache
-                subPath: dotCache
 
       cache:
         type: emptyDir
