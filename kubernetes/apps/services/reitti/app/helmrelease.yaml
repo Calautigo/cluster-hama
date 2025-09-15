@@ -46,10 +46,11 @@ spec:
             envFrom: *envFrom
             resources:
               requests:
-                memory: "128Mi"
+                memory: 128Mi
+                cpu: 10m
               limits:
-                memory: "2Gi"
-                cpu: "2000m"
+                memory: 2Gi
+                cpu: 2000m
 
           rabbitmq:
             image:
@@ -60,16 +61,19 @@ spec:
               RABBITMQ_DEFAULT_PASS: reitti
             resources:
               requests:
-                memory: "128Mi"
+                memory: 128Mi
+                cpu: 10m
               limits:
-                memory: "1Gi"
-                cpu: "1000m"
+                memory: 1Gi
+                cpu: 1000m
+
     service:
       app:
         controller: *app
         ports:
           http:
             port: &port 8080
+
     route:
       app:
         hostnames:

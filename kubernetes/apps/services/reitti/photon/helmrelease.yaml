@@ -33,6 +33,7 @@ spec:
                 memory: "128Mi"
               limits:
                 memory: "1Gi"
+
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -40,15 +41,16 @@ spec:
         runAsGroup: 2000
         fsGroup: 2000
         fsGroupChangePolicy: OnRootMismatch
+
     service:
       app:
-        controller: *app
+        controller: photon
         ports:
           http:
             port: &port 2322
+
     persistence:
       data:
-        enabled: true
-        existingClaim: *app
+        existingClaim: photon-data
         globalMounts:
           - path: /photon/data

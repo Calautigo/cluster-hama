@@ -9,8 +9,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  components: []
-    # - ../../../../components/gatus/internal
+  components:
+    - ../../../../components/volsync
   path: ./kubernetes/apps/services/reitti/photon
   prune: true
   sourceRef:
@@ -24,6 +24,8 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      VOLSYNC_CLAIM: photon-data
+      VOLSYNC_CAPACITY: 10Gi
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -44,8 +46,6 @@ spec:
       namespace: database
     - name: reitti-photon
       namespace: services
-  components: []
-    # - ../../../../components/gatus/internal
   path: ./kubernetes/apps/services/reitti/app
   prune: true
   sourceRef:
