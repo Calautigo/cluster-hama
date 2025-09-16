@@ -5,10 +5,7 @@ namespace: home-automation
 resources:
   - ./esphome/ks.yaml
   - ./frigate/ks.yaml
-  # - ./openwakeword/ks.yaml
   - ./unifi/ks.yaml
-  # - ./wyoming-piper/ks.yaml
-  # - ./wyoming-whisper/ks.yaml
   - ./zigbee2mqtt/ks.yaml
 components:
   - ../../components/namespace
