@@ -14,6 +14,9 @@ auth:
 tls:
   enabled: false
 
+detect:
+  enabled: true
+
 database:
   path: /config/frigate.db
 
