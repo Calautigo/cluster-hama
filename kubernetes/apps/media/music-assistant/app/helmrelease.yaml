@@ -19,7 +19,7 @@ spec:
           annotations:
             k8s.v1.cni.cncf.io/networks: |
               [{
-                "name":"multus-iot",
+                "name":"multus-music",
                 "namespace": "networking",
                 "ips": ["10.10.20.31/24"],
                 "mac": "4c:cf:d1:1a:1e:77"
