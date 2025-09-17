@@ -165,7 +165,7 @@ spec:
       data:
         existingClaim: zigbee2mqtt-data
         advancedMounts:
-          zigbee2mqtt:
+          zigbee2mqtt-ground:
             app:
               - path: /data
             code-server:
