@@ -5,11 +5,11 @@ resources:
   - ./externalsecret.yaml
   - ./media-pvc.yaml
   - ./helmrelease.yaml
-configMapGenerator:
-  - name: frigate-configmap
-    files:
-      - config.yml=./config/config.yml
-generatorOptions:
-  disableNameSuffixHash: true
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
+# configMapGenerator:
+#   - name: frigate-configmap
+#     files:
+#       - config.yml=./config/config.yml
+# generatorOptions:
+#   disableNameSuffixHash: true
+#   annotations:
+#     kustomize.toolkit.fluxcd.io/substitute: disabled
