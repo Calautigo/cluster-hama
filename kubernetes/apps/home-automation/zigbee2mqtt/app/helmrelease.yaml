@@ -15,7 +15,7 @@ spec:
       namespace: storage
   values:
     controllers:
-      zigbee2mqtt:
+      zigbee2mqtt-ground:
         annotations:
           reloader.stakater.com/auto: "true"
 
