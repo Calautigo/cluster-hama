@@ -38,8 +38,8 @@ spec:
               ZIGBEE2MQTT_CONFIG_ADVANCED_EXT_PAN_ID:
                 valueFrom:
                   secretKeyRef:
-                    name: zigbee2mqtt-secret
-                    key: zigbee_ext_pan_id
+                    name: zigbee2mqtt-first-secret
+                    key: zigbee_ext_pan_id_2
               ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
               ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_API: false
               ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_AVAILABILITY_PAYLOAD: false
@@ -48,13 +48,13 @@ spec:
               ZIGBEE2MQTT_CONFIG_ADVANCED_NETWORK_KEY:
                 valueFrom:
                   secretKeyRef:
-                    name: zigbee2mqtt-secret
-                    key: zigbee_network_key
+                    name: zigbee2mqtt-first-secret
+                    key: zigbee_network_key_2
               ZIGBEE2MQTT_CONFIG_ADVANCED_PAN_ID:
                 valueFrom:
                   secretKeyRef:
-                    name: zigbee2mqtt-secret
-                    key: zigbee_pan_id
+                    name: zigbee2mqtt-first-secret
+                    key: zigbee_pan_id_2
               ZIGBEE2MQTT_CONFIG_AVAILABILITY_ACTIVE_TIMEOUT: 60
               ZIGBEE2MQTT_CONFIG_AVAILABILITY_PASSIVE_TIMEOUT: 2000
               ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_LEGACY: false
@@ -76,12 +76,12 @@ spec:
               ZIGBEE2MQTT_CONFIG_MQTT_USER:
                 valueFrom:
                   secretKeyRef:
-                    name: zigbee2mqtt-secret
+                    name: zigbee2mqtt-first-secret
                     key: mqtt_user
               ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD:
                 valueFrom:
                   secretKeyRef:
-                    name: zigbee2mqtt-secret
+                    name: zigbee2mqtt-first-secret
                     key: mqtt_password
               ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: false
               ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: zstack
