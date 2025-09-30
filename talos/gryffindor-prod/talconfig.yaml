@@ -48,18 +48,19 @@ nodes:
         vip:
           ip: *talosControlplaneVip
       - interface: ens19
+        dhcp: false
         addresses:
           - 10.44.0.71/16
-        routes:
-          - network: 10.44.0.0/16
-            gateway: 10.44.0.1
         mtu: 1500
       - interface: ens20
+        dhcp: false
         addresses:
           - 10.10.20.61/24
-        routes:
-          - network: 10.10.20.0/24
-            gateway: 10.10.20.1
+        mtu: 1500
+      - interface: ens21
+        dhcp: false
+        addresses:
+          - 10.10.30.61/24
         mtu: 1500
 
   - hostname: blue.k8s.gryffindor.prod.schwarz47.at
@@ -86,18 +87,19 @@ nodes:
         vip:
           ip: *talosControlplaneVip
       - interface: ens19
+        dhcp: false
         addresses:
           - 10.44.0.72/16
-        routes:
-          - network: 10.44.0.0/16
-            gateway: 10.44.0.1
         mtu: 1500
       - interface: ens20
+        dhcp: false
         addresses:
           - 10.10.20.62/24
-        routes:
-          - network: 10.10.20.0/24
-            gateway: 10.10.20.1
+        mtu: 1500
+      - interface: ens21
+        dhcp: false
+        addresses:
+          - 10.10.30.62/24
         mtu: 1500
 
   - hostname: charlie.k8s.gryffindor.prod.schwarz47.at
@@ -124,18 +126,19 @@ nodes:
         vip:
           ip: *talosControlplaneVip
       - interface: ens19
+        dhcp: false
         addresses:
           - 10.44.0.73/16
-        routes:
-          - network: 10.44.0.0/16
-            gateway: 10.44.0.1
         mtu: 1500
       - interface: ens20
+        dhcp: false
         addresses:
           - 10.10.20.63/24
-        routes:
-          - network: 10.10.20.0/24
-            gateway: 10.10.20.1
+        mtu: 1500
+      - interface: ens21
+        dhcp: false
+        addresses:
+          - 10.10.30.63/24
         mtu: 1500
 
 controlPlane:
