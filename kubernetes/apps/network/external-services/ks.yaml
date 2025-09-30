@@ -22,7 +22,7 @@ spec:
   postBuild:
     substitute:
       APP: hass
-      IP: 10.100.200.104
+      IP: 10.100.0.90
       PORT: '8123'
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json

@@ -20,13 +20,6 @@ detect:
 database:
   path: /config/frigate.db
 
-# audio:
-#   enabled: True
-#   listen:
-#     - bark
-#     - scream
-#     - yell
-
 ffmpeg:
   global_args: -hide_banner
   hwaccel_args: preset-intel-qsv-h264
@@ -99,12 +92,12 @@ go2rtc:
         living_room_couch_low: rtsp://camera:{FRIGATE_CAMERA_PASSWORD}@10.10.40.57:554/stream2
         garden_chicken: rtsp://camera:{FRIGATE_CAMERA_PASSWORD}@10.10.40.51:554/stream1
         garden_chicken_low: rtsp://camera:{FRIGATE_CAMERA_PASSWORD}@10.10.40.51:554/stream2
-        garden_carport: rtsp://camera:{FRIGATE_CAMERA_PASSWORD}@10.10.40.55:554/stream1
-        garden_carport_low: rtsp://camera:{FRIGATE_CAMERA_PASSWORD}@10.10.40.55:554/stream2
+        # garden_carport: rtsp://camera:{FRIGATE_CAMERA_PASSWORD}@10.10.40.55:554/stream1
+        # garden_carport_low: rtsp://camera:{FRIGATE_CAMERA_PASSWORD}@10.10.40.55:554/stream2
         kids_nils: rtsp://camera:{FRIGATE_CAMERA_PASSWORD}@10.10.40.56:554/stream1
         kids_nils_low: rtsp://camera:{FRIGATE_CAMERA_PASSWORD}@10.10.40.56:554/stream2
-        garden_sluice_dining: rtsp://admin:{FRIGATE_CAMERA_PASSWORD}@10.10.10.117:554/h264Preview_01_main
-        garden_sluice_dining_low: rtsp://admin:{FRIGATE_CAMERA_PASSWORD}@10.10.10.117:554/h264Preview_01_sub
+        # garden_sluice_dining: rtsp://admin:{FRIGATE_CAMERA_PASSWORD}@10.10.40.105:554/h264Preview_01_main
+        # garden_sluice_dining_low: rtsp://admin:{FRIGATE_CAMERA_PASSWORD}@10.10.40.105:554/h264Preview_01_sub
 
 cameras:
   living_room:
@@ -155,22 +148,32 @@ cameras:
           input_args: preset-rtsp-restream
           roles: [detect]
 
-  garden_carport:
-    ffmpeg:
-      inputs:
-        - path: rtsp://127.0.0.1:8554/garden_carport
-          input_args: preset-rtsp-restream
-          roles: [record]
-        - path: rtsp://127.0.0.1:8554/garden_carport_low
-          input_args: preset-rtsp-restream
-          roles: [detect]
+  # garden_carport:
+  #   ffmpeg:
+  #     inputs:
+  #       - path: rtsp://127.0.0.1:8554/garden_carport
+  #         input_args: preset-rtsp-restream
+  #         roles: [record]
+  #       - path: rtsp://127.0.0.1:8554/garden_carport_low
+  #         input_args: preset-rtsp-restream
+  #         roles: [detect]
 
-  garden_sluice_dining:
-    ffmpeg:
-      inputs:
-        - path: rtsp://127.0.0.1:8554/garden_sluice_dining
-          input_args: preset-rtsp-restream
-          roles: [record]
-        - path: rtsp://127.0.0.1:8554/garden_sluice_dining_low
-          input_args: preset-rtsp-restream
-          roles: [detect]
+  # garden_sluice_dining:
+  #   ffmpeg:
+  #     inputs:
+  #       - path: rtsp://127.0.0.1:8554/garden_sluice_dining
+  #         input_args: preset-rtsp-restream
+  #         roles: [record]
+  #       - path: rtsp://127.0.0.1:8554/garden_sluice_dining_low
+  #         input_args: preset-rtsp-restream
+  #         roles: [detect]
+
+  # garden_garden:
+  #   ffmpeg:
+  #     inputs:
+  #       - path: rtsp://127.0.0.1:8554/garden_garden
+  #         input_args: preset-rtsp-restream
+  #         roles: [record]
+  #       - path: rtsp://127.0.0.1:8554/garden_garden_low
+  #         input_args: preset-rtsp-restream
+  #         roles: [detect]

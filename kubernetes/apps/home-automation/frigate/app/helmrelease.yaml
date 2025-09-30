@@ -53,10 +53,10 @@ spec:
                   httpGet:
                     path: /api/version
                     port: &port 5000
-                  initialDelaySeconds: 0
+                  initialDelaySeconds: 30
                   periodSeconds: 10
                   timeoutSeconds: 1
-                  failureThreshold: 3
+                  failureThreshold: 6
               readiness: *probes
               startup:
                 enabled: false
@@ -135,13 +135,13 @@ spec:
         globalMounts:
           - path: /config
 
-      config-file:
-        type: configMap
-        name: frigate-configmap
-        globalMounts:
-          - path: /config/config.yml
-            subPath: config.yml
-            readOnly: true
+      # config-file:
+      #   type: configMap
+      #   name: frigate-configmap
+      #   globalMounts:
+      #     - path: /config/config.yml
+      #       subPath: config.yml
+      #       readOnly: true
 
       cache:
         type: emptyDir
