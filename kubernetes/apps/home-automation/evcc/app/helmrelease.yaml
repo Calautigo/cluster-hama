@@ -43,7 +43,10 @@ spec:
     service:
       app:
         controller: *app
+        type: LoadBalancer
         externalTrafficPolicy: Local
+        annotations:
+          lbipam.cilium.io/ips: 10.100.90.97
         ports:
           http:
             port: &port 7070
