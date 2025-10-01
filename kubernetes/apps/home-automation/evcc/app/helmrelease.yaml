@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: evcc
+  name: &app evcc
 spec:
   interval: 1h
   chartRef:
@@ -42,6 +42,8 @@ spec:
 
     service:
       app:
+        controller: *app
+        externalTrafficPolicy: Local
         ports:
           http:
             port: &port 7070
