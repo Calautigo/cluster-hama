@@ -19,11 +19,12 @@ spec:
       - --managed-record-types=TXT
       - --managed-record-types=SRV
     podAnnotations:
-      secret.reloader.stakater.com/reload: adguard-dns-secret
+      secret.reloader.stakater.com/reload: external-dns-adguard-secret
     policy: sync
     provider:
       name: webhook
       webhook:
+        webhook-provider-url: "http://external-dns-adguard.network.svc.cluster.local:8888"
         image:
           repository: ghcr.io/muhlba91/external-dns-provider-adguard
           tag: v9.1.0@sha256:888b77f42d9d3436f01f942b399c7ef4ff331a9fc67bd5e7b3485cc1b8ee1a9b
