@@ -14,7 +14,7 @@ spec:
     domainFilters:
       - schwarz47.at
     extraArgs:
-      - --webhook-provider-url=http://external-dns-adguard.network.svc.cluster.local:8888
+      - --webhook-provider-url=http://localhost:8888
     podAnnotations:
       secret.reloader.stakater.com/reload: external-dns-adguard-secret
     policy: sync
