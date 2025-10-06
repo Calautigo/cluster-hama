@@ -41,7 +41,7 @@ spec:
           timeoutSeconds: 5
         env:
           - name: ADGUARD_URL
-            value: http://10.10.10.32:3000
+            value: http://10.10.10.32
           - name: ADGUARD_USER
             valueFrom:
               secretKeyRef:
