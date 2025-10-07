@@ -30,7 +30,7 @@ spec:
               EXTERNAL_DNS_RFC2136_HOST: 10.10.10.32
               EXTERNAL_DNS_RFC2136_PORT: "53"
               EXTERNAL_DNS_RFC2136_ZONE: apps.schwarz47.at
-              EXTERNAL_DNS_RFC2136_TSIG_AXFR: "true"
+              EXTERNAL_DNS_RFC2136_TSIG_AXFR: "false"
               EXTERNAL_DNS_RFC2136_TSIG_KEYNAME: external-dns
               EXTERNAL_DNS_RFC2136_TSIG_SECRET_ALG: hmac-sha256
             envFrom:
