@@ -37,7 +37,7 @@ spec:
               - secretRef:
                   name: external-dns-technitium-secret
             args:
-              - --domain-filter=apps.schwarz47.at
+              - --domain-filter=app.schwarz47.at
               - --interval=1m
               - --log-format=text
               - --log-level=info
@@ -74,15 +74,10 @@ spec:
                 memory: 140M
               limits:
                 memory: 140M
-
-      serviceAccount:
-        name: *app
-
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 568
-        runAsGroup: 568
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
 
     service:
       technitium:
@@ -100,3 +95,6 @@ spec:
             path: /metrics
             interval: 1m
             scrapeTimeout: 10s
+
+    serviceAccount:
+      *app: {}
