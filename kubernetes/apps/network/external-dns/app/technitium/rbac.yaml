@@ -1,0 +1,29 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: external-dns-technitium
+rules:
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods", "services", "endpoints", "namespaces"]
+    verbs: ["get", "watch", "list"]
+  - apiGroups: ["gateway.networking.k8s.io"]
+    resources: ["httproutes", "gateways"]
+    verbs: ["get", "watch", "list"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: external-dns-technitium
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: external-dns-technitium
+subjects:
+  - kind: ServiceAccount
+    name: external-dns-technitium
+    namespace: network

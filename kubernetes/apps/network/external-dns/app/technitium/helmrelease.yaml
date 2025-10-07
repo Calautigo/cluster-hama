@@ -1,0 +1,103 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app external-dns-technitium
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+
+  values:
+    controllers:
+      technitium:
+        strategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        serviceAccount:
+          identifier: *app
+
+        containers:
+          technitium:
+            image:
+              repository: registry.k8s.io/external-dns/external-dns
+              tag: v0.17.0@sha256:85eba2727b410c8f8093d641a4b1a29671878db94d525a70a4108d10ba8eef5f
+            env:
+              EXTERNAL_DNS_RFC2136_HOST: 10.10.10.32
+              EXTERNAL_DNS_RFC2136_PORT: "53"
+              EXTERNAL_DNS_RFC2136_ZONE: apps.schwarz47.at
+              EXTERNAL_DNS_RFC2136_TSIG_AXFR: "true"
+              EXTERNAL_DNS_RFC2136_TSIG_KEYNAME: external-dns
+              EXTERNAL_DNS_RFC2136_TSIG_SECRET_ALG: hmac-sha256
+            envFrom:
+              - secretRef:
+                  name: external-dns-technitium-secret
+            args:
+              - --domain-filter=app.schwarz47.at
+              - --interval=1m
+              - --log-format=text
+              - --log-level=info
+              - --metrics-address=:7979
+              - --policy=sync
+              - --provider=rfc2136
+              - --registry=txt
+              - --source=service
+              - --source=gateway-httproute
+              - --txt-owner-id=homelab
+              - --txt-prefix=k8s.main.
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: &port 7979
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+                memory: 140M
+              limits:
+                memory: 140M
+        pod:
+          priorityClassName: system-cluster-critical
+
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
+
+    service:
+      technitium:
+        controller: technitium
+        ports:
+          http:
+            port: *port
+
+    serviceMonitor:
+      technitium:
+        serviceName: *app
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
+
+    serviceAccount:
+      *app: {}
