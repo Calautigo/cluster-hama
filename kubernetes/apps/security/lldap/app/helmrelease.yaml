@@ -41,7 +41,7 @@ spec:
               tag: v0.6.2-alpine-rootless@sha256:35df821899ec54c11eaab395e9c68e191e2582592cba343b0a904f6821aadcd2
             env:
               LLDAP_HTTP_PORT: &port 80
-              LLDAP_HTTP_URL: https://lldap.schwarz47.at
+              LLDAP_HTTP_URL: https://lldap.apps.schwarz47.at
               LLDAP_LDAP_PORT: &ldapPort 389
               LLDAP_LDAP_BASE_DN: dc=home,dc=arpa
               LLDAP_SMTP_OPTIONS__ENABLE_PASSOWRD_RESET: false
@@ -98,7 +98,7 @@ spec:
     route:
       app:
         hostnames:
-          - lldap.schwarz47.at
+          - lldap.apps.schwarz47.at
         parentRefs:
           - name: internal
             namespace: network

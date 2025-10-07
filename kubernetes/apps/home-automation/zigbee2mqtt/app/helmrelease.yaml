@@ -61,7 +61,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: true
               ZIGBEE2MQTT_CONFIG_EXPERIMENTAL_NEW_API: true
               ZIGBEE2MQTT_CONFIG_FRONTEND_PORT: 8080
-              ZIGBEE2MQTT_CONFIG_FRONTEND_URL: https://zigbee2mqtt-ground.schwarz47.at
+              ZIGBEE2MQTT_CONFIG_FRONTEND_URL: https://zigbee2mqtt-ground.apps.schwarz47.at
               ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_DISCOVERY_TOPIC: homeassistant
               ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_EXPERIMENTAL_EVENT_ENTITIES: true
               ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: false
@@ -141,7 +141,7 @@ spec:
             namespace: network
             sectionName: https
         hostnames:
-          - zigbee2mqtt-ground.schwarz47.at
+          - zigbee2mqtt-ground.apps.schwarz47.at
         rules:
           - matches:
               - path:

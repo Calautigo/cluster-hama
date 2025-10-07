@@ -42,7 +42,7 @@ spec:
             env:
               SMTP_RELAY_METRICS_PORT: &metricsPort 8080
               SMTP_RELAY_SMTP_PORT: &smtpPort 25
-              HOSTNAME: relay.schwarz47.at
+              HOSTNAME: relay.apps.schwarz47.at
             envFrom:
               - secretRef:
                   name: smtp-relay-secret

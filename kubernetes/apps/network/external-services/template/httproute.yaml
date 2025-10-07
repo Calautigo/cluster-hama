@@ -6,7 +6,7 @@ metadata:
   name: ${APP}-route
 spec:
   hostnames:
-    - ${APP}.schwarz47.at
+    - ${APP}.apps.schwarz47.at
   parentRefs:
     - name: ${GATEWAY:-internal}
       namespace: network

@@ -90,7 +90,7 @@ spec:
             namespace: network
             sectionName: https
         hostnames:
-          - "frigate.schwarz47.at"
+          - "frigate.apps.schwarz47.at"
         rules:
           - backendRefs:
               - identifier: app
@@ -101,7 +101,7 @@ spec:
             namespace: network
             sectionName: https
         hostnames:
-          - "frigate.schwarz47.at"
+          - "frigate.apps.schwarz47.at"
         rules:
           - backendRefs:
               - identifier: ws
@@ -116,7 +116,7 @@ spec:
             namespace: network
             sectionName: https
         hostnames:
-          - "go2rtc.schwarz47.at"
+          - "go2rtc.apps.schwarz47.at"
         rules:
           - backendRefs:
               - port: *apiPort

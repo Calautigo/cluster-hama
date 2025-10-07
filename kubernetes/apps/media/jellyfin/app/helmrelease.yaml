@@ -36,7 +36,7 @@ spec:
               tag: 10.10.7
             env:
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
-              JELLYFIN_PublishedServerUrl: http://10.100.90.60:8096,https://jellyfin.schwarz47.at:443
+              JELLYFIN_PublishedServerUrl: http://10.100.90.60:8096,https://jellyfin.apps.schwarz47.at:443
             probes:
               liveness:
                 enabled: true
@@ -120,7 +120,7 @@ spec:
     route:
       app:
         hostnames:
-          - jellyfin.schwarz47.at
+          - jellyfin.apps.schwarz47.at
         parentRefs:
           - name: internal
             namespace: network

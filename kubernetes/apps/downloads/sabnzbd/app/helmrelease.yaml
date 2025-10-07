@@ -32,7 +32,7 @@ spec:
                 sabnzbd.downloads.svc,
                 sabnzbd.downloads.svc.cluster,
                 sabnzbd.downloads.svc.cluster.local,
-                sabnzbd.schwarz47.at
+                sabnzbd.apps.schwarz47.at
               SABNZBD__API_KEY:
                 valueFrom:
                   secretKeyRef:
@@ -129,7 +129,7 @@ spec:
     route:
       app:
         hostnames:
-          - sabnzbd.schwarz47.at
+          - sabnzbd.apps.schwarz47.at
         parentRefs:
           - name: internal
             namespace: network

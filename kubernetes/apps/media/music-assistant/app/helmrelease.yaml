@@ -73,7 +73,7 @@ spec:
     route:
       app:
         hostnames:
-          - music-assistant.schwarz47.at
+          - music-assistant.apps.schwarz47.at
         parentRefs:
           - name: internal
             namespace: network

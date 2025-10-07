@@ -35,7 +35,7 @@ spec:
         compression: bzip2
         maxParallel: 8
       destinationPath: s3://cnpg-cluster-gryffindor-prod-bucket/
-      endpointURL: https://versity.schwarz47.at
+      endpointURL: https://versity.apps.schwarz47.at
       # Note: serverName version needs to be incremented
       # when recovering from an existing cnpg cluster
       serverName: postgres17-v1

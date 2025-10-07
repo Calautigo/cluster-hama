@@ -46,6 +46,6 @@ spec:
         ingress:
           enabled: true
           className: internal
-          hosts: ["hubble.schwarz47.at"]
+          hosts: ["hubble.apps.schwarz47.at"]
     operator:
       tolerations: []

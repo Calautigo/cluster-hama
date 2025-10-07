@@ -58,7 +58,7 @@ spec:
           - name: internal
             namespace: network
         hostnames:
-          - stash.schwarz47.at
+          - stash.apps.schwarz47.at
 
     persistence:
       config:

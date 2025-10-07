@@ -62,7 +62,7 @@ spec:
     route:
       app:
         hostnames:
-          - "evcc.schwarz47.at"
+          - "evcc.apps.schwarz47.at"
         parentRefs:
           - name: internal
             namespace: network

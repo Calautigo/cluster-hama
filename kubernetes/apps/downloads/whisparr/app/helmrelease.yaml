@@ -79,7 +79,7 @@ spec:
     route:
       app:
         hostnames:
-          - whisparr.schwarz47.at
+          - whisparr.apps.schwarz47.at
         parentRefs:
           - name: internal
             namespace: network

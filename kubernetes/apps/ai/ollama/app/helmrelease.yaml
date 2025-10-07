@@ -95,7 +95,7 @@ spec:
 
     route:
       app:
-        hostnames: ["ollama.schwarz47.at"]
+        hostnames: ["ollama.apps.schwarz47.at"]
         parentRefs:
           - name: internal
             namespace: network
