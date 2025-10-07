@@ -22,7 +22,7 @@ spec:
           identifier: *app
 
         containers:
-          technitium:
+          app:
             image:
               repository: registry.k8s.io/external-dns/external-dns
               tag: v0.17.0@sha256:85eba2727b410c8f8093d641a4b1a29671878db94d525a70a4108d10ba8eef5f
@@ -37,7 +37,7 @@ spec:
               - secretRef:
                   name: external-dns-technitium-secret
             args:
-              - --domain-filter=app.schwarz47.at
+              - --domain-filter=apps.schwarz47.at
               - --interval=1m
               - --log-format=text
               - --log-level=info
@@ -74,13 +74,15 @@ spec:
                 memory: 140M
               limits:
                 memory: 140M
-        pod:
-          priorityClassName: system-cluster-critical
 
-          securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            runAsNonRoot: true
+      serviceAccount:
+        name: *app
+
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
 
     service:
       technitium:
@@ -98,6 +100,3 @@ spec:
             path: /metrics
             interval: 1m
             scrapeTimeout: 10s
-
-    serviceAccount:
-      *app: {}
