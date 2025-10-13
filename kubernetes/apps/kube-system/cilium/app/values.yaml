@@ -60,7 +60,9 @@ prometheus:
     enabled: true
     trustCRDsExist: true
 rollOutCiliumPods: true
-routingMode: native
+routingMode: tunnel
+enableIPv4Masquerade: true
+tunnelProtocol: vxlan
 securityContext:
   capabilities:
     ciliumAgent:
