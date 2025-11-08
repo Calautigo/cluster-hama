@@ -57,3 +57,10 @@ spec:
     persistence:
       config:
         existingClaim: profilarr-config
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          profilarr:
+            app:
+              - path: /tmp
+                subPath: tmp
