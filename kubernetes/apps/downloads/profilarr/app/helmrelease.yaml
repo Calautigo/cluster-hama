@@ -13,7 +13,7 @@ spec:
       namespace: storage
   values:
     controllers:
-      huntarr:
+      profilarr:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -57,10 +57,5 @@ spec:
     persistence:
       config:
         existingClaim: profilarr-config
-      tmpfs:
+      tmp:
         type: emptyDir
-        advancedMounts:
-          profilarr:
-            app:
-              - path: /tmp
-                subPath: tmp
