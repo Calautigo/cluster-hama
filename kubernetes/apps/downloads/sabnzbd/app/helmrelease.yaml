@@ -125,9 +125,6 @@ spec:
             app:
               - path: /incomplete
                 subPath: incomplete
-            nzb-backup:
-              - path: /config/nzb-backup
-                subPath: nzb-backup
 
     route:
       app:
