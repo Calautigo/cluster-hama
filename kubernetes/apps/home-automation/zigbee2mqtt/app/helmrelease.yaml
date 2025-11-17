@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: zigbee2mqtt-ground
+  name: zigbee2mqtt
 spec:
   interval: 30m
   chartRef:
@@ -15,7 +15,7 @@ spec:
       namespace: storage
   values:
     controllers:
-      zigbee2mqtt-ground:
+      zigbee2mqtt:
         annotations:
           reloader.stakater.com/auto: "true"
 
@@ -30,15 +30,15 @@ spec:
           app:
             image:
               repository: ghcr.io/koenkk/zigbee2mqtt
-              tag: 2.6.1@sha256:22e1fc160163edee0ceef47910211e97e7b0fb18b6bc94c9b799409252409f6a
+              tag: 2.6.3@sha256:3baac2a3b74a9945fbbcb665b3e6e0ace5df2d49b5502e3d26b66a5454316e81
             env:
               Z2M_WATCHDOG: default
               ZIGBEE2MQTT_DATA: /data
-              ZIGBEE2MQTT_CONFIG_ADVANCED_CHANNEL: 20
+              ZIGBEE2MQTT_CONFIG_ADVANCED_CHANNEL: 11
               ZIGBEE2MQTT_CONFIG_ADVANCED_EXT_PAN_ID:
                 valueFrom:
                   secretKeyRef:
-                    name: zigbee2mqtt-ground-secret
+                    name: zigbee2mqtt-secret
                     key: zigbee_ext_pan_id
               ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
               ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_API: false
@@ -48,12 +48,12 @@ spec:
               ZIGBEE2MQTT_CONFIG_ADVANCED_NETWORK_KEY:
                 valueFrom:
                   secretKeyRef:
-                    name: zigbee2mqtt-ground-secret
+                    name: zigbee2mqtt-secret
                     key: zigbee_network_key
               ZIGBEE2MQTT_CONFIG_ADVANCED_PAN_ID:
                 valueFrom:
                   secretKeyRef:
-                    name: zigbee2mqtt-ground-secret
+                    name: zigbee2mqtt-secret
                     key: zigbee_pan_id
               ZIGBEE2MQTT_CONFIG_AVAILABILITY_ACTIVE_TIMEOUT: 60
               ZIGBEE2MQTT_CONFIG_AVAILABILITY_PASSIVE_TIMEOUT: 2000
@@ -61,13 +61,13 @@ spec:
               ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: true
               ZIGBEE2MQTT_CONFIG_EXPERIMENTAL_NEW_API: true
               ZIGBEE2MQTT_CONFIG_FRONTEND_PORT: 8080
-              ZIGBEE2MQTT_CONFIG_FRONTEND_URL: https://zigbee2mqtt-ground.apps.schwarz47.at
+              ZIGBEE2MQTT_CONFIG_FRONTEND_URL: https://zigbee2mqtt.apps.schwarz47.at
               ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_DISCOVERY_TOPIC: homeassistant
               ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_EXPERIMENTAL_EVENT_ENTITIES: true
               ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: false
               ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_LEGACY_TRIGGERS: false
               ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_STATUS_TOPIC: homeassistant/status
-              ZIGBEE2MQTT_CONFIG_MQTT_BASE_TOPIC: zigbee2mqtt-ground
+              ZIGBEE2MQTT_CONFIG_MQTT_BASE_TOPIC: zigbee2mqtt
               ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: true
               ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
               ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: true
@@ -76,16 +76,16 @@ spec:
               ZIGBEE2MQTT_CONFIG_MQTT_USER:
                 valueFrom:
                   secretKeyRef:
-                    name: zigbee2mqtt-ground-secret
+                    name: zigbee2mqtt-secret
                     key: mqtt_user
               ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD:
                 valueFrom:
                   secretKeyRef:
-                    name: zigbee2mqtt-ground-secret
+                    name: zigbee2mqtt-secret
                     key: mqtt_password
               ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: false
-              ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: deconz
-              ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://10.10.20.121:6638
+              ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: zstack
+              ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://10.10.20.146:6638
               ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
               ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: false
             resources:
@@ -124,7 +124,7 @@ spec:
 
     service:
       app:
-        controller: zigbee2mqtt-ground
+        controller: zigbee2mqtt
         ports:
           http:
             primary: true
@@ -141,7 +141,7 @@ spec:
             namespace: network
             sectionName: https
         hostnames:
-          - zigbee2mqtt-ground.apps.schwarz47.at
+          - zigbee2mqtt.apps.schwarz47.at
         rules:
           - matches:
               - path:
@@ -165,7 +165,7 @@ spec:
       data:
         existingClaim: zigbee2mqtt-data
         advancedMounts:
-          zigbee2mqtt-ground:
+          zigbee2mqtt:
             app:
               - path: /data
             code-server:
