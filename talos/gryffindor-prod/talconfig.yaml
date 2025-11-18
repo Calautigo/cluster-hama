@@ -57,11 +57,6 @@ nodes:
         addresses:
           - 10.10.20.61/24
         mtu: 1500
-      - interface: ens21
-        dhcp: false
-        addresses:
-          - 10.10.30.61/24
-        mtu: 1500
 
   - hostname: blue.k8s.gryffindor.prod.schwarz47.at
     ipAddress: 10.100.10.62
@@ -96,11 +91,6 @@ nodes:
         addresses:
           - 10.10.20.62/24
         mtu: 1500
-      - interface: ens21
-        dhcp: false
-        addresses:
-          - 10.10.30.62/24
-        mtu: 1500
 
   - hostname: charlie.k8s.gryffindor.prod.schwarz47.at
     ipAddress: 10.100.10.63
@@ -113,11 +103,6 @@ nodes:
       - name: nvidia_uvm
       - name: nvidia_drm
       - name: nvidia_modeset
-    patches:
-      - |-
-        machine:
-          sysctls:
-            net.core.bpf_jit_harden: 1
     userVolumes:
       - name: extra
         provisioning:
@@ -139,16 +124,6 @@ nodes:
         dhcp: false
         addresses:
           - 10.44.0.73/16
-        mtu: 1500
-      - interface: ens20
-        dhcp: false
-        addresses:
-          - 10.10.20.63/24
-        mtu: 1500
-      - interface: ens21
-        dhcp: false
-        addresses:
-          - 10.10.30.63/24
         mtu: 1500
 
 controlPlane:
@@ -340,6 +315,7 @@ controlPlane:
           net.ipv4.tcp_fastopen: "3"                 # Send and accept data in the opening SYN packet
           user.max_user_namespaces: "11255"          # User Namespaces
           vm.nr_hugepages: "2048"                    # PostgreSQL
+          net.core.bpf_jit_harden: "1"
 
     # Configure udev rules
     - |-
