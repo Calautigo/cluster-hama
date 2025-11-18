@@ -106,8 +106,18 @@ nodes:
     ipAddress: 10.100.10.63
     installDiskSelector:
       size: "<= 70GB"
-    talosImageURL: factory.talos.dev/installer/f8555fe8ea62d71d16fda2fabbd2e6fdc03ba5b168704b723e53ec551d3e7f30
+    talosImageURL: factory.talos.dev/installer/41f25c21994c54bb127f894abb14e64ff1a346c822f3d87c8f33df5946fef5a1
     controlPlane: true
+    kernelModules:
+      - name: nvidia
+      - name: nvidia_uvm
+      - name: nvidia_drm
+      - name: nvidia_modeset
+    patches:
+      - |-
+        machine:
+          sysctls:
+            net.core.bpf_jit_harden: 1
     userVolumes:
       - name: extra
         provisioning:
@@ -341,8 +351,9 @@ controlPlane:
 
     # Disable default API server admission plugins.
     - |-
-      - op: remove
-        path: /cluster/apiServer/admissionControl
+      cluster:
+        apiServer:
+          admissionControl: []
 
     # Enable K8s Talos API Access
     - |-
