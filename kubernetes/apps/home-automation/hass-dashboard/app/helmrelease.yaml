@@ -29,6 +29,11 @@ spec:
               repository: ghcr.io/calautigo/hass-dashboard
               tag: latest
               pullPolicy: Always
+
+            envFrom:
+              - secretRef:
+                  name: hass-dashboard-secret
+
             probes:
               liveness:
                 enabled: true
