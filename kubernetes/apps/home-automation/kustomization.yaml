@@ -6,6 +6,7 @@ resources:
   - ./esphome/ks.yaml
   - ./evcc/ks.yaml
   - ./frigate/ks.yaml
+  - ./frigate/ks.yaml
   - ./unifi/ks.yaml
   - ./zigbee2mqtt/ks.yaml
 components:
