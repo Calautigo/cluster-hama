@@ -3,14 +3,13 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: home-automation
 resources:
+  - ./namespace.yaml
   - ./esphome/ks.yaml
   - ./evcc/ks.yaml
   - ./frigate/ks.yaml
   - ./hass-dashboard/ks.yaml
   - ./unifi/ks.yaml
   - ./zigbee2mqtt/ks.yaml
-components:
-  - ../../components/namespace
 patches:
   - patch: |
       - op: add
