@@ -6,6 +6,7 @@ namespace: storage
 resources:
   - ./namespace.yaml
   - ./ceph-csi/ks.yaml
+  - ./openebs/ks.yaml
   - ./snapshot-controller/ks.yaml
   - ./versity/ks.yaml
   - ./volsync/ks.yaml
