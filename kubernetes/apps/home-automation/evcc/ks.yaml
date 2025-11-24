@@ -4,9 +4,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app evcc
-  namespace: &namespace home-automation
+  namespace: flux-system
 spec:
-  targetNamespace: *namespace
+  targetNamespace: home-automation
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -21,9 +21,7 @@ spec:
   wait: false
   dependsOn:
     - name: external-secrets-stores
-      namespace: external-secrets
     - name: volsync
-      namespace: storage
   components:
     - ../../../../components/volsync
   postBuild:

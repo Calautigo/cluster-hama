@@ -4,9 +4,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app jellyseerr
-  namespace: &namespace media
+  namespace: flux-system
 spec:
-  targetNamespace: *namespace
+  targetNamespace: media
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -19,9 +19,7 @@ spec:
   wait: false
   dependsOn:
     - name: external-secrets-stores
-      namespace: external-secrets
     - name: volsync
-      namespace: storage
   components:
     - ../../../../components/volsync
   interval: 30m

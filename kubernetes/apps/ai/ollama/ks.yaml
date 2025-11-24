@@ -3,14 +3,13 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app ollama
-  namespace: &namespace ai
+  namespace: flux-system
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: openebs
-      namespace: openebs
   interval: 1h
   path: "./kubernetes/apps/ai/ollama/app"
   prune: true
@@ -18,6 +17,6 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
+  targetNamespace: ai
   timeout: 5m
   wait: true

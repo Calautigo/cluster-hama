@@ -12,7 +12,6 @@ spec:
     - ../../../../components/volsync
   dependsOn:
     - name: ceph-rbd
-      namespace: storage
   interval: 1h
   path: "./kubernetes/apps/services/paperless/app"
   postBuild:

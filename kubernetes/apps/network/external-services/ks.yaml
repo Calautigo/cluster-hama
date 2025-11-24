@@ -4,9 +4,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app gryffindor-hass-external-service
-  namespace: &namespace network
+  namespace: flux-system
 spec:
-  targetNamespace: *namespace
+  targetNamespace: network
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -30,9 +30,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app gryffindor-drone-external-service
-  namespace: &namespace network
+  namespace: flux-system
 spec:
-  targetNamespace: *namespace
+  targetNamespace: network
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -56,9 +56,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app gryffindor-dumbledore-external-service
-  namespace: &namespace network
+  namespace: flux-system
 spec:
-  targetNamespace: *namespace
+  targetNamespace: network
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -82,9 +82,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app gryffindor-mcgonagall-external-service
-  namespace: &namespace network
+  namespace: flux-system
 spec:
-  targetNamespace: *namespace
+  targetNamespace: network
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -108,9 +108,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app gryffindor-pve-02-external-service
-  namespace: &namespace network
+  namespace: flux-system
 spec:
-  targetNamespace: *namespace
+  targetNamespace: network
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app

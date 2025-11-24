@@ -4,9 +4,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app envoy-gateway-crds
-  namespace: &namespace network
+  namespace: flux-system
 spec:
-  targetNamespace: *namespace
+  targetNamespace: network
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -27,9 +27,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app envoy-gateway
-  namespace: &namespace network
+  namespace: flux-system
 spec:
-  targetNamespace: *namespace
+  targetNamespace: network
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -41,7 +41,6 @@ spec:
     namespace: flux-system
   dependsOn:
     - name: envoy-gateway-crds
-      namespace: *namespace
   wait: false
   interval: 1h
   retryInterval: 1m
@@ -52,17 +51,15 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app envoy-gateway-internal
-  namespace: &namespace network
+  namespace: flux-system
 spec:
-  targetNamespace: *namespace
+  targetNamespace: network
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cert-manager-issuers
-      namespace: cert-manager
     - name: envoy-gateway
-      namespace: *namespace
   path: ./kubernetes/apps/network/envoy-gateway/internal
   prune: true
   sourceRef:
@@ -79,19 +76,16 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app envoy-gateway-external
-  namespace: &namespace network
+  namespace: flux-system
 spec:
-  targetNamespace: *namespace
+  targetNamespace: network
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cert-manager-issuers
-      namespace: cert-manager
     - name: envoy-gateway
-      namespace: *namespace
     - name: envoy-gateway-internal
-      namespace: *namespace
   path: ./kubernetes/apps/network/envoy-gateway/external
   prune: true
   sourceRef:

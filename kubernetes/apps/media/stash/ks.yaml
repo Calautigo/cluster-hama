@@ -6,7 +6,7 @@ metadata:
   name: &app stash
   namespace: flux-system
 spec:
-  targetNamespace: &namespace media
+  targetNamespace: flux-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -21,7 +21,6 @@ spec:
   wait: false
   dependsOn:
     - name: volsync
-      namespace: storage
   components:
     - ../../../../components/volsync
   postBuild:

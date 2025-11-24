@@ -3,16 +3,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app docmost
+  name: &app bockstack
 spec:
   commonMetadata:
     labels:
-      app.kubernetes.io/name: docmost
+      app.kubernetes.io/name: bockstack
   components:
     - ../../../../components/volsync
-    - ../../../../components/dragonfly
   interval: 1h
-  path: "./kubernetes/apps/services/docmost/app"
+  path: "./kubernetes/apps/services/bockstack/app"
   postBuild:
     substitute:
       APP: *app
