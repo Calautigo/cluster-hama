@@ -9,7 +9,6 @@ spec:
   path: ./kubernetes/apps
   prune: true
   dependsOn:
-    - name: flux-settings
     - name: flux-repositories
   sourceRef:
     kind: GitRepository
