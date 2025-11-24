@@ -9,5 +9,3 @@ resources:
   - ./external-services/ks.yaml
   - ./k8s-gateway/ks.yaml
   - ./smtp-relay/ks.yaml
-components:
-  - ../../components/namespace
