@@ -12,7 +12,7 @@ spec:
     - name: ceph-csi-rbd
       namespace: storage
     - name: openebs
-      namespace: openebs
+      namespace: storage
   values:
     controllers:
       sabnzbd:
