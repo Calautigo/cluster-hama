@@ -5,7 +5,7 @@ metadata:
   name: "${APP}-bootstrap-versity"
 spec:
   trigger:
-    manual: restore
+    manual: restore-once
   restic:
     accessModes:
       - "${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"
