@@ -9,6 +9,9 @@ spec:
   addresses:
     - type: IPAddress
       value: 10.100.90.82
+  infrastructure:
+    annotations:
+      io.cilium/lb-ipam-ips: 10.100.90.82
   listeners:
     - name: http
       protocol: HTTP
