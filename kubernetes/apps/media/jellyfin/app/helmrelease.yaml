@@ -92,12 +92,38 @@ spec:
         advancedMounts:
           jellyfin:
             app:
-              - path: /config
+              - path: /config/config
+              - path: /config/plugins
+              - path: /config/root
+              - path: /config/data
+                subPath: data
+
+      metadata:
+        storageClass: openebs-hostpath
+        accessMode: ReadWriteOnce
+        size: 20Gi
+        retain: true
+        advancedMounts:
+          jellyfin:
+            app:
+              - path: /config/metadata
+                subPath: metadata
+              - path: /config/data/introskipper
+                subPath: introskipper
+              - path: /config/data/subtitles
+                subPath: subtitles
+
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/log
+
       transcode:
         type: emptyDir
         sizeLimit: 10Gi
         globalMounts:
           - path: /cache/transcodes
+
       cache:
         type: emptyDir
         advancedMounts:
@@ -107,6 +133,7 @@ spec:
                 subPath: cache
               - path: /tmp/jellyfin
                 subPath: tmp
+
       media:
         type: nfs
         server: 10.100.0.81
