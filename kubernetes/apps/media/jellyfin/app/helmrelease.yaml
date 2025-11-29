@@ -20,39 +20,32 @@ spec:
           reloader.stakater.com/auto: "true"
 
         pod:
+          resourceClaims:
+            - name: gpu
+              resourceClaimTemplateName: jellyfin
           securityContext:
+            runAsNonRoot: true
             runAsUser: 2000
             runAsGroup: 2000
             fsGroup: 2000
             fsGroupChangePolicy: OnRootMismatch
             supplementalGroups:
-              - 44
-              - 109
+              - 44 # video
+              - 109 # render
 
         containers:
           app:
             image:
               repository: ghcr.io/jellyfin/jellyfin
-              tag: 10.11.3
+              tag: 10.11.3@sha256:fab30d85f4ec3e19556ca1d91b82b12329fc4a6d2a4b330673354af9218e1d28
             env:
-              DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
-              JELLYFIN_PublishedServerUrl: http://10.100.90.60:8096,https://jellyfin.apps.schwarz47.at:443
+              JELLYFIN_PublishedServerUrl: https://jellyfin.schwarz47.at
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
             probes:
-              liveness:
-                enabled: true
-                custom: true
-                spec:
-                  exec:
-                    command:
-                      - sh
-                      - -c
-                      - |
-                        used=$(df /cache/transcodes | awk 'NR==2 {print $5}' | tr -d '%'); [ "$used" -lt 95 ]
-                  initialDelaySeconds: 10
-                  periodSeconds: 30
-                  timeoutSeconds: 2
-                  failureThreshold: 3
-              readiness:
+              liveness: &probes
                 enabled: true
                 custom: true
                 spec:
@@ -63,21 +56,20 @@ spec:
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
+              readiness: *probes
               startup:
-                enabled: false
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
+                enabled: true
+                spec:
+                  periodSeconds: 10
+                  failureThreshold: 30
             resources:
               requests:
                 cpu: 100m
-                gpu.intel.com/i915: 1
+                memory: 1Gi
               limits:
                 memory: 8Gi
-                gpu.intel.com/i915: 1
+              claims:
+                - name: gpu
 
     service:
       app:
@@ -86,52 +78,39 @@ spec:
           http:
             port: *port
 
+    route:
+      app:
+        hostnames:
+          - jellyfin.apps.schwarz47.at
+        parentRefs:
+          - name: internal
+            namespace: network
+            sectionName: https
+
     persistence:
       config:
         existingClaim: jellyfin-config
-        advancedMounts:
-          jellyfin:
-            app:
-              - path: /config/config
-              - path: /config/plugins
-              - path: /config/root
-              - path: /config/data
-                subPath: data
 
-      metadata:
-        storageClass: openebs-hostpath
-        accessMode: ReadWriteOnce
-        size: 20Gi
-        retain: true
-        advancedMounts:
-          jellyfin:
-            app:
-              - path: /config/metadata
-                subPath: metadata
-              - path: /config/data/introskipper
-                subPath: introskipper
-              - path: /config/data/subtitles
-                subPath: subtitles
-
-      logs:
-        type: emptyDir
+      config-cache:
+        existingClaim: jellyfin-cache
         globalMounts:
-          - path: /config/log
+          - path: /config/metadata
+            subPath: metadata
+          - path: /config/cache
+            subPath: cache
+          - path: /config/introskipper
+            subPath: introskipper
 
-      transcode:
-        type: emptyDir
-        sizeLimit: 10Gi
-        globalMounts:
-          - path: /cache/transcodes
-
-      cache:
+      tmp:
         type: emptyDir
         advancedMounts:
           jellyfin:
             app:
+              - path: /config/log
+                subPath: logs
               - path: /cache
                 subPath: cache
-              - path: /tmp/jellyfin
+              - path: /tmp
                 subPath: tmp
 
       media:
@@ -143,12 +122,3 @@ spec:
             app:
               - path: /media
                 readOnly: true
-
-    route:
-      app:
-        hostnames:
-          - jellyfin.apps.schwarz47.at
-        parentRefs:
-          - name: internal
-            namespace: network
-            sectionName: https
