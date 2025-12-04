@@ -3,15 +3,15 @@
 
 clusterName: &clusterName gryffindor-prod
 
-endpoint: https://api.k8s.gryffindor.prod.schwarz47.at:6443
+endpoint: https://api.k8s.infra.gryffindor.schwarz47.at:6443
 
 # renovate: depName=ghcr.io/siderolabs/installer datasource=docker
-talosVersion: v1.10.4
+talosVersion: v1.11.5
 # renovate: depName=ghcr.io/siderolabs/kubelet datasource=docker
-kubernetesVersion: v1.33.1
+kubernetesVersion: v1.34.2
 
 additionalApiServerCertSans: &sans
-  - api.k8s.gryffindor.prod.schwarz47.at
+  - api.k8s.infra.gryffindor.schwarz47.at
   - &talosControlplaneVip 10.100.10.60
   - 10.100.10.61
   - 10.100.10.62
@@ -24,7 +24,7 @@ cniConfig:
   name: none
 
 nodes:
-  - hostname: delta.k8s.gryffindor.prod.schwarz47.at
+  - hostname: delta
     ipAddress: 10.100.10.61
     installDiskSelector:
       size: "<= 70GB"
@@ -52,13 +52,8 @@ nodes:
         addresses:
           - 10.44.0.71/16
         mtu: 1500
-      - interface: ens20
-        dhcp: false
-        addresses:
-          - 10.10.20.61/24
-        mtu: 1500
 
-  - hostname: blue.k8s.gryffindor.prod.schwarz47.at
+  - hostname: blue
     ipAddress: 10.100.10.62
     installDiskSelector:
       size: "<= 70GB"
@@ -86,17 +81,12 @@ nodes:
         addresses:
           - 10.44.0.72/16
         mtu: 1500
-      - interface: ens20
-        dhcp: false
-        addresses:
-          - 10.10.20.62/24
-        mtu: 1500
 
-  - hostname: charlie.k8s.gryffindor.prod.schwarz47.at
+  - hostname: charlie
     ipAddress: 10.100.10.63
     installDiskSelector:
       size: "<= 70GB"
-    talosImageURL: factory.talos.dev/installer/41f25c21994c54bb127f894abb14e64ff1a346c822f3d87c8f33df5946fef5a1
+    talosImageURL: factory.talos.dev/installer/26e4af5510797db7e3576ac852bfa622a6209ae89122925bb9064e8b5b045efb
     controlPlane: true
     kernelModules:
       - name: nvidia
@@ -289,7 +279,16 @@ controlPlane:
           extraHostEntries:
             - ip: 10.100.10.60
               aliases:
-                - api.k8s.gryffindor.prod.schwarz47.at
+                - api.k8s.infra.gryffindor.schwarz47.at
+            - ip: 10.100.10.61
+              aliases:
+                - delta.k8s.infra.gryffindor.schwarz47.at
+            - ip: 10.100.10.62
+              aliases:
+                - blue.k8s.infra.gryffindor.schwarz47.at
+            - ip: 10.100.10.63
+              aliases:
+                - charlie.k8s.infra.gryffindor.schwarz47.at
 
     # Configure NTP entries
     - |-
@@ -329,7 +328,8 @@ controlPlane:
     - |-
       cluster:
         apiServer:
-          admissionControl: []
+          admissionControl:
+            $$patch: delete
 
     # Enable K8s Talos API Access
     - |-

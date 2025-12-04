@@ -18,6 +18,7 @@ tasks:
       - task: :talos:apply-clusterconfig
         vars:
           INSECURE: "true"
+      - until talosctl --nodes {{.TALOS_CONTROLLER}} version &>/dev/null; do echo "Waiting for {{.TALOS_CONTROLLER}} to be ready..."; sleep 10; done
       - until talosctl --nodes {{.TALOS_CONTROLLER}} bootstrap; do sleep 5; done
       - talosctl kubeconfig --nodes {{.TALOS_CONTROLLER}} --force --force-context-name "gryffindor-prod" "${KUBECONFIG}"
 

@@ -94,9 +94,11 @@ tasks:
         - FILENAME
     vars:
       MODE: '{{.MODE | default "auto"}}'
+      NODE_IP:
+        sh: yq eval '.machine.network.hostname as $h | .machine.network.interfaces[] | select(.interface == "ens18") | .addresses[0] | split("/")[0]' "{{.FILENAME}}" || yq eval '.machine.nodeLabels."node.longhorn.io/create-default-disk"' "{{.FILENAME}}" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
     cmds:
       - talosctl apply-config
-        --nodes "{{.HOSTNAME}}"
+        --nodes "{{.NODE_IP}}"
         --file "{{.FILENAME}}"
         --mode="{{.MODE}}"
         {{ if eq "true" .INSECURE }}--insecure{{ end }}

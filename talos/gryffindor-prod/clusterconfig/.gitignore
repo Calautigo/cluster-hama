@@ -5,3 +5,9 @@ home-ops-charlie.schwarz47.internal.yaml
 gryffindor-prod-delta.k8s.gryffindor.prod.schwarz47.at.yaml
 gryffindor-prod-blue.k8s.gryffindor.prod.schwarz47.at.yaml
 gryffindor-prod-charlie.k8s.gryffindor.prod.schwarz47.at.yaml
+gryffindor-prod-delta.k8s.infra.gryffindor.schwarz47.at.yaml
+gryffindor-prod-blue.k8s.infra.gryffindor.schwarz47.at.yaml
+gryffindor-prod-charlie.k8s.infra.gryffindor.schwarz47.at.yaml
+gryffindor-prod-delta.yaml
+gryffindor-prod-blue.yaml
+gryffindor-prod-charlie.yaml
