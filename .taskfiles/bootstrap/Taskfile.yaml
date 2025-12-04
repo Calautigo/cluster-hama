@@ -23,16 +23,10 @@ tasks:
       - talosctl kubeconfig --nodes {{.TALOS_CONTROLLER}} --force --force-context-name "gryffindor-prod" "${KUBECONFIG}"
 
   apps:
-    desc: Bootstrap Apps [CLUSTER=gryffindor-prod]
+    desc: Bootstrap Apps [CLUSTER=thestral]
     prompt: Bootstrap apps into Talos cluster?
     preconditions:
       - which helmfile kubectl
-      - test -f "${TALOSCONFIG}"
       - test -f {{.KUBERNETES_DIR}}/bootstrap/helmfile.yaml
-      - talosctl config info --talosconfig {{.TALOSCONFIG}}
-    env:
-      NODE_COUNT:
-        sh: talosctl config info --output json | jq --raw-output '.nodes | length'
     cmds:
-      - until kubectl wait nodes --for=condition=Ready=False --all --timeout=10m; do sleep 5; done
       - helmfile --kubeconfig "${KUBECONFIG}" --quiet --file {{.KUBERNETES_DIR}}/bootstrap/helmfile.yaml apply --skip-diff-on-install --suppress-diff

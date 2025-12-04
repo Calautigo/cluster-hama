@@ -1,0 +1,23 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app smtp-relay
+  namespace: flux-system
+spec:
+  targetNamespace: network
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  dependsOn:
+    - name: external-secrets-stores
+  path: ./kubernetes/thestral/apps/network/smtp-relay/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: false
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m

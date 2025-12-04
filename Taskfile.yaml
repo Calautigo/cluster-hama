@@ -6,15 +6,14 @@ set: [pipefail]
 shopt: [globstar]
 
 vars:
-  CLUSTER: '{{.CLUSTER | default "gryffindor-prod"}}'
-  KUBERNETES_DIR: "{{.ROOT_DIR}}/clusters/{{.CLUSTER}}"
+  CLUSTER: '{{.CLUSTER | default "thestral"}}'
+  KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes/{{.CLUSTER}}"
   TALOS_DIR: "{{.ROOT_DIR}}/talos/{{.CLUSTER}}"
 
 env:
   KUBECONFIG: '{{.KUBERNETES_DIR}}/kubeconfig'
   MINIJINJA_CONFIG_FILE: '{{.ROOT_DIR}}/.minijinja.toml'
   SOPS_AGE_KEY_FILE: '{{.ROOT_DIR}}/age.key'
-  TALOSCONFIG: '{{.TALOS_DIR}}/clusterconfig/talosconfig'
 
 includes:
   bootstrap: .taskfiles/bootstrap
