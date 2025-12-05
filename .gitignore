@@ -2,6 +2,8 @@
 ignore/
 logs/
 testing/
+.task/
+.vscode/
 
 # Trash
 .DS_Store
@@ -30,5 +32,3 @@ bootstrap.json
 *.agekey
 *.pub
 *.key
-
-talsecret.yaml

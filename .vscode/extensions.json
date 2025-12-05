@@ -1,8 +1,0 @@
-{
-    "recommendations": [
-        "ms-kubernetes-tools.vscode-kubernetes-tools",
-        "tamasfe.even-better-toml",
-        "redhat.vscode-yaml",
-        "samuelcolvin.jinjahtml",
-    ]
-}

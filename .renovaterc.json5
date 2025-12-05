@@ -9,7 +9,7 @@
     ':automergeDigest',
     ':automergeBranch',
     ':skipStatusChecks',
-    ':timezone(Europe/Berlin)',
+    ':timezone(Europe/Vienna)',
     'github>calautigo/cluster-hama//.renovate/allowedVersions.json5',
     'github>calautigo/cluster-hama//.renovate/autoMerge.json5',
     'github>calautigo/cluster-hama//.renovate/grafanaDashboards.json5',
