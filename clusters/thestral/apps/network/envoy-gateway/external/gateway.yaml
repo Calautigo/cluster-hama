@@ -11,7 +11,7 @@ spec:
       name: eg-external
   addresses:
     - type: IPAddress
-      value: 10.100.90.85
+      value: 10.100.10.220
   listeners:
     - name: https
       protocol: HTTPS

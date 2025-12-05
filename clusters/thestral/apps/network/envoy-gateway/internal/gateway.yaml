@@ -8,10 +8,12 @@ spec:
   gatewayClassName: envoy-gateway
   addresses:
     - type: IPAddress
-      value: 10.100.90.82
+      value: 10.100.10.219
   infrastructure:
-    annotations:
-      io.cilium/lb-ipam-ips: 10.100.90.82
+    parametersRef:
+      group: gateway.envoyproxy.io
+      kind: EnvoyProxy
+      name: eg-internal
   listeners:
     - name: http
       protocol: HTTP
