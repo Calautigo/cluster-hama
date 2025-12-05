@@ -7,6 +7,8 @@ serviceAccount:
 service:
   name: kube-dns
   clusterIP: "10.153.0.10"
+  selector:
+    k8s-app: kube-dns
 servers:
   - zones:
       - zone: .
@@ -55,4 +57,4 @@ topologySpreadConstraints:
     whenUnsatisfiable: DoNotSchedule
     labelSelector:
       matchLabels:
-        app.kubernetes.io/instance: coredns
+        k8s-app: kube-dns
