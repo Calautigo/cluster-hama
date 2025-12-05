@@ -30,7 +30,7 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.141.1@sha256:6d48910532cb8e2bc85737e52a633c2e65eeb499f6307e106cd131c5778ec634
+              tag: v2.3.1@sha256:f8d06a32b1b2a81053d78e40bf8e35236b9faefb5c3903ce9ca8712c9ed78445
             env:
               REDIS_HOSTNAME: immich-dragonfly
               REDIS_PORT: "6379"
@@ -57,7 +57,7 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v1.141.1@sha256:a315e714c8af88894c2b711127af9c383bdaa6d213eae87273967251dff8e488
+              tag: v2.3.1@sha256:379e31b8c75107b0af8141904baa8cc933d7454b88fdb204265ef11749d7d908
             env:
               MPLCONFIGDIR: "/cache/matplotlib"
             envFrom: *envFrom
