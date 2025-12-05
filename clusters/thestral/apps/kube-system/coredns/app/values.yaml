@@ -2,10 +2,9 @@
 fullnameOverride: coredns
 replicaCount: 2
 k8sAppLabelOverride: kube-dns
-commonLabels:
+customLabels:
   app.kubernetes.io/instance: coredns
   app.kubernetes.io/name: coredns
-  k8s-app: kube-dns
 serviceAccount:
   create: true
 service:
