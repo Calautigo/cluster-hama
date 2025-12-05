@@ -8,8 +8,6 @@ spec:
   interval: 10m
   path: ./clusters/thestral/apps
   prune: true
-  dependsOn:
-    - name: flux-repositories
   sourceRef:
     kind: GitRepository
     name: flux-system
