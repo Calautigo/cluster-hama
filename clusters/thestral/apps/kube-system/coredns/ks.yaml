@@ -6,9 +6,9 @@ metadata:
   namespace: flux-system
 spec:
   targetNamespace: kube-system
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
+  # commonMetadata:
+  #   labels:
+  #     app.kubernetes.io/name: *app
   path: ./clusters/thestral/apps/kube-system/coredns/app
   prune: false # never should be deleted
   sourceRef:
