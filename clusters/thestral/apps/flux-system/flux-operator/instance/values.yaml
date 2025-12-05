@@ -24,7 +24,7 @@ instance:
     kind: GitRepository
     url: https://github.com/Calautigo/cluster-hama.git
     ref: refs/heads/main
-    path: ./clusters/flux/cluster
+    path: ./clusters/thestral/flux/cluster
     interval: 1m
   commonMetadata:
     labels:
