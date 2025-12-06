@@ -7,20 +7,20 @@ spec:
   chartRef:
     kind: OCIRepository
     name: envoy-gateway
-  interval: 1h
-  maxHistory: 3
   install:
-    remediation:
-      retries: 3
+    crds: CreateReplace
+  interval: 30m
   upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
+    crds: CreateReplace
   values:
-    deployment:
+    config:
       envoyGateway:
-        image:
-          repository: docker.io/envoyproxy/gateway
-          tag: v1.4.2@sha256:8b0f00e3be81e4b3d4531bc100a4378bc436e2d2fcbb23856d0d8ec5b56dfba6
+        extensionApis:
+          enableEnvoyPatchPolicy: true
+        provider:
+          type: Kubernetes
+          kubernetes:
+            deploy:
+              type: GatewayNamespace
+    global:
+      imageRegistry: mirror.gcr.io

@@ -4,7 +4,6 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app gryffindor-hass-external-service
-  namespace: flux-system
 spec:
   targetNamespace: network
   commonMetadata:
@@ -29,34 +28,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app gryffindor-drone-external-service
-  namespace: flux-system
-spec:
-  targetNamespace: network
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  path: ./clusters/thestral/apps/network/external-services/template
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  prune: true
-  wait: true
-  interval: 30m
-  timeout: 3m
-  postBuild:
-    substitute:
-      APP: drone
-      IP: 10.100.0.96
-      PORT: '80'
----
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: &app gryffindor-dumbledore-external-service
-  namespace: flux-system
 spec:
   targetNamespace: network
   commonMetadata:
@@ -82,7 +54,6 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app gryffindor-mcgonagall-external-service
-  namespace: flux-system
 spec:
   targetNamespace: network
   commonMetadata:
@@ -107,8 +78,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app gryffindor-pve-02-external-service
-  namespace: flux-system
+  name: &app gryffindor-hagrid-external-service
 spec:
   targetNamespace: network
   commonMetadata:
@@ -125,6 +95,6 @@ spec:
   timeout: 3m
   postBuild:
     substitute:
-      APP: pve-02
+      APP: hagrid
       IP: 10.10.10.57
       PORT: '8006'

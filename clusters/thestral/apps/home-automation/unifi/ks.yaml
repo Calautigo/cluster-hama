@@ -4,7 +4,6 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app unifi
-  namespace: flux-system
 spec:
   targetNamespace: home-automation
   commonMetadata:
@@ -21,6 +20,7 @@ spec:
   wait: false
   dependsOn:
     - name: volsync
+      namespace: storage
   components:
     - ../../../../components/volsync
   postBuild:

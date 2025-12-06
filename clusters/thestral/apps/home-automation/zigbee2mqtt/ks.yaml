@@ -4,7 +4,6 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app zigbee2mqtt
-  namespace: flux-system
 spec:
   targetNamespace: home-automation
   commonMetadata:
@@ -21,8 +20,11 @@ spec:
   wait: false
   dependsOn:
     - name: external-secrets-stores
+      namespace: external-secrets
     - name: emqx-cluster
+      namespace: database
     - name: volsync
+      namespace: storage
   components:
     - ../../../../components/volsync
   postBuild:
