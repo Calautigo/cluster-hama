@@ -5,5 +5,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./jellyfin/ks.yaml
-  - ./jellyseerr/ks.yaml
   - ./stash/ks.yaml
