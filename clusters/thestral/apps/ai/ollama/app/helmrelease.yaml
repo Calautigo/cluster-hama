@@ -7,8 +7,7 @@ spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
-    name: app-template
-    namespace: flux-system
+    name: ollama
   maxHistory: 2
   install:
     createNamespace: true
