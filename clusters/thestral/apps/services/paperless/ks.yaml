@@ -14,7 +14,7 @@ spec:
   dependsOn:
     - name: ceph-rbd
       namespace: storage
-  interval: 1h
+  interval: 30m
   path: "./clusters/thestral/apps/services/paperless/app"
   postBuild:
     substitute:

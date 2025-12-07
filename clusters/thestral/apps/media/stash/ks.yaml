@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
-  timeout: 10m
+  timeout: 5m
   path: ./clusters/thestral/apps/media/stash/app
   prune: true
   sourceRef:

@@ -21,7 +21,9 @@ spec:
   wait: false
   dependsOn:
     - name: external-secrets-stores
+      namespace: external-secrets
     - name: volsync
+      namespace: storage
   components:
     - ../../../../components/volsync
   postBuild:

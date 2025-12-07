@@ -11,7 +11,7 @@ spec:
       app.kubernetes.io/name: bockstack
   components:
     - ../../../../components/volsync
-  interval: 1h
+  interval: 30m
   path: "./clusters/thestral/apps/services/bockstack/app"
   postBuild:
     substitute:

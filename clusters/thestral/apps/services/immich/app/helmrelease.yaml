@@ -4,7 +4,7 @@ kind: HelmRelease
 metadata:
   name: &app immich
 spec:
-  interval: 1h
+  interval: 30m
   chartRef:
     kind: OCIRepository
     name: immich

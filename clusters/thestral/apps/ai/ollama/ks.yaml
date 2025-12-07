@@ -11,7 +11,7 @@ spec:
   dependsOn:
     - name: openebs
       namespace: storage
-  interval: 1h
+  interval: 30m
   path: "./clusters/thestral/apps/ai/ollama/app"
   prune: true
   sourceRef:
