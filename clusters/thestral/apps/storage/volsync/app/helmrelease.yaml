@@ -5,21 +5,25 @@ kind: HelmRelease
 metadata:
   name: volsync
 spec:
+  chartRef:
+    kind: OCIRepository
+    name: volsync
   interval: 30m
-  chart:
-    spec:
-      chart: volsync
-      version: 0.12.0
-      sourceRef:
-        kind: HelmRepository
-        name: backube
-      interval: 30m
-  dependsOn:
-    - name: openebs
-      namespace: storage
-    - name: snapshot-controller
-      namespace: storage
   values:
+    fullnameOverride: volsync # Required for volsync-perfectra1n fork
+    image: &image
+      repository: ghcr.io/perfectra1n/volsync
+      tag: v0.16.13
+    kopia: *image
+    rclone: *image
+    restic: *image
+    rsync: *image
+    rsync-tls: *image
+    syncthing: *image
     manageCRDs: true
     metrics:
       disableAuth: true
+    podSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
