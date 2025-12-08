@@ -67,7 +67,6 @@ spec:
           enabled: true
       replicas: 2
       rollOutPods: true
-      tolerations: []
     pmtuDiscovery:
       enabled: true
     prometheus:
@@ -100,4 +99,3 @@ spec:
     socketLB:
       enabled: true
       hostNamespaceOnly: true
-      
