@@ -36,7 +36,6 @@ spec:
             configBlock: |-
               pods verified
               fallthrough in-addr.arpa ip6.arpa
-              endpoint https://10.100.10.71:6443
           - name: autopath
             parameters: "@kubernetes"
           - name: forward
