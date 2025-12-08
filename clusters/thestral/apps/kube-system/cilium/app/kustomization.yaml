@@ -4,14 +4,3 @@ kind: Kustomization
 resources:
   - ./ocirepository.yaml
   - ./helmrelease.yaml
-  - ./network.yaml
-  - ./l2announcementpolicy.yaml
-
-
-configMapGenerator:
-  - name: cilium-helm-values
-    files:
-      - values.yaml=./values.yaml
-
-configurations:
-  - kustomizeconfig.yaml

@@ -15,35 +15,20 @@ spec:
   values:
     controllers:
       frigate:
+        pod:
+          resourceClaims:
+            - name: gpu
+              resourceClaimTemplateName: frigate-gpu
         annotations:
-          secret.reloader.stakater.com/reload: frigate-secret
-          configmap.reloader.stakater.com/reload: frigate-configmap
-
+          reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
               repository: ghcr.io/blakeblackshear/frigate
-              tag: 0.16.1@sha256:cb6624b9075f76ece626139eedca7e728cab1456a5f8c351afbf877320826bc1
-
-            # env:
-            #   YOLO_MODELS: yolov4-416
-
+              tag: 0.16.3@sha256:cf4305d9f1c673d71c4d0fab30ca56ca05ac91168711a74ee7867a4691a7ad02
             envFrom:
               - secretRef:
                   name: frigate-secret
-
-            securityContext:
-              privileged: true
-
-            resources:
-              requests:
-                cpu: 100m
-                memory: 256Mi
-                gpu.intel.com/i915: 1
-              limits:
-                memory: 6Gi
-                gpu.intel.com/i915: 1
-
             probes:
               liveness: &probes
                 enabled: true
@@ -51,7 +36,7 @@ spec:
                 spec:
                   httpGet:
                     path: /api/version
-                    port: &port 5000
+                    port: 5000
                   initialDelaySeconds: 30
                   periodSeconds: 10
                   timeoutSeconds: 1
@@ -59,69 +44,37 @@ spec:
               readiness: *probes
               startup:
                 enabled: false
+            resources:
+              claims:
+                - name: gpu
+              requests:
+                cpu: 2.0.0.98700m
+                memory: 2Gi
+                gpu.intel.com/i915: 1
+              limits:
+                memory: 4Gi
+                gpu.intel.com/i915: 1
 
     service:
-      app:
+      frigate:
         type: LoadBalancer
         annotations:
           lbipam.cilium.io/ips: 10.100.10.203
         ports:
           http:
-            port: &port 5000
-            primary: true
+            appProtocol: kubernetes.io/wss
+            port: 5000
           go2rtc:
-            enabled: true
-            port: &apiPort 1984
+            primary: true
+            port: 1984
           rtsp:
-            enabled: true
-            port: &restream-port 8554
-      ws:
-        enabled: true
-        ports:
-          http:
-            port: &wsPort 5000
-            appProtocol: wss
-
-    route:
-      app:
-        parentRefs:
-          - name: internal
-            namespace: network
-            sectionName: https
-        hostnames:
-          - "frigate.apps.schwarz47.at"
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: *port
-      ws:
-        parentRefs:
-          - name: internal
-            namespace: network
-            sectionName: https
-        hostnames:
-          - "frigate.apps.schwarz47.at"
-        rules:
-          - backendRefs:
-              - identifier: ws
-                port: *wsPort
-            matches:
-              - path:
-                  type: PathPrefix
-                  value: /ws
-      go2rtc:
-        parentRefs:
-          - name: internal
-            namespace: network
-            sectionName: https
-        hostnames:
-          - "go2rtc.apps.schwarz47.at"
-        rules:
-          - backendRefs:
-              - port: *apiPort
-                identifier: app
-            timeouts:
-              backendRequest: 10m
+            port: 8554
+          webrtc-tcp:
+            port: 8555
+            protocol: TCP
+          webrtc-udp:
+            port: 8555
+            protocol: UDP
 
     persistence:
       media:
@@ -131,20 +84,44 @@ spec:
 
       config:
         existingClaim: frigate-config
-        globalMounts:
-          - path: /config
-
-      # config-file:
-      #   type: configMap
-      #   name: frigate-configmap
-      #   globalMounts:
-      #     - path: /config/config.yml
-      #       subPath: config.yml
-      #       readOnly: true
 
       cache:
+        enabled: true
         type: emptyDir
         medium: Memory
-        sizeLimit: 4Gi
+        sizeLimit: 2Gi
         globalMounts:
           - path: /dev/shm
+      
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          frigate:
+            app:
+              - path: /tmp
+                subPath: tmp
+
+    route:
+      frigate:
+        hostnames:
+          - frigate.apps.schwarz47.at
+        parentRefs:
+          - name: internal
+            namespace: network
+
+        rules:
+          - backendRefs:
+              - identifier: frigate
+                port: 5000
+
+      go2rtc:
+        hostnames:
+          - go2rtc.apps.schwarz47.at
+        parentRefs:
+          - name: internal
+            namespace: network
+
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 1984
