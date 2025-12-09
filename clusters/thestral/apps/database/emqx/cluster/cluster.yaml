@@ -45,12 +45,15 @@ spec:
           mountPath: /opt/init-user
           subPath: init-user
           readOnly: true
-        - name: init-user
+        - name: init-acl
           mountPath: /opt/init-acl
           subPath: init-acl
           readOnly: true
       extraVolumes:
         - name: init-user
+          secret:
+            secretName: emqx-init-user-secret
+        - name: init-acl
           secret:
             secretName: emqx-init-user-secret
   listenersServiceTemplate:
