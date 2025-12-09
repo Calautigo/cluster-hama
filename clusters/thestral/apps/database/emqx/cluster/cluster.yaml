@@ -24,6 +24,10 @@ spec:
             type = built_in_database
             enable = true
           }
+          {
+            type = file
+            path = "/opt/init-acl.json"
+          }
         ]
         no_match: "allow"
       }
