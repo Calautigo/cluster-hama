@@ -15,7 +15,7 @@ spec:
             name = "bcrypt"
         }
         user_id_type = "username"
-        bootstrap_file = "/opt/init-user.json"
+        bootstrap_file = "/opt/init-user"
         bootstrap_type = "plain"
       }
       authorization {
@@ -26,7 +26,7 @@ spec:
           }
           {
             type = file
-            path = "/opt/init-acl.json"
+            path = "/opt/init-acl"
           }
         ]
         no_match: "allow"
@@ -42,12 +42,12 @@ spec:
             name: emqx-secret
       extraVolumeMounts:
         - name: init-user
-          mountPath: /opt/init-user.json
-          subPath: init-user.json
+          mountPath: /opt/init-user
+          subPath: init-user
           readOnly: true
         - name: init-user
-          mountPath: /opt/init-acl.json
-          subPath: init-acl.json
+          mountPath: /opt/init-acl
+          subPath: init-acl
           readOnly: true
       extraVolumes:
         - name: init-user
