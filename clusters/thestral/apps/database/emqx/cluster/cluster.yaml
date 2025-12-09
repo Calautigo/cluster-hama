@@ -25,6 +25,7 @@ spec:
             enable = true
           }
         ]
+        no_match: "allow"
       }
   coreTemplate:
     metadata:
@@ -39,6 +40,10 @@ spec:
         - name: init-user
           mountPath: /opt/init-user.json
           subPath: init-user.json
+          readOnly: true
+        - name: init-user
+          mountPath: /opt/init-acl.json
+          subPath: init-acl
           readOnly: true
       extraVolumes:
         - name: init-user
