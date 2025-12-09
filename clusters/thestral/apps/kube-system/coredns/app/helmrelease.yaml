@@ -65,3 +65,14 @@ spec:
       - key: node-role.kubernetes.io/control-plane
         operator: Exists
         effect: NoSchedule
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Service
+              name: kube-dns
+            patch: |-
+              - op: replace
+                path: /spec/selector
+                value:
+                  k8s-app: kube-dns

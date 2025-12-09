@@ -1,26 +1,26 @@
 ---
+ignore: |
+  *.sops.*
+
 extends: default
 
-yaml-files:
-  - '*.yaml'
-  - '*.yml'
 rules:
   brackets:
     max-spaces-inside: 1
-  document-start:
-    ignore: |
-      *.sops.yaml
-      *.sops.yml
-  empty-lines:
-    max: 1
-  line-length: disable
+    min-spaces-inside: 0
+  comments:
+    require-starting-space: true
+    min-spaces-from-content: 1
   indentation:
-    spaces: 2
+    spaces: consistent
     indent-sequences: consistent
-    level: warning
-    ignore: |
-      *.sops.yaml
-      *.sops.yml
-  new-line-at-end-of-file: disable
+    check-multi-line-strings: false
+  line-length: disable
+  quoted-strings:
+    quote-type: double
+    required: false
   truthy:
-    check-keys: false
+    allowed-values:
+      - "true"
+      - "false"
+      - "on"
