@@ -17,8 +17,6 @@ spec:
     envFrom:
       - secretRef:
           name: externaldns-technitium-secret
-    args:
-      - --domain-filter=$(EXTERNAL_DNS_RFC2136_ZONE)
     rfc2136:
       port: 53
       tsigSecretAlg: hmac-sha256
