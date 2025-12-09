@@ -43,7 +43,7 @@ spec:
           readOnly: true
         - name: init-user
           mountPath: /opt/init-acl.json
-          subPath: init-acl
+          subPath: init-acl.json
           readOnly: true
       extraVolumes:
         - name: init-user
