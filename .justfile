@@ -4,7 +4,7 @@ set quiet := true
 set shell := ['bash', '-euo', 'pipefail', '-c']
 
 mod k8s-thestral-bootstrap "clusters/thestral/bootstrap"
-mod k8s-thestral "clusters/thestral"
+# mod k8s-thestral "clusters/thestral"
 
 [private]
 default:
