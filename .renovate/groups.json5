@@ -12,78 +12,33 @@
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
-    },
-    {
-      "description": ["Cert-Manager Group"],
-      "groupName": "Cert-Manager",
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["/cert-manager/"],
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
-      }
-    },
-    {
-      "description": ["Cilium Group"],
-      "groupName": "Cilium",
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["/cilium/"],
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
-      }
-    },
-    {
-      description: "CoreDNS Group",
-      groupName: "CoreDNS",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["/coredns/"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-    },
-    {
-      description: "External Secrets Operator Group",
-      groupName: "External Secrets Operator",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["/external-secrets/"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
+      minimumGroupSize: 2,
     },
     {
       description: "Flux Operator Group",
       groupName: "Flux Operator",
       matchDatasources: ["docker"],
-      matchPackageNames: ["/flux-operator/", "/flux-instance/"],
+      matchPackageNames: ["/flux-operator/", "/flux-instance/", "/flux-operator-manifests/"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
+      minimumGroupSize: 3,
     },
     {
-      description: "Silence-Operator Group",
-      groupName: "Silence-Operator",
-      matchPackageNames: ["/silence-operator/"],
-      matchDatasources: ["docker", "github-releases"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-    },
-    {
-      description: "Spegel Group",
-      groupName: "Spegel",
+      description: "Kubernetes Group",
+      groupName: "Kubernetes",
       matchDatasources: ["docker"],
-      matchPackagePatterns: ["spegel"],
+      matchPackageNames: [
+        "/kube-apiserver/",
+        "/kube-controller-manager/",
+        "/kube-proxy/",
+        "/kube-scheduler/",
+        "/kubelet/",
+      ],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
-    },
-    {
-      description: "Talos Group",
-      groupName: "Talos",
-      matchDatasources: ["docker"],
-      matchPackagePatterns: ["siderolabs/talosctl", "siderolabs/installer"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-    },
+      minimumGroupSize: 5,
+    }
   ],
 }
