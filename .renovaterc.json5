@@ -1,53 +1,19 @@
 {
-  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
-    'config:recommended',
-    'docker:enableMajor',
-    ':disableRateLimiting',
-    ':dependencyDashboard',
-    ':semanticCommits',
-    ':automergeDigest',
-    ':automergeBranch',
-    ':skipStatusChecks',
-    ':timezone(Europe/Vienna)',
-    'github>calautigo/cluster-hama//.renovate/allowedVersions.json5',
-    'github>calautigo/cluster-hama//.renovate/autoMerge.json5',
-    'github>calautigo/cluster-hama//.renovate/grafanaDashboards.json5',
-    'github>calautigo/cluster-hama//.renovate/groups.json5',
-    'github>calautigo/cluster-hama//.renovate/labels.json5',
-    'github>calautigo/cluster-hama//.renovate/semanticCommits.json5',
-    'github>calautigo/cluster-hama//.renovate/versioning.json5',
+    "github>calautigo/renovate-config",
+    "github>calautigo/cluster-hama//.renovate/overrides.json5",
+    "github>calautigo/cluster-hama//.renovate/groups.json5",
+    "github>calautigo/cluster-hama//.renovate/autoMerge.json5",
+    "github>calautigo/cluster-hama//.renovate/customManagers.json5",
+    "github>calautigo/cluster-hama//.renovate/grafanaDashboards.json5",
   ],
-  dependencyDashboardTitle: 'Renovate Dashboard 🤖',
-  suppressNotifications: [
-    'prEditedNotification',
-    'prIgnoreNotification',
-  ],
-  rebaseWhen: 'conflicted',
-  ignorePaths: [
-    '**/*.sops.*',
-    '**/.archive/**',
-    '**/resources/**',
-  ],
-  'docker-compose': {
-    managerFilePatterns: [
-      '/(^|/)docker/.+\\.ya?ml$/',
-    ],
-  },
   flux: {
-    managerFilePatterns: [
-      '/(^|/)clusters/.+\\.ya?ml$/',
-    ],
+    managerFilePatterns: ["/^clusters/.+\\.yaml(?:\\.j2)?$/"],
   },
-  'helm-values': {
-    managerFilePatterns: [
-      '/(^|/)clusters/.+\\.ya?ml$/',
-    ],
+  "helm-values": {
+    managerFilePatterns: ["/^clusters/.+\\.yaml(?:\\.j2)?$/"],
   },
   kubernetes: {
-    managerFilePatterns: [
-      '/(^|/)\\.taskfiles/.+\\.ya?ml$/',
-      '/(^|/)clusters/.+\\.ya?ml$/',
-    ],
-  },
-}
+    managerFilePatterns: ["/^clusters/.+\\.yaml(?:\\.j2)?$/"],
+  }
