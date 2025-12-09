@@ -4,15 +4,15 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app emqx-operator
-  namespace: database
+  namespace: &namespace database
 spec:
-  targetNamespace: database
+  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: ./clusters/thestral/apps/database/emqx/operator
+  path: ./clusters/thestral/apps/database/emqx/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -28,9 +28,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app emqx-cluster
-  namespace: database
+  namespace: &namespace database
 spec:
-  targetNamespace: database
+  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -45,6 +45,4 @@ spec:
   wait: true
   dependsOn:
     - name: emqx-operator
-      namespace: database
-    - name: external-secrets-stores
-      namespace: external-secrets
+      namespace: *namespace

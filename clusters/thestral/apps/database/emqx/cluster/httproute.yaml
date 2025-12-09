@@ -1,14 +1,14 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: emqx-dashboard-route
-  namespace: database
+  name: emqx
 spec:
-  parentRefs:
-  - name: cilium-gateway
-    namespace: network
   hostnames:
   - "emqx.apps.schwarz47.at"
+  parentRefs:
+    - name: envoy-internal
+      namespace: network
+
   rules:
   - backendRefs:
     - name: emqx-dashboard

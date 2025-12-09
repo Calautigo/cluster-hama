@@ -24,10 +24,6 @@ spec:
             type = built_in_database
             enable = true
           }
-          {
-            type = file
-            path = "/opt/init-acl"
-          }
         ]
         no_match: "deny"
       }
@@ -36,7 +32,7 @@ spec:
       annotations:
         reloader.stakater.com/auto: "true"
     spec:
-      replicas: 2
+      replicas: 3
       envFrom:
         - secretRef:
             name: emqx-secret
@@ -45,10 +41,6 @@ spec:
           mountPath: /opt/init-user.json
           subPath: init-user.json
           readOnly: true
-        - name: init-user
-          mountPath: /opt/init-acl
-          subPath: init-acl
-          readOnly: true
       extraVolumes:
         - name: init-user
           secret:
@@ -56,6 +48,7 @@ spec:
   listenersServiceTemplate:
     metadata:
       annotations:
+        external-dns.alpha.kubernetes.io/hostname: mqtt.apps.schwarz47.at
         lbipam.cilium.io/ips: 10.100.10.201
     spec:
       type: LoadBalancer

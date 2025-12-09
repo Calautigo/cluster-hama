@@ -6,21 +6,9 @@ metadata:
   name: emqx-operator
 spec:
   interval: 30m
-  chart:
-    spec:
-      chart: emqx-operator
-      version: 2.2.28
-      sourceRef:
-        kind: HelmRepository
-        name: emqx
-      interval: 5m
-  install:
-    crds: CreateReplace
-  upgrade:
-    crds: CreateReplace
-  dependsOn:
-    - name: cert-manager
-      namespace: cert-manager
+  chartRef:
+    kind: OCIRepository
+    name: emqx-operator
   values:
     fullnameOverride: emqx-operator
     image:
