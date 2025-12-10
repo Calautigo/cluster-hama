@@ -31,4 +31,4 @@ spec:
       - gateway-tlsroute
       - service
     txtOwnerId: default
-    txtPrefix: k8s.
+    txtPrefix: external-dns-
