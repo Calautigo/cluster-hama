@@ -20,7 +20,7 @@ spec:
       name: volsync
       namespace: storage
   interval: 1h
-  path: "./kubernetes/apps/storage/volsync/app"
+  path: ./clusters/thestral/apps/storage/volsync/app
   postBuild:
     substitute:
       APP: volsync
