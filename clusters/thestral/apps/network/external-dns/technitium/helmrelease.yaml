@@ -19,12 +19,13 @@ spec:
           name: externaldns-technitium-secret
     env:
       - name: rfc2136-port
-        value: 53
+        value: "53"
       - name: rfc2136-tsig-secret-alg
         value: hmac-sha256
       - name: rfc2136-tsig-keyname
         value: external-dns
       - name: rfc2136-tsig-axfr
+        value: "true"
     policy: sync
     provider: rfc2136
     serviceMonitor:
