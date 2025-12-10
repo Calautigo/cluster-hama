@@ -5,7 +5,7 @@ kind: Gateway
 metadata:
   name: envoy-external
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname ingress-ext.schwarz47.at
+    external-dns.alpha.kubernetes.io/target: &hostname gateway-ext.schwarz47.at
 spec:
   gatewayClassName: envoy
   infrastructure:
@@ -28,7 +28,7 @@ spec:
       tls:
         certificateRefs:
           - kind: Secret
-            name: apps-schwarz47-at-tls
+            name: schwarz47-at-tls
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.envoyproxy.io/envoypatchpolicy_v1alpha1.json
 apiVersion: gateway.envoyproxy.io/v1alpha1
