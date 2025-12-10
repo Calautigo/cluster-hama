@@ -95,7 +95,7 @@ spec:
     route:
       app:
         hostnames:
-          - controller.apps.schwarz47.at
+          - controller.schwarz47.at
         parentRefs:
           - name: internal
             namespace: network

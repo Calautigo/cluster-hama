@@ -89,7 +89,7 @@ spec:
     route:
       app:
         hostnames:
-          - photos.apps.schwarz47.at
+          - photos.schwarz47.at
         parentRefs:
           - name: internal
             namespace: network

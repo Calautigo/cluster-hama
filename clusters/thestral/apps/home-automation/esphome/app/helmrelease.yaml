@@ -122,7 +122,7 @@ spec:
     route:
       app:
         hostnames:
-          - esphome.apps.schwarz47.at
+          - esphome.schwarz47.at
         parentRefs:
           - name: internal
             namespace: network

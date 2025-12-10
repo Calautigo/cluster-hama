@@ -9,9 +9,9 @@ spec:
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  commonName: 'controller.apps.schwarz47.at'
+  commonName: 'controller.schwarz47.at'
   dnsNames:
-    - 'controller.apps.schwarz47.at'
+    - 'controller.schwarz47.at'
   keystores:
     jks:
       create: true

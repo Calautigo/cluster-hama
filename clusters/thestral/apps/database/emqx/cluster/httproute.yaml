@@ -4,7 +4,7 @@ metadata:
   name: emqx
 spec:
   hostnames:
-  - "emqx.apps.schwarz47.at"
+  - "emqx.schwarz47.at"
   parentRefs:
     - name: envoy-internal
       namespace: network

@@ -77,7 +77,7 @@ spec:
     route:
       app:
         hostnames:
-          - prowlarr.apps.schwarz47.at
+          - prowlarr.schwarz47.at
         parentRefs:
           - name: internal
             namespace: network

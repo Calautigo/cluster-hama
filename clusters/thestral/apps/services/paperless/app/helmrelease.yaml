@@ -28,7 +28,7 @@ spec:
                   secretKeyRef:
                     name: paperless-secret
                     key: PAPERLESS_SECRET_KEY
-              PAPERLESS_URL: https://paperless.apps.schwarz47.at
+              PAPERLESS_URL: https://paperless.schwarz47.at
               PAPERLESS_PORT: "8000"
               PAPERLESS_TIME_ZONE: "Europe/Vienna"
               PAPERLESS_WEBSERVER_WORKERS: "2"
@@ -123,7 +123,7 @@ spec:
     route:
       app:
         hostnames:
-          - paperless.apps.schwarz47.at
+          - paperless.schwarz47.at
         parentRefs:
           - name: internal
             namespace: network

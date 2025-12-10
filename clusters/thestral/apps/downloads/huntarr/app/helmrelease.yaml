@@ -61,7 +61,7 @@ spec:
     route:
       app:
         hostnames:
-          - huntarr.apps.schwarz47.at
+          - huntarr.schwarz47.at
         parentRefs:
           - name: internal
             namespace: network

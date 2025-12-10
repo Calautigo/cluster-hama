@@ -90,7 +90,7 @@ spec:
     route:
       app:
         hostnames:
-          - sonarr.apps.schwarz47.at
+          - sonarr.schwarz47.at
         parentRefs:
           - name: internal
             namespace: network

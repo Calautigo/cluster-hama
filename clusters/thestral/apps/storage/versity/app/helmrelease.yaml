@@ -80,7 +80,7 @@ spec:
           - name: internal
             namespace: network
         hostnames:
-          - versity.apps.schwarz47.at
+          - versity.schwarz47.at
         rules:
           - matches:
               - path:

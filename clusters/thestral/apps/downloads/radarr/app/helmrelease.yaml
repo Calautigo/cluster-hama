@@ -84,7 +84,7 @@ spec:
     route:
       app:
         hostnames:
-          - radarr.apps.schwarz47.at
+          - radarr.schwarz47.at
         parentRefs:
           - name: internal
             namespace: network

@@ -88,7 +88,7 @@ spec:
     route:
       app:
         hostnames:
-          - hass-dashboard.apps.schwarz47.at
+          - hass-dashboard.schwarz47.at
         parentRefs:
           - name: internal
             namespace: network

@@ -47,7 +47,7 @@ spec:
     route:
       app:
         hostnames:
-          - profilarr.apps.schwarz47.at
+          - profilarr.schwarz47.at
         parentRefs:
           - name: internal
             namespace: network
