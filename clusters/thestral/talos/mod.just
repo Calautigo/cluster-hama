@@ -3,22 +3,23 @@ set shell := ['bash', '-euo', 'pipefail', '-c']
 
 kubernetes_dir := justfile_dir() + '/clusters/thestral'
 talos_dir := kubernetes_dir + '/talos'
+secrets_file := talos_dir + '/talsecret.sops.yaml'
 controller := `talosctl config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1`
 nodes := `talosctl config info -o yaml | yq -e '.nodes | join (",")'`
 
 [private]
 default:
-  just -l talos
+  just -l
 
 [doc('Apply Talos config to a node')]
 apply-node node *args:
   just log info "Applying Talos machineconfig" "node" "{{ node }}";
-  just talos render-config "{{ node }}" | talosctl -n "{{ node }}" apply-config -f /dev/stdin {{ args }}
+  just thestral-talos render-config "{{ node }}" | talosctl -n "{{ node }}" apply-config -f /dev/stdin {{ args }}
 
 [doc('Apply Talos config to all nodes in the cluster')]
 apply-cluster *args:
   kubectl get nodes --no-headers | while read -r node _; do \
-    just talos apply-node ${node} {{ args }}; \
+    just thestral-talos apply-node ${node} {{ args }}; \
   done
 
 [doc('Generate schematic ID from Talos schematic')]
@@ -27,9 +28,9 @@ gen-schematic-id:
 
 [doc('Render Talos config for a node')]
 render-config node:
-  export IS_CONTROLPLANE="$(just talos machine-controller {{ node }})"; \
-  talosctl machineconfig patch <(just template "{{ talos_dir }}/machineconfig.yaml.j2") \
-    -p @<(just template "{{ talos_dir }}/nodes/{{ node }}.yaml.j2")
+  export IS_CONTROLPLANE="$(just thestral-talos machine-controller {{ node }})"; \
+  talosctl machineconfig patch <(just template "{{ talos_dir }}/machineconfig.yaml.j2" "{{ secrets_file }}") \
+    -p @<(just template "{{ talos_dir }}/nodes/{{ node }}.yaml.j2" "{{ secrets_file }}")
 
 [doc('Reboot a node')]
 reboot-node node:
@@ -43,7 +44,7 @@ reset-node node mode="reboot":
 
 [doc('Reset all nodes in the cluster')]
 reset-cluster mode="reboot":
-  just talos reset-node {{ nodes }} {{ mode }};\
+  just thestral-talos reset-node {{ nodes }} {{ mode }};\
 
 [doc('Upgrade Kubernetes version on the cluster')]
 upgrade-k8s version:

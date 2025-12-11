@@ -3,9 +3,9 @@
 version: v1alpha1
 machine:
   ca:
-    crt: op://automation/talos/MACHINE_CA_CRT
+    crt: sops://talos/.certs.os.crt
     {% if ENV.IS_CONTROLPLANE %}
-    key: op://automation/talos/MACHINE_CA_KEY
+    key: sops://talos/.certs.os.key
     {% endif %}
   features:
     apidCheckExtKeyUsage: true
@@ -87,7 +87,7 @@ machine:
     disabled: false
     servers:
       - 10.100.0.1
-  token: op://automation/talos/MACHINE_TOKEN
+  token: sops://talos/.secrets.bootstraptoken
   udev:
     rules:
       - # Thunderbolt - Disable Power Management
@@ -95,8 +95,8 @@ machine:
 cluster:
   {% if ENV.IS_CONTROLPLANE %}
   aggregatorCA:
-    crt: op://automation/talos/CLUSTER_AGGREGATORCA_CRT
-    key: op://automation/talos/CLUSTER_AGGREGATORCA_KEY
+    crt: sops://talos/.certs.k8saggregator.crt
+    key: sops://talos/.certs.k8saggregator.key
   allowSchedulingOnControlPlanes: true
   apiServer:
     image: registry.k8s.io/kube-apiserver:v1.34.2
@@ -119,8 +119,8 @@ cluster:
     advertisedSubnets:
       - 10.100.10.0/24
     ca:
-      crt: op://automation/talos/CLUSTER_ETCD_CA_CRT
-      key: op://automation/talos/CLUSTER_ETCD_CA_KEY
+      crt: sops://talos/.certs.etcd.crt
+      key: sops://talos/.certs.etcd.key
     extraArgs:
       listen-metrics-urls: http://0.0.0.0:2381
   proxy:
@@ -147,14 +147,14 @@ cluster:
     extraArgs:
       bind-address: 0.0.0.0
     image: registry.k8s.io/kube-scheduler:v1.34.2
-  secretboxEncryptionSecret: op://automation/talos/CLUSTER_SECRETBOXENCRYPTIONSECRET
+  secretboxEncryptionSecret: sops://talos/.secrets.secretboxencryptionsecret
   serviceAccount:
-    key: op://automation/talos/CLUSTER_SERVICEACCOUNT_KEY
+    key: sops://talos/.certs.k8sserviceaccount.key
   {% endif %}
   ca:
-    crt: op://automation/talos/CLUSTER_CA_CRT
+    crt: sops://talos/.certs.k8s.crt
     {% if ENV.IS_CONTROLPLANE %}
-    key: op://automation/talos/CLUSTER_CA_KEY
+    key: sops://talos/.certs.k8s.key
     {% endif %}
   controlPlane:
     endpoint: https://10.100.10.70:6443
@@ -164,7 +164,7 @@ cluster:
     registries:
       kubernetes: { disabled: true }
       service: { disabled: false }
-  id: op://automation/talos/CLUSTER_ID
+  id: sops://talos/.cluster.id
   network:
     cni:
       name: none
@@ -173,8 +173,8 @@ cluster:
       - 10.244.0.0/16
     serviceSubnets:
       - 10.96.0.0/12
-  secret: op://automation/talos/CLUSTER_SECRET
-  token: op://automation/talos/CLUSTER_TOKEN
+  secret: sops://talos/.cluster.secret
+  token: sops://talos/.cluster.secret
 ---
 apiVersion: v1alpha1
 kind: WatchdogTimerConfig
@@ -187,12 +187,12 @@ name: EPHEMERAL
 provisioning:
   diskSelector:
     match: system_disk
-  maxSize: 512GiB
+  maxSize: 40GiB
 ---
 apiVersion: v1alpha1
 kind: UserVolumeConfig
 name: local-hostpath
 provisioning:
   diskSelector:
-    match: system_disk
-  maxSize: 256GiB
+    size: '>= 150GiB'
+  maxSize: 190GiB

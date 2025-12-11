@@ -1,10 +1,13 @@
 {
   "files.associations": {
-    "kubernetes/**/*.sops.toml": "plaintext"
+    "clusters/**/*.sops.yaml": "yaml",
+    "clusters/**/*.sops.yml": "yaml"
   },
   "prettier.configPath": ".prettierrc.yaml",
   "prettier.ignorePath": ".prettierignore",
   "yaml.schemas": {
-    "kubernetes": ["kubernetes/*.yml", "kubernetes/*.yaml"]
+    "kubernetes": ["clusters/*.yml", "clusters/*.yaml"]
   },
+  "sops.defaults.ageKeyFile": "~/.config/sops/age/dominik-age.key",
+  "sops.creationEnabled": true,
 }
