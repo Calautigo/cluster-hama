@@ -1,5 +1,15 @@
 ---
 machine:
+  install:
+    disk: /dev/sda
   network:
     hostname: thestral-02.infra.gryffindor.schwarz47.at
+    interfaces:
+      - interface: ens18
+        addresses:
+          - 10.100.10.72/16
+      - interface: ens19
+        addresses:
+          - 10.44.0.72/16
+    disableSearchDomain: true
   type: controlplane

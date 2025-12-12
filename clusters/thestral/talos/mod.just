@@ -64,7 +64,7 @@ download-image version schematic:
 
 [private]
 machine-controller node:
-  just template "{{ talos_dir }}/nodes/{{ node }}.yaml.j2" | yq -e 'select(.machine) | (.machine.type == "controlplane") // ""'
+  just template "{{ talos_dir }}/nodes/{{ node }}.yaml.j2" "{{ secrets_file }}" | yq -e 'select(.machine) | (.machine.type == "controlplane") // ""'
 
 [doc('Get the machine image for a given node')]
 [private]

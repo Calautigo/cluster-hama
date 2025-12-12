@@ -1,7 +1,17 @@
 ---
 machine:
+  install:
+    disk: /dev/sda
   network:
     hostname: thestral-01.infra.gryffindor.schwarz47.at
+    interfaces:
+      - interface: ens18
+        addresses:
+          - 10.100.10.71/16
+      - interface: ens19
+        addresses:
+          - 10.44.0.71/16
+    disableSearchDomain: true
   nodeLabels:
     node.kubernetes.io/gpu: "true"
   type: controlplane

@@ -51,12 +51,10 @@ machine:
         noatime=True
         nconnect=16
   install:
-    image: factory.talos.dev/metal-installer/a30c16a32db3c99cb35f22401fad96807f80896dfc86aa4ec716ed6b4aff09de:v1.11.5
+    image: factory.talos.dev/metal-installer/e134ff6687f8db5a6d93ea26b9cedf6fc7f9cdacee8f81ae5e61257b896e34f0:v1.11.5
   kernel:
     modules:
       - name: nbd
-      - name: thunderbolt
-      - name: thunderbolt_net
   kubelet:
     defaultRuntimeSeccompProfileEnabled: true
     disableManifestsDirectory: true
@@ -66,12 +64,20 @@ machine:
     image: ghcr.io/siderolabs/kubelet:v1.34.2
     nodeIP:
       validSubnets:
-        - 10.100.10.0/24
+        - 10.100.0.0/16
   network:
     interfaces:
-      - interface: ens18 # TODO: Add static ip
-        dhcp: true
+      - interface: ens18
         mtu: 1500
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.100.0.1
+        vip:
+          ip: 10.100.10.70
+      - interface: ens19
+        mtu: 9000
+    nameservers:
+      - 10.10.10.32
     disableSearchDomain: true
   sysctls:
     fs.inotify.max_user_instances: "8192"
@@ -117,7 +123,7 @@ cluster:
     disabled: true
   etcd:
     advertisedSubnets:
-      - 10.100.10.0/24
+      - 10.100.0.0/16
     ca:
       crt: sops://talos/.certs.etcd.crt
       key: sops://talos/.certs.etcd.key
@@ -170,23 +176,18 @@ cluster:
       name: none
     dnsDomain: cluster.local
     podSubnets:
-      - 10.244.0.0/16
+      - 11.244.0.0/16
     serviceSubnets:
-      - 10.96.0.0/12
+      - 11.96.0.0/12
   secret: sops://talos/.cluster.secret
   token: sops://talos/.cluster.secret
----
-apiVersion: v1alpha1
-kind: WatchdogTimerConfig
-device: /dev/watchdog0
-timeout: 5m
 ---
 apiVersion: v1alpha1
 kind: VolumeConfig
 name: EPHEMERAL
 provisioning:
   diskSelector:
-    match: system_disk
+    match: "system_disk"
   maxSize: 40GiB
 ---
 apiVersion: v1alpha1
@@ -194,5 +195,5 @@ kind: UserVolumeConfig
 name: local-hostpath
 provisioning:
   diskSelector:
-    size: '>= 150GiB'
+    match: "!system_disk"
   maxSize: 190GiB
