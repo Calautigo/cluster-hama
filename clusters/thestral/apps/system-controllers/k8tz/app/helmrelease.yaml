@@ -15,8 +15,6 @@ spec:
         name: k8tz
   interval: 30m
   values:
-    namespace: system
-
     replicaCount: 2
 
     timezone: Europe/Vienna
