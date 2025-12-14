@@ -38,16 +38,3 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: k8tz
               topologyKey: kubernetes.io/hostname
-
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              version: v1
-              kind: Namespace
-            patch: |-
-              $patch: delete
-              apiVersion: v1
-              kind: Namespace
-              metadata:
-                name: not-used
