@@ -18,5 +18,5 @@ spec:
     spegel:
       appendMirrors: true
       containerdRegistryConfigPath: /etc/cri/conf.d/hosts
-      containerdSock: /run/k3s/containerd/containerd.sock
-      containerdContentPath: /var/lib/rancher/k3s/agent/containerd/io.containerd.content.v1.content
+      containerdSock: /run/containerd/containerd.sock
+      containerdContentPath: /var/lib/containerd/io.containerd.content.v1.content

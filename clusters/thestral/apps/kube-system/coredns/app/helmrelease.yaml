@@ -18,7 +18,7 @@ spec:
       create: true
     service:
       name: kube-dns
-      clusterIP: 10.153.0.10
+      clusterIP: 11.96.0.10
     servers:
       - zones:
           - zone: .

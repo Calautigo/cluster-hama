@@ -33,8 +33,10 @@ spec:
       enabled: true
       annotations:
         grafana_folder: Cilium
-    devices: ["eth0", "eth1"]
-    enableRuntimeDeviceDetection: true
+    devices:
+      - ens18
+    enableRuntimeDeviceDetection: false
+    directRoutingDevice: ens18
     endpointRoutes:
       enabled: true
     envoy:
@@ -45,7 +47,7 @@ spec:
       enabled: false
     ipam:
       mode: kubernetes
-    ipv4NativeRoutingCIDR: "10.152.0.0/16"
+    ipv4NativeRoutingCIDR: "11.244.0.0/16"
     k8sServiceHost: 10.100.10.70
     k8sServicePort: 6443
     kubeProxyReplacement: true

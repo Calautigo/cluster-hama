@@ -73,7 +73,7 @@ resources:
 [doc('Apply Helmfile CRDs')]
 crds:
   just log info "Running stage..." "stage" "$0"
-  if ! helmfile -f "{{ bootstrap_dir }}/helmfile.d/00-crds.yaml" template -q | kubectl apply --server-side -f -; then \
+  if ! helmfile -f "{{ bootstrap_dir }}/helmfile.d/00-crds.yaml" template -q | yq ea 'select(.kind == "CustomResourceDefinition")' - | kubectl apply --server-side -f -; then \
     just log fatal "Failed to apply crds" "stage" "$0"; \
   fi;
 
