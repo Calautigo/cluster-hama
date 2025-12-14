@@ -21,7 +21,7 @@ spec:
   dependsOn:
     - name: intel-gpu-resource-driver
       namespace: kube-system
-    - name: ceph-csi
+    - name: ceph-csi-rbd
       namespace: storage
   components:
     - ../../../../components/gpu
