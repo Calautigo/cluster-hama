@@ -4,6 +4,7 @@ set shell := ['bash', '-euo', 'pipefail', '-c']
 
 kubernetes_dir := justfile_dir() + '/clusters/thestral'
 bootstrap_dir := kubernetes_dir + '/bootstrap'
+secrets_file := bootstrap_dir + '/secret.sops.yaml'
 controller := `talosctl config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1`
 nodes := `talosctl config info -o yaml | yq -e '.nodes | join (" ")'`
 
@@ -34,11 +35,11 @@ kubernetes:
 [doc('Fetch kubeconfig')]
 kubeconfig lb="cilium":
   just log info "Running stage..." "stage" "$0"
-  if ! talosctl kubeconfig -n "{{ controller }}" -f --force-context-name home-ops {{ justfile_dir() }}; then \
+  if ! talosctl kubeconfig -n "{{ controller }}" -f --force-context-name thestral {{ justfile_dir() }}; then \
     just log fatal "Failed to fetch kubeconfig" "stage" "$0"; \
   fi
   if [[ "{{ lb }}" != "cilium" ]]; then \
-    if ! kubectl config set-cluster home-ops --server "https://{{ controller }}:6443"; then \
+    if ! kubectl config set-cluster thestral --server "https://{{ controller }}:6443"; then \
       just log fatal "Failed to set kubectl cluster server address" "stage" "$0"; \
     fi; \
   fi
@@ -65,7 +66,7 @@ namespaces:
 [doc('Apply Kubernetes resources')]
 resources:
   just log info "Running stage..." "stage" "$0"
-  if ! just template "{{ bootstrap_dir }}/resources.yaml.j2" | kubectl apply --server-side -f -; then \
+  if ! just template "{{ bootstrap_dir }}/resources.yaml.j2" "{{ secrets_file }}" | kubectl apply --server-side -f -; then \
     just log fatal "Failed to apply resources" "stage" "$0"; \
   fi;
 

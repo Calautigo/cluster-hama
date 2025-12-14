@@ -72,10 +72,14 @@ machine:
         routes:
           - network: 0.0.0.0/0
             gateway: 10.100.0.1
+            metric: 10
         vip:
           ip: 10.100.10.70
       - interface: ens19
         mtu: 9000
+        routes:
+          - network: 10.44.0.0/16
+            metric: 500
     nameservers:
       - 10.10.10.32
     disableSearchDomain: true
@@ -93,11 +97,10 @@ machine:
     disabled: false
     servers:
       - 10.100.0.1
-  token: sops://talos/.secrets.bootstraptoken
+  token: sops://talos/.trustdinfo.token
   udev:
     rules:
-      - # Thunderbolt - Disable Power Management
-        ACTION=="add", SUBSYSTEM=="thunderbolt", ATTR{power/control}="on"
+      - ACTION=="add", SUBSYSTEM=="thunderbolt", ATTR{power/control}="on"
 cluster:
   {% if ENV.IS_CONTROLPLANE %}
   aggregatorCA:
@@ -153,7 +156,6 @@ cluster:
     extraArgs:
       bind-address: 0.0.0.0
     image: registry.k8s.io/kube-scheduler:v1.34.2
-  secretboxEncryptionSecret: sops://talos/.secrets.secretboxencryptionsecret
   serviceAccount:
     key: sops://talos/.certs.k8sserviceaccount.key
   {% endif %}
@@ -171,6 +173,7 @@ cluster:
       kubernetes: { disabled: true }
       service: { disabled: false }
   id: sops://talos/.cluster.id
+  secret: sops://talos/.cluster.secret
   network:
     cni:
       name: none
@@ -179,15 +182,15 @@ cluster:
       - 11.244.0.0/16
     serviceSubnets:
       - 11.96.0.0/12
-  secret: sops://talos/.cluster.secret
-  token: sops://talos/.cluster.secret
+  token: sops://talos/.secrets.bootstraptoken
+  secretboxEncryptionSecret: sops://talos/.secrets.secretboxEncryptionSecret
 ---
 apiVersion: v1alpha1
 kind: VolumeConfig
 name: EPHEMERAL
 provisioning:
   diskSelector:
-    match: "system_disk"
+    match: disk.transport == 'virtio' && disk.size < 100u * GiB
   maxSize: 40GiB
 ---
 apiVersion: v1alpha1
@@ -195,5 +198,5 @@ kind: UserVolumeConfig
 name: local-hostpath
 provisioning:
   diskSelector:
-    match: "!system_disk"
+    match: disk.transport == 'virtio' && disk.size > 100u * GiB
   maxSize: 190GiB

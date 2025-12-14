@@ -1,4 +1,14 @@
+---
+keys:
+  - &user_dominik age1drlg4urwuhv9n8wgyhjwau7agpxq30n7wsdyhh6u5w9nk6e9p3jsdsqvtm
+
 creation_rules:
-  - path_regex: .*secret.*\.sops\.yaml$
-    age: age1drlg4urwuhv9n8wgyhjwau7agpxq30n7wsdyhh6u5w9nk6e9p3jsdsqvtm
-  
+  - path_regex: clusters/.*/talos/.*\.sops\.ya?ml$
+    key_groups:
+      - age:
+          - *user_dominik
+
+  - path_regex: clusters/.*/bootstrap/.*\.sops\.ya?ml$
+    key_groups:
+      - age:
+          - *user_dominik
