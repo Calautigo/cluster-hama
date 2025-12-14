@@ -7,5 +7,4 @@ resources:
   - ./cilium/ks.yaml
   - ./coredns/ks.yaml
   - ./intel-gpu-resource-driver/ks.yaml
-  - ./kube-vip/ks.yaml
   - ./metrics-server/ks.yaml
