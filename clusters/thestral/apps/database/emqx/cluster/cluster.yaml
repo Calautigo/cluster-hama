@@ -15,7 +15,7 @@ spec:
             name = "bcrypt"
         }
         user_id_type = "username"
-        bootstrap_file = "/opt/init-user.txt"
+        bootstrap_file = "/opt/init-user"
         bootstrap_type = "plain"
       }
       authorization {
