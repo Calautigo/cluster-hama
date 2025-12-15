@@ -5,3 +5,5 @@ metadata:
   name: _
   annotations:
     kustomize.toolkit.fluxcd.io/prune: disabled
+  labels:
+    k8tz.io/controller-namespace: "true"
