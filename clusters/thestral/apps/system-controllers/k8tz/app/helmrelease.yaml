@@ -5,16 +5,12 @@ kind: HelmRelease
 metadata:
   name: k8tz
 spec:
-  chart:
-    spec:
-      chart: k8tz
-      version: 0.18.0
-      interval: 30m
-      sourceRef:
-        kind: HelmRepository
-        name: k8tz
+  chartRef:
+    kind: OCIRepository
+    name: k8tz
   interval: 30m
   values:
+    namespace: system-controllers
     replicaCount: 2
 
     timezone: Europe/Vienna
@@ -36,3 +32,16 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: k8tz
               topologyKey: kubernetes.io/hostname
+
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              version: v1
+              kind: Namespace
+            patch: |-
+              $patch: delete
+              apiVersion: v1
+              kind: Namespace
+              metadata:
+                name: _
