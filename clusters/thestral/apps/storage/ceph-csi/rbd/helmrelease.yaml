@@ -16,12 +16,21 @@ spec:
   #See https://github.com/ceph/ceph-csi/blob/devel/charts/ceph-csi-rbd/values.yaml
   values:
     csiConfig:
-    - clusterID: "394577ce-72a4-47f6-a132-f83e841482fe"
-      monitors:
-      - 10.44.0.51:6789
-      - 10.44.0.52:6789
-      - 10.44.0.54:6789
-      - 10.44.0.57:6789
+      - clusterID: "394577ce-72a4-47f6-a132-f83e841482fe"
+        monitors:
+        - 10.44.0.51:6789
+        - 10.44.0.52:6789
+        - 10.44.0.54:6789
+        - 10.44.0.57:6789
+
+    controller:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+
+    nodeplugin:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+
     storageClass:
       create: true
       clusterID: "394577ce-72a4-47f6-a132-f83e841482fe"
