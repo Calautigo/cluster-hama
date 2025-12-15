@@ -15,7 +15,7 @@ spec:
             name = "bcrypt"
         }
         user_id_type = "username"
-        bootstrap_file = "/opt/init-user"
+        bootstrap_file = "/opt/init-user.txt"
         bootstrap_type = "plain"
       }
       authorization {
@@ -42,8 +42,8 @@ spec:
             name: emqx-secret
       extraVolumeMounts:
         - name: init-user
-          mountPath: /opt/init-user
-          subPath: init-user
+          mountPath: /opt/init-user.txt
+          subPath: init-user.txt
           readOnly: true
         - name: init-acl
           mountPath: /opt/init-acl
