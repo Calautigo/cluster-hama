@@ -25,6 +25,12 @@ spec:
 
     provisioner:
       enableHostNetwork: true
+      httpMetrics:
+        enabled: false
+    
+    nodeplugin:
+      httpMetrics:
+        enabled: false
 
     storageClass:
       create: true
