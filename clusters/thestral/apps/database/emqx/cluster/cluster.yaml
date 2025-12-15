@@ -42,8 +42,8 @@ spec:
             name: emqx-secret
       extraVolumeMounts:
         - name: init-user
-          mountPath: /opt/init-user.txt
-          subPath: init-user.txt
+          mountPath: /opt/init-user
+          subPath: init-user
           readOnly: true
         - name: init-acl
           mountPath: /opt/init-acl
