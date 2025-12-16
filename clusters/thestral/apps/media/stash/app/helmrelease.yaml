@@ -45,19 +45,17 @@ spec:
 
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port
 
     route:
       app:
-        enabled: true
+        hostnames:
+          - stash.schwarz47.at
         parentRefs:
           - name: envoy-internal
             namespace: network
-        hostnames:
-          - stash.schwarz47.at
 
     persistence:
       config:

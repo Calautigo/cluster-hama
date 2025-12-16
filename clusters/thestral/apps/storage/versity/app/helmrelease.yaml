@@ -68,7 +68,6 @@ spec:
 
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port
@@ -88,7 +87,7 @@ spec:
                   value: /
             backendRefs:
               - kind: Service
-                name: *app
+                identifier: app
                 port: *port
 
     persistence:
