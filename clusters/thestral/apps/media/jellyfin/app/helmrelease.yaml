@@ -28,15 +28,12 @@ spec:
             runAsGroup: 2000
             fsGroup: 2000
             fsGroupChangePolicy: OnRootMismatch
-            supplementalGroups:
-              - 44 # video
-              - 109 # render
 
         containers:
           app:
             image:
               repository: ghcr.io/jellyfin/jellyfin
-              tag: 10.11.3@sha256:fab30d85f4ec3e19556ca1d91b82b12329fc4a6d2a4b330673354af9218e1d28
+              tag: 10.11.5@sha256:cd7e4cb71812dd76988a725da615e37c6d0d24c200be904ad5d183e51f1dc6ed
             env:
               JELLYFIN_PublishedServerUrl: https://jellyfin.schwarz47.at
             securityContext:
@@ -62,17 +59,16 @@ spec:
                   periodSeconds: 10
                   failureThreshold: 30
             resources:
-              requests:
-                cpu: 100m
-                memory: 1Gi
-              limits:
-                memory: 8Gi
               claims:
                 - name: gpu
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 8Gi
 
     service:
       app:
-        controller: jellyfin
         ports:
           http:
             port: *port
@@ -88,27 +84,26 @@ spec:
     persistence:
       config:
         existingClaim: jellyfin-config
-        advancedMounts:
-          jellyfin:
-            app:
-              - path: /config
 
-      data:
-        existingClaim: jellyfin-data
-        advancedMounts:
-          jellyfin:
-            app:
-              - path: /config/data
-
-      tmp:
+      config-cache:
+        existingClaim: jellyfin-cache
+        globalMounts:
+          - path: /config/metadata
+            subPath: metadata
+          - path: /config/transcode
+            subPath: transcode
+          - path: /config/cache
+            subPath: cache
+            
+      tmps:
         type: emptyDir
         advancedMounts:
           jellyfin:
-            app:
-              - path: /config/log
-                subPath: logs
+            main:
               - path: /cache
                 subPath: cache
+              - path: /config/log
+                subPath: log
               - path: /tmp
                 subPath: tmp
 
