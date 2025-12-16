@@ -91,6 +91,10 @@ spec:
 
       data:
         existingClaim: jellyfin-data
+        advancedMounts:
+          jellyfin:
+            app:
+              - path: /config/data
 
       tmp:
         type: emptyDir
