@@ -88,6 +88,10 @@ spec:
     persistence:
       config:
         existingClaim: jellyfin-config
+        advancedMounts:
+          jellyfin:
+            app:
+              - path: /config
 
       data:
         existingClaim: jellyfin-data
