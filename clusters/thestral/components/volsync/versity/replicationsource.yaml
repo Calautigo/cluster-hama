@@ -20,7 +20,7 @@ spec:
       runAsUser: ${APP_UID:-2000}
       runAsGroup: ${APP_GID:-2000}
       fsGroup: ${APP_GID:-2000}
-    parallelism: 2
+    # parallelism: 2
     repository: ${APP}-volsync-versity
     retain:
       hourly: 24
