@@ -54,7 +54,7 @@ spec:
       app:
         enabled: true
         parentRefs:
-          - name: internal
+          - name: envoy-internal
             namespace: network
         hostnames:
           - stash.schwarz47.at
