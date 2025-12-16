@@ -94,6 +94,8 @@ spec:
             subPath: transcode
           - path: /config/cache
             subPath: cache
+          - path: /config/data
+            subPath: data
             
       tmps:
         type: emptyDir
