@@ -90,9 +90,8 @@ spec:
         hostnames:
           - hass-dashboard.schwarz47.at
         parentRefs:
-          - name: internal
+          - name: envoy-internal
             namespace: network
-            sectionName: https
         rules:
           - backendRefs:
               - name: hass-dashboard

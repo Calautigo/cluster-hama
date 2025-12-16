@@ -124,9 +124,8 @@ spec:
         hostnames:
           - esphome.schwarz47.at
         parentRefs:
-          - name: internal
+          - name: envoy-internal
             namespace: network
-            sectionName: https
         rules:
           - matches:
               - path:

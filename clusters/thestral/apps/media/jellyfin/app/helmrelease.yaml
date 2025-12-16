@@ -82,9 +82,8 @@ spec:
         hostnames:
           - jellyfin.schwarz47.at
         parentRefs:
-          - name: internal
+          - name: envoy-internal
             namespace: network
-            sectionName: https
 
     persistence:
       config:

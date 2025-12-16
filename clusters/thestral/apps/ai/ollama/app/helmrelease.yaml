@@ -96,9 +96,8 @@ spec:
       app:
         hostnames: ["ollama.schwarz47.at"]
         parentRefs:
-          - name: internal
+          - name: envoy-internal
             namespace: network
-            sectionName: https
 
     persistence:
       models:
