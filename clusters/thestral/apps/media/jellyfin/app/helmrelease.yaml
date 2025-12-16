@@ -89,15 +89,8 @@ spec:
       config:
         existingClaim: jellyfin-config
 
-      config-cache:
-        existingClaim: jellyfin-cache
-        globalMounts:
-          - path: /config/metadata
-            subPath: metadata
-          - path: /config/cache
-            subPath: cache
-          - path: /config/introskipper
-            subPath: introskipper
+      data:
+        existingClaim: jellyfin-data
 
       tmp:
         type: emptyDir
