@@ -7,4 +7,4 @@ deletionPolicy: Delete
 parameters:
   clusterID: 394577ce-72a4-47f6-a132-f83e841482fe
   csi.storage.k8s.io/snapshotter-secret-name: csi-rbd-secret
-  csi.storage.k8s.io/snapshotter-secret-namespace: ceph-csi
+  csi.storage.k8s.io/snapshotter-secret-namespace: storage
