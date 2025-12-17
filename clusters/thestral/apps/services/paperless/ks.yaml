@@ -12,7 +12,7 @@ spec:
   components:
     - ../../../../components/volsync
   dependsOn:
-    - name: ceph-rbd
+    - name: ceph-csi-rbd
       namespace: storage
   interval: 30m
   path: "./clusters/thestral/apps/services/paperless/app"

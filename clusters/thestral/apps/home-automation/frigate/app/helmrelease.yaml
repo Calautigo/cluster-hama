@@ -48,12 +48,10 @@ spec:
               claims:
                 - name: gpu
               requests:
-                cpu: 2.0.0.98700m
-                memory: 2Gi
-                gpu.intel.com/i915: 1
+                cpu: 1000m
+                memory: 512Mi
               limits:
                 memory: 4Gi
-                gpu.intel.com/i915: 1
 
     service:
       frigate:
@@ -123,5 +121,5 @@ spec:
 
         rules:
           - backendRefs:
-              - identifier: app
+              - identifier: frigate
                 port: 1984
