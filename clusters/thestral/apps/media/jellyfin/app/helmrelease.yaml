@@ -101,15 +101,13 @@ spec:
             
       tmps:
         type: emptyDir
-        advancedMounts:
-          jellyfin:
-            main:
-              - path: /cache
-                subPath: cache
-              - path: /config/log
-                subPath: log
-              - path: /tmp/jellyfin
-                subPath: tmp
+        globalMounts:
+          - path: /cache
+            subPath: cache
+          - path: /config/log
+            subPath: log
+          - path: /tmp
+            subPath: tmp
 
       media:
         type: nfs
