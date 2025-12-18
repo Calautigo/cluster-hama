@@ -50,17 +50,17 @@ spec:
                   httpGet:
                     path: /api?mode=version
                     port: *port
-                  initialDelaySeconds: 60
-                  periodSeconds: 30
-                  timeoutSeconds: 3
-                  failureThreshold: 10
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
               readiness: *probes
             resources:
               requests:
                 cpu: 20m
                 memory: 1Gi
               limits:
-                memory: 4Gi
+                memory: 8Gi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
