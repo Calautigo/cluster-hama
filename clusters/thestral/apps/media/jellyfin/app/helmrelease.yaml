@@ -108,7 +108,7 @@ spec:
                 subPath: cache
               - path: /config/log
                 subPath: log
-              - path: /tmp
+              - path: /tmp/jellyfin
                 subPath: tmp
 
       media:
