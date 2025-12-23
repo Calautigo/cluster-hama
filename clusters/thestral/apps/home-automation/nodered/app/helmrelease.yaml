@@ -1,0 +1,62 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nodered
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: nodered
+  values:
+    controllers:
+      nodered:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/k8s-at-home/node-red
+              tag: v3.0.2
+            resources:
+              requests:
+                cpu: 5m
+                memory: 64Mi
+              limits:
+                memory: 1Gi
+            securityContext:
+              runAsUser: 2000
+              runAsGroup: 2000
+              fsGroup: 2000
+              fsGroupChangePolicy: "OnRootMismatch"
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+
+    service:
+      app:
+        ports:
+          http:
+            port: 1880
+
+    persistence:
+      config:
+        existingClaim: nodered-config
+        advancedMounts:
+          nodered:
+            app:
+              - path: /config
+
+    route:
+      app:
+        hostnames:
+          - nodered.schwarz47.at
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+
+        rules:
+          - backendRefs:
+              - identifier: nodered
+                port: 1880
