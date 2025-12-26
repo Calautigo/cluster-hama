@@ -43,16 +43,13 @@ spec:
     persistence:
       config:
         existingClaim: nodered-config
-        advancedMounts:
-          nodered:
-            app:
-              - path: /config
+        globalMounts:
+          - path: /config
+
       tmpfs:
         type: emptyDir
-        advancedMounts:
-          nodered:
-            app:
-              - path: /usr/src/node-red/node_modules/
+        globalMounts:
+          - path: /usr/src/node-red/node_modules/
 
     route:
       app:
