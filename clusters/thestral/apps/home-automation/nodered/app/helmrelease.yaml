@@ -47,6 +47,12 @@ spec:
           nodered:
             app:
               - path: /config
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          nodered:
+            app:
+              - path: /usr/src/node-red/node_modules/
 
     route:
       app:
