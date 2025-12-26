@@ -58,5 +58,5 @@ spec:
 
         rules:
           - backendRefs:
-              - identifier: nodered
+              - identifier: app
                 port: 1880
