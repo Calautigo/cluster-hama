@@ -10,5 +10,5 @@ spec:
       namespace: network
   rules:
     - backendRefs:
-        - identifier: influxdb-influxdb2
+        - name: influxdb-influxdb2
           port: 80
