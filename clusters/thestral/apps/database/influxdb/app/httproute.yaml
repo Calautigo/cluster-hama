@@ -1,0 +1,14 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: influxdb
+spec:
+  hostnames: ["influxdb.schwarz47.at"]
+  parentRefs:
+    - name: envoy-internal
+      namespace: network
+  rules:
+    - backendRefs:
+        - identifier: influxdb-influxdb2
+          port: 80
