@@ -4,15 +4,16 @@ kind: HelmRelease
 metadata:
   name: &app termix
 spec:
-  interval: 1h
   chartRef:
     kind: OCIRepository
-    name: termix
+    name: paperless
+  interval: 30m
   values:
     controllers:
       termix:
         annotations:
           reloader.stakater.com/auto: "true"
+          
         containers:
           app:
             image:
