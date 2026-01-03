@@ -3,9 +3,11 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres
+  name: postgres-vector
 spec:
-  imageName: ghcr.io/cloudnative-pg/postgresql:18.1
+  # on upgrade of vectorchord, run: k exec -n database postgres-vector -- psql -d immich -c 'ALTER EXTENSION vchord UPDATE;'
+  # renovate: datasource=docker depName=ghcr.io/tensorchord/cloudnative-vectorchord
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:18.1@sha256:d844a09b25458ecb333208ba256df6baa320714257b9fb91752c2d8e75cc2f60
   instances: 3
   primaryUpdateStrategy: unsupervised
   storage:
@@ -15,6 +17,8 @@ spec:
     name: cloudnative-pg-secret
   enableSuperuserAccess: true
   postgresql:
+    shared_preload_libraries:
+      - "vchord.so"
     parameters:
       max_connections: "600"
       shared_buffers: 512MB
@@ -26,6 +30,11 @@ spec:
     limits:
       memory: 2Gi
       ephemeral-storage: 200Mi
+  bootstrap:
+    initdb:
+      postInitSQL:
+        - CREATE EXTENSION vchord CASCADE;
+        - CREATE EXTENSION earthdistance CASCADE;
   monitoring:
     enablePodMonitor: true
   backup:
@@ -36,11 +45,11 @@ spec:
         maxParallel: 8
       data:
         compression: bzip2
-      destinationPath: &dest s3://cnpg-cluster-thestral/
+      destinationPath: &dest s3://cnpg-cluster-thestral-vector/
       endpointURL: &s3 http://versity.storage.svc.cluster.local:7070
       # Note: serverName version needs to be inclemented
       # when recovering from an existing cnpg cluster
-      serverName: postgres-v1
+      serverName: postgres-vector-v1
       s3Credentials: &credentials
         accessKeyId:
           name: cloudnative-pg-secret
@@ -52,7 +61,7 @@ spec:
   # cluster when recovering from an existing cnpg cluster
   # bootstrap:
   #   recovery:
-  #     source: &previousCluster postgres-v1
+  #     source: &previousCluster postgres-vector-v1
   # externalClusters:
   #   - name: *previousCluster
   #     barmanObjectStore:

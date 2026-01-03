@@ -13,7 +13,7 @@ spec:
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
-  path: ./clusters/thestral/apps/database/cloudnative-pg/app
+  path: ./clusters/thestral/apps/database/cloudnative-pg/operator
   prune: true
   sourceRef:
     kind: GitRepository
