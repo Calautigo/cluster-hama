@@ -15,10 +15,6 @@ spec:
       namespace: external-secrets
     - name: cloudnative-pg-cluster
       namespace: database
-    - name: dragonfly-cluster
-      namespace: database
-  components:
-    - ../../../../components/dragonfly
   path: ./clusters/thestral/apps/services/immich/app
   prune: true
   sourceRef:
