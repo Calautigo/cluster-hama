@@ -3,19 +3,21 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres
+  name: postgres-immich
 spec:
-  imageName: ghcr.io/cloudnative-pg/postgresql:18.1
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.6-0.5.3
   instances: 3
   primaryUpdateStrategy: unsupervised
-  primaryUpdateMethod: switchover
   storage:
     size: 20Gi
     storageClass: openebs-hostpath
   superuserSecret:
     name: cloudnative-pg-secret
   enableSuperuserAccess: true
+
   postgresql:
+    shared_preload_libraries:
+      - "vchord.so"
     parameters:
       max_connections: "600"
       shared_buffers: 512MB
@@ -23,10 +25,8 @@ spec:
     requests:
       cpu: 100m
       memory: 512Mi
-      ephemeral-storage: 100Mi
     limits:
       memory: 2Gi
-      ephemeral-storage: 200Mi
   monitoring:
     enablePodMonitor: true
   backup:
@@ -39,8 +39,8 @@ spec:
       isWALArchiver: true
       name: barman-cloud.cloudnative-pg.io
       parameters:
-        barmanObjectName: versity-thestral
-        serverName: postgres-v2
+        barmanObjectName: versity-thestral-immich
+        serverName: immich-v2
   bootstrap:
     initdb:
       database: app
@@ -56,5 +56,5 @@ spec:
       plugin:
         name: barman-cloud.cloudnative-pg.io
         parameters:
-          barmanObjectName: versity-thestral
-          serverName: postgres
+          barmanObjectName: versity-thestral-immich
+          serverName: immich
