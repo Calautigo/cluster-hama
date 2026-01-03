@@ -35,9 +35,9 @@ spec:
               IMMICH_MEDIA_LOCATION: &mediaLocation /usr/src/app/upload
             envFrom: &envFrom
               - configMapRef:
-                name: immich
+                  name: immich
               - secretRef:
-                name: immich-secret
+                  name: immich-secret
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
