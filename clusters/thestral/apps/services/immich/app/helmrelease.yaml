@@ -11,32 +11,33 @@ spec:
   values:
     controllers:
       server:
-        replicas: 1
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          enableServiceLinks: false
 
         initContainers:
-          01-init-db:
-            envFrom: &envFrom
+          init-db:
+            envFrom: &dbEnvFrom
               - secretRef:
                   name: immich-secret
             image:
               repository: ghcr.io/home-operations/postgres-init
-              tag: 17
+              tag: 18
 
         containers:
           app:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v2.3.1@sha256:f8d06a32b1b2a81053d78e40bf8e35236b9faefb5c3903ce9ca8712c9ed78445
+              tag: v2.4.1@sha256:e6a6298e67ae077808fdb7d8d5565955f60b0708191576143fc02d30ab1389d1
             env:
-              REDIS_HOSTNAME: immich-dragonfly
-              REDIS_PORT: "6379"
-              REDIS_DBINDEX: "1"
-              DB_VECTOR_EXTENSION: pgvector
-              IMMICH_MEDIA_LOCATION: /usr/src/app/upload
-            envFrom: *envFrom
+              IMMICH_MEDIA_LOCATION: &mediaLocation /usr/src/app/upload
+            envFrom: &envFrom
+              - configMapRef:
+                name: immich
+              - secretRef:
+                name: immich-secret
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -44,13 +45,16 @@ spec:
             resources:
               requests:
                 cpu: 100m
+                memory: 256Mi
               limits:
-                gpu.intel.com/i915: 1
                 memory: 4Gi
 
       machine-learning:
+        strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          enableServiceLinks: false
 
         containers:
           app:
@@ -58,13 +62,24 @@ spec:
               repository: ghcr.io/immich-app/immich-machine-learning
               tag: v2.3.1@sha256:379e31b8c75107b0af8141904baa8cc933d7454b88fdb204265ef11749d7d908
             env:
-              MPLCONFIGDIR: "/cache/matplotlib"
+              MPLCONFIGDIR: "/config/matplotlib"
+              IMMICH_MEDIA_LOCATION: *mediaLocation
             envFrom: *envFrom
             resources:
+              claims:
+                - name: gpu
               requests:
                 cpu: 100m
+                memore: 256Mi
               limits:
                 memory: 4Gi
+
+      valkey:
+        containers:
+          app:
+            image:
+              repository: docker.io/valkey/valkey
+              tag: 9.0.1-trixie
 
     defaultPodOptions:
       securityContext:
@@ -85,6 +100,11 @@ spec:
         ports:
           http:
             port: 3003
+      valkey:
+        controller: valkey
+        ports:
+          http:
+            port: 6379
 
     route:
       app:
@@ -98,7 +118,31 @@ spec:
               - identifier: server
                 port: *port
 
+    configMaps:
+      config:
+        data:
+          # URLS
+          IMMICH_SERVER_URL: http://immich-server.services.svc.cluster.local:2283
+          IMMICH_MACHINE_LEARNING_URL: http://immich-machine-learning.services.svc.cluster.local:3003
+          PUBLIC_IMMICH_SERVER_URL: https://photos.schwarz47.at
+          # SETTINGS
+          DISABLE_REVERSE_GEOCODING: "true"
+          ENABLE_MAPBOX: "false"
+          LOG_LEVEL: log
+          NODE_ENV: production
+          UPLOAD_LOCATION: /usr/src/app/upload
+          # REDIS
+          REDIS_HOSTNAME: "immich-valkey.services.svc.cluster.local"
+          REDIS_PORT: "6379"
+
     persistence:
+      matplotlib:
+        type: emptyDir
+        advancedMounts:
+          server:
+            main:
+              - path: /config/matplotlib
+
       library:
         type: nfs
         server: 10.100.0.81
@@ -108,24 +152,23 @@ spec:
             app:
               - path: /usr/src/app/upload
 
-      machine-learning-cache:
-        existingClaim: immich-machine-learning-cache
+      cache:
+        type: persistentVolumeClaim
+        existingClaim: immich-ml-cache
         advancedMounts:
           machine-learning:
             app:
               - path: /cache
                 subPath: cache
-
-      cache:
-        type: emptyDir
-        advancedMounts:
-          machine-learning:
-            app:
               - path: /.cache
+                subPath: dotCache
 
-      config:
+      tmpfs:
         type: emptyDir
         advancedMounts:
-          machine-learning:
+          server:
             app:
-              - path: /.config
+              - path: /usr/src/app/.reverse-geocoding-dump
+                subPath: geocoding
+              - path: /usr/src/app/.transformers_cache
+                subPath: transformers
