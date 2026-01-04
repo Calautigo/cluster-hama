@@ -22,7 +22,7 @@ spec:
           app:
             image:
               repository: ghcr.io/jacobalberty/unifi-docker
-              tag: v9.4.19@sha256:ef032346e2ebdcadaadeb27e38be55f97e6b5ed6cea333d5d82ae9b58ae4068b
+              tag: v10.0@sha256:896c0ab82d33300694dae82982fd7094497afcbea0be92cadc1e94bfead731d3
               pullPolicy: IfNotPresent
             env:
               RUNAS_UID0: "false"
@@ -33,10 +33,10 @@ spec:
               JVM_MAX_HEAP_SIZE: 1024M
             resources:
               requests:
-                memory: 1Gi
+                memory: 256Mi
                 cpu: 50m
               limits:
-                memory: 1250Mi
+                memory: 2Gi
 
     service:
       app:
