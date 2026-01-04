@@ -44,6 +44,7 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Local
         annotations:
+          external-dns.alpha.kubernetes.io/hostname: controller-ap.schwarz47.at
           lbipam.cilium.io/ips: 10.100.10.204
         ports:
           https:
