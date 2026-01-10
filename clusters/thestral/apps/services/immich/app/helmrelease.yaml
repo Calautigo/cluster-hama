@@ -165,6 +165,8 @@ spec:
                 subPath: cache
               - path: /.cache
                 subPath: dotCache
+              - path: /config/matplotlib
+                subPath: matplotlib
 
       tmpfs:
         type: emptyDir
