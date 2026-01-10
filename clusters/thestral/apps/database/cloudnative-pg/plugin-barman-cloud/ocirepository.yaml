@@ -12,5 +12,3 @@ spec:
   ref:
     tag: 0.4.0
   url: oci://ghcr.io/cloudnative-pg/charts/plugin-barman-cloud
-  verify:
-    provider: cosign
