@@ -55,10 +55,9 @@ spec:
           reloader.stakater.com/auto: "true"
         pod:
           enableServiceLinks: false
-
-        resourceClaims:
-          - name: gpu
-            resourceClaimTemplateName: immich
+          resourceClaims:
+            - name: gpu
+              resourceClaimTemplateName: immich-gpu
 
         containers:
           app:
