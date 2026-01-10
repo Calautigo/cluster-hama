@@ -33,6 +33,8 @@ spec:
               tag: v2.4.1@sha256:e6a6298e67ae077808fdb7d8d5565955f60b0708191576143fc02d30ab1389d1
             env:
               IMMICH_MEDIA_LOCATION: &mediaLocation /usr/src/app/upload
+              REDIS_HOSTNAME: &redisHost "dragonfly.dbms.svc.cluster.local"
+              REDIS_DBINDEX: &redisDB "1"
             envFrom: &envFrom
               - configMapRef:
                   name: immich
@@ -65,8 +67,10 @@ spec:
               repository: ghcr.io/immich-app/immich-machine-learning
               tag: v2.3.1@sha256:379e31b8c75107b0af8141904baa8cc933d7454b88fdb204265ef11749d7d908
             env:
-              MPLCONFIGDIR: "/config/matplotlib"
+              MPLCONFIGDIR: "/cache/matplotlib"
               IMMICH_MEDIA_LOCATION: *mediaLocation
+              REDIS_HOSTNAME: *redisHost
+              REDIS_DBINDEX: *redisDB
             envFrom: *envFrom
             resources:
               claims:
@@ -76,13 +80,6 @@ spec:
                 memory: 256Mi
               limits:
                 memory: 4Gi
-
-      valkey:
-        containers:
-          app:
-            image:
-              repository: docker.io/valkey/valkey
-              tag: 9.0.1-trixie
 
     defaultPodOptions:
       securityContext:
@@ -134,9 +131,6 @@ spec:
           LOG_LEVEL: log
           NODE_ENV: production
           UPLOAD_LOCATION: /usr/src/app/upload
-          # REDIS
-          REDIS_HOSTNAME: "immich-valkey.services.svc.cluster.local"
-          REDIS_PORT: "6379"
 
     persistence:
       matplotlib:
@@ -165,8 +159,6 @@ spec:
                 subPath: cache
               - path: /.cache
                 subPath: dotCache
-              - path: /config/matplotlib
-                subPath: matplotlib
 
       tmpfs:
         type: emptyDir
