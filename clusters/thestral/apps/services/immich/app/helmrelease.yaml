@@ -82,6 +82,9 @@ spec:
               tag: 9.0.1-trixie
 
     defaultPodOptions:
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: immich
       securityContext:
         runAsNonRoot: true
         runAsUser: 2000
