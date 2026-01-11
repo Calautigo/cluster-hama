@@ -13,7 +13,8 @@ spec:
       server:
         strategy: RollingUpdate
         annotations:
-          reloader.stakater.com/auto: "true"
+          secret.reloader.stakater.com/reload: immich-secret
+          configmap.reloader.stakater.com/reload: immich-configmap
         pod:
           enableServiceLinks: false
 
@@ -32,12 +33,16 @@ spec:
               repository: ghcr.io/immich-app/immich-server
               tag: v2.4.1@sha256:e6a6298e67ae077808fdb7d8d5565955f60b0708191576143fc02d30ab1389d1
             env:
-              IMMICH_MEDIA_LOCATION: &mediaLocation /usr/src/app/upload
+              IMMICH_CONFIG_FILE: /config/immich-config.yaml
+              IMMICH_MEDIA_LOCATION: &mediaLocation /library
+              IMMICH_MACHINE_LEARNING_URL: "http://immich-machine-learning.media.svc.cluster.local:3003"
+              # Prevent NFS mount check failures
+              IMMICH_IGNORE_MOUNT_CHECK_ERRORS: "true"
+              DISABLE_REVERSE_GEOCODING: "true"
+              # Redis
               REDIS_HOSTNAME: &redisHost "dragonfly.database.svc.cluster.local"
               REDIS_DBINDEX: &redisDB "1"
             envFrom: &envFrom
-              - configMapRef:
-                  name: immich
               - secretRef:
                   name: immich-secret
             securityContext:
@@ -67,10 +72,17 @@ spec:
               repository: ghcr.io/immich-app/immich-machine-learning
               tag: v2.3.1@sha256:379e31b8c75107b0af8141904baa8cc933d7454b88fdb204265ef11749d7d908
             env:
-              MPLCONFIGDIR: "/cache/matplotlib"
-              IMMICH_MEDIA_LOCATION: *mediaLocation
               REDIS_HOSTNAME: *redisHost
               REDIS_DBINDEX: *redisDB
+              MPLCONFIGDIR: "/cache/matplotlib"
+              # ML cache folder paths
+              MACHINE_LEARNING_CACHE_FOLDER: "/cache"
+              TRANSFORMERS_CACHE: "/cache"
+              IMMICH_MEDIA_LOCATION: *mediaLocation
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
             envFrom: *envFrom
             resources:
               claims:
@@ -80,6 +92,30 @@ spec:
                 memory: 256Mi
               limits:
                 memory: 4Gi
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: &mlPort 3003
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: *mlPort
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 60
 
     defaultPodOptions:
       securityContext:
@@ -95,16 +131,15 @@ spec:
         ports:
           http:
             port: &port 2283
+          metrics-api:
+            port: 8081
+          metrics-ms:
+            port: 8082
       machine-learning:
         controller: machine-learning
         ports:
           http:
-            port: 3003
-      valkey:
-        controller: valkey
-        ports:
-          http:
-            port: 6379
+            port: *mlPort
 
     route:
       app:
@@ -118,26 +153,34 @@ spec:
               - identifier: server
                 port: *port
 
-    configMaps:
-      config:
-        data:
-          # URLS
-          IMMICH_SERVER_URL: http://immich-server.services.svc.cluster.local:2283
-          IMMICH_MACHINE_LEARNING_URL: http://immich-machine-learning.services.svc.cluster.local:3003
-          PUBLIC_IMMICH_SERVER_URL: https://photos.schwarz47.at
-          # SETTINGS
-          DISABLE_REVERSE_GEOCODING: "true"
-          ENABLE_MAPBOX: "false"
-          LOG_LEVEL: log
-          NODE_ENV: production
-          UPLOAD_LOCATION: /usr/src/app/upload
+    serviceMonitor:
+      server:
+        enabled: true
+        serviceName: server
+        endpoints:
+          - port: metrics-api
+            scheme: http
+            path: /metrics
+          - port: metrics-ms
+            scheme: http
+            path: /metrics
 
     persistence:
+      config:
+        type: secret
+        name: immich-secret
+        advancedMounts:
+          server:
+            app:
+              - path: /config/immich-config.yaml
+                subPath: immich-config.yaml
+                readOnly: true
+
       matplotlib:
         type: emptyDir
         advancedMounts:
           server:
-            main:
+            app:
               - path: /config/matplotlib
 
       library:
@@ -147,7 +190,7 @@ spec:
         advancedMounts:
           server:
             app:
-              - path: /usr/src/app/upload
+              - path: *mediaLocation
 
       cache:
         type: persistentVolumeClaim
