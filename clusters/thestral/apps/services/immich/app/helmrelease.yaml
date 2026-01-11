@@ -35,7 +35,7 @@ spec:
             env:
               IMMICH_CONFIG_FILE: /config/immich-config.yaml
               IMMICH_MEDIA_LOCATION: &mediaLocation /library
-              IMMICH_MACHINE_LEARNING_URL: "http://immich-machine-learning.media.svc.cluster.local:3003"
+              IMMICH_MACHINE_LEARNING_URL: "http://immich-machine-learning.services.svc.cluster.local:3003"
               # Prevent NFS mount check failures
               IMMICH_IGNORE_MOUNT_CHECK_ERRORS: "true"
               DISABLE_REVERSE_GEOCODING: "true"
