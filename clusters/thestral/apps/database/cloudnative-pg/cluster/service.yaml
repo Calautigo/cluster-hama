@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/instance: *app
   annotations:
     external-dns.alpha.kubernetes.io/hostname: postgres-db.schwarz47.at
-    lbipam.cilium.io/ips: 10.100.10.209
+    lbipam.cilium.io/ips: 10.100.10.210
 spec:
   type: LoadBalancer
   ports:
