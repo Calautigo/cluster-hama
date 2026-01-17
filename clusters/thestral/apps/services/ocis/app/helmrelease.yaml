@@ -5,11 +5,10 @@ kind: HelmRelease
 metadata:
   name: &app ocis
 spec:
+  interval: 30m
   chartRef:
     kind: OCIRepository
-    name: app-template
-  interval: 30m
-
+    name: ocis
   values:
     controllers:
       ocis:
@@ -23,9 +22,8 @@ spec:
             command: [/bin/sh]
             args: ["-c", "ocis init || true; ocis server"]
             env:
-              TZ: ${TIMEZONE}
               OCIS_INSECURE: true
-              OCIS_URL: https://ocis.${SECRET_DOMAIN}
+              OCIS_URL: https://cloud.schwarz47.at
               PROXY_TLS: false
               DEMO_USERS: false
               PROXY_HTTP_ADDR: 0.0.0.0:9200
@@ -38,13 +36,6 @@ spec:
               # NOTIFICATIONS_SMTP_PORT: "2525"
               # NOTIFICATIONS_SMTP_SENDER: "ocis@${SECRET_DOMAIN}"
               # NOTIFICATIONS_SMTP_INSECURE: true
-              # Authelia OIDC
-              WEB_OIDC_METADATA_URL: https://auth.${SECRET_DOMAIN}/.well-known/openid-configuration
-              OCIS_OIDC_ISSUER: https://auth.${SECRET_DOMAIN}
-              WEB_OIDC_CLIENT_ID: ocis
-              # Without this, I got the following errors in the ownCloud log:
-              # Authelia: failed to verify access token: token contains an invalid number of segments
-              # Authentik:  failed to verify access token: the JWT has an invalid kid: could not find kid in JWT header
               PROXY_OIDC_ACCESS_TOKEN_VERIFY_METHOD: none
               PROXY_OIDC_REWRITE_WELLKNOWN: true
               PROXY_AUTOPROVISION_ACCOUNTS: true
@@ -53,7 +44,7 @@ spec:
               PROXY_USER_OIDC_CLAIM: "preferred_username"
               PROXY_ROLE_ASSIGNMENT_DRIVER: oidc
               WEB_OIDC_SCOPE: "openid profile email groups"
-              PROXY_ROLE_ASSIGNMENT_OIDC_CLAIM: groups
+              PROXY_ROLE_ASSIGNMENT_OIDC_CLAIM: ocis_role
             envFrom:
               - secretRef:
                   name: ocis-secret
@@ -63,10 +54,13 @@ spec:
               readiness:
                 enabled: true
         pod:
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            runAsNonRoot: true
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 2000
+        runAsGroup: 2000
+        fsGroup: 2000
+        fsGroupChangePolicy: "OnRootMismatch"
+
     service:
       app:
         controller: ocis
@@ -76,46 +70,39 @@ spec:
             primary: true
           metrics:
             port: 9205
+
     serviceMonitor:
       app:
         serviceName: ocis
         endpoints:
           - port: metrics
+
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - cloud.schwarz47.at
         parentRefs:
           - name: envoy-internal
-            namespace: networking
-            sectionName: https
-        rules:
-          - backendRefs:
-              - name: *app
-                port: *port
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/description: File Sharing
-          gethomepage.dev/group: Home
-          gethomepage.dev/icon: owncloud.png
-          gethomepage.dev/name: OCIS
+            namespace: network
+
     persistence:
-      storage-users:
+      storage:
         type: nfs
-        server: nas.${PUBLIC_DOMAIN}
-        path: /mnt/tank/documents/ocis
-        globalMounts:
-          - path: /data
-            subPath: storage-users
+        server: 10.100.0.81
+        path: /cloud
+        advancedMounts:
+          server:
+            app:
+              - path: /data
+
       data:
-        type: nfs
-        server: nas.${PUBLIC_DOMAIN}
-        path: /mnt/tank/documents/ocis
+        existingClaim: *app
         globalMounts:
           - path: /etc/ocis
             subPath: config
           - path: /var/lib/ocis
             subPath: data
+
       config-proxy:
         type: configMap
         name: ocis-configmap
