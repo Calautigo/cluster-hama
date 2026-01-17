@@ -53,7 +53,8 @@ spec:
                 enabled: true
               readiness:
                 enabled: true
-        pod:
+                
+    defaultPodOptions:
       securityContext:
         runAsNonRoot: true
         runAsUser: 2000
