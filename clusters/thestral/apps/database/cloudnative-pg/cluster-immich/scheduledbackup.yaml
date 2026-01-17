@@ -12,6 +12,6 @@ spec:
   pluginConfiguration:
     name: barman-cloud.cloudnative-pg.io
     parameters:
-      barmanObjectName: versity-thestral
+      barmanObjectName: versity-thestral-immich
   cluster:
     name: *cluster
