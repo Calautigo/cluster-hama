@@ -53,7 +53,7 @@ spec:
                 enabled: true
               readiness:
                 enabled: true
-                
+
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -92,7 +92,7 @@ spec:
         server: 10.100.0.81
         path: /cloud
         advancedMounts:
-          server:
+          ocis:
             app:
               - path: /data
 
