@@ -35,13 +35,35 @@ spec:
               OC_URL: https://cloud.schwarz47.at
               PROXY_TLS: false
               IDM_CREATE_DEMO_USERS: false
-              IDM_ADMIN_PASSWORD:
-                valueFrom:
-                  secretKeyRef:
-                    name: opencloud-secret
-                    key: idm-admin-password
+              
               GATEWAY_GRPC_ADDR: 0.0.0.0:9142
               OC_ENABLE_OCM: false
+
+              # OIDC
+              IDP_DOMAIN: id.schwarz47.at
+              OC_OIDC_ISSUER: https://id.schwarz47.at
+              
+              PROXY_ROLE_ASSIGNMENT_DRIVER: "oidc"
+              PROXY_ACCESS_TOKEN_VERIFY_METHOD: "none"
+              PROXY_AUTOPROVISION_ACCOUNTS: "true"
+              PROXY_AUTOPROVISION_CLAIM_USERNAME: "preferred_username"
+              PROXY_USER_OIDC_CLAIM: "preferred_username"
+              PROXY_USER_CS3_CLAIM: username
+
+              ## Group assignment
+              PROXY_ROLE_ASSIGNMENT_OIDC_CLAIM: "groups"
+              WEB_OIDC_SCOPE: "openid profile email groups"
+
+              PROXY_OIDC_REWRITE_WELLKNOWN: "true"
+
+              # S3 storage
+              STORAGE_USERS_DRIVER: decomposeds3
+              STORAGE_SYSTEM_DRIVER: decomposed
+              STORAGE_USERS_DECOMPOSEDS3_REGION: default
+              STORAGE_USERS_DECOMPOSEDS3_ENDPOINT: http://versity.storage.svc.cluster.local:7070
+              STORAGE_USERS_DECOMPOSEDS3_BUCKET: opencloud
+
+              STORAGE_USERS_EVENTS_NUM_CONSUMERS: 5
 
             envFrom:
               - secretRef:
