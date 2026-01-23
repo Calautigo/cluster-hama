@@ -3,19 +3,21 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app ocis
-  namespace: services
+  name: &app opencloud
+  namespace: &namespace services
 spec:
-  targetNamespace: services
+  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
+    - name: volsync
+      namespace: storage
   components:
     - ../../../../components/volsync
-  path: ./clusters/thestral/apps/services/ocis/app
+  path: ./clusters/thestral/apps/services/opencloud/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -27,4 +29,5 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 10Gi
+      VOLSYNC_CAPACITY: 100Gi
+      VOLSYNC_CLAIM: opencloud-data
