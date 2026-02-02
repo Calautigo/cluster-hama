@@ -23,7 +23,7 @@ spec:
     - name: external-secrets
       namespace: external-secrets
     - name: volsync
-      namespace: storage
+      namespace: system
   components:
     - ../../../../components/volsync
   postBuild:

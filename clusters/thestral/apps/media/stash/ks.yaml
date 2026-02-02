@@ -21,7 +21,7 @@ spec:
   wait: false
   dependsOn:
     - name: volsync
-      namespace: storage
+      namespace: system
   components:
     - ../../../../components/volsync
   postBuild:
