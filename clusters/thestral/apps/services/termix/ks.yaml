@@ -27,4 +27,5 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      VOLSYNC_CLAIM: termix-data
       VOLSYNC_CAPACITY: 1Gi
