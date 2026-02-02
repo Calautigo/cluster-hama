@@ -19,8 +19,6 @@ spec:
   postBuild:
     substitute:
       APP: paperless
-      APP_UID: "1000"
-      APP_GID: "65542"
       VOLSYNC_CLAIM: paperless-data
       VOLSYNC_CAPACITY: 15Gi
   prune: true
