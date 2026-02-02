@@ -9,3 +9,4 @@ resources:
   - ./keda/ks.yaml
   - ./reloader/ks.yaml
   - ./spegel/ks.yaml
+  - ./volsync/ks.yaml

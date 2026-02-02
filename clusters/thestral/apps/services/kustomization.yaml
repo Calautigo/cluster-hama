@@ -5,7 +5,6 @@ kind: Kustomization
 namespace: services
 resources:
   - ./namespace.yaml
-  # - ./bookstack/ks.yaml
   - ./immich/ks.yaml
   - ./ocis/ks.yaml
   - ./onlyoffice/ks.yaml

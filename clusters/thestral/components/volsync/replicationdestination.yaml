@@ -11,10 +11,6 @@ spec:
   restic:
     accessModes:
       - "${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"
-    cacheAccessModes: 
-      - "${VOLSYNC_CACHE_ACCESSMODES:-ReadWriteOnce}"
-    cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:-5Gi}"
-    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-openebs-hostpath}"
     capacity: "${VOLSYNC_CAPACITY:-5Gi}"
     cleanupCachePVC: true
     cleanupTempPVC: true
@@ -24,8 +20,8 @@ spec:
       runAsUser: ${APP_UID:-2000}
       runAsGroup: ${APP_GID:-2000}
       fsGroup: ${APP_GID:-2000}
-    repository: "${APP}-volsync-versity"
-    # sourceIdentity:
-    #   sourceName: ${APP}
+    repository: "${APP}-volsync-secret"
+    sourceIdentity:
+      sourceName: ${APP}
     storageClassName: "${VOLSYNC_STORAGECLASS:-csi-rbd-sc}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-rbd-snapclass}"

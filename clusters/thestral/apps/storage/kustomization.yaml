@@ -8,4 +8,3 @@ resources:
   - ./ceph-csi/ks.yaml
   - ./openebs/ks.yaml
   - ./versity/ks.yaml
-  - ./volsync/ks.yaml
