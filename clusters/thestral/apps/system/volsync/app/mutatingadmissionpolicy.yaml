@@ -101,8 +101,8 @@ spec:
               value: Object.spec.template.spec.volumes{
                 name: "repository",
                 nfs: Object.spec.template.spec.volumes.nfs{
-                  server: "gladius.bjw-s.internal",
-                  path: "/mnt/tank/backup/volsync"
+                  server: "10.100.0.81",
+                  path: "/backup/volsync/thestral"
                 }
               }
             },
