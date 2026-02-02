@@ -8,4 +8,6 @@ resources:
   # Flux-Kustomizations
   - ./envoy-gateway/ks.yaml
   - ./external-dns/ks.yaml
+  - ./newt/ks.yaml
+  # - ./smtp-relay/ks.yaml
   - ./external-services/ks.yaml

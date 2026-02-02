@@ -6,7 +6,7 @@ namespace: services
 resources:
   - ./namespace.yaml
   - ./immich/ks.yaml
-  - ./ocis/ks.yaml
+  - ./opencloud/ks.yaml
   - ./onlyoffice/ks.yaml
   - ./paperless/ks.yaml
   - ./termix/ks.yaml

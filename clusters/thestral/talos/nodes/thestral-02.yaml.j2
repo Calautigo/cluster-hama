@@ -6,10 +6,8 @@ machine:
     hostname: thestral-02.infra.gryffindor.schwarz47.at
     interfaces:
       - interface: ens18
-        vlans:
-          - vlanId: 100
-            addresses:
-              - 10.100.10.72/16
+        addresses:
+          - 10.100.10.72/24
       - interface: ens19
         addresses:
           - 10.44.0.72/16

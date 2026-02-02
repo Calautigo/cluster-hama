@@ -64,14 +64,14 @@ machine:
     image: ghcr.io/siderolabs/kubelet:v1.34.2
     nodeIP:
       validSubnets:
-        - 10.100.0.0/16
+        - 10.100.10.0/24
   network:
     interfaces:
       - interface: ens18
         mtu: 1500
         routes:
           - network: 0.0.0.0/0
-            gateway: 10.100.0.1
+            gateway: 10.100.10.1
             metric: 10
         vip:
           ip: 10.100.10.70
@@ -96,7 +96,7 @@ machine:
   time:
     disabled: false
     servers:
-      - 10.100.0.1
+      - 10.100.10.1
   token: sops://talos/.trustdinfo.token
   udev:
     rules:
@@ -126,7 +126,7 @@ cluster:
     disabled: true
   etcd:
     advertisedSubnets:
-      - 10.100.0.0/16
+      - 10.100.10.0/24
     ca:
       crt: sops://talos/.certs.etcd.crt
       key: sops://talos/.certs.etcd.key
