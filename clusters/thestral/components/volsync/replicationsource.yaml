@@ -20,6 +20,6 @@ spec:
     repository: ${APP}-volsync-secret
     retain:
       hourly: 24
-      daily: 7
+      daily: 6
     storageClassName: "${VOLSYNC_STORAGECLASS:-csi-rbd-sc}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-rbd-snapclass}"
