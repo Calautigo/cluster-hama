@@ -2,7 +2,7 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: "${APP}-bootstrap-versity"
+  name: "${APP}-bootstrap"
   labels:
     kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
 spec:
@@ -20,7 +20,7 @@ spec:
       runAsUser: ${APP_UID:-2000}
       runAsGroup: ${APP_GID:-2000}
       fsGroup: ${APP_GID:-2000}
-    repository: "${APP}-volsync-secret"
+    repository: ${APP}-volsync-secret
     sourceIdentity:
       sourceName: ${APP}
     storageClassName: "${VOLSYNC_STORAGECLASS:-csi-rbd-sc}"

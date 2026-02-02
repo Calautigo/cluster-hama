@@ -2,7 +2,7 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: ${APP}-versity
+  name: ${APP}
 spec:
   sourcePVC: "${VOLSYNC_CLAIM:-${APP}}"
   trigger:
@@ -17,7 +17,7 @@ spec:
       runAsGroup: ${APP_GID:-2000}
       fsGroup: ${APP_GID:-2000}
     parallelism: 2
-    repository: ${APP}-volsync-versity
+    repository: ${APP}-volsync-secret
     retain:
       hourly: 24
       daily: 7
