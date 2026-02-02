@@ -7,7 +7,7 @@ spec:
   sourcePVC: "${VOLSYNC_CLAIM:-${APP}}"
   trigger:
     schedule: "0 * * * *"
-  restic:
+  kopia:
     accessModes:
       - "${VOLSYNC_SNAP_ACCESSMODES:=ReadWriteOnce}"
     compression: zstd-fastest
