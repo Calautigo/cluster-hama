@@ -26,18 +26,20 @@ spec:
       memory: 3Gi
   monitoring:
     enablePodMonitor: true
-  backup:
-    volumeSnapshot:
-       className: csi-rbd-snapclass
-       snapshotOwnerReference: cluster
+  
+  # TODO: Add S3 storage
+  # backup:
+  #   volumeSnapshot:
+  #      className: csi-rbd-snapclass
+  #      snapshotOwnerReference: cluster
 
-  plugins:
-    - enabled: true
-      isWALArchiver: true
-      name: barman-cloud.cloudnative-pg.io
-      parameters:
-        barmanObjectName: versity-thestral
-        serverName: postgres-v2
+  # plugins:
+  #   - enabled: true
+  #     isWALArchiver: true
+  #     name: barman-cloud.cloudnative-pg.io
+  #     parameters:
+  #       barmanObjectName: versity-thestral
+  #       serverName: postgres-v2
   bootstrap:
     initdb:
       database: app

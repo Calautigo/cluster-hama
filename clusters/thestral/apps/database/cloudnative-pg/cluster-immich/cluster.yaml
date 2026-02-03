@@ -35,18 +35,20 @@ spec:
     enablePodAntiAffinity: true
     topologyKey: kubernetes.io/hostname
     podAntiAffinityType: required
-  backup:
-    volumeSnapshot:
-       className: csi-rbd-snapclass
-       snapshotOwnerReference: cluster
 
-  plugins:
-    - enabled: true
-      isWALArchiver: true
-      name: barman-cloud.cloudnative-pg.io
-      parameters:
-        barmanObjectName: versity-thestral-immich
-        serverName: immich-v2
+  # TODO: Add S3 storage
+  # backup:
+  #   volumeSnapshot:
+  #      className: csi-rbd-snapclass
+  #      snapshotOwnerReference: cluster
+
+  # plugins:
+  #   - enabled: true
+  #     isWALArchiver: true
+  #     name: barman-cloud.cloudnative-pg.io
+  #     parameters:
+  #       barmanObjectName: versity-thestral-immich
+  #       serverName: immich-v2
 
   bootstrap:
     initdb:
