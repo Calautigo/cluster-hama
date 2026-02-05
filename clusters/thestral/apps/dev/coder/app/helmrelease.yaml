@@ -1,0 +1,82 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: coder
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: coder
+
+  driftDetection:
+    mode: enabled
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+
+  values:
+    podAnnotations:
+      reloader.stakater.com/auto: 'true'
+
+    coder:
+      initContainers:
+        - name: init-db
+          envFrom:
+            - secretRef:
+                name: &envFrom coder-secret
+          image:
+            repository: ghcr.io/home-operations/postgres-init
+            tag: 18
+
+      env:
+        - name: CODER_ACCESS_URL
+          value: https://coder.schwarz47.at
+
+        - name: CODER_DISABLE_PASSWORD_AUTH
+          value: "true"
+        - name: CODER_PROMETHEUS_ENABLE
+          value: "true"
+        - name: CODER_TELEMETRY_ENABLE
+          value: "false"
+
+        # OIDC
+        - name: CODER_OIDC_ISSUER_URL
+          value: https://id.schwarz47.at
+        - name: CODER_OIDC_EMAIL_DOMAIN
+          value: "schwarz47.at"
+        - name: CODER_OIDC_SIGN_IN_TEXT
+          value: Sign in with PocketID
+        - name: CODER_OIDC_ICON_URL
+          value: "https://cdn.jsdelivr.net/gh/selfhst/icons@main/svg/pocket-id.svg"
+        - name: CODER_OIDC_GROUP_AUTO_CREATE
+          value: "true"
+        - name: CODER_OIDC_SCOPES
+          value: "openid,profile,email,groups,offline_access"
+        - name: CODER_OIDC_GROUP_FIELD
+          value: "groups"
+        - name: CODER_OIDC_GROUP_MAPPING
+          value: |
+            {"core": "CoderAdmins"}
+        - name: CODER_OIDC_ROLE_FIELD
+          value: "groups"
+        - name: CODER_OIDC_USER_ROLE_MAPPING
+          value: |
+            {"core": ["owner"]}
+      envFrom:
+        - secretRef:
+            name: *envFrom
+
+      resources:
+        limits:
+          memory: 1Gi
+        requests:
+          cpu: 71m
+
+      service:
+        type: ClusterIP
