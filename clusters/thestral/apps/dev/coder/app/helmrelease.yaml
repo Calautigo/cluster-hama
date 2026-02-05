@@ -30,9 +30,7 @@ spec:
           envFrom:
             - secretRef:
                 name: &envFrom coder-secret
-          image:
-            repository: ghcr.io/home-operations/postgres-init
-            tag: 18
+          image: ghcr.io/home-operations/postgres-init:18
 
       env:
         - name: CODER_ACCESS_URL
