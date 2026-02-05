@@ -66,6 +66,12 @@ spec:
         - name: CODER_OIDC_USER_ROLE_MAPPING
           value: |
             {"core": ["owner"]}
+
+        # Github
+        - name: CODER_EXTERNAL_AUTH_0_ID
+          value: "primary-github"
+        - name: CODER_EXTERNAL_AUTH_0_TYPE
+          value: "github"
       envFrom:
         - secretRef:
             name: *envFrom
