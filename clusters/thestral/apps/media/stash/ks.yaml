@@ -27,5 +27,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      VOLSYNC_NAME: stash-bootstrap
       VOLSYNC_CLAIM: stash-config
       VOLSYNC_CAPACITY: 1Gi
