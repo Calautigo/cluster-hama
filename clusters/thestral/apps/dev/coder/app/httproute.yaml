@@ -11,4 +11,4 @@ spec:
   rules:
     - backendRefs:
         - name: coder
-          port: 7080
+          port: 80
