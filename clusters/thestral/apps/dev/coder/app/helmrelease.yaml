@@ -69,7 +69,7 @@ spec:
 
         # Github
         - name: CODER_EXTERNAL_AUTH_0_ID
-          value: "coder.schwarz47.at"
+          value: "primary-github"
         - name: CODER_EXTERNAL_AUTH_0_TYPE
           value: "github"
       envFrom:
