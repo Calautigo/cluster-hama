@@ -44,7 +44,7 @@ spec:
   dependsOn:
     - name: volsync
   interval: 1h
-  path: "./lusters/thestral/apps/system/volsync/maintenance"
+  path: "./clusters/thestral/apps/system/volsync/maintenance"
   postBuild:
     substitute:
       APP: volsync
