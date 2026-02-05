@@ -35,7 +35,6 @@ spec:
               JELLYFIN_PublishedServerUrl: https://jellyfin.schwarz47.at
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
             probes:
               liveness: &probes
