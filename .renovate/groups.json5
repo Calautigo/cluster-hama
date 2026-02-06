@@ -39,6 +39,16 @@
         commitMessageTopic: "{{{groupName}}} group",
       },
       minimumGroupSize: 5,
-    }
+    },
+    {
+      description: "Talos group",
+      groupName: "Talos",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/installer/", "/talosctl/"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      minimumGroupSize: 2,
+    },
   ],
 }
