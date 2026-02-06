@@ -17,3 +17,4 @@
   kubernetes: {
     managerFilePatterns: ["/^clusters/.+\\.yaml(?:\\.j2)?$/"],
   }
+}
