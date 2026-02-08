@@ -16,7 +16,7 @@ spec:
           app:
             image:
               repository: nodered/node-red
-              tag: 4.1.2-18-minimal@sha256:b2904082cebbf79b0f232cabf04c170741c34bec15c1d26ebe17f4e1f30492e9
+              tag: 4.1.4-18-minimal@sha256:e48c389d470fa1836a49f2b003dfb812ac7c1e91833517b842b13623f4fcd35f
             env:
               FLOWS: "flows.json"
               NODE_RED_ENABLE_PROJECTS: "true"
