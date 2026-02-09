@@ -88,6 +88,13 @@ spec:
         globalMounts:
           - path: /data/shared
 
+      hama:
+        type: nfs
+        server: 10.100.0.81
+        path: /safe/hama
+        globalMounts:
+          - path: /data/hama
+
       users:
         type: nfs
         server: 10.100.0.81
