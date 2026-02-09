@@ -63,7 +63,7 @@ spec:
               - path: /config/config.yaml
                 subPath: config.yaml
                 readOnly: true
-      configDir:
+      configdir:
         existingClaim: *app
         globalMounts:
           - path: /config
