@@ -6,7 +6,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: paperless
+    name: termix
   interval: 30m
   values:
     controllers:

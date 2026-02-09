@@ -5,8 +5,8 @@ kind: Kustomization
 namespace: services
 resources:
   - ./namespace.yaml
+  - ./filebrowser/ks.yaml
   - ./immich/ks.yaml
-  - ./opencloud/ks.yaml
   - ./onlyoffice/ks.yaml
   - ./paperless/ks.yaml
   - ./termix/ks.yaml
