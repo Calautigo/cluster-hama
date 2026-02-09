@@ -24,7 +24,7 @@ spec:
               FILEBROWSER_CONFIG: "/config/config.yaml"
             envFrom:
               - secretRef:
-                name: fliebrowser-secret
+                  name: filebrowser-secret
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
