@@ -68,24 +68,24 @@ spec:
         globalMounts:
           - path: /config
 
-      paperlesss:
+      paperless:
         type: nfs
         server: 10.100.0.81
         path: /safe/apps/paperless
         globalMounts:
-          - path:/data/apps/paperless
+          - path: /data/apps/paperless
       photos:
         type: nfs
         server: 10.100.0.81
         path: /photos
         globalMounts:
-          - path:/data/photos
+          - path: /data/photos
       users:
         type: nfs
         server: 10.100.0.81
         path: /users
         globalMounts:
-          - path:/data/users
+          - path: /data/users
 
       tmp:
         type: emptyDir
