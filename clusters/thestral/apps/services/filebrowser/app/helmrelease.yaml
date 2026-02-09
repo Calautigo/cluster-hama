@@ -81,10 +81,17 @@ spec:
         globalMounts:
           - path: /config
 
+      shared:
+        type: nfs
+        server: 10.100.0.81
+        path: /safe/shared
+        globalMounts:
+          - path: /data/shared
+
       users:
         type: nfs
         server: 10.100.0.81
-        path: /users
+        path: /safe/users
         globalMounts:
           - path: /data/users
 
