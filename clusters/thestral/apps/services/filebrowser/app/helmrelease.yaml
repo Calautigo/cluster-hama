@@ -58,7 +58,7 @@ spec:
         type: secret
         name: filebrowser-secret
         advancedMounts:
-          server:
+          filebrowser:
             app:
               - path: /config/config.yaml
                 subPath: config.yaml
