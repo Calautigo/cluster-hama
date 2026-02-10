@@ -25,7 +25,7 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/calautigo/hass-dashboard
+              repository: ghcr.io/ds47-labs/hass-dashboard
               tag: latest
               pullPolicy: Always
 
