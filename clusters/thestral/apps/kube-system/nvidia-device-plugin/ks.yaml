@@ -5,6 +5,7 @@ metadata:
   name: nvidia-device-plugin
   namespace: kube-system
 spec:
+  targetNamespace: kube-system
   path: ./clusters/thestral/apps/kube-system/nvidia-device-plugin/app
   prune: true
   sourceRef:
