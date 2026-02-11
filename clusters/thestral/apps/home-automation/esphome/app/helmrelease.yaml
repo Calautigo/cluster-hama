@@ -104,6 +104,8 @@ spec:
             app:
               - path: /cache
                 subPath: cache
+              - path: /tmp
+                subPath: app-tmp
             code-server:
               - path: /tmp
                 subPath: code-server-tmp
