@@ -52,7 +52,7 @@ upgrade-k8s version:
 
 [doc('Upgrade Talos version on a node')]
 upgrade-node node:
-  talosctl -n "{{ node }}" upgrade -i "$(just talos machine-image {{ node }})" -m powercycle --timeout=10m
+  talosctl -n "{{ node }}" upgrade -i "$(just thestral-talos machine-image {{ node }})" -m powercycle --timeout=10m
 
 [doc('Download Talos machine image')]
 download-image version schematic:
