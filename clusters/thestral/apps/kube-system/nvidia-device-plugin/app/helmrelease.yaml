@@ -1,0 +1,45 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nvidia-device-plugin
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: nvidia-device-plugin
+      version: 0.18.2
+      sourceRef:
+        kind: HelmRepository
+        name: nvidia-device-plugin
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    config:
+      default: "default"
+      map:
+        default: |-
+          version: v1
+          sharing:
+            timeSlicing:
+              resources:
+              - name: nvidia.com/gpu
+                replicas: 10
+
+    runtimeClassName: nvidia
+    nodeSelector:
+      feature.node.kubernetes.io/pci-10de.present: "true"
+    nfd:
+      enabled: false
+    gfd:
+      enabled: false
