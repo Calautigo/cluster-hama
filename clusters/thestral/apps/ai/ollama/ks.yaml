@@ -9,6 +9,8 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
+  components:
+    - ../../../../components/volsync
   path: "./clusters/thestral/apps/ai/ollama/app"
   prune: true
   sourceRef:
@@ -21,5 +23,4 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CLAIM: ollama-config
       VOLSYNC_CAPACITY: 1Gi
