@@ -8,9 +8,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: openebs
-      namespace: storage
   interval: 30m
   path: "./clusters/thestral/apps/ai/ollama/app"
   prune: true
