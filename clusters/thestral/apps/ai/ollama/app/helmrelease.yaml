@@ -81,7 +81,7 @@ spec:
 
     persistence:
       data:
-        existingClaim: ollama-config
+        existingClaim: ollama
         globalMounts:
           - path: /home/ubuntu/.ollama
       models:
