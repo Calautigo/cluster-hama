@@ -56,7 +56,7 @@ spec:
               readOnlyRootFilesystem: true
         pod:
           nodeSelector:
-            nvidia.com/gpu.present: "true"
+            feature.node.kubernetes.io/pci-10de.present=true: "true"
           runtimeClassName: nvidia
           securityContext:
             runAsNonRoot: true
