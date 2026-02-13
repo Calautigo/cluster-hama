@@ -5,4 +5,4 @@ kind: Kustomization
 namespace: ai
 resources:
   - ./namespace.yaml
-  # - ./ollama/ks.yaml
+  - ./ollama/ks.yaml
