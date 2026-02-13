@@ -21,3 +21,8 @@ spec:
   targetNamespace: ai
   timeout: 5m
   wait: true
+  postBuild:
+    substitute:
+      APP: *app
+      VOLSYNC_CLAIM: ollama-config
+      VOLSYNC_CAPACITY: 1Gi

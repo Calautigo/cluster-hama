@@ -8,114 +8,91 @@ spec:
   chartRef:
     kind: OCIRepository
     name: ollama
-  maxHistory: 2
+  driftDetection:
+      mode: enabled
+  maxHistory: 3
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     controllers:
       ollama:
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
-          app:
+          ollama:
             image:
-              repository: intelanalytics/ipex-llm-inference-cpp-xpu
-              tag: 2.3.0-SNAPSHOT
-
-            command:
-              - sh
-              - -c
-              - >-
-                mkdir -p /llm/ollama && cd /llm/ollama && init-ollama && exec ./ollama serve
-
+              repository: docker.io/ollama/ollama
+              tag: 0.15.6@sha256:5f7a20da9b4d42d1909b4693f90942135bcabc335ee42d529c0d143c44a92311
             env:
-              OLLAMA_MODELS: &modelPath /models
-              OLLAMA_HOST: "0.0.0.0"
-              no_proxy: "localhost,127.0.0.1"
-              # DEVICE: "Arc"
-              OLLAMA_INTEL_GPU: "true"
-              OLLAMA_NUM_GPU: "999"
-              ZES_ENABLE_SYSMAN: "1"
-
+              OLLAMA_NUM_PARALLEL: 1
+              OLLAMA_CONTEXT_LENGTH: 8092
+              OLLAMA_MODELS: /models
+              OLLAMA_KEEP_ALIVE: 30m
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: http
+              readiness: *probes
             resources:
               requests:
-                cpu: "2"
-                memory: "1Gi"
+                cpu: 2
+                memory: 8Gi
               limits:
-                cpu: "8"
-                memory: "16Gi"
-                gpu.intel.com/i915: 1
+                nvidia.com/gpu: 1
+                cpu: 8
+                memory: 16Gi
             securityContext:
-              privileged: false
-              capabilities:
-                add:
-                  - SYS_ADMIN
-
-            probes:
-              readiness:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /
-                    port: 11434
-                  initialDelaySeconds: 30
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              liveness: &probe
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /
-                    port: 11434
-                  initialDelaySeconds: 60
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              startup: *probe
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+              readOnlyRootFilesystem: true
+        pod:
+          nodeSelector:
+            nvidia.com/gpu.present: "true"
+          runtimeClassName: nvidia
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 2000
+            runAsGroup: 2000
+            fsGroup: 2000
+            fsGroupChangePolicy: OnRootMismatch
 
     service:
-      app:
-        type: LoadBalancer
-        externalTrafficPolicy: Local
-        annotations:
-          lbipam.cilium.io/ips: 10.100.10.206
+      ollama:
         ports:
           http:
             port: 11434
 
     route:
       app:
-        hostnames: ["ollama.schwarz47.at"]
+        hostnames:
+          - ollama.schwarz47.at
         parentRefs:
           - name: envoy-internal
             namespace: network
 
     persistence:
+      data:
+        existingClaim: ollama-config
+        globalMounts:
+          - path: /home/ubuntu/.ollama
       models:
-        type: custom
-        volumeSpec:
-          ephemeral:
-            volumeClaimTemplate:
-              spec:
-                accessModes:
-                  - ReadWriteOnce
-                storageClassName: "openebs-hostpath"
-                resources:
-                  requests:
-                    storage: 50Gi
-        advancedMounts:
-          ollama:
-            app:
-              - path: /root/.ollama
-                subPath: .ollama
-              - path: *modelPath
-                subPath: models
+        accessMode: ReadWriteOnce
+        size: 250Gi
+        storageClass: csi-rbd-sc
+        suffix: models
+        type: persistentVolumeClaim
+      run:
+        type: emptyDir
+        sizeLimit: 128Mi
+      tmp:
+        type: emptyDir
+        sizeLimit: 128Mi
