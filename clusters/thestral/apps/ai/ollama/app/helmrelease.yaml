@@ -24,14 +24,29 @@ spec:
               OLLAMA_MODELS: &modelPath /models
               OLLAMA_KEEP_ALIVE: 30m
             probes:
-              liveness: &probes
+              readiness:
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
-                    path: /
-                    port: http
-              readiness: *probes
+                    path: /api/tags
+                    port: 11434
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/tags
+                    port: 11434
+                  initialDelaySeconds: 60
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              startup: *probe
             securityContext:
               privileged: true
             resources:
