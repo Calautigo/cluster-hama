@@ -84,7 +84,7 @@ spec:
       data:
         existingClaim: ollama
         globalMounts:
-          - path: /home/ubuntu/.ollama
+          - path: /.ollama
       models:
         existingClaim: ollama-models
         globalMounts:
