@@ -109,4 +109,4 @@ spec:
         advancedMounts:
           n8n:
             app:
-              - path: /home/node/.n8n
+              - path: /.n8n
