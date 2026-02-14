@@ -6,7 +6,7 @@ resources:
   - ./certificate.yaml
   # - ./external.yaml
   - ./gatewayparams.yaml
-  - ./https-redirect.yaml
   - ./httplistenerpolicy.yaml
+  - ./https-redirect.yaml
   - ./internal.yaml
   - ./trafficpolicy.yaml

@@ -10,6 +10,6 @@ spec:
     name: kgateway
   install:
     crds: CreateReplace
-  interval: 30m
+  interval: 10m
   upgrade:
     crds: CreateReplace
