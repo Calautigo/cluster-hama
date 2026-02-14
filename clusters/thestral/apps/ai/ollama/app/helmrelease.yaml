@@ -51,7 +51,7 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                  - key: nvidia.com/gpu
+                  - key: feature.node.kubernetes.io/pci-10de.present
                     operator: In
                     values: ["true"]
 
