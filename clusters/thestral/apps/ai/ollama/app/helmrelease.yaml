@@ -80,14 +80,6 @@ spec:
           http:
             port: 11434
 
-    route:
-      app:
-        hostnames:
-          - ollama.schwarz47.at
-        parentRefs:
-          - name: envoy-internal
-            namespace: network
-
     persistence:
       data:
         existingClaim: ollama

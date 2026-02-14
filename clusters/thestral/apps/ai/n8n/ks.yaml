@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app n8n
+  namespace: &namespace ai
+spec:
+  targetNamespace: *namespace
+  interval: 30m
+  path: ./clusters/thestral/apps/ai/n8n/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: false
+  dependsOn:
+    - name: volsync
+      namespace: system
+  components:
+    - ../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: *app
+      VOLSYNC_NAME: n8n-bootstrap
+      VOLSYNC_CAPACITY: 5Gi
