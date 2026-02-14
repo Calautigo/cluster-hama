@@ -11,8 +11,6 @@ spec:
   values:
     controllers:
       ollama:
-        annotations:
-          reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
