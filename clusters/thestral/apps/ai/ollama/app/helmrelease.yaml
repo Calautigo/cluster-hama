@@ -31,7 +31,7 @@ spec:
             env:
               OLLAMA_NUM_PARALLEL: 1
               OLLAMA_CONTEXT_LENGTH: 8092
-              OLLAMA_MODELS: /models
+              OLLAMA_MODELS: &modelPath /models
               OLLAMA_KEEP_ALIVE: 30m
             probes:
               liveness: &probes
@@ -56,7 +56,7 @@ spec:
               readOnlyRootFilesystem: true
         pod:
           nodeSelector:
-            feature.node.kubernetes.io/pci-10de.present: "true"
+            nvidia.com/gpu.present: "true"
           runtimeClassName: nvidia
           securityContext:
             runAsNonRoot: true
