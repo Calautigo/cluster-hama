@@ -114,4 +114,4 @@ spec:
         medium: Memory
         sizeLimit: 128Mi
         globalMounts:
-          - path: ./cache
+          - path: /.cache
