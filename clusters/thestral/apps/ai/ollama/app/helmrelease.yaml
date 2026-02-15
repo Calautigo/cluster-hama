@@ -76,6 +76,9 @@ spec:
 
     service:
       app:
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: ollama.ds47.dev
+          lbipam.cilium.io/ips: 10.100.10.205
         ports:
           http:
             port: 11434
