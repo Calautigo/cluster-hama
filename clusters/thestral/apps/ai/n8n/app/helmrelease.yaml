@@ -42,7 +42,7 @@ spec:
               EXECUTIONS_DATA_MAX_AGE: 7
               EXECUTIONS_DATA_PRUNE_MAX_COUNT: 50000
               GENERIC_TIMEZONE: ${TIMEZONE}
-              N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: false
+              N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: true
               N8N_PROTOCOL: "https"
               N8N_PORT: &port 8080
               N8N_HOST: &hostName n8n.ds47.dev
@@ -50,6 +50,9 @@ spec:
               N8N_LOG_OUTPUT: console
               N8N_BLOCK_ENV_ACCESS_IN_NODE: false
               N8N_GIT_NODE_DISABLE_BARE_REPOS: true
+              N8N_DIAGNOSTICS_ENABLED: false
+              NODE_ENV: production
+              WEBHOOK_URL: https://n8n.ds47.dev/
             envFrom:
               - secretRef:
                   name: n8n-secret
