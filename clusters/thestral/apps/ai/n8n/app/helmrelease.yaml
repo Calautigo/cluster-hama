@@ -48,7 +48,6 @@ spec:
               N8N_HOST: &hostName n8n.ds47.dev
               N8N_LOG_LEVEL: info
               N8N_LOG_OUTPUT: console
-              N8N_RUNNERS_ENABLED: false
               N8N_BLOCK_ENV_ACCESS_IN_NODE: false
               N8N_GIT_NODE_DISABLE_BARE_REPOS: true
             envFrom:
@@ -110,3 +109,9 @@ spec:
           n8n:
             app:
               - path: /.n8n
+      cache:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 128Mi
+        globalMounts:
+          - path: ./cache
