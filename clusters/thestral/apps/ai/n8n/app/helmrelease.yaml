@@ -52,7 +52,7 @@ spec:
               N8N_GIT_NODE_DISABLE_BARE_REPOS: true
               N8N_DIAGNOSTICS_ENABLED: false
               NODE_ENV: production
-              WEBHOOK_URL: https://n8n.ds47.dev/
+              WEBHOOK_URL: &webhook n8n-webhook.ds47.dev
               N8N_PROXY_HOPS: 1
             envFrom:
               - secretRef:
@@ -105,6 +105,18 @@ spec:
         parentRefs:
           - name: kgateway-internal
             namespace: network
+      webhooks:
+        hostnames:
+          - *webhook
+        parentRefs:
+          - name: kgateway-internal
+            namespace: network
+        rules:
+          - matches:
+            - path:
+                value: /webhook
+            backendRefs:
+              - {}
 
     persistence:
       data:
