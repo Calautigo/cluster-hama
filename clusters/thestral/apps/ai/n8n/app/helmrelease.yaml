@@ -41,18 +41,17 @@ spec:
               EXECUTIONS_DATA_PRUNE: true
               EXECUTIONS_DATA_MAX_AGE: 7
               EXECUTIONS_DATA_PRUNE_MAX_COUNT: 50000
-              GENERIC_TIMEZONE: ${TIMEZONE}
+              GENERIC_TIMEZONE: Europe/Vienna
               N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: true
               N8N_PROTOCOL: "https"
               N8N_PORT: &port 8080
               N8N_HOST: &hostName n8n.ds47.dev
+              N8N_EDITOR_BASE_URL: https://n8n.ds47.dev/
               N8N_LOG_LEVEL: info
               N8N_LOG_OUTPUT: console
-              N8N_BLOCK_ENV_ACCESS_IN_NODE: false
-              N8N_GIT_NODE_DISABLE_BARE_REPOS: true
               N8N_DIAGNOSTICS_ENABLED: false
               NODE_ENV: production
-              WEBHOOK_URL: &webhook n8n-webhook.ds47.dev
+              WEBHOOK_URL: https://n8n-webhook.ds47.dev/
               N8N_PROXY_HOPS: 1
             envFrom:
               - secretRef:
@@ -107,7 +106,7 @@ spec:
             namespace: network
       webhooks:
         hostnames:
-          - *webhook
+          - n8n-webhook.ds47.dev
         parentRefs:
           - name: kgateway-internal
             namespace: network
