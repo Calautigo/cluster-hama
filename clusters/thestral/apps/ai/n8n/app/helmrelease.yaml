@@ -53,6 +53,7 @@ spec:
               N8N_DIAGNOSTICS_ENABLED: false
               NODE_ENV: production
               WEBHOOK_URL: https://n8n.ds47.dev/
+              N8N_PROXY_HOPS: 1
             envFrom:
               - secretRef:
                   name: n8n-secret
