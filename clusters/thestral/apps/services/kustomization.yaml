@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: services
 resources:
   - ./namespace.yaml
-  - ./actual.yaml
+  - ./actual/ks.yaml
   - ./filebrowser/ks.yaml
   - ./immich/ks.yaml
   - ./onlyoffice/ks.yaml
