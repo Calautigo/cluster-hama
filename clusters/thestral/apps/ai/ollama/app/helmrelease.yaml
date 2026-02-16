@@ -19,8 +19,8 @@ spec:
             env:
               OLLAMA_HOST: 0.0.0.0
               OLLAMA_ORIGINS: "*"
-              OLLAMA_NUM_PARALLEL: 1
-              OLLAMA_CONTEXT_LENGTH: 8092
+              OLLAMA_NUM_PARALLEL: 4
+              OLLAMA_MAX_LOADED_MODELS: 1
               OLLAMA_MODELS: &modelPath /models
               OLLAMA_KEEP_ALIVE: 30m
             probes:
@@ -50,7 +50,7 @@ spec:
             resources:
               requests:
                 cpu: 2
-                memory: 256Mi
+                memory: 2Gi
               limits:
                 cpu: 8
                 memory: 16Gi
