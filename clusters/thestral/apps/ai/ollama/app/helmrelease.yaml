@@ -49,9 +49,10 @@ spec:
               startup: *probe
             resources:
               requests:
-                cpu: 200m
+                cpu: 2
                 memory: 256Mi
               limits:
+                cpu: 8
                 memory: 16Gi
                 nvidia.com/gpu: 1
 
