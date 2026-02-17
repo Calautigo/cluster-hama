@@ -6,3 +6,10 @@ resources:
   - ./helmrelease.yaml
   - ./media-pvc.yaml
   - ./ocirepository.yaml
+
+configMapGenerator:
+  - name: frigate-configmap
+    files:
+      - config.yml=./resources/config.yml
+generatorOptions:
+  disableNameSuffixHash: true

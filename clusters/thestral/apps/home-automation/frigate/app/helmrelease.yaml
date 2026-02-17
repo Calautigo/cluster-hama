@@ -9,9 +9,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: frigate
-  dependsOn:
-    - name: ceph-csi-rbd
-      namespace: storage
   values:
     controllers:
       frigate:
@@ -26,6 +23,9 @@ spec:
             image:
               repository: ghcr.io/blakeblackshear/frigate
               tag: 0.16.4@sha256:1f8dbaaa4c7c2855c2aef711842d13b0c20bfdc3f28ad88faf66aa1bc219b108
+            env:
+              S6_YES_I_WANT_A_WORLD_WRITABLE_RUN_BECAUSE_KUBERNETES: 1
+              S6_READ_ONLY_ROOT: 1
             envFrom:
               - secretRef:
                   name: frigate-secret
@@ -36,34 +36,48 @@ spec:
                 spec:
                   httpGet:
                     path: /api/version
-                    port: 5000
-                  initialDelaySeconds: 30
+                    port: &port 5000
+                  initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
-                  failureThreshold: 6
+                  failureThreshold: 3
               readiness: *probes
-              startup:
-                enabled: false
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities: { drop: ["ALL"], add: ["CHOWN", "SETUID", "SETGID", "FOWNER", "DAC_OVERRIDE", "PERFMON"] }
             resources:
               claims:
                 - name: gpu
               requests:
-                cpu: 1000m
-                memory: 512Mi
+                cpu: 200m
+                memory: 1Gi
               limits:
                 memory: 8Gi
 
+    defaultPodOptions:
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: frigate-gpu
+      securityContext:
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
+        fsGroup: 0
+        fsGroupChangePolicy: OnRootMismatch
+
     service:
-      frigate:
+      app:
         type: LoadBalancer
         annotations:
+          external-dns.alpha.kubernetes.io/hostname: "go2rtc-streams.ds47.dev"
           lbipam.cilium.io/ips: 10.100.10.203
         ports:
           http:
             appProtocol: kubernetes.io/wss
-            port: 5000
-          go2rtc:
             primary: true
+            port: *port
+          go2rtc:
             port: 1984
           rtsp:
             port: 8554
@@ -74,6 +88,32 @@ spec:
             port: 8555
             protocol: UDP
 
+    route:
+      app:
+        forceRename: "{{ .Release.Name }}"
+        hostnames:
+          - frigate.schwarz47.at
+        parentRefs:
+          - name: kgateway-internal
+            namespace: network
+
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: http
+
+      go2rtc:
+        hostnames:
+          - go2rtc.schwarz47.at
+        parentRefs:
+          - name: kgateway-internal
+            namespace: network
+
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: go2rtc
+
     persistence:
       media:
         existingClaim: frigate-media
@@ -81,7 +121,16 @@ spec:
           - path: /media
 
       config:
-        existingClaim: frigate-config
+        existingClaim: "{{ .Release.Name }}-config"
+        globalMounts:
+          - path: /config
+      config-file:
+        type: secret
+        name: "{{ .Release.Name }}-secret"
+        globalMounts:
+          - path: /config/config.yml
+            subPath: config.yml
+            readOnly: true
 
       cache:
         enabled: true
@@ -96,30 +145,7 @@ spec:
         advancedMounts:
           frigate:
             app:
+              - path: /run
+                subPath: run
               - path: /tmp
                 subPath: tmp
-
-    route:
-      frigate:
-        hostnames:
-          - frigate.schwarz47.at
-        parentRefs:
-          - name: envoy-internal
-            namespace: network
-
-        rules:
-          - backendRefs:
-              - identifier: frigate
-                port: 5000
-
-      go2rtc:
-        hostnames:
-          - go2rtc.schwarz47.at
-        parentRefs:
-          - name: envoy-internal
-            namespace: network
-
-        rules:
-          - backendRefs:
-              - identifier: frigate
-                port: 1984
