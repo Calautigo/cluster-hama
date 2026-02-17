@@ -92,7 +92,7 @@ spec:
       app:
         forceRename: "{{ .Release.Name }}"
         hostnames:
-          - frigate.schwarz47.at
+          - frigate.ds47.dev
         parentRefs:
           - name: kgateway-internal
             namespace: network
@@ -104,7 +104,7 @@ spec:
 
       go2rtc:
         hostnames:
-          - go2rtc.schwarz47.at
+          - go2rtc.ds47.dev
         parentRefs:
           - name: kgateway-internal
             namespace: network

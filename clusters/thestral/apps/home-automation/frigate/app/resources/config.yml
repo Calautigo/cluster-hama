@@ -4,6 +4,8 @@ ui:
 logger:
   default: info
 
+
+
 mqtt:
   host: emqx.database.svc.cluster.local
   port: 1883
