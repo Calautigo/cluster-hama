@@ -17,6 +17,9 @@ database:
 ffmpeg:
   global_args: ["-hide_banner", "-loglevel", "warning"]
   hwaccel_args: preset-vaapi
+  output_args:
+    record: preset-record-generic-audio-copy
+    detect: -f rawvideo -pix_fmt yuv420p
 
 detectors:
   ov_0:
@@ -185,9 +188,6 @@ cameras:
     live:
       streams:
         Main Stream: garden_door
-    detect:
-      width: 720
-      height: 960
     objects:
       track:
         - person
@@ -206,9 +206,6 @@ cameras:
     live:
       streams:
         Main Stream: garden_chicken
-    detect:
-      width: 720
-      height: 960
     objects:
       track:
         - person
@@ -227,9 +224,6 @@ cameras:
     live:
       streams:
         Main Stream: garden_carport
-    detect:
-      width: 720
-      height: 960
     objects:
       track:
         - person
@@ -248,9 +242,6 @@ cameras:
     live:
       streams:
         Main Stream: garden_garden
-    detect:
-      width: 720
-      height: 960
     objects:
       track:
         - person
@@ -269,9 +260,6 @@ cameras:
     live:
       streams:
         Main Stream: garden_sluice_dining
-    detect:
-      width: 720
-      height: 960
     objects:
       track:
         - person
