@@ -4,7 +4,8 @@ ui:
 logger:
   default: info
 
-
+auth:
+  enabled: false
 
 mqtt:
   host: emqx.database.svc.cluster.local
@@ -20,7 +21,7 @@ ffmpeg:
   global_args: ["-hide_banner", "-loglevel", "warning"]
   hwaccel_args: preset-vaapi
   output_args:
-    record: preset-record-generic-audio-copy
+    record: -f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -atag ffff -c:v copy -c:a aac
     detect: -f rawvideo -pix_fmt yuv420p
 
 detectors:
