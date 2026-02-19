@@ -29,6 +29,8 @@ spec:
                     name: paperless-secret
                     key: PAPERLESS_SECRET_KEY
               PAPERLESS_URL: https://paperless.schwarz47.at
+              PAPERLESS_ALLOWED_HOSTS: https://paperless.schwarz47.at
+              PAPERLESS_CSRF_TRUSTED_ORIGINS: https://paperless.schwarz47.at
               PAPERLESS_TRUSTED_PROXIES: "*"
               PAPERLESS_PORT: "8000"
               PAPERLESS_TIME_ZONE: "Europe/Vienna"
