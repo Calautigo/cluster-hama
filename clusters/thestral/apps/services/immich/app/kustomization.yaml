@@ -5,4 +5,9 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
   - ./ocirepository.yaml
-  - ./pvc.yaml
+configMapGenerator:
+  - name: immich-initdb
+    files:
+      - ./immich.sql
+generatorOptions:
+  disableNameSuffixHash: true

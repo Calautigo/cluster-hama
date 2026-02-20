@@ -13,39 +13,52 @@ spec:
       server:
         strategy: RollingUpdate
         annotations:
-          secret.reloader.stakater.com/reload: immich-secret
-          configmap.reloader.stakater.com/reload: immich-configmap
+          reloader.stakater.com/auto: "true"
         pod:
-          enableServiceLinks: false
-
         initContainers:
           init-db:
-            envFrom: &dbEnvFrom
-              - secretRef:
-                  name: immich-secret
             image:
               repository: ghcr.io/home-operations/postgres-init
-              tag: 18
-
+              tag: 18.2.0@sha256:ae89578925b480f5972f237dda2f7a37efe36aff500d3e7bd1d3a6a3181e4191
+            envFrom:
+              - secretRef:
+                name: immich-secret
+              - secretRef:
+                name: immich-initdb
         containers:
-          app:
+          server:
             image:
               repository: ghcr.io/immich-app/immich-server
               tag: v2.5.5@sha256:161b1ec8af9e0478797cfd75ea857c7e55af271fa7cea103cb30ab1ba5b418d8
             env:
-              IMMICH_CONFIG_FILE: /config/immich-config.yaml
               IMMICH_MEDIA_LOCATION: &mediaLocation /library
               IMMICH_MACHINE_LEARNING_URL: "http://immich-machine-learning.services.svc.cluster.local:3003"
+              IMMICH_WORKERS_INCLUDE: api
+              IMMICH_TELEMETRY_INCLUDE: all
               # Prevent NFS mount check failures
               IMMICH_IGNORE_MOUNT_CHECK_ERRORS: "true"
-              DISABLE_REVERSE_GEOCODING: "true"
               # Redis
-              REDIS_HOSTNAME: &redisHost "dragonfly.database.svc.cluster.local"
-              REDIS_DBINDEX: &redisDB "1"
+              REDIS_HOSTNAME: "dragonfly.database.svc.cluster.local"
+              REDIS_DBINDEX: "1"
             envFrom: &envFrom
               - secretRef:
-                  name: immich-secret
-            securityContext:
+                  name: immich-db
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/server/ping
+                    port: &port 2283
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 5
+              readiness: *probes
+              startup:
+                enabled: false
+            securityContext: &csc
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
@@ -60,29 +73,18 @@ spec:
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
-        pod:
-          enableServiceLinks: false
-          resourceClaims:
-            - name: gpu
-              resourceClaimTemplateName: immich-gpu
-
         containers:
-          app:
+          machine-learning:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
               tag: v2.5.5@sha256:2e17e15855907ece0d5b3a7bf625b12f6d987a5854fa71d888641acae28b0323
             env:
-              REDIS_HOSTNAME: *redisHost
-              REDIS_DBINDEX: *redisDB
-              MPLCONFIGDIR: "/cache/matplotlib"
-              # ML cache folder paths
+              MACHINE_LEARNING_PRELOAD__CLIP__TEXTUAL: ViT-SO400M-16-SigLIP2-384__webli
+              MACHINE_LEARNING_PRELOAD__CLIP__VISUAL: ViT-SO400M-16-SigLIP2-384__webli
+              MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__RECOGNITION: buffalo_l
+              MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__DETECTION: buffalo_l
               MACHINE_LEARNING_CACHE_FOLDER: "/cache"
-              TRANSFORMERS_CACHE: "/cache"
-              IMMICH_MEDIA_LOCATION: *mediaLocation
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+            securityContext: *csc
             envFrom: *envFrom
             resources:
               claims:
@@ -103,19 +105,12 @@ spec:
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
-                  failureThreshold: 3
+                  failureThreshold: 5
               readiness: *probes
-              startup:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /ping
-                    port: *mlPort
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 60
+        pod:
+          resourceClaims:
+            - name: gpu
+              resourceClaimTemplateName: immich-gpu
 
     defaultPodOptions:
       securityContext:
@@ -123,28 +118,35 @@ spec:
         runAsUser: 2000
         runAsGroup: 2000
         fsGroup: 2000
-        fsGroupChangePolicy: "OnRootMismatch"
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
 
     service:
       server:
         controller: server
         ports:
           http:
-            port: &port 2283
+            port: *port
           metrics-api:
             port: 8081
-          metrics-ms:
-            port: 8082
       machine-learning:
         controller: machine-learning
         ports:
           http:
             port: *mlPort
 
+    serviceMonitor:
+      server:
+        serviceName: server
+        endpoints:
+          - port: metrics
+            scheme: http
+            path: /metrics
+
     route:
       app:
         hostnames:
-          - photos.schwarz47.at
+          - ${APP_SUBDOMAIN:-${APP}}.schwarz47.at
         parentRefs:
           - name: envoy-internal
             namespace: network
@@ -153,36 +155,13 @@ spec:
               - identifier: server
                 port: *port
 
-    serviceMonitor:
-      server:
-        enabled: true
-        serviceName: server
-        endpoints:
-          - port: metrics-api
-            scheme: http
-            path: /metrics
-          - port: metrics-ms
-            scheme: http
-            path: /metrics
-
     persistence:
-      config:
-        type: secret
-        name: immich-secret
-        advancedMounts:
-          server:
-            app:
-              - path: /config/immich-config.yaml
-                subPath: immich-config.yaml
-                readOnly: true
-
-      matplotlib:
+      geocoding-dump:
         type: emptyDir
         advancedMounts:
           server:
-            app:
-              - path: /config/matplotlib
-
+            server:
+              - path: /usr/src/app/.reverse-geocoding-dump
       library:
         type: nfs
         server: 10.100.0.81
@@ -191,10 +170,18 @@ spec:
           server:
             app:
               - path: *mediaLocation
-
-      cache:
+      initdb:
+        type: configMap
+        name: immich-initdb
+        advancedMounts:
+          server:
+            init-db:
+              - path: /initdb
+      model-cache:
         type: persistentVolumeClaim
-        existingClaim: immich-ml-cache
+        accessMode: ReadWriteOnce
+        storageClass: csi-rbd-sc
+        size: 50Gi
         advancedMounts:
           machine-learning:
             app:
@@ -202,18 +189,22 @@ spec:
                 subPath: cache
               - path: /.cache
                 subPath: dotCache
-
+      tmpfs:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 32Mi
+        advancedMounts:
+          machine-learning:
+            machine-learning:
+              - path: /.config
+                subPath: machine-learning/.config
+      transformers-cache:
+        type: emptyDir
+        advancedMounts:
+          server:
+            server:
+              - path: /usr/src/app/.transformers_cache
       tmp:
         type: emptyDir
         globalMounts:
           - path: /tmp
-
-      tmpfs:
-        type: emptyDir
-        advancedMounts:
-          server:
-            app:
-              - path: /usr/src/app/.reverse-geocoding-dump
-                subPath: geocoding
-              - path: /usr/src/app/.transformers_cache
-                subPath: transformers
