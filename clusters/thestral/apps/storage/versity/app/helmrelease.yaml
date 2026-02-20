@@ -29,10 +29,11 @@ spec:
           app:
             image:
               repository: ghcr.io/versity/versitygw
-              tag: v1.0.16@sha256:605de57c0cdc297fc5bc905ece592965d542d8df70d6eedf755734c80f2eb797
+              tag: v1.2.0@sha256:09ea9d2acb34e1a597814dac686b0d28d4e69c0a9d5244b63a220a7ace801bf1
             args: ["posix", "/data"]
             env:
               VGW_HEALTH: /healthz
+              VGW_WEBUI_PORT: ":7071"
             envFrom:
               - secretRef:
                   name: versity-secret
