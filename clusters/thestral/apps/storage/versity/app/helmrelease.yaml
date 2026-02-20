@@ -72,6 +72,8 @@ spec:
         ports:
           http:
             port: *port
+          ui:
+            port: 7071
 
     route:
       app:
