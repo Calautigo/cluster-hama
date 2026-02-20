@@ -34,7 +34,7 @@ spec:
             env:
               VGW_HEALTH: /healthz
               VGW_WEBUI_PORT: ":7071"
-              VGW_CORS_ALLOW_ORIGIN: "*"
+              VGW_CORS_ALLOW_ORIGIN: "http://localhost:49689"
             envFrom:
               - secretRef:
                   name: versity-secret
