@@ -47,7 +47,7 @@ spec:
       - vchord
 
   bootstrap:
-    initdb: {}
+    # initdb: {}
     recovery:
       source: old-storage
 
