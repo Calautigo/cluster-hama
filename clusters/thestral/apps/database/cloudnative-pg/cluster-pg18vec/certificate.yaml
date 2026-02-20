@@ -1,0 +1,17 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: pg18vec
+spec:
+  secretName: pg18vec-tls
+  duration: 2160h  # 90d
+  issuerRef:
+    name: cluster-ca
+    kind: ClusterIssuer
+    group: cert-manager.io
+  commonName: pg18vec-r.database.svc.cluster.local
+  dnsNames:
+    - pg18vec-r.database.svc.cluster.local
+    - pg18vec-ro.database.svc.cluster.local
+    - pg18vec-rw.database.svc.cluster.local

@@ -8,11 +8,24 @@ spec:
   chartRef:
     kind: OCIRepository
     name: cloudnative-pg
+  driftDetection:
+    mode: enabled
+    ignore:
+      # Ignore "validated" annotation which is not inserted during install
+      - paths: ["/metadata/annotations/prometheus-operator-validated"]
+        target:
+          kind: PrometheusRule
   values:
     crds:
       create: true
-    replicaCount: 2
     monitoring:
-      podMonitorEnabled: false
+      podMonitorEnabled: true
+      podMonitorMetricRelabelings:
+        - action: drop
+          sourceLabels: ["__name__"]
+          regex: workqueue_(work|queue)_duration_seconds_bucket
+        - action: drop
+          sourceLabels: ["__name__"]
+          regex: controller_runtime_reconcile_time_seconds_bucket
       grafanaDashboard:
-        create: true
+        create: false
