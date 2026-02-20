@@ -36,12 +36,12 @@ spec:
     topologyKey: kubernetes.io/hostname
     podAntiAffinityType: required
 
-  # plugins:
-  #   - name: barman-cloud.cloudnative-pg.io
-  #     isWALArchiver: true
-  #     parameters:
-  #       barmanObjectName: versity-thestral-immich
-  #       serverName: immich-v2
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: versity-thestral-immich
+        serverName: immich-v1
 
   bootstrap:
     initdb:
