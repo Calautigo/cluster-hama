@@ -11,3 +11,5 @@ resources:
   - ./onlyoffice/ks.yaml
   - ./paperless/ks.yaml
   - ./termix/ks.yaml
+components:
+  - ../../components/common
