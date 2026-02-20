@@ -34,7 +34,7 @@ spec:
             env:
               VGW_HEALTH: /healthz
               VGW_WEBUI_PORT: ":7071"
-              VGW_CORS_ALLOW_ORIGIN: "http://localhost:49689"
+              VGW_CORS_ALLOW_ORIGIN: "*"
             envFrom:
               - secretRef:
                   name: versity-secret
@@ -92,7 +92,23 @@ spec:
             backendRefs:
               - kind: Service
                 identifier: app
-                port: *port
+                port: *port        
+      ui:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        hostnames:
+          - versity-ui.schwarz47.at
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - kind: Service
+                identifier: app
+                port: 7071
 
     persistence:
       data:
