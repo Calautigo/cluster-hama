@@ -1,0 +1,25 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: ${APP}-versity
+spec:
+  sourcePVC: "${VOLSYNC_CLAIM:-${APP}}"
+  trigger:
+    schedule: "0 * * * *"
+  kopia:
+    compression: zstd-fastest
+    copyMethod: Snapshot
+    moverSecurityContext:
+      runAsUser: ${APP_UID:-2000}
+      runAsGroup: ${APP_GID:-2000}
+      fsGroup: ${APP_GID:-2000}
+    parallelism: 2
+    repository: volsync-kopia-versity
+    storageClassName: "${VOLSYNC_STORAGECLASS:-csi-rbd-sc}"
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-rbd-snapclass}"
+    retain:
+      hourly: 24
+      daily: 7
+      weekly: 4
+      monthly: 12

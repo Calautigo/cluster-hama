@@ -10,3 +10,7 @@ resources:
   - ./external-dns/ks.yaml
   - ./kgateway/ks.yaml
   - ./newt/ks.yaml
+components:
+  - ../../components/common
+transformers:
+  - ./transformers

@@ -13,3 +13,6 @@ resources:
   - ./termix/ks.yaml
 components:
   - ../../components/common
+  - ../../components/volsync-ns
+transformers:
+  - ./transformers

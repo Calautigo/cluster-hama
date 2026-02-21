@@ -11,3 +11,8 @@ resources:
   - ./nodered/ks.yaml
   - ./unifi/ks.yaml
   - ./zigbee2mqtt/ks.yaml
+components:
+  - ../../components/common
+  - ../../components/volsync-ns
+transformers:
+  - ./transformers

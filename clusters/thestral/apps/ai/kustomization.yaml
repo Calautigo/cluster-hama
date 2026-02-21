@@ -7,3 +7,8 @@ resources:
   - ./namespace.yaml
   - ./n8n/ks.yaml
   - ./ollama/ks.yaml
+components:
+  - ../../components/common
+  - ../../components/volsync-ns
+transformers:
+  - ./transformers

@@ -6,3 +6,7 @@ namespace: renovate
 resources:
   - ./namespace.yaml
   - ./renovate-operator/ks.yaml
+components:
+  - ../../components/common
+transformers:
+  - ./transformers

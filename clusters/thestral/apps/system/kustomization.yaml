@@ -11,3 +11,7 @@ resources:
   - ./reloader/ks.yaml
   - ./spegel/ks.yaml
   - ./volsync/ks.yaml
+components:
+  - ../../components/common
+transformers:
+  - ./transformers
