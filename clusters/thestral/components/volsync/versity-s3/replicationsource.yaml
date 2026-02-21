@@ -12,13 +12,6 @@ spec:
       runAsUser: ${APP_UID:-2000}
       runAsGroup: ${APP_GID:-2000}
       fsGroup: ${APP_GID:-2000}
-      runAsNonRoot: true
-      seccompProfile:
-        type: RuntimeDefault
-      capabilities:
-        drop:
-          - ALL
-      allowPrivilegeEscalation: false
     compression: zstd-fastest
     copyMethod: Snapshot
     parallelism: 2
