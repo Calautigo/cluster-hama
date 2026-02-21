@@ -10,22 +10,6 @@ spec:
     name: kopia
   interval: 30m
   values:
-    configMaps:
-      config:
-        data:
-          repository.config: |-
-            {
-              "storage": {
-                "type": "filesystem",
-                "config": {
-                  "path": "/repository"
-                }
-              },
-              "hostname": "volsync.storage.svc.cluster.local",
-              "username": "volsync",
-              "description": "volsync",
-              "enableActions": false
-            }
     controllers:
       kopia:
         pod:
@@ -43,11 +27,24 @@ spec:
             env:
               KOPIA_WEB_ENABLED: true
               KOPIA_WEB_PORT: &port 8080
+              KOPIA_S3_FORCE_PATH_STYLE: "true"
             envFrom:
               - secretRef:
                   name: kopia-secret
             args:
-              - --without-password
+              - shell
+              - -c
+              - |
+                # Falls noch keine Config existiert, verbinde mit S3
+                if [ ! -f /config/repository.config ]; then
+                  kopia repository connect s3 \
+                    --bucket=k8s-cluster-nexus-prod \
+                    --endpoint=${AWS_S3_ENDPOINT} \
+                    --prefix=volsync/ \
+                    --password=${KOPIA_PASSWORD}
+                fi
+                # Starte den Server
+                kopia server start --insecure --address=0.0.0.0:8080 --without-password --config-file=/config/repository.config
             probes:
               liveness: &probes
                 enabled: true
@@ -68,7 +65,7 @@ spec:
                 memory: 1Gi
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
+              readOnlyRootFilesystem: false
               capabilities:
                 drop:
                   - ALL
@@ -78,33 +75,16 @@ spec:
           http:
             port: *port
     persistence:
-      config-file:
-        type: configMap
-        identifier: config
-        globalMounts:
-          - path: /config/repository.config
-            subPath: repository.config
-      repository:
-        type: nfs
-        path: /backup/volsync/thestral
-        server: 10.100.0.81
-        globalMounts:
-          - path: /repository
-      tmpfs:
+      config:
         type: emptyDir
-        advancedMounts:
-          kopia:
-            app:
-              - path: /config/cache
-                subPath: cache
-              - path: /config/logs
-                subPath: logs
-              - path: /tmp
-                subPath: tmp
+        globalMounts:
+          - path: /config
+      tmp:
+        type: emptyDir
     route:
       app:
         hostnames:
-          - kopia.schwarz47.at
+          - kopia.ds47.dev
         parentRefs:
-          - name: envoy-internal
+          - name: kgateway-internal
             namespace: network
