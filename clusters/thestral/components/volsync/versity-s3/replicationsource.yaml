@@ -8,12 +8,19 @@ spec:
   trigger:
     schedule: "0 * * * *"
   kopia:
-    compression: zstd-fastest
-    copyMethod: Snapshot
-    moverSecurityContext:
+    moverSecurityContext: 
       runAsUser: ${APP_UID:-2000}
       runAsGroup: ${APP_GID:-2000}
       fsGroup: ${APP_GID:-2000}
+      runAsNonRoot: true
+      seccompProfile:
+        type: RuntimeDefault
+      capabilities:
+        drop:
+          - ALL
+      allowPrivilegeEscalation: false
+    compression: zstd-fastest
+    copyMethod: Snapshot
     parallelism: 2
     repository: volsync-kopia-versity
     storageClassName: "${VOLSYNC_STORAGECLASS:-csi-rbd-sc}"
