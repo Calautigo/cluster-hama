@@ -180,7 +180,7 @@ spec:
         size: 50Gi
         advancedMounts:
           machine-learning:
-            app:
+            machine-learning:
               - path: /cache
                 subPath: cache
               - path: /.cache
