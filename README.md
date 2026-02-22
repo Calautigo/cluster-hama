@@ -188,8 +188,6 @@ metadata:
   name: external-secrets
   labels:
     pod-security.kubernetes.io/enforce: restricted
-    pod-security.kubernetes.io/audit: restricted
-    pod-security.kubernetes.io/warn: restricted
 ```
 
 #### 4.3 Kustomization for Flux

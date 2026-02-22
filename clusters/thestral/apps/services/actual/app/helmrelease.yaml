@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: actual
+  name: &app actual
 spec:
   chartRef:
     kind: OCIRepository
@@ -66,7 +66,7 @@ spec:
 
     persistence:
       data:
-        existingClaim: actual-data
+        existingClaim: *app
         advancedMounts:
           actual:
             app:
@@ -75,7 +75,7 @@ spec:
     route:
       app:
         hostnames:
-          - actual.ds47.dev
+          - "{{ .Release.Name }}.ds47.dev"
         parentRefs:
           - name: kgateway-internal
             namespace: network
