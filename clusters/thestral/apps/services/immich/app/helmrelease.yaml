@@ -166,10 +166,6 @@ spec:
         type: nfs
         server: 10.100.0.81
         path: /photos
-        advancedMounts:
-          server:
-            app:
-              - path: *mediaLocation
       initdb:
         type: configMap
         name: immich-initdb
