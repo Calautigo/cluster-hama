@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/v1/service.json
+apiVersion: v1
+kind: Service
+metadata:
+  name: &app pg18vec-db
+  labels:
+    app.kubernetes.io/name: *app
+    app.kubernetes.io/instance: *app
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: pg18vec-db.ds47.dev
+    lbipam.cilium.io/ips: 10.100.10.206
+spec:
+  type: LoadBalancer
+  ports:
+    - name: pg18vec
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
+  selector:
+    cnpg.io/cluster: pg18vec
+    role: primary
