@@ -3,3 +3,7 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: .invalid
+  labels:
+    pod-security.kubernetes.io/warn: restricted
+    pod-security.kubernetes.io/audit: restricted
+    resource.kubernetes.io/admin-access: true
