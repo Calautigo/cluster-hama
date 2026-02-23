@@ -5,7 +5,6 @@ kind: Kustomization
 namespace: downloads
 resources:
   - ./namespace.yaml
-  - ./huntarr/ks.yaml
   - ./profilarr/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
