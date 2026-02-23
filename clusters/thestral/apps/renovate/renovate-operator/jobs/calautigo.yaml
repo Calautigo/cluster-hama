@@ -43,7 +43,7 @@ metadata:
   name: calautigo
   namespace: renovate
 spec:
-  discoveryFilter: calautigo/*
+  discoveryFilter: calautigo/cluster-hama
   extraEnv:
     - name: LOG_LEVEL
       value: debug
