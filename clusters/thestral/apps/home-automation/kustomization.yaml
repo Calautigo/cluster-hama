@@ -5,7 +5,6 @@ namespace: home-automation
 resources:
   - ./namespace.yaml
   - ./esphome/ks.yaml
-  - ./evcc/ks.yaml
   - ./frigate/ks.yaml
   - ./hass-dashboard/ks.yaml
   - ./nodered/ks.yaml
