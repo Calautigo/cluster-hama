@@ -1,7 +1,14 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
-    "github>calautigo/renovate-config",
+    "config:recommended",
+    "docker:enableMajor",
+    ":automergeBranch",
+    ":automergeMinor",
+    ":dependencyDashboard",
+    ":disableRateLimiting",
+    ":semanticCommits",
+    ":timezone(Europe/Vienna)",
     "github>calautigo/cluster-hama//.renovate/overrides.json5",
     "github>calautigo/cluster-hama//.renovate/groups.json5",
     "github>calautigo/cluster-hama//.renovate/autoMerge.json5",
