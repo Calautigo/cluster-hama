@@ -26,15 +26,18 @@ spec:
 
     coder:
       initContainers:
-        - name: init-db
+        init-db:
           envFrom:
             - secretRef:
-                name: &envFrom coder-secret
-          image: ghcr.io/home-operations/postgres-init:18
+                name: coder-db
+            - secretRef:
+                name: coder-initdb
+          image: ghcr.io/home-operations/postgres-init
+          tag: 18.2.0@sha256:ae89578925b480f5972f237dda2f7a37efe36aff500d3e7bd1d3a6a3181e4191
 
       env:
         - name: CODER_ACCESS_URL
-          value: https://coder.schwarz47.at
+          value: https://coder.ds47.dev
 
         - name: CODER_DISABLE_PASSWORD_AUTH
           value: "true"
@@ -74,7 +77,9 @@ spec:
           value: "github"
       envFrom:
         - secretRef:
-            name: *envFrom
+            name: coder-secret
+        - secretRef:
+            name: coder-db
 
       resources:
         limits:

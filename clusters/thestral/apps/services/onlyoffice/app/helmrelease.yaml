@@ -17,12 +17,14 @@ spec:
 
         initContainers:
           init-db:
-            envFrom: &env
+            envFrom:
               - secretRef:
-                  name: onlyoffice-secret
+                  name: onlyoffice-db
+              - secretRef:
+                  name: onlyoffice-initdb
             image:
               repository: ghcr.io/home-operations/postgres-init
-              tag: 18
+              tag: 18.2.0@sha256:ae89578925b480f5972f237dda2f7a37efe36aff500d3e7bd1d3a6a3181e4191
 
         containers:
           onlyoffice:
@@ -33,7 +35,11 @@ spec:
               WOPI_ENABLED: true
               USE_UNAUTHORIZED_STORAGE: true
               AMQP_URI: amqp://guest:guest@rabbitmq
-            envFrom: *env
+            envFrom:
+              - secretRef:
+                  name: onlyoffice-secret
+              - secretRef:
+                  name: onlyoffice-db
             probes:
               liveness:
                 enabled: false
@@ -66,7 +72,7 @@ spec:
     route:
       app:
         hostnames:
-          - onlyoffice.schwarz47.at
+          - onlyoffice.ds47.dev
         parentRefs:
-          - name: envoy-internal
+          - name: kgateway-internal
             namespace: network

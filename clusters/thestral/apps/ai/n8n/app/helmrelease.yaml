@@ -16,12 +16,14 @@ spec:
           reloader.stakater.com/auto: "true"
         initContainers:
           init-db:
-            image:
-              repository: ghcr.io/home-operations/postgres-init
-              tag: 18
             envFrom:
               - secretRef:
-                  name: n8n-secret
+                  name: n8n-db
+              - secretRef:
+                  name: n8n-initdb
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18.2.0@sha256:ae89578925b480f5972f237dda2f7a37efe36aff500d3e7bd1d3a6a3181e4191
 
         pod:
           securityContext:
@@ -56,6 +58,8 @@ spec:
             envFrom:
               - secretRef:
                   name: n8n-secret
+              - secretRef:
+                  name: n8n-db
             probes:
               startup: &probeBase
                 enabled: true
