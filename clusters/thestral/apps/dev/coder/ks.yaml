@@ -13,7 +13,7 @@ spec:
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
-    - name: cloudnative-pg-cluster
+    - name: pg18vec
       namespace: database
   path: ./clusters/thestral/apps/dev/coder/app
   prune: true

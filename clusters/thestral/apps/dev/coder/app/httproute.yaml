@@ -5,7 +5,7 @@ metadata:
   name: coder
 spec:
   hostnames:
-    - "{{ .Release.Name }}.ds47.dev"
+    - "coder.ds47.dev"
   parentRefs:
     - name: kgateway-internal
       namespace: network
