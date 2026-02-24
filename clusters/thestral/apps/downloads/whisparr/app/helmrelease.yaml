@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: ghcr.io/jfroy/whisparr-nightly
-              tag: 2.0.0.987@sha256:fb192831a387029676fa25de3a304542a6c19ae0bd50b0d1ba51bb959d5e540a
+              tag: 2.0.0.987
             env:
               WHISPARR__ANALYTICS_ENABLED: "False"
               WHISPARR__APP__INSTANCENAME: Whisparr
