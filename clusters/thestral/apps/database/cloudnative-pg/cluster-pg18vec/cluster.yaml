@@ -45,16 +45,3 @@ spec:
       shared_buffers: 64MB
     shared_preload_libraries:
       - vchord
-
-  bootstrap:
-    # initdb: {}
-    recovery:
-      source: old-storage
-
-  externalClusters:
-      - name: old-storage
-        plugin:
-          name: barman-cloud.cloudnative-pg.io
-          parameters:
-            barmanObjectName: versity-thestral-immich
-            serverName: immich-v1
