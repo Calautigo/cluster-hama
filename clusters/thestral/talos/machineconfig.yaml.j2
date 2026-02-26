@@ -73,8 +73,10 @@ machine:
           - network: 0.0.0.0/0
             gateway: 10.100.10.1
             metric: 10
+        {% if ENV.IS_CONTROLPLANE %}
         vip:
           ip: 10.100.10.70
+        {% endif %}
       - interface: ens19
         mtu: 9000
         routes:

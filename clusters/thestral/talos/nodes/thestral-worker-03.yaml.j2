@@ -1,0 +1,14 @@
+---
+machine:
+  install:
+    disk: /dev/sda
+  network:
+    hostname: thestral-worker-03.infra.gryffindor.schwarz47.at
+    interfaces:
+      - interface: ens18
+        addresses:
+          - 10.100.10.83/24
+      - interface: ens19
+        addresses:
+          - 10.44.0.83/16
+  type: worker
