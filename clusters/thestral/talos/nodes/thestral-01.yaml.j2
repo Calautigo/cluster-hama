@@ -2,6 +2,7 @@
 machine:
   install:
     disk: /dev/sda
+    image: factory.talos.dev/metal-installer/e3fab82b561b5e559cdf1c0b1e5950c0e52700b9208a2cfaa5b18454796f3a7e:v1.12.3
   network:
     hostname: thestral-01.infra.gryffindor.schwarz47.at
     interfaces:
@@ -12,6 +13,4 @@ machine:
         addresses:
           - 10.44.0.71/16
     disableSearchDomain: true
-  nodeLabels:
-    node.kubernetes.io/gpu: "true"
   type: controlplane

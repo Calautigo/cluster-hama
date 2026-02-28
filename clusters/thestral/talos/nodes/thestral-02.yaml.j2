@@ -2,10 +2,7 @@
 machine:
   install:
     disk: /dev/sda
-    image: factory.talos.dev/metal-installer/a01e02a6c9e159607c19dc4a0ebf4afeafae2bcb881fe51b7ddc9c834dc1b578:v1.12.3
-    {# extensions:
-      - image: ghcr.io/siderolabs/nonfree-kmod-nvidia:570.86.16-v1.11.5@sha256:4d0fa15cfe2326fea93e9c69cb62f067e1ea8bfe6f6e7daa5fce77cfaa72f59e
-      - image: ghcr.io/siderolabs/nvidia-container-toolkit:570.86.16-v1.11.5@sha256:7a8e8b309f84bfc8c45e3fca1e5cc3d1de8b51edc04bfff97d9e0beaa45e49c7 #}
+    image: factory.talos.dev/metal-installer/e3fab82b561b5e559cdf1c0b1e5950c0e52700b9208a2cfaa5b18454796f3a7e:v1.12.3
   network:
     hostname: thestral-02.infra.gryffindor.schwarz47.at
     interfaces:
@@ -17,11 +14,3 @@ machine:
           - 10.44.0.72/16
     disableSearchDomain: true
   type: controlplane
-  kernel:
-    modules:
-      - name: nvidia
-      - name: nvidia_uvm
-      - name: nvidia_drm
-      - name: nvidia_modeset
-  sysctls:
-    net.core.bpf_jit_harden: 1

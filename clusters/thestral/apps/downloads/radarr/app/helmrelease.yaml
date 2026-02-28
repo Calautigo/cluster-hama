@@ -86,5 +86,5 @@ spec:
         hostnames:
           - radarr.schwarz47.at
         parentRefs:
-          - name: envoy-internal
+          - name: kgateway-internal
             namespace: network

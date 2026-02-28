@@ -80,7 +80,7 @@ spec:
       app:
         enabled: true
         parentRefs:
-          - name: envoy-internal
+          - name: kgateway-internal
             namespace: network
         hostnames:
           - versity.schwarz47.at
@@ -96,7 +96,7 @@ spec:
       ui:
         enabled: true
         parentRefs:
-          - name: envoy-internal
+          - name: kgateway-internal
             namespace: network
         hostnames:
           - versity-ui.schwarz47.at

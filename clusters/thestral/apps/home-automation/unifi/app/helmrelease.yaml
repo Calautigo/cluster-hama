@@ -98,7 +98,7 @@ spec:
         hostnames:
           - controller.schwarz47.at
         parentRefs:
-          - name: envoy-internal
+          - name: kgateway-internal
             namespace: network
         rules:
           - backendRefs:

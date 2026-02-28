@@ -50,8 +50,6 @@ machine:
         hard=True
         noatime=True
         nconnect=16
-  install:
-    image: factory.talos.dev/metal-installer/37f9c79ab70fddeef6fe72f0742251135a9ffb2e6750afacab49c77fde538d5a:v1.12.3
   kernel:
     modules:
       - name: nbd
@@ -108,7 +106,7 @@ cluster:
   aggregatorCA:
     crt: sops://talos/.certs.k8saggregator.crt
     key: sops://talos/.certs.k8saggregator.key
-  allowSchedulingOnControlPlanes: true
+  allowSchedulingOnControlPlanes: false
   apiServer:
     image: registry.k8s.io/kube-apiserver:v1.35.0
     extraArgs:
@@ -188,17 +186,9 @@ cluster:
   secretboxEncryptionSecret: sops://talos/.secrets.secretboxEncryptionSecret
 ---
 apiVersion: v1alpha1
-kind: VolumeConfig
-name: EPHEMERAL
-provisioning:
-  diskSelector:
-    match: disk.transport == 'virtio' && disk.size < 100u * GiB
-  maxSize: 40GiB
----
-apiVersion: v1alpha1
 kind: UserVolumeConfig
 name: local-hostpath
 provisioning:
   diskSelector:
-    match: disk.transport == 'virtio' && disk.size > 100u * GiB
-  maxSize: 190GiB
+    match: disk.transport == 'virtio' && disk.size > 55u * GiB
+  maxSize: 60GiB

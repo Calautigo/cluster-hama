@@ -37,6 +37,17 @@ spec:
         certificateRefs:
           - kind: Secret
             name: ds47-dev-tls
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: "*.schwarz47.at"
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        certificateRefs:
+          - kind: Secret
+            name: schwarz47-at-tls
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor

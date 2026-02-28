@@ -7,7 +7,7 @@ spec:
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
-      name: envoy-internal
+      name: kgateway-internal
       namespace: network
   hostnames:
     - "webhook-receiver-thestral.schwarz47.at"

@@ -6,10 +6,8 @@ namespace: network
 resources:
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./envoy-gateway/ks.yaml
   - ./external-dns/ks.yaml
   - ./kgateway/ks.yaml
-  - ./newt/ks.yaml
 components:
   - ../../components/common
 transformers:
