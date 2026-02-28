@@ -72,35 +72,13 @@ spec:
         runAsGroup: 2000
         fsGroup: 2000
         fsGroupChangePolicy: OnRootMismatch
-    persistence:
-      cache:
-        type: emptyDir
-        sizeLimit: 1Gi
-        globalMounts:
-          - path: /.cache
-      config:
-        type: configMap
-        name: mediamanager-config
-        globalMounts:
-          - path: /app/config
-      entrypoint:
-        type: configMap
-        name: mediamanager-entrypoint
-        defaultMode: 0755
-        advancedMounts:
-          mediamanager:
-            mediamanager:
-              - path: /entrypoint.sh
-                subPath: entrypoint.sh
-                readOnly: true
-      media2:
-        type: persistentVolumeClaim
-        existingClaim: media-smb-kantai1
-      metadata:
-        type: persistentVolumeClaim
-        size: 20Gi
-        accessMode: ReadWriteOnce
-        storageClass: ceph-block
+    
+    service:
+      mediamanager:
+        ports:
+          http:
+            port: *port
+
     route:
       mediamanager:
         hostnames:
@@ -112,8 +90,40 @@ spec:
           - backendRefs:
               - port: *port
                 name: mediamanager
-    service:
-      mediamanager:
-        ports:
-          http:
-            port: *port
+
+    persistence:
+      cache:
+        type: emptyDir
+        sizeLimit: 1Gi
+        globalMounts:
+          - path: /.cache
+
+      config:
+        type: emptyDir
+        sizeLimit: 1Gi
+        globalMounts:
+          - path: /app/config
+
+      entrypoint:
+        type: configMap
+        name: mediamanager-entrypoint
+        defaultMode: 0755
+        advancedMounts:
+          mediamanager:
+            mediamanager:
+              - path: /entrypoint.sh
+                subPath: entrypoint.sh
+                readOnly: true
+
+      media:
+        type: nfs
+        server: 10.100.0.81
+        path: /media/media
+        globalMounts:
+          - path: /data/media
+
+      metadata:
+        type: persistentVolumeClaim
+        size: 20Gi
+        accessMode: ReadWriteOnce
+        storageClass: csi-rbd-sc
