@@ -6,7 +6,7 @@ metadata:
   name: deduparr
 spec:
   interval: 1h
-  path: ./clusters/thestral/apps/downlodas/deduparr/app
+  path: ./clusters/thestral/apps/downloads/deduparr/app
   prune: true
   sourceRef:
     kind: GitRepository
