@@ -8,5 +8,5 @@ spec:
     - "${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"
   resources:
     requests:
-      storage: "${VOLSYNC_CAPACITY:-1Gi}"
+      storage: "${VOLSYNC_CAPACITY:-5Gi}"
   storageClassName: "${VOLSYNC_STORAGECLASS:-csi-rbd-sc}"
