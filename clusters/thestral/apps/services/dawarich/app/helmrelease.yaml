@@ -24,10 +24,12 @@ spec:
         data:
           dawarich.sql: |
             CREATE EXTENSION IF NOT EXISTS "postgis";
+
     controllers:
       dawarich:
         annotations:
           reloader.stakater.com/auto: "true"
+          
         initContainers:
           initdb:
             image:
@@ -52,13 +54,12 @@ spec:
               MIN_MINUTES_SPENT_IN_CITY: 60
               OIDC_ISSUER: https://id.schwarz47.at
               OIDC_REDIRECT_URI: "https://{{ .Release.Name }}.ds47.dev/users/auth/openid_connect/callback"
-              PHOTON_API_HOST: photon.default.svc.cluster.local:2322
+              PHOTON_API_HOST: photon.services.svc.cluster.local:2322
               PHOTON_API_USE_HTTPS: false
               RAILS_ENV: production
-              REDIS_URL: redis://localhost:6379
+              REDIS_URL: redis://dragonfly.database.svc.cluster.local:6379
               SELF_HOSTED: true
-              TIME_ZONE: America/Los_Angeles
-              TZ: America/Los_Angeles
+              TIME_ZONE: Europe/Vienna
             envFrom: &envFrom
               - secretRef:
                   name: dawarich
@@ -91,10 +92,18 @@ spec:
         pod:
           securityContext:
             runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
+            runAsUser: 2000
+            runAsGroup: 2000
+            fsGroup: 2000
             fsGroupChangePolicy: OnRootMismatch
+
+    service:
+      dawarich:
+        controller: dawarich
+        ports:
+          http:
+            port: 3000
+
     persistence:
       data:
         existingClaim: ${APP}
@@ -137,15 +146,10 @@ spec:
             app: &mounts
               - path: /var/app/tmp/imports/watched
             sidekick: *mounts
+
     route:
       dawarich:
-        hostnames: ["{{ .Release.Name }}.kantai.xyz"]
+        hostnames: ["{{ .Release.Name }}.ds47.dev"]
         parentRefs:
           - name: kgateway-internal
             namespace: network
-    service:
-      dawarich:
-        controller: dawarich
-        ports:
-          http:
-            port: 3000

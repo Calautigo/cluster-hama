@@ -6,10 +6,12 @@ namespace: services
 resources:
   - ./namespace.yaml
   - ./actual/ks.yaml
+  - ./dawarich/ks.yaml
   - ./filebrowser/ks.yaml
   - ./immich/ks.yaml
   - ./onlyoffice/ks.yaml
   - ./paperless/ks.yaml
+  - ./photon/ks.yaml
   - ./termix/ks.yaml
 components:
   - ../../components/common
