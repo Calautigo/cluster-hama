@@ -80,11 +80,6 @@ spec:
             port: 2322
 
     persistence:
-      photon:
-        type: emptyDir
-        sizeLimit: 1Gi
-        globalMounts:
-          - path: /photon
       cache:
         type: emptyDir
         sizeLimit: 1Gi
