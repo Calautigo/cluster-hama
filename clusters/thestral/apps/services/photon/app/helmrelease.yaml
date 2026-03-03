@@ -87,7 +87,7 @@ spec:
         type: emptyDir
         sizeLimit: 1Gi
         globalMounts:
-          - path: /photon/.cache
+          - path: /.cache
       data:
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
