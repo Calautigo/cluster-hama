@@ -30,8 +30,10 @@ spec:
             image:
               repository: ghcr.io/rtuszik/photon-docker
               tag: 2.0.1@sha256:662b867e99bff395a84a176f0adb1379b7c48c7ea4a45f2e906888daef01a10f
-            command: ["uv"]
-            args: ["run", "-m", "src.process_manager"]
+            # command: ["uv"]
+            # args: ["run", "-m", "src.process_manager"]
+            command: ["sh", "-c"]
+            args: ["sleep infinity"]
             env:
               PGID: 2000
               PUID: 2000
@@ -61,7 +63,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
-              readOnlyRootFilesystem: true
+              readOnlyRootFilesystem: false
         pod:
           securityContext:
             runAsNonRoot: true
