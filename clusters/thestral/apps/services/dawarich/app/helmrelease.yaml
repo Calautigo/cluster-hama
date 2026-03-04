@@ -52,14 +52,13 @@ spec:
               APPLICATION_PROTOCOL: http
               DISTANCE_UNIT: km
               MIN_MINUTES_SPENT_IN_CITY: 60
-              OIDC_ISSUER: https://id.ds47.dev/.well-known/openid-configuration
+              OIDC_ISSUER: https://id.ds47.dev
               OIDC_REDIRECT_URI: "https://{{ .Release.Name }}.ds47.dev/users/auth/openid_connect/callback"
               OIDC_PROVIDER_NAME: "Sign in with PocketId"
               OIDC_AUTO_REGISTER: "true"
               ALLOW_EMAIL_PASSWORD_REGISTRATION: "false"
-              AUTHENTICATION_METHODS: "openid_connect"
-              PHOTON_API_HOST: photon.services.svc.cluster.local:2322
-              PHOTON_API_USE_HTTPS: false
+              # PHOTON_API_HOST: photon.services.svc.cluster.local:2322
+              # PHOTON_API_USE_HTTPS: false
               RAILS_ENV: production
               REDIS_URL: redis://dragonfly.database.svc.cluster.local:6379
               SELF_HOSTED: true
