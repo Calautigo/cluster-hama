@@ -57,7 +57,6 @@ spec:
               OIDC_PROVIDER_NAME: "Sign in with PocketId"
               OIDC_AUTO_REGISTER: "true"
               ALLOW_EMAIL_PASSWORD_REGISTRATION: "false"
-              AUTHENTICATION_METHODS: "openid_connect"
               PHOTON_API_HOST: photon.services.svc.cluster.local:2322
               PHOTON_API_USE_HTTPS: false
               RAILS_ENV: production
@@ -83,7 +82,7 @@ spec:
             securityContext: &sc
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
-              readOnlyRootFilesystem: true
+              readOnlyRootFilesystem: false
           sidekick:
             image:
               repository: mirror.gcr.io/freikin/dawarich
