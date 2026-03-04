@@ -62,7 +62,8 @@ spec:
               RAILS_ENV: production
               REDIS_URL: redis://dragonfly.database.svc.cluster.local:6379
               SELF_HOSTED: true
-              TIME_ZONE: "${TZ}"
+              TIME_ZONE: Europe/Vienna
+              TZ: Europe/Vienna
             envFrom: &envFrom
               - secretRef:
                   name: dawarich
