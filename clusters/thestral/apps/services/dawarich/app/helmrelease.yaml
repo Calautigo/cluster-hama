@@ -52,7 +52,7 @@ spec:
               APPLICATION_PROTOCOL: http
               DISTANCE_UNIT: km
               MIN_MINUTES_SPENT_IN_CITY: 60
-              OIDC_ISSUER: https://id.schwarz47.at
+              OIDC_ISSUER: https://id.ds47.dev
               OIDC_REDIRECT_URI: "https://{{ .Release.Name }}.ds47.dev/users/auth/openid_connect/callback"
               PHOTON_API_HOST: photon.services.svc.cluster.local:2322
               PHOTON_API_USE_HTTPS: false
