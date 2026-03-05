@@ -15,7 +15,7 @@ spec:
     compression: zstd-fastest
     copyMethod: Snapshot
     parallelism: 2
-    repository: volsync-versity-${APP}
+    repository: ${APP}-volsync-versity
     storageClassName: "${VOLSYNC_STORAGECLASS:-csi-rbd-sc}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-rbd-snapclass}"
     retain:
