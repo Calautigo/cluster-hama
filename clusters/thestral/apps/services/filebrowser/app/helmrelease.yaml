@@ -110,7 +110,7 @@ spec:
     route:
       app:
         hostnames:
-          - cloud.schwarz47.at
+          - cloud.ds47.dev
         parentRefs:
           - name: kgateway-internal
             namespace: network
