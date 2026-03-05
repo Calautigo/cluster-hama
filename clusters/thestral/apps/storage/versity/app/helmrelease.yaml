@@ -33,7 +33,7 @@ spec:
             args: ["posix", "/data"]
             env:
               VGW_HEALTH: /healthz
-              VGW_WEBUI_PORT: ":7071"
+              VGW_WEBUI_PORT: "versity.ds47.dev:7071"
               VGW_CORS_ALLOW_ORIGIN: "*"
               VGW_WEBUI_GATEWAYS: "versity.ds47.dev"
             envFrom:
