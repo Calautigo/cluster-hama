@@ -83,7 +83,7 @@ spec:
           - name: kgateway-internal
             namespace: network
         hostnames:
-          - versity.schwarz47.at
+          - versity.ds47.dev
         rules:
           - matches:
               - path:
@@ -99,7 +99,7 @@ spec:
           - name: kgateway-internal
             namespace: network
         hostnames:
-          - versity-ui.schwarz47.at
+          - versity-ui.ds47.dev
         rules:
           - matches:
               - path:
