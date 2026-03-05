@@ -48,7 +48,7 @@ spec:
 
         # OIDC
         - name: CODER_OIDC_ISSUER_URL
-          value: https://id.schwarz47.at
+          value: https://id.ds47.dev
         - name: CODER_OIDC_EMAIL_DOMAIN
           value: "schwarz47.at"
         - name: CODER_OIDC_SIGN_IN_TEXT
