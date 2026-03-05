@@ -142,6 +142,7 @@ spec:
       
       tmpfs:
         type: emptyDir
+        sizeLimit: 1Gi
         advancedMounts:
           frigate:
             app:
