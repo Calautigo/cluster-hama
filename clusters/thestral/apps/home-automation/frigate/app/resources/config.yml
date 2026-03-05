@@ -21,7 +21,7 @@ ffmpeg:
   global_args: ["-hide_banner", "-loglevel", "warning"]
   hwaccel_args: preset-vaapi
   output_args:
-    record: -f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -atag ffff -c:v copy -c:a aac
+    record: preset-record-generic-audio-aac
     detect: -f rawvideo -pix_fmt yuv420p
 
 detectors:
@@ -69,9 +69,8 @@ review:
 
 record:
   enabled: true
-  retain:
+  continuous:
     days: 3
-    mode: all
   detections:
     pre_capture: 5
     post_capture: 5

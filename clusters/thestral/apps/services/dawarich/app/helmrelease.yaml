@@ -44,7 +44,7 @@ spec:
           app:
             image:
               repository: mirror.gcr.io/freikin/dawarich
-              tag: 1.0.4@sha256:69d9c81d08886c83c0259dbe03ab9b27330fceee25d890725dc1347382f304e0
+              tag: 1.3.1@sha256:a3b000a5a85b2997ceb7117cb078f7b8851e5f958c87d5286bf098a6e1e26ea0
             command: ["web-entrypoint.sh"]
             args: ["bin/rails", "server", "-p", "3000", "-b", "::"]
             env: &env
@@ -52,14 +52,18 @@ spec:
               APPLICATION_PROTOCOL: http
               DISTANCE_UNIT: km
               MIN_MINUTES_SPENT_IN_CITY: 60
-              OIDC_ISSUER: https://id.schwarz47.at
+              OIDC_ISSUER: https://id.ds47.dev
               OIDC_REDIRECT_URI: "https://{{ .Release.Name }}.ds47.dev/users/auth/openid_connect/callback"
-              PHOTON_API_HOST: photon.services.svc.cluster.local:2322
-              PHOTON_API_USE_HTTPS: false
+              OIDC_PROVIDER_NAME: "Sign in with PocketId"
+              OIDC_AUTO_REGISTER: "true"
+              ALLOW_EMAIL_PASSWORD_REGISTRATION: "false"
+              # PHOTON_API_HOST: photon.services.svc.cluster.local:2322
+              # PHOTON_API_USE_HTTPS: false
               RAILS_ENV: production
               REDIS_URL: redis://dragonfly.database.svc.cluster.local:6379
               SELF_HOSTED: true
               TIME_ZONE: Europe/Vienna
+              TZ: Europe/Vienna
             envFrom: &envFrom
               - secretRef:
                   name: dawarich
@@ -79,11 +83,11 @@ spec:
             securityContext: &sc
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
-              readOnlyRootFilesystem: true
+              readOnlyRootFilesystem: false
           sidekick:
             image:
               repository: mirror.gcr.io/freikin/dawarich
-              tag: 1.0.4@sha256:69d9c81d08886c83c0259dbe03ab9b27330fceee25d890725dc1347382f304e0
+              tag: 1.3.1@sha256:a3b000a5a85b2997ceb7117cb078f7b8851e5f958c87d5286bf098a6e1e26ea0
             command: ["sidekiq-entrypoint.sh"]
             args: []
             env: *env

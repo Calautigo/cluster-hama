@@ -4,12 +4,12 @@ machine:
     disk: /dev/sda
     image: factory.talos.dev/metal-installer/37f9c79ab70fddeef6fe72f0742251135a9ffb2e6750afacab49c77fde538d5a:v1.12.4
   network:
-    hostname: thestral-worker-03.infra.gryffindor.schwarz47.at
+    hostname: thestral-worker-02.infra.gryffindor.schwarz47.at
     interfaces:
       - interface: ens18
         addresses:
-          - 10.100.10.83/24
+          - 10.100.10.82/24
       - interface: ens19
         addresses:
-          - 10.44.0.83/16
+          - 10.44.0.82/16
   type: worker

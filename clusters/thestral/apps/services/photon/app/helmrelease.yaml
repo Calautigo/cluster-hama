@@ -86,8 +86,8 @@ spec:
       data:
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
-        size: 1Ti
-        storageClass: ceph-block
+        size: 300Gi
+        storageClass: csi-rbd-sc
         globalMounts:
           - path: /photon/data
             

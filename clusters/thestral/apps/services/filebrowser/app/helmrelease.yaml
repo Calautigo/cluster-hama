@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/gtsteffaniak/filebrowser
-              tag: 1.1.2-stable@sha256:24b80967bea15d5595c28065146ff7a931f0538c110f34748c037979ef2d634e
+              tag: 1.2.1-stable@sha256:463940b8916867328e438d0636bc2e4a4a21dfe68a526c89e0fe61f9df647b86
             env:
               PORT: &port 80
               FILEBROWSER_CONFIG: "/config/config.yaml"
@@ -110,7 +110,7 @@ spec:
     route:
       app:
         hostnames:
-          - cloud.schwarz47.at
+          - cloud.ds47.dev
         parentRefs:
           - name: kgateway-internal
             namespace: network
