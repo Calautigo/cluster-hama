@@ -136,17 +136,15 @@ spec:
         enabled: true
         type: emptyDir
         medium: Memory
-        sizeLimit: 2Gi
+        sizeLimit: 4Gi
         globalMounts:
           - path: /dev/shm
+          - path: /tmp/cache
       
       tmpfs:
         type: emptyDir
-        sizeLimit: 1Gi
         advancedMounts:
           frigate:
             app:
               - path: /run
                 subPath: run
-              - path: /tmp
-                subPath: tmp
