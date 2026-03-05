@@ -36,6 +36,7 @@ spec:
               VGW_WEBUI_PORT: ":7071"
               VGW_CORS_ALLOW_ORIGIN: "*"
               VGW_WEBUI_GATEWAYS: "https://versity.ds47.dev"
+              VGW_S3_DOMAIN: "versity.ds47.dev"
             envFrom:
               - secretRef:
                   name: versity-secret
