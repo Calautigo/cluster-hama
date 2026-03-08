@@ -17,7 +17,12 @@ spec:
             image:
               repository: santiagosayshey/profilarr
               tag: v1.1.4@sha256:8a514f8429cd33885166facc9eb6504fa9ded056c737609e5e8ef32ae0afb350
-            command: ["sh", "-c", "sleep 3600"]
+            command: ["/app/profilarr"]
+            env:
+              - name: DENO_SQLITE_PATH
+                value: "/usr/lib/x86_64-linux-gnu/libsqlite3.so.0"
+              - name: APP_BASE_PATH
+                value: "/config"
             resources:
               requests:
                 cpu: 15m
@@ -49,7 +54,3 @@ spec:
     persistence:
       config:
         existingClaim: profilarr-config
-      tmp:
-        type: emptyDir
-        globalMounts:
-          - path: /home/appuser
