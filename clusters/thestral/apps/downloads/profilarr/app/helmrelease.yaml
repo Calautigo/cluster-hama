@@ -47,7 +47,7 @@ spec:
     route:
       app:
         hostnames:
-          - profilarr.schwarz47.at
+          - profilarr.ds47.dev
         parentRefs:
           - name: kgateway-internal
             namespace: network
@@ -55,7 +55,9 @@ spec:
     persistence:
       config:
         existingClaim: profilarr-config
-        globalMounts:
-          - paht: /home/appuser
       tmp:
         type: emptyDir
+      cache:
+        type: emptyDir
+        globalMounts:
+          - path: /home/appuser
