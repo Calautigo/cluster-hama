@@ -60,4 +60,4 @@ spec:
       cache:
         type: emptyDir
         globalMounts:
-          - path: /home/appuser
+          - path: /home
