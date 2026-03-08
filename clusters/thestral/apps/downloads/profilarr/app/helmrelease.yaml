@@ -7,9 +7,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: profilarr
-  dependsOn:
-    - name: ceph-csi-rbd
-      namespace: storage
   values:
     controllers:
       profilarr:
