@@ -34,6 +34,7 @@ spec:
               PGID: 1000
               PUID: 1000
               UPDATE_STRATEGY: PARALLEL
+              REGION: eu
             probes:
               liveness: &probe
                 enabled: true
@@ -73,7 +74,7 @@ spec:
       data:
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
-        size: 300Gi
+        size: 150Gi
         storageClass: csi-rbd-sc
         globalMounts:
           - path: /photon/data
