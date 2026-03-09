@@ -28,10 +28,8 @@ spec:
         containers:
           photon:
             image:
-              repository: registry.kantai.xyz/jfroy/photon-docker
-              tag: 2.0.1-uv_no_sync@sha256:8a516fc9ecdbb3d564900563e53d76b9b406460af686641e074683f628b7da39
-            command: ["uv"]
-            args: ["run", "--no-sync", "-m", "src.process_manager"]
+              repository: ghcr.io/rtuszik/photon-docker
+              tag: 2.1.0@sha256:1729c9bf551da502654654a4b788101d4e4ce24d1dfcea0f4f36048152cbeda2
             env:
               PGID: 2000
               PUID: 2000
