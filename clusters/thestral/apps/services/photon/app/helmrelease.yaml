@@ -34,7 +34,7 @@ spec:
               PGID: 1000
               PUID: 1000
               UPDATE_STRATEGY: PARALLEL
-              REGION: eu
+              REGION: europe
             probes:
               liveness: &probe
                 enabled: true
