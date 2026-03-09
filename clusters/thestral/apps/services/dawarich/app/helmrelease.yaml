@@ -48,16 +48,13 @@ spec:
             command: ["web-entrypoint.sh"]
             args: ["bin/rails", "server", "-p", "3000", "-b", "0.0.0.0"]
             env: &env
-              APPLICATION_HOST: localhost
-              APPLICATION_HOSTS: "{{ .Release.Name }}.ds47.dev, localhost"
+              APPLICATION_HOSTS: "{{ .Release.Name }}.ds47.dev"
               APPLICATION_PROTOCOL: http
               DISTANCE_UNIT: km
               MIN_MINUTES_SPENT_IN_CITY: 60
-              OIDC_ISSUER: https://id.ds47.dev
+              OIDC_ISSUER: "https://id.ds47.dev"
               OIDC_REDIRECT_URI: "https://{{ .Release.Name }}.ds47.dev/users/auth/openid_connect/callback"
-              OIDC_PROVIDER_NAME: "Sign in with PocketId"
-              OIDC_AUTO_REGISTER: "true"
-              ALLOW_EMAIL_PASSWORD_REGISTRATION: "false"
+              OIDC_PROVIDER_NAME: PocketID
               # PHOTON_API_HOST: photon.services.svc.cluster.local:2322
               # PHOTON_API_USE_HTTPS: false
               RAILS_ENV: production
