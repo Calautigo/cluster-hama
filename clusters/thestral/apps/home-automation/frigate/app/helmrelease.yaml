@@ -37,10 +37,10 @@ spec:
                   httpGet:
                     path: /api/version
                     port: &port 5000
-                  initialDelaySeconds: 20
+                  initialDelaySeconds: 30
                   periodSeconds: 10
                   timeoutSeconds: 1
-                  failureThreshold: 3
+                  failureThreshold: 10
               readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
