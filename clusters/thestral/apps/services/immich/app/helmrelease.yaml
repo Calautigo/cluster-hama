@@ -19,7 +19,7 @@ spec:
           init-db:
             image:
               repository: ghcr.io/home-operations/postgres-init
-              tag: 18.2.0@sha256:ae89578925b480f5972f237dda2f7a37efe36aff500d3e7bd1d3a6a3181e4191
+              tag: 18.3.0@sha256:6fa1f331cddd2eb0b6afa7b8d3685c864127a81ab01c3d9400bc3ff5263a51cf
             envFrom:
               - secretRef:
                   name: immich-db
@@ -31,9 +31,8 @@ spec:
               repository: ghcr.io/immich-app/immich-server
               tag: v2.5.6@sha256:aa163d2e1cc2b16a9515dd1fef901e6f5231befad7024f093d7be1f2da14341a
             env:
-              IMMICH_MEDIA_LOCATION: &mediaLocation /library
+              IMMICH_MEDIA_LOCATION: /library
               IMMICH_MACHINE_LEARNING_URL: "http://immich-machine-learning.services.svc.cluster.local:3003"
-              IMMICH_WORKERS_INCLUDE: api
               IMMICH_TELEMETRY_INCLUDE: all
               # Prevent NFS mount check failures
               IMMICH_IGNORE_MOUNT_CHECK_ERRORS: "true"
