@@ -31,13 +31,6 @@ spec:
           reloader.stakater.com/auto: "true"
           
         initContainers:
-          fix-permissions:
-            image:  
-              repository: busybox
-              tag: 1.37.0
-            command: ["sh", "-c", "chown -R 2000:2000 /var/app/db"]
-            securityContext:
-              runAsUser: 0 # Hier darf er kurz root sein
           initdb:
             image:
               repository: ghcr.io/home-operations/postgres-init
