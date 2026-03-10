@@ -55,13 +55,12 @@ spec:
               OIDC_ISSUER: "https://id.ds47.dev"
               OIDC_REDIRECT_URI: "https://{{ .Release.Name }}.ds47.dev/users/auth/openid_connect/callback"
               OIDC_PROVIDER_NAME: PocketID
-              # PHOTON_API_HOST: photon.services.svc.cluster.local:2322
-              # PHOTON_API_USE_HTTPS: false
+              PHOTON_API_HOST: photon.services.svc.cluster.local:2322
+              PHOTON_API_USE_HTTPS: false
               RAILS_ENV: production
               REDIS_URL: redis://dragonfly.database.svc.cluster.local:6379
               SELF_HOSTED: true
               TIME_ZONE: Europe/Vienna
-              TZ: Europe/Vienna
             envFrom: &envFrom
               - secretRef:
                   name: dawarich
@@ -87,7 +86,7 @@ spec:
               repository: mirror.gcr.io/freikin/dawarich
               tag: 1.3.1@sha256:a3b000a5a85b2997ceb7117cb078f7b8851e5f958c87d5286bf098a6e1e26ea0
             command: ["sidekiq-entrypoint.sh"]
-            args: ["bundle exec sidekiq"]
+            args: []
             env: *env
             envFrom: *envFrom
             securityContext: *sc
