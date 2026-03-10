@@ -81,7 +81,7 @@ spec:
             securityContext: &sc
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
-              readOnlyRootFilesystem: false
+              readOnlyRootFilesystem: true
           sidekick:
             image:
               repository: mirror.gcr.io/freikin/dawarich
@@ -114,8 +114,6 @@ spec:
             app: &mounts
               - path: /var/app/db
                 subPath: db
-              - path: /var/app/public
-                subPath: public
               - path: /var/app/storage
                 subPath: storage
               - path: /dawarich_db_data
