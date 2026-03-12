@@ -184,6 +184,7 @@ cluster:
       - 11.96.0.0/12
   token: sops://talos/.secrets.bootstraptoken
   secretboxEncryptionSecret: sops://talos/.secrets.secretboxEncryptionSecret
+{% if not ENV.IS_CONTROLPLANE %}
 ---
 apiVersion: v1alpha1
 kind: UserVolumeConfig
@@ -192,3 +193,4 @@ provisioning:
   diskSelector:
     match: disk.transport == 'virtio' && disk.size > 55u * GiB
   maxSize: 60GiB
+{% endif %}

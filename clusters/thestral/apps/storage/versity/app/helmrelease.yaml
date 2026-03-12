@@ -119,6 +119,8 @@ spec:
 
     persistence:
       data:
-        existingClaim: s3-data
+        type: nfs
+        server: 10.100.0.81
+        path: /backup/versity
         globalMounts:
           - path: /data

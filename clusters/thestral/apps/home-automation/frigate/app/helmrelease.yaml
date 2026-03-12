@@ -116,7 +116,9 @@ spec:
 
     persistence:
       media:
-        existingClaim: frigate-media
+        type: nfs
+        server: 10.100.0.81
+        path: /safe/recordings
         globalMounts:
           - path: /media
 
