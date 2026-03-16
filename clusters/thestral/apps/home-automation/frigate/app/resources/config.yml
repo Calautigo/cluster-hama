@@ -90,8 +90,10 @@ go2rtc:
     #   rtsp://camera:{{ .FRIGATE_CAMERA_PASSWORD }}@10.10.40.57:554/stream1
     # living_room_couch_low: 
     #   rtsp://camera:{{ .FRIGATE_CAMERA_PASSWORD }}@10.10.40.57:554/stream2
-    kitchen: rtsp://camera:{{ .FRIGATE_CAMERA_PASSWORD }}@10.10.40.119:554/stream1
-    kitchen_low: rtsp://camera:{{ .FRIGATE_CAMERA_PASSWORD }}@10.10.40.119:554/stream2
+    kitchen: rtsp://camera:{{ .FRIGATE_CAMERA_PASSWORD }}@10.10.40.127:554/stream1
+    kitchen_low: rtsp://camera:{{ .FRIGATE_CAMERA_PASSWORD }}@10.10.40.127:554/stream2
+    garage: rtsp://camera:{{ .FRIGATE_CAMERA_PASSWORD }}@10.10.40.119:554/stream1
+    garage_low: rtsp://camera:{{ .FRIGATE_CAMERA_PASSWORD }}@10.10.40.119:554/stream2
     sluice: rtsp://camera:{{ .FRIGATE_CAMERA_PASSWORD }}@10.10.40.140:554/stream1
     sluice_low: rtsp://camera:{{ .FRIGATE_CAMERA_PASSWORD }}@10.10.40.140:554/stream2
     garden_door: rtsp://camera:{{ .FRIGATE_CAMERA_PASSWORD }}@10.10.40.123:554/stream1
@@ -171,6 +173,23 @@ cameras:
         Main Stream: sluice
     detect:
       enabled: false
+
+  garage:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/garage
+          input_args: preset-rtsp-restream
+          roles: [record]
+        - path: rtsp://127.0.0.1:8554/garage_low
+          input_args: preset-rtsp-restream
+          roles: [detect]
+    live:
+      streams:
+        Main Stream: garage
+    objects:
+      track:
+        - person
+        - car
 
   # kids_nils:
   #   ffmpeg:
