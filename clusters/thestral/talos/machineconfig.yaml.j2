@@ -191,6 +191,6 @@ kind: UserVolumeConfig
 name: local-hostpath
 provisioning:
   diskSelector:
-    match: disk.transport == 'virtio' && disk.size > 55u * GiB
+    match: disk.transport == 'virtio' && disk.size < 100u * GiB
   maxSize: 60GiB
 {% endif %}
