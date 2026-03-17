@@ -1,0 +1,58 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app bentopdf
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: bentopdf
+  interval: 30m
+  values:
+    controllers:
+      bentopdf:
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        pod:
+          securityContext:
+            fsGroup: 2000
+            fsGroupChangePolicy: "OnRootMismatch"
+            runAsGroup: 2000
+            runAsUser: 2000
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/alam00000/bentopdf
+              tag: 2.5.0@sha256:c3729000f885059680cee9d49df50b21410cf80896be06f7e070de8f85a37816
+            resources:
+              requests:
+                cpu: 10m
+                memory: 50Mi
+              limits:
+                memory: 512Mi
+
+    service:
+      app:
+        ports:
+          http:
+            port: 8080
+
+    persistence:
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /var/cache/nginx
+            subPath: cache
+          - path: /etc/nginx/tmp
+            subPath: tmp
+
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.ds47.dev"
+        parentRefs:
+          - name: kgateway-internal
+            namespace: network
