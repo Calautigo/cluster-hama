@@ -25,8 +25,8 @@ spec:
         containers:
           app:
             image:
-              repository: git.ds47.dev/Calautigo/glasheim-dashboard
-              tag: v0.1.0
+              repository: git.ds47.dev/calautigo/glasheim-dashboard
+              tag: 0.1.0
               pullPolicy: Always
 
             envFrom:
@@ -40,7 +40,7 @@ spec:
                 spec:
                   httpGet:
                     path: /
-                    port: &port 3000
+                    port: &port 80
               readiness: *probe
             resources:
               requests:
@@ -66,6 +66,14 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /tmp
+      nginx-cache:
+        type: emptyDir
+        globalMounts:
+          - path: /var/cache/nginx
+      nginx-run:
+        type: emptyDir
+        globalMounts:
+          - path: /var/run
 
     route:
       app:
