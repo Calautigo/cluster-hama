@@ -6,7 +6,7 @@ resources:
   - ./namespace.yaml
   - ./esphome/ks.yaml
   - ./frigate/ks.yaml
-  - ./hass-dashboard/ks.yaml
+  - ./glasheim-dashboard/ks.yaml
   - ./nodered/ks.yaml
   - ./unifi/ks.yaml
   - ./zigbee2mqtt/ks.yaml

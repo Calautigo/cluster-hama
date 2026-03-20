@@ -3,7 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: hass-dashboard
+  name: glasheim-dashboard
 spec:
   interval: 15m
   layerSelector:
