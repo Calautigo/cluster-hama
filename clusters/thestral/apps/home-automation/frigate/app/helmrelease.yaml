@@ -42,6 +42,10 @@ spec:
                   timeoutSeconds: 1
                   failureThreshold: 5
               readiness: *probes
+            lifecycle:
+              postStart:
+                exec:
+                  command: ["find", "/dev/shm", "-name", "sem.*", "-delete"]
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
