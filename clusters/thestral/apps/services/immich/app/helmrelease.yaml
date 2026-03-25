@@ -78,6 +78,7 @@ spec:
               repository: ghcr.io/immich-app/immich-machine-learning
               tag: v2.6.2@sha256:1521a1c8c1727ec240e57585db7bf90a3b067066d4847baeb80f353d721f4d5a
             env:
+              IMMICH_MEDIA_LOCATION: /library
               MACHINE_LEARNING_PRELOAD__CLIP__TEXTUAL: ViT-SO400M-16-SigLIP2-384__webli
               MACHINE_LEARNING_PRELOAD__CLIP__VISUAL: ViT-SO400M-16-SigLIP2-384__webli
               MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__RECOGNITION: buffalo_l
@@ -176,6 +177,8 @@ spec:
         type: nfs
         server: 10.100.0.81
         path: /photos
+        globalMounts:
+          - path: /library
       initdb:
         type: configMap
         name: immich-initdb
