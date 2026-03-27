@@ -73,7 +73,7 @@ spec:
         type: secret
         name: glasheim-dashboard-secret
         globalMounts:
-          - path: /app/build/client
+          - path: /app/build/client/config.js
             subPath: config.js
 
     route:
