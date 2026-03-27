@@ -68,7 +68,7 @@ spec:
       node:
         type: emptyDir
         globalMounts:
-          - /home/node/.cache
+          - path: /home/node/.cache
       secrets:
         type: secret
         name: glasheim-dashboard-secret
