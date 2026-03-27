@@ -66,14 +66,10 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /tmp
-      nginx-cache:
+      build-client:
         type: emptyDir
         globalMounts:
-          - path: /var/cache/nginx
-      nginx-run:
-        type: emptyDir
-        globalMounts:
-          - path: /var/run
+          - path: /app/build/client
 
     route:
       app:
