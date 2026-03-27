@@ -26,12 +26,11 @@ spec:
           app:
             image:
               repository: git.ds47.dev/calautigo/glasheim-dashboard
-              tag: 0.2.1
+              tag: 0.2.2
               pullPolicy: Always
 
-            envFrom:
-              - secretRef:
-                  name: glasheim-dashboard-secret
+            env:
+              NODE_ENV: "production"
 
             probes:
               liveness: &probe
@@ -66,10 +65,16 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /tmp
-      build-client:
+      node:
         type: emptyDir
         globalMounts:
-          - path: /app/build/client
+          - /home/node/.cache
+      secrets:
+        type: secret
+        name: glasheim-dashboard-secret
+        globalMounts:
+          - path: /app/build/client/config.js
+            subPath: config.js
 
     route:
       app:
