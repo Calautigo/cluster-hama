@@ -59,7 +59,7 @@ machine:
     extraConfig:
       maxPods: 150
       serializeImagePulls: false
-    image: ghcr.io/siderolabs/kubelet:v1.35.2
+    image: ghcr.io/siderolabs/kubelet:v1.35.3
     nodeIP:
       validSubnets:
         - 10.100.10.0/24
@@ -108,7 +108,7 @@ cluster:
     key: sops://talos/.certs.k8saggregator.key
   allowSchedulingOnControlPlanes: false
   apiServer:
-    image: registry.k8s.io/kube-apiserver:v1.35.2
+    image: registry.k8s.io/kube-apiserver:v1.35.3
     extraArgs:
       enable-aggregator-routing: "true"
       feature-gates: MutatingAdmissionPolicy=true
@@ -119,7 +119,7 @@ cluster:
       - api.thestral.infra.gryffindor.schwarz47.at
     disablePodSecurityPolicy: true
   controllerManager:
-    image: registry.k8s.io/kube-controller-manager:v1.35.2
+    image: registry.k8s.io/kube-controller-manager:v1.35.3
     extraArgs:
       bind-address: 0.0.0.0
   coreDNS:
@@ -134,7 +134,7 @@ cluster:
       listen-metrics-urls: http://0.0.0.0:2381
   proxy:
     disabled: true
-    image: registry.k8s.io/kube-proxy:v1.35.2
+    image: registry.k8s.io/kube-proxy:v1.35.3
   scheduler:
     config:
       apiVersion: kubescheduler.config.k8s.io/v1
@@ -155,7 +155,7 @@ cluster:
           schedulerName: default-scheduler
     extraArgs:
       bind-address: 0.0.0.0
-    image: registry.k8s.io/kube-scheduler:v1.35.2
+    image: registry.k8s.io/kube-scheduler:v1.35.3
   serviceAccount:
     key: sops://talos/.certs.k8sserviceaccount.key
   {% endif %}

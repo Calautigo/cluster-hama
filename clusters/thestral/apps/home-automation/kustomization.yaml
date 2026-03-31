@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: home-automation
 resources:
   - ./namespace.yaml
+  - ./bambuddy/ks.yaml
   - ./esphome/ks.yaml
   - ./frigate/ks.yaml
   - ./glasheim-dashboard/ks.yaml

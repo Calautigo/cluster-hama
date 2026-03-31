@@ -6,7 +6,6 @@ namespace: downloads
 resources:
   - ./namespace.yaml
   - ./deduparr/ks.yaml
-  - ./maintainerr/ks.yaml
   - ./profilarr/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
