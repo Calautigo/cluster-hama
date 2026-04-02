@@ -72,12 +72,6 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /home/node/.cache
-      secrets:
-        type: secret
-        name: glasheim-dashboard-secret
-        globalMounts:
-          - path: /app/build/client/config.js
-            subPath: config.js
 
     route:
       app:
