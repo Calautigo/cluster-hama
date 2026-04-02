@@ -26,11 +26,14 @@ spec:
           app:
             image:
               repository: git.ds47.dev/calautigo/glasheim-dashboard
-              tag: 0.2.10
+              tag: 0.2.11
               pullPolicy: Always
 
             env:
               NODE_ENV: "production"
+            envFrom:
+              - secretRef:
+                  name: glasheim-dashboard-secret
 
             probes:
               liveness: &probe
