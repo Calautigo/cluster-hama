@@ -99,9 +99,9 @@ go2rtc:
     garden_door: rtsp://camera:{{ .FRIGATE_CAMERA_PASSWORD }}@10.10.40.123:554/stream1
     garden_door_low: rtsp://camera:{{ .FRIGATE_CAMERA_PASSWORD }}@10.10.40.123:554/stream2
     garden_chicken: 
-      rtsp://camera:{{ .FRIGATE_CAMERA_PASSWORD }}@10.10.40.114:554
+      rtsp://admin:{{ .FRIGATE_CAMERA_PASSWORD }}@10.10.40.114:554
     garden_chicken_low: 
-      rtsp://camera:{{ .FRIGATE_CAMERA_PASSWORD }}@10.10.40.114:554//h264Preview_01_sub
+      rtsp://admin:{{ .FRIGATE_CAMERA_PASSWORD }}@10.10.40.114:554/h264Preview_01_sub
     garden_carport: 
       rtsp://camera:{{ .FRIGATE_CAMERA_PASSWORD }}@10.10.40.118:554/stream1
     garden_carport_low: 
