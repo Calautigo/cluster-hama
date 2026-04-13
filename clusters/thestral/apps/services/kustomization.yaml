@@ -10,6 +10,7 @@ resources:
   - ./dawarich/ks.yaml
   - ./filebrowser/ks.yaml
   - ./immich/ks.yaml
+  - ./nextcloud/ks.yaml
   - ./onlyoffice/ks.yaml
   - ./paperless/ks.yaml
   - ./photon/ks.yaml
