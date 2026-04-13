@@ -31,6 +31,10 @@ spec:
                         - app
                 topologyKey: kubernetes.io/hostname
         successfulJobsHistoryLimit: 1
+        securityContext:
+          runAsGroup: 82
+          runAsNonRoot: true
+          runAsUser: 82
     image:
       flavor: fpm-alpine
     nginx:
@@ -173,3 +177,54 @@ spec:
       nextcloudData:
         enabled: true
         existingClaim: nextcloud-data
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: nextcloud
+            patch: |-
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: nextcloud
+              spec:
+                template:
+                  spec:
+                    securityContext:
+                      runAsNonRoot: true
+                      runAsUser: 82
+                      runAsGroup: 82
+                      fsGroup: 82
+                    containers:
+                      - name: nextcloud
+                        securityContext:
+                          allowPrivilegeEscalation: false
+                          capabilities:
+                            drop:
+                              - ALL
+          - target:
+              kind: CronJob
+              name: nextcloud-cron
+            patch: |-
+              apiVersion: batch/v1
+              kind: CronJob
+              metadata:
+                name: nextcloud-cron
+              spec:
+                jobTemplate:
+                  spec:
+                    template:
+                      spec:
+                        securityContext:
+                          runAsNonRoot: true
+                          runAsUser: 82
+                          runAsGroup: 82
+                          fsGroup: 82
+                        containers:
+                          - name: nextcloud
+                            securityContext:
+                              allowPrivilegeEscalation: false
+                              capabilities:
+                                drop:
+                                  - ALL
