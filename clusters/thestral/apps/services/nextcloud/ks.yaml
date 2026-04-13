@@ -23,7 +23,7 @@ spec:
     substitute:
       APP: nextcloud
       VOLSYNC_CLAIM: nextcloud
-      VOLSYNC_CAPACITY: 15Gi
+      VOLSYNC_CAPACITY: 5Gi
   prune: true
   sourceRef:
     kind: GitRepository

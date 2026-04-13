@@ -15,10 +15,6 @@ spec:
     cronjob:
       enabled: true
       type: cronjob
-      securityContext:
-        runAsGroup: 82
-        runAsNonRoot: true
-        runAsUser: 82
       cronjob:
         affinity:
           podAffinity:
@@ -48,6 +44,14 @@ spec:
                 name: nextcloud-secret
             - secretRef:
                 name: nextcloud-initdb-secret
+      extraVolumes:
+      - name: nfs-home
+        nfs:
+          server: 10.100.0.81
+          path: /safe/apps/nextcloud
+      extraVolumeMounts:
+      - name: nfs-home
+        mountPath: /var/www/data
       datadir: /var/www/data
       extraEnv:
         - name: OIDC_CLIENT_ID
