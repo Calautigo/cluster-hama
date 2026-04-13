@@ -34,7 +34,20 @@ spec:
     nginx:
       enabled: true
     nextcloud:
+      extraInitContainers:
+        - name: init-db
+          image: ghcr.io/home-operations/postgres-init:18.3.0@sha256:6fa1f331cddd2eb0b6afa7b8d3685c864127a81ab01c3d9400bc3ff5263a51cf
+          envFrom:
+            - secretRef:
+              name: nextcloud-secret
+            - secretRef:
+              name: nextcloud-initdb-secret
       datadir: /var/www/data
+      extraEnv:
+        - name: REDIS_HOST
+          value: dragonfly.database.svc.cluster.local.
+        - name: REDIS_HOST_PORT
+          value: "6379"
       existingSecret:
         enabled: true
         secretName: nextcloud-secret
@@ -62,6 +75,18 @@ spec:
             'default_phone_region' => 'AT',
             'maintenance_window_start' => 2,
           ); ?>
+    internalDatabase:
+      enabled: false
+    externalDatabase:
+      enabled: true
+      type: postgresql
+      host: pg18vec-rw.database.svc.cluster.local.
+      database: nextcloud
+      existingSecret:
+        enabled: true
+        secretName: nextcloud-secret
+        usernameKey: INIT_POSTGRES_USER
+        passwordKey: INIT_POSTGRES_PASS
     httpRoute:
       enabled: true
       hostnames:
@@ -82,10 +107,7 @@ spec:
                     value: max-age=31536000
     persistence:
       enabled: true
-      existingClaim: nextcloud
-    redis:
-      enabled: true
-      architecture: standalone
+      existingClaim: ${VOLSYNC_CLAIM}
   postRenderers:
     - kustomize:
         patches:

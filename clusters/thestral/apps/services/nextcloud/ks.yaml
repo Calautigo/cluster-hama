@@ -11,6 +11,10 @@ spec:
   components:
     - ../../../../components/volsync
   dependsOn:
+    - name: pg18vec
+      namespace: database
+    - name: dragonfly-cluster
+      namespace: database
     - name: ceph-csi-rbd
       namespace: storage
   interval: 1h
@@ -18,8 +22,6 @@ spec:
   postBuild:
     substitute:
       APP: nextcloud
-      APP_UID: "0"
-      APP_GID: "82"
       VOLSYNC_CLAIM: nextcloud
       VOLSYNC_CAPACITY: 15Gi
   prune: true
