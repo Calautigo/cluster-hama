@@ -15,6 +15,7 @@ spec:
         artifact: oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.36.0
         version: 2.x
       cluster:
+        # networkPolicy disabled: cluster-wide CNI NetworkPolicy (Cilium) handles this instead.
         networkPolicy: false
       components:
         - source-controller
@@ -32,18 +33,18 @@ spec:
           app.kubernetes.io/name: flux
       kustomize:
         patches:
-          # Increase the number of workers
+          # Increase the number of workers for helm and source controllers
           - patch: |
               - op: add
                 path: /spec/template/spec/containers/0/args/-
                 value: --concurrent=10
               - op: add
                 path: /spec/template/spec/containers/0/args/-
-                value: --requeue-dependency=5s
+                value: --requeue-dependency=15s
             target:
               kind: Deployment
-              name: (kustomize-controller|helm-controller|source-controller)
-          # Increase the memory limits
+              name: (helm-controller|source-controller)
+          # Increase the memory limits and requests
           - patch: |
               apiVersion: apps/v1
               kind: Deployment
@@ -57,10 +58,12 @@ spec:
                         resources:
                           limits:
                             memory: 2Gi
+                          requests:
+                            memory: 512Mi
             target:
               kind: Deployment
               name: (kustomize-controller|helm-controller|source-controller)
-          # Enable in-memory kustomize builds
+          # Enable in-memory kustomize builds with 20 concurrent workers
           - patch: |
               - op: add
                 path: /spec/template/spec/containers/0/args/-
@@ -71,6 +74,7 @@ spec:
                   name: temp
                   emptyDir:
                     medium: Memory
+                    sizeLimit: 512Mi
             target:
               kind: Deployment
               name: kustomize-controller
@@ -84,7 +88,7 @@ spec:
                 value: --helm-cache-ttl=60m
               - op: add
                 path: /spec/template/spec/containers/0/args/-
-                value: --helm-cache-purge-interval=5m
+                value: --helm-cache-purge-interval=15m
             target:
               kind: Deployment
               name: source-controller
@@ -98,15 +102,7 @@ spec:
                 value: --oom-watch-memory-threshold=95
               - op: add
                 path: /spec/template/spec/containers/0/args/-
-                value: --oom-watch-interval=500ms
-            target:
-              kind: Deployment
-              name: helm-controller
-          # Disable chart digest tracking
-          - patch: |
-              - op: add
-                path: /spec/template/spec/containers/0/args/-
-                value: --feature-gates=DisableChartDigestTracking=true
+                value: --oom-watch-interval=1s
             target:
               kind: Deployment
               name: helm-controller

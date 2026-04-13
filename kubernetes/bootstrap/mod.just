@@ -2,12 +2,15 @@ set positional-arguments := true
 set quiet := true
 set shell := ['bash', '-euo', 'pipefail', '-c']
 
-kubernetes_dir := justfile_dir() + '/..'
+kubernetes_dir := justfile_dir() + '/..' # = kubernetes/
 bootstrap_dir := justfile_dir()
 secrets_file := bootstrap_dir + '/secret.sops.yaml'
+# Requires talosctl to be configured; evaluated at parse time.
 controller := `talosctl config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1`
 nodes := `talosctl config info -o yaml | yq -e '.nodes | join (" ")'`
 
+# Phase 1: fetch kubeconfig via node IP (cilium not yet available).
+# Phase 2: re-fetch via cilium LB after apps are deployed.
 [private]
 default: talos kubernetes (kubeconfig "node") wait namespaces resources crds apps kubeconfig
 
@@ -44,11 +47,11 @@ kubeconfig lb="cilium":
     fi; \
   fi
 
-[doc('Wait for nodes to be not-ready')]
+[doc('Wait for nodes to be ready')]
 wait:
   just log info "Running stage..." "stage" "$0"
   if ! kubectl wait nodes --for=condition=Ready=True --all --timeout=10s &>/dev/null; then \
-    until kubectl wait nodes --for=condition=Ready=False --all --timeout=10s &>/dev/null; do \
+    until kubectl wait nodes --for=condition=Ready=True --all --timeout=10s &>/dev/null; do \
       just log info "Nodes not available, waiting for nodes to be available. Retrying in 5 seconds..." "stage" "$0"; \
       sleep 5; \
     done \

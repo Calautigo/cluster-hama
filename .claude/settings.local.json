@@ -13,7 +13,8 @@
       "Bash(grep -r clusters/thestral /mnt/c/Users/Dominik/Privat/cluster-hama --include=*.yaml --include=*.just)",
       "Bash(mkdir -p /mnt/c/Users/Dominik/Privat/cluster-hama/.claude/skills/deep-review)",
       "Bash(mv /home/dominik/.claude/skills/deep-review/SKILL.md /mnt/c/Users/Dominik/Privat/cluster-hama/.claude/skills/deep-review/SKILL.md)",
-      "Bash(rmdir /home/dominik/.claude/skills/deep-review)"
+      "Bash(rmdir /home/dominik/.claude/skills/deep-review)",
+      "Bash(grep -r brew /mnt/c/Users/Dominik/Privat/cluster-hama --include=*.just -l)"
     ]
   }
 }

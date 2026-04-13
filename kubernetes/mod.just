@@ -83,5 +83,6 @@ keda-all state:
   done
 
 [private]
+# Requires flux-local: pip install flux-local (https://github.com/allenporter/flux-local)
 render-local-ks ns ks:
   flux-local build ks --namespace "{{ ns }}" --path "{{ kubernetes_dir }}/flux/cluster" "{{ ks }}"
