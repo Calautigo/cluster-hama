@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: ./clusters/thestral/apps/downloads/profilarr/app
+  path: ./kubernetes/apps/downloads/profilarr/app
   prune: true
   sourceRef:
     kind: GitRepository

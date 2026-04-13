@@ -8,7 +8,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./clusters/thestral/apps/services/photon/app
+  path: ./kubernetes/apps/services/photon/app
   prune: true
   sourceRef:
     kind: GitRepository

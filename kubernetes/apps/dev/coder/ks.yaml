@@ -15,7 +15,7 @@ spec:
       namespace: external-secrets
     - name: pg18vec
       namespace: database
-  path: ./clusters/thestral/apps/dev/coder/app
+  path: ./kubernetes/apps/dev/coder/app
   prune: true
   sourceRef:
     kind: GitRepository

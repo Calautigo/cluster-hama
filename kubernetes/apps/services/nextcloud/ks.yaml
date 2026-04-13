@@ -18,7 +18,7 @@ spec:
     - name: ceph-csi-rbd
       namespace: storage
   interval: 1h
-  path: "./clusters/thestral/apps/services/nextcloud/app"
+  path: "./kubernetes/apps/services/nextcloud/app"
   postBuild:
     substitute:
       APP: nextcloud

@@ -9,7 +9,7 @@ spec:
     labels:
       app.kubernetes.io/name: keda
   interval: 1h
-  path: "./clusters/thestral/apps/system/keda/app"
+  path: "./kubernetes/apps/system/keda/app"
   prune: true
   sourceRef:
     kind: GitRepository

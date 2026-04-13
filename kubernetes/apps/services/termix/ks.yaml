@@ -14,7 +14,7 @@ spec:
       namespace: storage
   components:
     - ../../../../components/volsync
-  path: ./clusters/thestral/apps/services/termix/app
+  path: ./kubernetes/apps/services/termix/app
   prune: true
   sourceRef:
     kind: GitRepository

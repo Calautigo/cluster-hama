@@ -20,7 +20,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./clusters/thestral/flux
+  path: ./kubernetes/flux
   prune: true
   sourceRef:
     kind: GitRepository

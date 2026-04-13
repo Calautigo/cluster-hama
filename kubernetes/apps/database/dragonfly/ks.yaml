@@ -12,7 +12,7 @@ spec:
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
-  path: ./clusters/thestral/apps/database/dragonfly/app
+  path: ./kubernetes/apps/database/dragonfly/app
   prune: true
   wait: true
   sourceRef:
@@ -35,7 +35,7 @@ spec:
   dependsOn:
     - name: dragonfly-operator
       namespace: database
-  path: ./clusters/thestral/apps/database/dragonfly/cluster
+  path: ./kubernetes/apps/database/dragonfly/cluster
   prune: true
   wait: false
   sourceRef:

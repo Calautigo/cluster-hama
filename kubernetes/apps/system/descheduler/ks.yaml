@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: "./clusters/thestral/apps/system/descheduler/app"
+  path: "./kubernetes/apps/system/descheduler/app"
   sourceRef:
     kind: GitRepository
     name: flux-system

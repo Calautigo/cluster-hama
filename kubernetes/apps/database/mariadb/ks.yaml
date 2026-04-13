@@ -13,7 +13,7 @@ spec:
   dependsOn:
     - name: ceph-rbd
       namespace: storage
-  path: ./clusters/thestral/apps/database/mariadb/app
+  path: ./kubernetes/apps/database/mariadb/app
   prune: true
   sourceRef:
     kind: GitRepository

@@ -6,7 +6,7 @@ metadata:
   namespace: home-automation
 spec:
   targetNamespace: home-automation
-  path: ./clusters/thestral/apps/home-automation/openwakeword/app
+  path: ./kubernetes/apps/home-automation/openwakeword/app
   prune: true
   sourceRef:
     kind: GitRepository

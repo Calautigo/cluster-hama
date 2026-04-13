@@ -14,7 +14,7 @@ spec:
       namespace: storage
   components:
     - ../../../../components/volsync
-  path: ./clusters/thestral/apps/services/filebrowser/app
+  path: ./kubernetes/apps/services/filebrowser/app
   prune: true
   sourceRef:
     kind: GitRepository

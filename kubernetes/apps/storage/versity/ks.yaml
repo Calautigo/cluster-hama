@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./clusters/thestral/apps/storage/versity/app
+  path: ./kubernetes/apps/storage/versity/app
   prune: true
   sourceRef:
     kind: GitRepository

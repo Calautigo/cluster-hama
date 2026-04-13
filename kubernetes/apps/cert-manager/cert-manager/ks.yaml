@@ -15,7 +15,7 @@ spec:
       name: *app
       namespace: cert-manager
   interval: 1h
-  path: ./clusters/thestral/apps/cert-manager/cert-manager/app
+  path: ./kubernetes/apps/cert-manager/cert-manager/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -42,7 +42,7 @@ spec:
       kind: ClusterIssuer
       failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
       current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
-  path: ./clusters/thestral/apps/cert-manager/cert-manager/issuers
+  path: ./kubernetes/apps/cert-manager/cert-manager/issuers
   prune: false  # don't delete issued certificates
   sourceRef:
     kind: GitRepository

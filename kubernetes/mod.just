@@ -1,7 +1,7 @@
 set quiet := true
 set shell := ['bash', '-euo', 'pipefail', '-c']
 
-kubernetes_dir := justfile_dir() + '/clusters/thestral'
+kubernetes_dir := justfile_dir()
 
 [private]
 default:

@@ -1,8 +1,7 @@
 set quiet := true
 set shell := ['bash', '-euo', 'pipefail', '-c']
 
-kubernetes_dir := justfile_dir() + '/clusters/thestral'
-talos_dir := kubernetes_dir + '/talos'
+talos_dir := justfile_dir()
 secrets_file := talos_dir + '/talsecret.sops.yaml'
 controller := `talosctl config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1`
 nodes := `talosctl config info -o yaml | yq -e '.nodes | join (",")'`

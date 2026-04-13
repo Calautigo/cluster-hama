@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./clusters/thestral/apps/home-automation/wyoming-piper/app
+  path: ./kubernetes/apps/home-automation/wyoming-piper/app
   prune: true
   sourceRef:
     kind: GitRepository

@@ -10,7 +10,7 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/volsync
-  path: ./clusters/thestral/apps/services/dawarich/app
+  path: ./kubernetes/apps/services/dawarich/app
   prune: true
   sourceRef:
     kind: GitRepository

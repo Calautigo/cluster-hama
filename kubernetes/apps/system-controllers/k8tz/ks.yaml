@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./clusters/thestral/apps/system-controllers/k8tz/app
+  path: ./kubernetes/apps/system-controllers/k8tz/app
   prune: true
   sourceRef:
     kind: GitRepository

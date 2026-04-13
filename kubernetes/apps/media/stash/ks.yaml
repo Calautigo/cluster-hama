@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: ./clusters/thestral/apps/media/stash/app
+  path: ./kubernetes/apps/media/stash/app
   prune: true
   sourceRef:
     kind: GitRepository

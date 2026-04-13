@@ -8,7 +8,7 @@ spec:
   decryption:
     provider: sops
   interval: 10m
-  path: ./clusters/thestral/apps
+  path: ./kubernetes/apps
   prune: true
   sourceRef:
     kind: GitRepository

@@ -17,7 +17,7 @@ spec:
       namespace: storage
   interval: 30m
   timeout: 5m
-  path: ./clusters/thestral/apps/storage/openebs/app
+  path: ./kubernetes/apps/storage/openebs/app
   prune: true
   sourceRef:
     kind: GitRepository

@@ -17,7 +17,7 @@ spec:
       namespace: database
   components:
     - ../../../../components/gpu
-  path: ./clusters/thestral/apps/services/immich/app
+  path: ./kubernetes/apps/services/immich/app
   prune: true
   sourceRef:
     kind: GitRepository

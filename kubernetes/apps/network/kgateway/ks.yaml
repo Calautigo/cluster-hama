@@ -14,7 +14,7 @@ spec:
       name: kgateway-crds
       namespace: network
   interval: 1h
-  path: "./clusters/thestral/apps/network/kgateway/crds"
+  path: "./kubernetes/apps/network/kgateway/crds"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -41,7 +41,7 @@ spec:
       name: kgateway
       namespace: network
   interval: 1h
-  path: "./clusters/thestral/apps/network/kgateway/app"
+  path: "./kubernetes/apps/network/kgateway/app"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -63,7 +63,7 @@ spec:
     - name: kgateway
       namespace: network
   interval: 1h
-  path: "./clusters/thestral/apps/network/kgateway/gateway"
+  path: "./kubernetes/apps/network/kgateway/gateway"
   prune: true
   sourceRef:
     kind: GitRepository
