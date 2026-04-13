@@ -43,6 +43,7 @@ metadata:
   name: calautigo
   namespace: renovate
 spec:
+  provider: github
   discoveryFilters:
     - calautigo/*
   extraEnv:
