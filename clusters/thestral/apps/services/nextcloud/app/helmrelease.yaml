@@ -10,6 +10,8 @@ spec:
     name: nextcloud
   interval: 30m
   values:
+    deploymentAnnotations:
+      reloader.stakater.com/auto: "true"
     cronjob:
       enabled: true
       type: cronjob
@@ -48,6 +50,16 @@ spec:
                 name: nextcloud-initdb-secret
       datadir: /var/www/data
       extraEnv:
+        - name: OIDC_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: &secret nextcloud-secret
+              key: OIDC_CLIENT_ID
+        - name: OIDC_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: *secret
+              key: OIDC_CLIENT_SECRET
         - name: REDIS_HOST
           value: dragonfly.database.svc.cluster.local.
         - name: REDIS_HOST_PORT
@@ -143,9 +155,11 @@ spec:
       database: nextcloud
       existingSecret:
         enabled: true
-        secretName: nextcloud-secret
-        usernameKey: INIT_POSTGRES_USER
-        passwordKey: INIT_POSTGRES_PASS
+        secretName: *secret
+        usernameKey: POSTGRES_USER
+        passwordKey: POSTGRES_PASSWORD
+        hostKey: POSTGRES_HOST
+        databaseKey: POSTGRES_DB
     httpRoute:
       enabled: true
       hostnames:
@@ -158,12 +172,6 @@ spec:
             - path:
                 type: PathPrefix
                 value: "/"
-          filters:
-            - type: ResponseHeaderModifier
-              responseHeaderModifier:
-                add:
-                  - name: strict-transport-security
-                    value: max-age=31536000
     persistence:
       enabled: true
       existingClaim: ${VOLSYNC_CLAIM}
