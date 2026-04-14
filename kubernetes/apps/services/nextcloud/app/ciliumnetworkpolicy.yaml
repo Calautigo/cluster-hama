@@ -48,6 +48,13 @@ spec:
         - ports:
             - port: "6379"
               protocol: TCP
+    # NFS-Server
+    - toCIDR:
+        - 10.100.0.81/32
+      toPorts:
+        - ports:
+            - port: "2049"
+              protocol: TCP
     # OIDC-Provider (Pocket ID)
     - toFQDNs:
         - matchName: id.ds47.dev
