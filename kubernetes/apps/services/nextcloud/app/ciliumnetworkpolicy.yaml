@@ -62,3 +62,21 @@ spec:
         - ports:
             - port: "443"
               protocol: TCP
+
+    # Egress zu sich selbst (Nextcloud → Nextcloud Service)
+    - toEndpoints:
+      - matchLabels:
+          app.kubernetes.io/instance: nextcloud
+          app.kubernetes.io/name: nextcloud
+      toPorts:
+      - ports:
+        - port: "80"
+          protocol: TCP
+
+    # Egress externes HTTPS (App Store, Updates, Federation)
+    - toEntities:
+      - world
+      toPorts:
+      - ports:
+        - port: "443"
+          protocol: TCP
