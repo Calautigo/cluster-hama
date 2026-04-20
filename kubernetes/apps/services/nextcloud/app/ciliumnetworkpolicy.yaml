@@ -18,6 +18,10 @@ spec:
         - ports:
             - port: "80"
               protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: database
+            app.kubernetes.io/part-of: dragonfly
   egress:
     # DNS
     - toEndpoints:
