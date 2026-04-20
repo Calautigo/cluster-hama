@@ -62,3 +62,19 @@ spec:
         - ports:
             - port: "443"
               protocol: TCP
+    # kgateway (interne HTTP-Callbacks, Cronjobs)
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: network
+            gateway.networking.k8s.io/gateway-name: kgateway-internal
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+    # Externe HTTPS (App Store, Updates, Federation)
+    - toEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
