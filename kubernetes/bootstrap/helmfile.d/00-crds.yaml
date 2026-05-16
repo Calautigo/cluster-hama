@@ -12,12 +12,12 @@ releases:
   - name: envoy-gateway
     namespace: networking
     chart: oci://mirror.gcr.io/envoyproxy/gateway-helm
-    version: v1.7.1
+    version: v1.8.0
 
   - name: external-dns
     namespace: network
     chart: oci://ghcr.io/home-operations/charts-mirror/external-dns
-    version: 1.20.0
+    version: 1.21.1
 
   - name: keda
     namespace: kube-system

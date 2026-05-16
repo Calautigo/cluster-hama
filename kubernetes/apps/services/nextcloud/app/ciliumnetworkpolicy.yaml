@@ -18,6 +18,10 @@ spec:
         - ports:
             - port: "80"
               protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: database
+            app.kubernetes.io/part-of: dragonfly
   egress:
     # DNS
     - toEndpoints:
@@ -48,9 +52,32 @@ spec:
         - ports:
             - port: "6379"
               protocol: TCP
+    # NFS-Server
+    - toCIDR:
+        - 10.100.0.81/32
+      toPorts:
+        - ports:
+            - port: "2049"
+              protocol: TCP
     # OIDC-Provider (Pocket ID)
     - toFQDNs:
         - matchName: id.ds47.dev
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+    # kgateway (interne HTTP-Callbacks, Cronjobs)
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: network
+            gateway.networking.k8s.io/gateway-name: kgateway-internal
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+    # Externe HTTPS (App Store, Updates, Federation)
+    - toEntities:
+        - world
       toPorts:
         - ports:
             - port: "443"
