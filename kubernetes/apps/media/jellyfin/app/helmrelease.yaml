@@ -70,7 +70,7 @@ spec:
     route:
       app:
         hostnames:
-          - jellyfin.schwarz47.at
+          - jellyfin.ds47.dev
         parentRefs:
           - name: kgateway-internal
             namespace: network
