@@ -47,7 +47,7 @@ releases:
   - name: spegel
     namespace: system
     chart: oci://ghcr.io/spegel-org/helm-charts/spegel
-    version: 0.7.0
+    version: 0.7.1
     values:
       - templates/values.yaml.gotmpl
     needs:
@@ -65,7 +65,7 @@ releases:
   - name: external-secrets
     namespace: external-secrets
     chart: oci://ghcr.io/external-secrets/charts/external-secrets
-    version: 2.4.1
+    version: 2.5.0
     values:
       - templates/values.yaml.gotmpl
     needs:

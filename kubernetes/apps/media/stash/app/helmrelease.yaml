@@ -52,7 +52,7 @@ spec:
     route:
       app:
         hostnames:
-          - stash.schwarz47.at
+          - stash.ds47.dev
         parentRefs:
           - name: kgateway-internal
             namespace: network
