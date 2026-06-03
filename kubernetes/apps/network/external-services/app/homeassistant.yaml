@@ -6,6 +6,7 @@ metadata:
 spec:
   type: Static
   static:
+    appProtocol: kubernetes.io/ws
     hosts:
       - host: "10.100.0.90"
         port: 8123
