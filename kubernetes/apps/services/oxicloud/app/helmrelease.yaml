@@ -42,7 +42,7 @@ spec:
               OXICLOUD_DIRECT_PUT_MAX_BYTES: "1073741824"
               OXICLOUD_OIDC_ADMIN_GROUPS: "hama"
               OXICLOUD_OIDC_AUTO_PROVISION: "true"
-              OXICLOUD_OIDC_DISABLE_PASSWORD_LOGIN: "false"
+              OXICLOUD_OIDC_DISABLE_PASSWORD_LOGIN: "true"
               OXICLOUD_OIDC_ENABLED: "true"
               OXICLOUD_OIDC_FRONTEND_URL: *hostUrl
               OXICLOUD_OIDC_ISSUER_URL: "https://id.ds47.dev"
