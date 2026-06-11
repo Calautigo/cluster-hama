@@ -17,7 +17,6 @@ spec:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: services
             app.kubernetes.io/name: oxicloud
-            app.kubernetes.io/instance: oxicloud
       toPorts:
         - ports:
             - port: "9980"
