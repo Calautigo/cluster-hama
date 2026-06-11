@@ -3,12 +3,12 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: oxicloud
+  name: collabora
 spec:
   endpointSelector:
     matchLabels:
-      app.kubernetes.io/name: oxicloud
-      app.kubernetes.io/instance: oxicloud
+      app.kubernetes.io/name: collabora
+      app.kubernetes.io/instance: collabora
   ingress:
     - fromEndpoints:
         - matchLabels:
@@ -16,7 +16,7 @@ spec:
             gateway.networking.k8s.io/gateway-name: kgateway-internal
       toPorts:
         - ports:
-            - port: "8086"
+            - port: "9980"
               protocol: TCP
   egress:
     # DNS
@@ -30,30 +30,14 @@ spec:
               protocol: UDP
             - port: "53"
               protocol: TCP
-    # PostgreSQL (CloudNative-PG pg18vec)
-    - toEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: database
-            cnpg.io/cluster: pg18vec
-      toPorts:
-        - ports:
-            - port: "5432"
-              protocol: TCP
-    # NFS-Server
-    - toCIDR:
-        - 10.100.0.81/32
-      toPorts:
-        - ports:
-            - port: "2049"
-              protocol: TCP
-    # Interner Gateway HTTPS (Collabora WOPI discovery/callbacks)
+    # OxiCloud WOPI callbacks via HTTPS through the internal gateway
     - toCIDR:
         - 10.100.10.218/32
       toPorts:
         - ports:
             - port: "443"
               protocol: TCP
-    # Externe HTTPS (OIDC/WOPI/Updates)
+    # External HTTPS
     - toEntities:
         - world
       toPorts:

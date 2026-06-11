@@ -54,6 +54,9 @@ spec:
               OXICLOUD_STORAGE_PATH: /app/storage
               OXICLOUD_STATIC_PATH: /app/static
               OXICLOUD_UPLOAD_TMPDIR: /app/cache/tmp
+              OXICLOUD_WOPI_DISCOVERY_URL: "https://collabora.ds47.dev/hosting/discovery"
+              OXICLOUD_WOPI_ENABLED: "true"
+              OXICLOUD_WOPI_PUBLIC_BASE_URL: *hostUrl
               MIMALLOC_ALLOW_LARGE_OS_PAGES: "0"
               MIMALLOC_PURGE_DELAY: "0"
             envFrom:
