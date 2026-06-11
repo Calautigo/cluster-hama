@@ -5,14 +5,11 @@ kind: Kustomization
 namespace: services
 resources:
   - ./namespace.yaml
-  - ./actual/ks.yaml
   - ./bentopdf/ks.yaml
   - ./immich/ks.yaml
-  - ./nextcloud/ks.yaml
   - ./onlyoffice/ks.yaml
   - ./oxicloud/ks.yaml
   - ./paperless/ks.yaml
-  - ./photon/ks.yaml
   - ./termix/ks.yaml
 components:
   - ../../components/common
