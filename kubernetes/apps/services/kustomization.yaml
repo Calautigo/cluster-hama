@@ -7,11 +7,10 @@ resources:
   - ./namespace.yaml
   - ./actual/ks.yaml
   - ./bentopdf/ks.yaml
-  - ./dawarich/ks.yaml
-  - ./filebrowser/ks.yaml
   - ./immich/ks.yaml
   - ./nextcloud/ks.yaml
   - ./onlyoffice/ks.yaml
+  - ./oxicloud/ks.yaml
   - ./paperless/ks.yaml
   - ./photon/ks.yaml
   - ./termix/ks.yaml

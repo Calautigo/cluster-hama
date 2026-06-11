@@ -13,7 +13,7 @@ spec:
       filebrowser:
         annotations:
           reloader.stakater.com/auto: "true"
-          
+
         containers:
           app:
             image:
@@ -110,7 +110,7 @@ spec:
     route:
       app:
         hostnames:
-          - cloud.ds47.dev
+          - filebrowser.ds47.dev
         parentRefs:
           - name: kgateway-internal
             namespace: network
