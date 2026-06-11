@@ -46,6 +46,16 @@ spec:
         - ports:
             - port: "2049"
               protocol: TCP
+    # Collabora WOPI discovery
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: services
+            app.kubernetes.io/name: collabora
+            app.kubernetes.io/instance: collabora
+      toPorts:
+        - ports:
+            - port: "9980"
+              protocol: TCP
     # Interner Gateway HTTPS (Collabora WOPI discovery/callbacks)
     - toCIDR:
         - 10.100.10.218/32
