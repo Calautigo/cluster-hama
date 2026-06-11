@@ -38,13 +38,13 @@ spec:
               tag: 0.6.0
             env:
               OXICLOUD_BASE_URL: &hostUrl https://cloud.ds47.dev
-              OXICLOUD_CHUNK_DIR: /app/storage/.uploads
+              OXICLOUD_CHUNK_DIR: /app/cache/chunks
               OXICLOUD_DIRECT_PUT_MAX_BYTES: "1073741824"
               OXICLOUD_SERVER_HOST: 0.0.0.0
               OXICLOUD_SERVER_PORT: &port 8086
               OXICLOUD_STORAGE_PATH: /app/storage
               OXICLOUD_STATIC_PATH: /app/static
-              OXICLOUD_UPLOAD_TMPDIR: /app/storage/.tmp
+              OXICLOUD_UPLOAD_TMPDIR: /app/cache/tmp
               MIMALLOC_ALLOW_LARGE_OS_PAGES: "0"
               MIMALLOC_PURGE_DELAY: "0"
             envFrom:
@@ -86,11 +86,22 @@ spec:
 
     persistence:
       data:
-        existingClaim: oxicloud-data
+        type: nfs
+        server: 10.100.0.81
+        path: /safe/apps/oxicloud
         advancedMounts:
           oxicloud:
             app:
               - path: /app/storage
+      cache:
+        existingClaim: oxicloud-cache
+        advancedMounts:
+          oxicloud:
+            app:
+              - path: /app/cache/chunks
+                subPath: chunks
+              - path: /app/cache/tmp
+                subPath: tmp
       initdb:
         type: configMap
         identifier: oxicloud-initdb

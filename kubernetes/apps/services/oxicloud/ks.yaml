@@ -12,6 +12,8 @@ spec:
   dependsOn:
     - name: pg18vec
       namespace: database
+    - name: ceph-csi-rbd
+      namespace: storage
   interval: 30m
   path: "./kubernetes/apps/services/oxicloud/app"
   prune: true

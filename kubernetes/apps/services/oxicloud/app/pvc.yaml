@@ -1,28 +1,12 @@
 ---
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: oxicloud-data
-spec:
-  capacity:
-    storage: 500Gi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: 10.100.0.81
-    path: /safe/apps/oxicloud
-  persistentVolumeReclaimPolicy: Retain
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: oxicloud-data
-  namespace: services
+  name: oxicloud-cache
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 500Gi
-  volumeName: oxicloud-data
-  storageClassName: ""
+      storage: 50Gi
+  storageClassName: csi-rbd-sc
