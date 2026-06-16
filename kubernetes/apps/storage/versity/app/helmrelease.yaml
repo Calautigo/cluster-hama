@@ -55,10 +55,10 @@ spec:
             resources:
               requests:
                 cpu: 50m
-                memory: 128Mi
+                memory: 256Mi
               limits:
                 cpu: 500m
-                memory: 512Mi
+                memory: 1Gi
 
     defaultPodOptions:
       securityContext:
@@ -99,7 +99,7 @@ spec:
             backendRefs:
               - kind: Service
                 identifier: app
-                port: *port        
+                port: *port
       ui:
         enabled: true
         parentRefs:
