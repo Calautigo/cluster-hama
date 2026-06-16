@@ -1,35 +1,75 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: ollama
 spec:
-  interval: 10m
+  interval: 30m
   chartRef:
     kind: OCIRepository
     name: ollama
   values:
     controllers:
       ollama:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          pull-models:
+            image:
+              repository: docker.io/ollama/ollama
+              tag: "0.30.8"
+            command:
+              - "/bin/sh"
+              - "-c"
+              - |
+                echo "Starting Ollama server for model pulling..."
+                ollama serve &
+                OLLAMA_PID=$!
+
+                echo "Waiting for Ollama to start..."
+                for i in $(seq 1 30); do
+                  if ollama list >/dev/null 2>&1; then
+                    echo "Ollama is ready!"
+                    break
+                  fi
+                  sleep 2
+                done
+
+                echo "Pulling qwen2.5:3b for local chat completions..."
+                ollama pull qwen2.5:3b
+
+                echo "Pulling nomic-embed-text for embeddings..."
+                ollama pull nomic-embed-text
+
+                echo "All models pulled successfully!"
+                kill $OLLAMA_PID
+                wait $OLLAMA_PID 2>/dev/null || true
+            env:
+              OLLAMA_HOST: "0.0.0.0"
+              OLLAMA_MODELS: &modelPath "/models"
         containers:
           app:
             image:
               repository: docker.io/ollama/ollama
-              tag: 0.20.6@sha256:d5034f60974be528e0a5523ba5e89156e4a9ffd12d0b2b18475fb148237f3d4c
+              tag: "0.30.8"
             env:
-              OLLAMA_HOST: 0.0.0.0
+              TZ: "Europe/Vienna"
+              OLLAMA_HOST: "0.0.0.0"
               OLLAMA_ORIGINS: "*"
-              OLLAMA_NUM_PARALLEL: 4
-              OLLAMA_MAX_LOADED_MODELS: 1
-              OLLAMA_MODELS: &modelPath /models
-              OLLAMA_KEEP_ALIVE: 30m
+              OLLAMA_MODELS: *modelPath
+              OLLAMA_KEEP_ALIVE: "5m"
+              OLLAMA_NUM_PARALLEL: "1"
+              OLLAMA_CONTEXT_LENGTH: "4096"
+              OLLAMA_MAX_LOADED_MODELS: "1"
+              OLLAMA_FLASH_ATTENTION: "1"
             probes:
               readiness:
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
-                    path: /api/tags
+                    path: "/api/tags"
                     port: 11434
                   initialDelaySeconds: 30
                   periodSeconds: 10
@@ -40,7 +80,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /api/tags
+                    path: "/api/tags"
                     port: 11434
                   initialDelaySeconds: 60
                   periodSeconds: 10
@@ -63,9 +103,9 @@ spec:
         runAsUser: 2000
         runAsGroup: 2000
         fsGroup: 2000
-        fsGroupChangePolicy: OnRootMismatch
+        fsGroupChangePolicy: "OnRootMismatch"
         seccompProfile:
-          type: RuntimeDefault
+          type: "RuntimeDefault"
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -77,28 +117,28 @@ spec:
 
     service:
       app:
-        type: LoadBalancer
+        type: "LoadBalancer"
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: ollama.ds47.dev
-          lbipam.cilium.io/ips: 10.100.10.205
+          external-dns.alpha.kubernetes.io/hostname: "ollama.ds47.dev"
+          lbipam.cilium.io/ips: "10.100.10.205"
         ports:
           http:
             port: 11434
 
     persistence:
       data:
-        existingClaim: ollama
+        existingClaim: "ollama"
         globalMounts:
-          - path: /.ollama
+          - path: "/.ollama"
       models:
-        existingClaim: ollama-models
+        existingClaim: "ollama-models"
         globalMounts:
           - path: *modelPath
       run:
-        type: emptyDir
-        medium: Memory
+        type: "emptyDir"
+        medium: "Memory"
         sizeLimit: 128Mi
       tmp:
-        type: emptyDir
-        medium: Memory
+        type: "emptyDir"
+        medium: "Memory"
         sizeLimit: 128Mi

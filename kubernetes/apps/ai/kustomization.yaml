@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: ai
 resources:
   - ./namespace.yaml
+  - ./litellm/ks.yaml
   - ./n8n/ks.yaml
   - ./ollama/ks.yaml
 components:
