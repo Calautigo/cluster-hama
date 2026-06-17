@@ -15,7 +15,7 @@ spec:
       searxng:
         annotations:
           reloader.stakater.com/auto: "true"
-        replicas: 1
+        replicas: 2
         containers:
           main:
             image:
@@ -58,6 +58,19 @@ spec:
                   - SETGID
                   - SETUID
                   - DAC_OVERRIDE
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+
+    route:
+      app:
+        hostnames: ["search.ds47.dev"]
+        parentRefs:
+          - name: kgateway-internal
+            namespace: network
+
     persistence:
       config:
         type: configMap
@@ -74,8 +87,3 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /tmp
-    service:
-      app:
-        ports:
-          http:
-            port: *port

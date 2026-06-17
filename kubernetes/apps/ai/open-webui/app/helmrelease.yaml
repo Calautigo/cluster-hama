@@ -19,31 +19,52 @@ spec:
       open-webui:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18.3.0@sha256:6fa1f331cddd2eb0b6afa7b8d3685c864127a81ab01c3d9400bc3ff5263a51cf
+            envFrom:
+              - secretRef:
+                  name: "{{ .Release.Name }}"
+              - secretRef:
+                  name: "{{ .Release.Name }}-initdb"
         containers:
           app:
             image:
               repository: ghcr.io/open-webui/open-webui
               tag: 0.5.20
             env:
-              # LiteLLM as primary LLM provider
-              OLLAMA_BASE_URL: http://litellm.ai.svc.cluster.local:4000/v1
+              # App
+              WEBUI_URL: https://chat.ds47.dev
+              CORS_ALLOW_ORIGIN: https://chat.ds47.dev
+              DEFAULT_LOCALE: de
               ENABLE_OPENAI_API: true
-              ENABLE_OLLAMA_API: true
+              OPENAI_API_BASE_URL: http://litellm.ai.svc.cluster.local:4000/v1
+              ENABLE_OLLAMA_API: false
+              ENABLE_WEB_SEARCH: true
+              ENABLE_SIGNUP: false
+              ENABLE_SEARCH_QUERY_GENERATION: true
+              ENABLE_PERSISTENT_CONFIG: false
+              WEBUI_SESSION_COOKIE_SAME_SITE: lax
+              WEBUI_SESSION_COOKIE_SECURE: true
               # Web search via SearXNG
               ENABLE_RAG_WEB_SEARCH: true
               ENABLE_SEARCH_QUERY: true
               RAG_WEB_SEARCH_ENGINE: searxng
-              SEARXNG_QUERY_URL: http://searxng:8080/search?q=<query>
+              SEARXNG_QUERY_URL: http://searxng.ai.svc.cluster.local:8080/search?q=<query>
               # WebSocket support
-              ENABLE_WEBSOCKET_SUPPORT: "true"
-              WEBSOCKET_MANAGER: "redis"
-              WEBSOCKET_REDIS_URL: "redis://dragonfly.database.svc.cluster.local:6379"
-              # Database
-              DATABASE_URL:
-                valueFrom:
-                  secretKeyRef:
-                    name: "{{ .Release.Name }}-app"
-                    key: uri
+              ENABLE_WEBSOCKET_SUPPORT: true
+              WEBSOCKET_MANAGER: redis
+              WEBSOCKET_REDIS_URL: redis://dragonfly.database.svc.cluster.local:6379
+              # OIDC
+              ENABLE_OAUTH_SIGNUP: true
+              OAUTH_MERGE_ACCOUNTS_BY_EMAIL: true
+              OAUTH_UPDATE_PICTURE_ON_LOGIN: true
+              OAUTH_PROVIDER_NAME: "Pocket ID"
+              OAUTH_SCOPES: "openid profile email groups"
+              OPENID_PROVIDER_URL: https://id.ds47.dev/.well-known/openid-configuration
+              OPENID_REDIRECT_URI: https://chat.ds47.dev/oauth/oidc/callback
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}"
@@ -53,14 +74,30 @@ spec:
                 memory: 256Mi
               limits:
                 memory: 2Gi
+    service:
+      app:
+        ports:
+          http:
+            port: 8080
+
+    route:
+      app:
+        hostnames:
+          - "chat.ds47.dev"
+        parentRefs:
+          - name: kgateway-internal
+            namespace: network
+
     persistence:
       config:
         enabled: true
         existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /app/backend/data
-    service:
-      app:
-        ports:
-          http:
-            port: 8080
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          open-webui:
+            app:
+              - path: /tmp
+                subPath: tmp
