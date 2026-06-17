@@ -11,9 +11,9 @@ spec:
     - name: kgateway-internal
       namespace: network
       sectionName: http
-    # - name: kgateway-external
-    #   namespace: network
-    #   sectionName: http
+  # - name: kgateway-external
+  #   namespace: network
+  #   sectionName: http
   rules:
     - filters:
         - type: RequestRedirect

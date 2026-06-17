@@ -7,14 +7,14 @@ metadata:
   name: pg18vec-podmonitor
 spec:
   podMetricsEndpoints:
-  - metricRelabelings:
-    - action: replace
-      sourceLabels:
-      - cluster
-      targetLabel: cnpg_cluster
-    - action: labeldrop
-      regex: cluster
-    port: metrics
+    - metricRelabelings:
+        - action: replace
+          sourceLabels:
+            - cluster
+          targetLabel: cnpg_cluster
+        - action: labeldrop
+          regex: cluster
+      port: metrics
   selector:
     matchLabels:
       cnpg.io/cluster: pg18vec

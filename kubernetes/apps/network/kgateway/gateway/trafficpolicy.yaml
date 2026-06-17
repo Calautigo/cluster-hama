@@ -9,9 +9,9 @@ spec:
     - group: gateway.networking.k8s.io
       kind: Gateway
       name: kgateway-internal
-    # - group: gateway.networking.k8s.io
-    #   kind: Gateway
-    #   name: kgateway-external
+  # - group: gateway.networking.k8s.io
+  #   kind: Gateway
+  #   name: kgateway-external
   buffer:
     disable: {}
   compression:

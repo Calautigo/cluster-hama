@@ -1,3 +1,4 @@
+---
 ui:
   time_format: 24hour
 
@@ -123,7 +124,7 @@ go2rtc:
       - stun:8555
     ice_servers:
       - urls:
-         - stun:stun.cloudflare.com:3478
+          - stun:stun.cloudflare.com:3478
 
 cameras:
   living_room:

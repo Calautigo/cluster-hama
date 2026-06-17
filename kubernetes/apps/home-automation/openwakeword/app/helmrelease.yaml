@@ -33,11 +33,3 @@ spec:
         ports:
           http:
             port: 10400
-
-    # persistence:
-    #   config:
-    #     enabled: true
-    #     type: configMap
-    #     name: openwakeword
-    #     globalMounts:
-    #       - path: /custom

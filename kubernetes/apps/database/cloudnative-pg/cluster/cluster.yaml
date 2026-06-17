@@ -44,14 +44,3 @@ spec:
     initdb:
       database: app
       owner: postgres
-
-
-    # recovery:
-    #   source:  source
-  # externalClusters:
-  #   - name: source
-  #     plugin:
-  #       name: barman-cloud.cloudnative-pg.io
-  #       parameters:
-  #         barmanObjectName: versity-thestral
-  #         serverName: postgres
