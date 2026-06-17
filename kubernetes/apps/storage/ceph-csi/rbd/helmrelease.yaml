@@ -27,7 +27,7 @@ spec:
       enableHostNetwork: true
       httpMetrics:
         enabled: false
-    
+
     nodeplugin:
       httpMetrics:
         enabled: false

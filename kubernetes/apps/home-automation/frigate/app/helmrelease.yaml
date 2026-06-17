@@ -152,7 +152,7 @@ spec:
         size: 4Gi
         globalMounts:
           - path: /tmp/cache
-      
+
       tmpfs:
         type: emptyDir
         advancedMounts:

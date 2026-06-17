@@ -8,7 +8,7 @@ metadata:
 spec:
   targetNamespace: *namespace
   dependsOn:
-    - name: llmkube
+    - name: llmkube-stage
       namespace: *namespace
     - name: nvidia-device-plugin
       namespace: kube-system

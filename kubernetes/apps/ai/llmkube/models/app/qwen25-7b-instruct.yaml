@@ -2,9 +2,9 @@
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: Model
 metadata:
-  name: qwen2.5-3b
+  name: qwen25-7b-instruct
 spec:
-  source: https://huggingface.co/Qwen/Qwen2.5-3B-Instruct-GGUF/resolve/main/qwen2.5-3b-instruct-q4_k_m.gguf
+  source: pvc://llmkube-models/qwen25-7b-instruct/qwen2.5-7b-instruct-q4_k_m.gguf
   format: gguf
   quantization: Q4_K_M
   hardware:
@@ -18,11 +18,11 @@ spec:
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: InferenceService
 metadata:
-  name: qwen2.5-3b
+  name: qwen25-7b-instruct
   annotations:
     kustomize.toolkit.fluxcd.io/ssa: Merge
 spec:
-  modelRef: qwen2.5-3b
+  modelRef: qwen25-7b-instruct
   runtime: llamacpp
   image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:69e0542bd894e378cf8a68d563e035f066f400a5f0190e6585c127ed066f4c2a
   replicas: 1
@@ -33,19 +33,21 @@ spec:
   env:
     - name: NVIDIA_DRIVER_CAPABILITIES
       value: compute,utility
-  contextSize: 32768
+  contextSize: 16384
   flashAttention: true
   jinja: true
   parallelSlots: 1
   batchSize: 2048
   uBatchSize: 512
+  cacheTypeK: q8_0
+  cacheTypeV: q8_0
   resources:
     gpu: 1
     cpu: "2"
-    memory: 8Gi
+    memory: 12Gi
   extraArgs:
     - --alias
-    - qwen2.5-3b
+    - qwen25-7b-instruct
     - --cont-batching
     - --cache-prompt
     - --metrics

@@ -90,7 +90,7 @@ spec:
             subPath: transcode
           - path: /config/cache
             subPath: cache
-            
+
       tmps:
         type: emptyDir
         globalMounts:

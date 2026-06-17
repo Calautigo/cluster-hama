@@ -8,7 +8,7 @@ spec:
   trigger:
     schedule: "0 * * * *"
   kopia:
-    moverSecurityContext: 
+    moverSecurityContext:
       runAsUser: ${APP_UID:-2000}
       runAsGroup: ${APP_GID:-2000}
       fsGroup: ${APP_GID:-2000}
