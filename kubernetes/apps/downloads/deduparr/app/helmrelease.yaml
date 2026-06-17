@@ -1,84 +1,86 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: deduparr
 spec:
+  interval: 30m
   chartRef:
     kind: OCIRepository
     name: deduparr
-  interval: 1h
+  dependsOn:
+    - name: ceph-csi-rbd
+      namespace: storage
   values:
     controllers:
       deduparr:
-        annotations:
-          reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            runAsUser: 2000
+            runAsGroup: 2000
+            runAsNonRoot: true
+            fsGroup: 2000
+            fsGroupChangePolicy: "OnRootMismatch"
 
         containers:
           app:
             image:
               repository: quay.io/kernald/deduparr
               tag: 1.1.0@sha256:2b2a695212bab92347f3adc07b334d96b00ea717bebe54134273cbdb5dd970ad
-            envFrom:
-              - secretRef:
-                  name: "{{ .Release.Name }}-secret"
             args:
               - --config
               - /config/config.yaml
+            env:
+              DEDUPARR__PORT: &port 9090
+            envFrom:
+              - secretRef:
+                  name: deduparr-secret
             probes:
-              liveness:
-                enabled: true
-                spec:
-                  periodSeconds: 30
-                  timeoutSeconds: 5
-                  failureThreshold: 5
-              readiness:
+              liveness: &probes
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
                     path: /health/ready
-                    port: &port 9090
+                    port: *port
+                  initialDelaySeconds: 0
                   periodSeconds: 10
-                  timeoutSeconds: 5
-                  failureThreshold: 5
-              startup:
-                enabled: true
-                spec:
-                  failureThreshold: 30
-                  periodSeconds: 10
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: {drop: ["ALL"]}
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
             resources:
               requests:
                 cpu: 10m
+                memory: 64Mi
               limits:
                 memory: 128Mi
-
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 2000
-        runAsGroup: 2000
-        fsGroup: 2000
-        fsGroupChangePolicy: OnRootMismatch
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
 
     service:
       app:
+        controller: deduparr
         ports:
           http:
             port: *port
 
     persistence:
+      config:
+        existingClaim: deduparr-config
       config-file:
         type: configMap
-        name: "{{ .Release.Name }}-configmap"
+        name: deduparr-configmap
         globalMounts:
           - path: /config/config.yaml
             subPath: config.yaml
+      add-ons:
+        type: emptyDir
+      tmp:
+        type: emptyDir
 
     serviceMonitor:
       app:

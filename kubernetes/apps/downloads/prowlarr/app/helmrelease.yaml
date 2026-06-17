@@ -35,25 +35,29 @@ spec:
               PROWLARR__AUTH__METHOD: External
               PROWLARR__AUTH__REQUIRED: DisabledForLocalAddresses
               PROWLARR__LOG__LEVEL: info
-            envFrom:
-              - secretRef:
-                  name: prowlarr-secret
+              PROWLARR__AUTH__APIKEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: prowlarr-secret
+                    key: api_key
             probes:
-              liveness:
+              liveness: &probes
                 enabled: true
-              readiness:
-                enabled: true
-              startup:
-                enabled: true
+                custom: true
                 spec:
-                  failureThreshold: 30
-                  periodSeconds: 5
+                  httpGet:
+                    path: /ping
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
             resources:
               requests:
                 cpu: 20m
                 memory: 128Mi
               limits:
-                cpu: 1000m
                 memory: 512Mi
             securityContext:
               allowPrivilegeEscalation: false
@@ -72,8 +76,16 @@ spec:
     persistence:
       config:
         existingClaim: prowlarr-config
+      add-ons:
+        type: emptyDir
       tmp:
         type: emptyDir
+      media:
+        type: nfs
+        server: 10.100.0.81
+        path: /media/media
+        globalMounts:
+          - path: /data/media
 
     route:
       app:

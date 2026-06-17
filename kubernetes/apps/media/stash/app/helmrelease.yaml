@@ -1,5 +1,4 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -14,7 +13,15 @@ spec:
       namespace: storage
   values:
     controllers:
-      *app :
+      stash:
+        pod:
+          securityContext:
+            runAsUser: 2000
+            runAsGroup: 2000
+            runAsNonRoot: true
+            fsGroup: 2000
+            fsGroupChangePolicy: "OnRootMismatch"
+
         containers:
           app:
             image:
@@ -26,28 +33,71 @@ spec:
               STASH_METADATA: /metadata/
               STASH_CACHE: /cache/
               STASH_PORT: &port 9999
+              STASH_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: stash-secret
+                    key: api_key
             probes:
-              liveness:
+              liveness: &probes
                 enabled: true
-              readiness:
-                enabled: true
-              startup:
-                enabled: true
+                custom: true
                 spec:
-                  failureThreshold: 30
-                  periodSeconds: 5
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
             resources:
               requests:
                 cpu: 100m
-                memory: 128M
+                memory: 128Mi
               limits:
-                memory: 2G
+                memory: 2Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
 
     service:
       app:
+        controller: stash
         ports:
           http:
             port: *port
+
+    persistence:
+      config:
+        existingClaim: stash-config
+        globalMounts:
+          - path: /root/.stash
+      cache:
+        existingClaim: stash-cache
+        globalMounts:
+          - path: /cache
+            subPath: cache
+          - path: /blobs
+            subPath: blobs
+          - path: /metadata
+            subPath: metadata
+          - path: /generated
+            subPath: generated
+      add-ons:
+        type: emptyDir
+      tmp:
+        type: emptyDir
+      media:
+        type: nfs
+        server: 10.100.0.81
+        path: /media/media/media/adult
+        globalMounts:
+          - path: /data
+            readOnly: true
 
     route:
       app:
@@ -56,35 +106,3 @@ spec:
         parentRefs:
           - name: kgateway-internal
             namespace: network
-
-    persistence:
-      config:
-        existingClaim: stash-config
-        advancedMounts:
-          stash:
-            app:
-              - path: /root/.stash
-
-      cache:
-        existingClaim: stash-cache
-        advancedMounts:
-          stash:
-            app:
-              - path: /cache
-                subPath: cache
-              - path: /blobs
-                subPath: blobs
-              - path: /metadata
-                subPath: metadata
-              - path: /generated
-                subPath: generated
-
-      media:
-        type: nfs
-        server: 10.100.0.81
-        path: /media/media/media/adult
-        advancedMounts:
-          stash:
-            app:
-              - path: /data
-                readOnly: true

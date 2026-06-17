@@ -35,25 +35,34 @@ spec:
               WHISPARR__AUTH__REQUIRED: DisabledForLocalAddresses
               WHISPARR__LOG__LEVEL: info
               WHISPARR__BRANCH: nightly
-            envFrom:
-              - secretRef:
-                  name: whisparr-secret
+              WHISPARR__AUTH__APIKEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: whisparr-secret
+                    key: api_key
             probes:
-              liveness: &probe
+              liveness: &probes
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
                     path: /ping
                     port: *port
-              readiness: *probe
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities:
+                drop:
+                  - ALL
             resources:
               requests:
                 cpu: 10m
+                memory: 128Mi
               limits:
                 memory: 1Gi
 
@@ -67,6 +76,8 @@ spec:
     persistence:
       config:
         existingClaim: whisparr-config
+      add-ons:
+        type: emptyDir
       tmp:
         type: emptyDir
       media:

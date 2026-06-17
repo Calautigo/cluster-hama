@@ -1,0 +1,1 @@
+[['f "${app_dir}ks.yaml'], ['f "${app_dir}app/helmrelease.yaml'], ['f "${app_dir}app/externalsecret.yaml'], ['f "${app_dir}app/ocirepository.yaml'], ['f "${app_dir}app/kustomization.yaml'], ['files]', 'done\ndone']]

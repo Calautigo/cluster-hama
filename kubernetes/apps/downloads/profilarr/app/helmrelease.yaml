@@ -8,27 +8,72 @@ spec:
   chartRef:
     kind: OCIRepository
     name: profilarr
+  dependsOn:
+    - name: ceph-csi-rbd
+      namespace: storage
   values:
     controllers:
       profilarr:
-        annotations:
-          reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            runAsUser: 2000
+            runAsGroup: 2000
+            runAsNonRoot: true
+            fsGroup: 2000
+            fsGroupChangePolicy: "OnRootMismatch"
+
         containers:
           app:
             image:
               repository: santiagosayshey/profilarr
               tag: v1.1.4@sha256:8a514f8429cd33885166facc9eb6504fa9ded056c737609e5e8ef32ae0afb350
+            env:
+              PROFILARR__PORT: &port 6868
+              PROFILARR__API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: profilarr-secret
+                    key: api_key
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
             resources:
               requests:
                 cpu: 15m
+                memory: 64Mi
               limits:
                 memory: 256Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
 
     service:
       app:
+        controller: profilarr
         ports:
           http:
-            port: 6868
+            port: *port
+
+    persistence:
+      config:
+        existingClaim: profilarr-config
+      add-ons:
+        type: emptyDir
+      tmp:
+        type: emptyDir
 
     route:
       app:
@@ -37,7 +82,3 @@ spec:
         parentRefs:
           - name: kgateway-internal
             namespace: network
-
-    persistence:
-      config:
-        existingClaim: profilarr-config

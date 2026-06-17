@@ -28,3 +28,4 @@ spec:
     substitute:
       APP: *app
       VOLSYNC_CLAIM: profilarr-config
+      VOLSYNC_CAPACITY: 5Gi
