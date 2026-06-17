@@ -5,4 +5,4 @@ kind: Kustomization
 resources:
   - ./qwen3.6-9b.yaml
   - ./deepseek-r1-8b.yaml
-  - ./llama-3.2-8b.yaml
+  - ./lfm2.5-8b-uncensored.yaml

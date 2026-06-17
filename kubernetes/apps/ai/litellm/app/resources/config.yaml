@@ -33,6 +33,17 @@ model_list:
       max_output_tokens: 8192
       supports_function_calling: false
 
+  - model_name: lfm2.5-8b-uncensored
+    litellm_params:
+      model: "openai/lfm2.5-8b-uncensored"
+      api_base: "http://lfm2.5-8b-uncensored.ai.svc.cluster.local:8080/v1"
+      api_key: "not-needed"
+      drop_params: true
+    model_info:
+      max_input_tokens: 32768
+      max_output_tokens: 8192
+      supports_function_calling: false
+
 general_settings:
   health_check_endpoint: "/v1/health"
 

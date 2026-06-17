@@ -69,7 +69,7 @@ spec:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: download-llama-3.2-8b
+  name: download-lfm2.5-8b-uncensored
 spec:
   ttlSecondsAfterFinished: 86400
   template:
@@ -84,11 +84,11 @@ spec:
             - |
               set -euo pipefail
               pip install --no-cache-dir "huggingface_hub[hf_xet]"
-              mkdir -p /models/llama-3.2-8b
-              hf download bartowski/Meta-Llama-3.2-8B-Instruct-GGUF \
-                Meta-Llama-3.2-8B-Instruct-Q4_K_M.gguf \
-                --local-dir /models/llama-3.2-8b
-              echo "Llama-3.2-8B download complete"
+              mkdir -p /models/lfm2.5-8b-uncensored
+              hf download gaston-parravicini/LFM2.5-8B-A1B-Uncensored-Gaston-GGUF \
+                LFM2.5-8B-A1B-Uncensored-Gaston-Q6_K.gguf \
+                --local-dir /models/lfm2.5-8b-uncensored
+              echo "LFM2.5-8b-uncensored download complete"
           envFrom:
             - secretRef:
                 name: huggingface
