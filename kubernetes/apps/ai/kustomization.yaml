@@ -6,8 +6,9 @@ namespace: ai
 resources:
   - ./namespace.yaml
   - ./litellm/ks.yaml
+  - ./llmkube/ks.yaml
+  - ./llmkube/models/ks.yaml
   - ./n8n/ks.yaml
-  - ./ollama/ks.yaml
 components:
   - ../../components/common
   - ../../components/volsync-ns

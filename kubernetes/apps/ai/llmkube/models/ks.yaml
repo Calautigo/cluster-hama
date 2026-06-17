@@ -3,22 +3,17 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app litellm
+  name: llmkube-models
   namespace: &namespace ai
 spec:
   targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   dependsOn:
-    - name: external-secrets
-      namespace: external-secrets
-    - name: dragonfly-cluster
-      namespace: database
-    - name: llmkube-models
+    - name: llmkube
       namespace: *namespace
+    - name: nvidia-device-plugin
+      namespace: kube-system
   interval: 30m
-  path: ./kubernetes/apps/ai/litellm/app
+  path: ./kubernetes/apps/ai/llmkube/models/app
   prune: true
   sourceRef:
     kind: GitRepository
