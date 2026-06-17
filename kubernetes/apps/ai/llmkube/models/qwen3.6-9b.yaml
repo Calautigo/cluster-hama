@@ -2,9 +2,9 @@
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: Model
 metadata:
-  name: qwen25-7b-instruct
+  name: qwen3.6-9b
 spec:
-  source: pvc://llmkube-models/qwen25-7b-instruct/qwen2.5-7b-instruct-q4_k_m.gguf
+  source: pvc://llmkube-models/qwen3.6-9b/Qwen3.6-9B-Thinking-UD-Q4_K_M.gguf
   format: gguf
   quantization: Q4_K_M
   hardware:
@@ -18,11 +18,11 @@ spec:
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: InferenceService
 metadata:
-  name: qwen25-7b-instruct
+  name: qwen3.6-9b
   annotations:
     kustomize.toolkit.fluxcd.io/ssa: Merge
 spec:
-  modelRef: qwen25-7b-instruct
+  modelRef: qwen3.6-9b
   runtime: llamacpp
   image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:69e0542bd894e378cf8a68d563e035f066f400a5f0190e6585c127ed066f4c2a
   replicas: 1
@@ -47,7 +47,7 @@ spec:
     memory: 12Gi
   extraArgs:
     - --alias
-    - qwen25-7b-instruct
+    - qwen3.6-9b
     - --cont-batching
     - --cache-prompt
     - --metrics

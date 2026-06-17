@@ -1,0 +1,65 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: open-webui
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  interval: 15m
+  dependsOn:
+    - name: litellm
+      namespace: ai
+    - name: searxng
+      namespace: ai
+  values:
+    controllers:
+      open-webui:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/open-webui/open-webui
+              tag: 0.5.20
+            env:
+              # LiteLLM as primary LLM provider
+              OLLAMA_BASE_URL: http://litellm.ai.svc.cluster.local:4000/v1
+              ENABLE_OPENAI_API: true
+              ENABLE_OLLAMA_API: true
+              # Web search via SearXNG
+              ENABLE_RAG_WEB_SEARCH: true
+              ENABLE_SEARCH_QUERY: true
+              RAG_WEB_SEARCH_ENGINE: searxng
+              SEARXNG_QUERY_URL: http://searxng:8080/search?q=<query>
+              # WebSocket support
+              ENABLE_WEBSOCKET_SUPPORT: "true"
+              WEBSOCKET_MANAGER: "redis"
+              WEBSOCKET_REDIS_URL: "redis://dragonfly.database.svc.cluster.local:6379"
+              # Database
+              DATABASE_URL:
+                valueFrom:
+                  secretKeyRef:
+                    name: "{{ .Release.Name }}-app"
+                    key: uri
+            envFrom:
+              - secretRef:
+                  name: "{{ .Release.Name }}"
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 2Gi
+    persistence:
+      config:
+        enabled: true
+        existingClaim: "{{ .Release.Name }}"
+        globalMounts:
+          - path: /app/backend/data
+    service:
+      app:
+        ports:
+          http:
+            port: 8080

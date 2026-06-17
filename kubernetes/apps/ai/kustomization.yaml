@@ -7,8 +7,8 @@ resources:
   - ./namespace.yaml
   - ./litellm/ks.yaml
   - ./llmkube/ks.yaml
-  - ./llmkube/stage/ks.yaml
-  - ./llmkube/models/ks.yaml
+  - ./searxng/ks.yaml
+  - ./open-webui/ks.yaml
   - ./n8n/ks.yaml
 components:
   - ../../components/common
