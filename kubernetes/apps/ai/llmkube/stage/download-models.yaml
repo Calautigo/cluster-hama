@@ -2,39 +2,6 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: download-qwen3.6-9b
-spec:
-  ttlSecondsAfterFinished: 86400
-  template:
-    spec:
-      restartPolicy: OnFailure
-      containers:
-        - name: download
-          image: python:3.14-slim
-          command:
-            - /bin/sh
-            - -ec
-            - |
-              set -euo pipefail
-              pip install --no-cache-dir "huggingface_hub[hf_xet]"
-              mkdir -p /models/qwen3.6-9b
-              hf download Qwen/Qwen3-9B-Thinking-UD-Q4_K_M.gguf \
-                --local-dir /models/qwen3.6-9b
-              echo "Qwen3.6-9B download complete"
-          envFrom:
-            - secretRef:
-                name: huggingface
-          volumeMounts:
-            - name: models
-              mountPath: /models
-      volumes:
-        - name: models
-          persistentVolumeClaim:
-            claimName: llmkube-models
----
-apiVersion: batch/v1
-kind: Job
-metadata:
   name: download-deepseek-r1-8b
 spec:
   ttlSecondsAfterFinished: 86400

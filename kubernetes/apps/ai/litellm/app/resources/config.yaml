@@ -1,16 +1,5 @@
 ---
 model_list:
-  - model_name: qwen3.6-9b
-    litellm_params:
-      model: "openai/qwen3.6-9b"
-      api_base: "http://qwen3.6-9b.ai.svc.cluster.local:8080/v1"
-      api_key: "not-needed"
-      drop_params: true
-    model_info:
-      max_input_tokens: 32768
-      max_output_tokens: 8192
-      supports_function_calling: false
-
   - model_name: deepseek-r1-8b
     litellm_params:
       model: "openai/deepseek-r1-8b"
