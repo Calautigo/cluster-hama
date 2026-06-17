@@ -39,8 +39,8 @@ spec:
   parallelSlots: 1
   batchSize: 2048
   uBatchSize: 512
-  cacheTypeK: q6_0
-  cacheTypeV: q6_0
+  cacheTypeK: q5_0
+  cacheTypeV: q5_0
   resources:
     gpu: 1
     cpu: "2"
