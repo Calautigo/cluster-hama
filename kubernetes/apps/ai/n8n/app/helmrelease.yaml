@@ -117,7 +117,8 @@ spec:
         rules:
           - matches:
               - path:
-                value: /webhook
+                  type: PathPrefix
+                  value: /webhook
             backendRefs:
               - {}
 
