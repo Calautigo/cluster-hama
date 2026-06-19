@@ -56,7 +56,7 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.ds47.dev}"
+          - "{{ .Release.Name }}.ds47.dev"
         parentRefs:
           - name: kgateway-internal
             namespace: network
