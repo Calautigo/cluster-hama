@@ -45,7 +45,6 @@ spec:
               OXICLOUD_OIDC_DISABLE_PASSWORD_LOGIN: "true"
               OXICLOUD_OIDC_ENABLED: "true"
               OXICLOUD_OIDC_FRONTEND_URL: *hostUrl
-              OXICLOUD_OIDC_ISSUER_URL: "https://id.ds47.dev"
               OXICLOUD_OIDC_PROVIDER_NAME: "PocketID"
               OXICLOUD_OIDC_REDIRECT_URI: "https://cloud.ds47.dev/api/auth/oidc/callback"
               OXICLOUD_OIDC_SCOPES: "openid profile email groups"

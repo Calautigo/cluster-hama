@@ -63,11 +63,12 @@ spec:
               OAUTH_UPDATE_PICTURE_ON_LOGIN: true
               OAUTH_PROVIDER_NAME: "Pocket ID"
               OAUTH_SCOPES: "openid profile email groups"
-              OPENID_PROVIDER_URL: https://id.ds47.dev/.well-known/openid-configuration
               OPENID_REDIRECT_URI: https://chat.ds47.dev/oauth/oidc/callback
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}"
+              - secretRef:
+                  name: open-webui-oidc
             resources:
               requests:
                 cpu: 100m

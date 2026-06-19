@@ -10,6 +10,8 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
+    - name: pocket-id-instance
+      namespace: security
     - name: pg18vec
       namespace: database
     - name: ceph-csi-rbd

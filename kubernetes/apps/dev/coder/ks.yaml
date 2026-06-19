@@ -13,6 +13,8 @@ spec:
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
+    - name: pocket-id-instance
+      namespace: security
     - name: pg18vec
       namespace: database
   path: ./kubernetes/apps/dev/coder/app

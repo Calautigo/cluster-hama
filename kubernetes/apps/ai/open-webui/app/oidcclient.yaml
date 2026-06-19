@@ -1,0 +1,17 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: open-webui
+spec:
+  name: Open WebUI
+  launchUrl: https://chat.ds47.dev
+  callbackUrls:
+    - https://chat.ds47.dev/oauth/oidc/callback
+  secret:
+    name: open-webui-oidc
+    keys:
+      clientID: OAUTH_CLIENT_ID
+      clientSecret: OAUTH_CLIENT_SECRET
+      discoveryUrl: OPENID_PROVIDER_URL

@@ -8,3 +8,4 @@ resources:
   - ./helmrelease.yaml
   - ./pvc.yaml
   - ./ciliumnetworkpolicy.yaml
+  - ./oidcclient.yaml

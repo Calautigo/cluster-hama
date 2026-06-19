@@ -8,3 +8,4 @@ resources:
   - httproute.yaml
   - job.yaml
   - ocirepository.yaml
+  - oidcclient.yaml
