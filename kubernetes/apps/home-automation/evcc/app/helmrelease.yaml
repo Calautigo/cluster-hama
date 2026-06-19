@@ -69,7 +69,7 @@ spec:
       config:
         existingClaim: "{{ .Release.Name }}"
         globalMounts:
-          - path: /root/.evcc
+          - path: /.evcc
       tmpfs:
         type: emptyDir
         advancedMounts:
