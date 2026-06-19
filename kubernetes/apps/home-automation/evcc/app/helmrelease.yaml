@@ -1,0 +1,75 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: evcc
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: evcc
+  values:
+    controllers:
+      evcc:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: docker.io/evcc/evcc
+              tag: 0.309.1@sha256:4aa5d3e5a1d6ccfc87eaa8f27aa248ac9e25a4c977991746b129b6984f9c83e0
+            env:
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 1Gi
+
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 2000
+        runAsGroup: 2000
+        fsGroup: 2000
+        fsGroupChangePolicy: OnRootMismatch
+
+    service:
+      app:
+        forceRename: "{{ .Release.Name }}"
+        primary: true
+        ports:
+          http:
+            port: 7070
+      sync:
+        type: LoadBalancer
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: "evcc-api.ds47.dev"
+          lbipam.cilium.io/ips: 10.100.10.202
+        ports:
+          ocpp:
+            port: 8887
+
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.ds47.dev}"
+        parentRefs:
+          - name: kgateway-internal
+            namespace: network
+
+    persistence:
+      config:
+        existingClaim: "{{ .Release.Name }}"
+        globalMounts:
+          - path: /root/.evcc
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          evcc:
+            app:
+              - path: /tmp
+                subPath: tmp

@@ -6,6 +6,7 @@ resources:
   - ./namespace.yaml
   - ./bambuddy/ks.yaml
   - ./esphome/ks.yaml
+  - ./evcc/ks.yaml
   - ./frigate/ks.yaml
   - ./glasheim-dashboard/ks.yaml
   - ./nodered/ks.yaml
