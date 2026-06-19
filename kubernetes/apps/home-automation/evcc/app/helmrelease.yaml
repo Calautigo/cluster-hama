@@ -60,6 +60,10 @@ spec:
         parentRefs:
           - name: kgateway-internal
             namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: http
 
     persistence:
       config:
