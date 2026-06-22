@@ -6,4 +6,3 @@ metadata:
   labels:
     pod-security.kubernetes.io/warn: restricted
     pod-security.kubernetes.io/audit: restricted
-    resource.kubernetes.io/admin-access: "true"

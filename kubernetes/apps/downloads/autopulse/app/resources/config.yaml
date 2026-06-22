@@ -6,8 +6,8 @@ app:
   database_url: postgres://autopulse:{{ .DB_PASSWORD }}@pg18vec-rw.database.svc.cluster.local:5432/autopulse
 
 auth:
-  username: "{{ .AUTOPULSE_USERNAME }}"
-  password: "{{ .AUTOPULSE_PASSWORD }}"
+  username: "{{ .USERNAME }}"
+  password: "{{ .PASSWORD }}"
 
 anchors:
   - /data/media/.anchors/local.anchor

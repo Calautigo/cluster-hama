@@ -5,8 +5,6 @@ kind: Kustomization
 namespace: media
 resources:
   - ./namespace.yaml
-  - ./autopulse/ks.yaml
-  - ./dispatcharr/ks.yaml
   - ./jellyfin/ks.yaml
   - ./scrob/ks.yaml
   - ./seerr/ks.yaml
