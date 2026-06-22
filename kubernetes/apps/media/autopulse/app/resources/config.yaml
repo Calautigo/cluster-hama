@@ -1,0 +1,35 @@
+---
+app:
+  hostname: 0.0.0.0
+  port: 2875
+  log_level: info
+  database_url: postgres://autopulse:{{ .DB_PASSWORD }}@pg18vec-rw.database.svc.cluster.local:5432/autopulse
+
+auth:
+  username: "{{ .AUTOPULSE_USERNAME }}"
+  password: "{{ .AUTOPULSE_PASSWORD }}"
+
+anchors:
+  - /data/media/.anchors/local.anchor
+
+opts:
+  check_path: true
+  max_retries: 5
+  default_timer_wait: 30
+  cleanup_days: 7
+
+triggers:
+  radarr:
+    type: radarr
+  sonarr:
+    type: sonarr
+  sonarrkids:
+    type: sonarr
+
+targets:
+  jellyfin:
+    type: jellyfin
+    url: http://jellyfin.media.svc.cluster.local:8096
+    token: "{{ .JELLYFIN_TOKEN }}"
+    refresh: true
+    analyze: true
