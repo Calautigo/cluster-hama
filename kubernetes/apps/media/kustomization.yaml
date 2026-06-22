@@ -6,6 +6,7 @@ namespace: media
 resources:
   - ./namespace.yaml
   - ./jellyfin/ks.yaml
+  - ./seerr/ks.yaml
   - ./stash/ks.yaml
 components:
   - ../../components/common
