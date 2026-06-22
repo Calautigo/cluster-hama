@@ -21,7 +21,7 @@ spec:
               tag: 18.3.0@sha256:6fa1f331cddd2eb0b6afa7b8d3685c864127a81ab01c3d9400bc3ff5263a51cf
             envFrom:
               - secretRef:
-                  name: seerr-secret
+                  name: seerr-db
               - secretRef:
                   name: seerr-initdb
 
@@ -45,6 +45,8 @@ spec:
             envFrom:
               - secretRef:
                   name: seerr-secret
+              - secretRef:
+                  name: seerr-db
             probes:
               liveness: &probes
                 enabled: true
