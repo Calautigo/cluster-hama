@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app deduparr
+  name: &app decluttarr
   namespace: downloads
 spec:
   targetNamespace: downloads
@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: ./kubernetes/apps/downloads/deduparr/app
+  path: ./kubernetes/apps/downloads/decluttarr/app
   prune: true
   sourceRef:
     kind: GitRepository

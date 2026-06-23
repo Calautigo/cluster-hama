@@ -8,9 +8,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: deduparr
-  dependsOn:
-    - name: ceph-csi-rbd
-      namespace: storage
   values:
     controllers:
       deduparr:
@@ -26,15 +23,20 @@ spec:
           app:
             image:
               repository: quay.io/kernald/deduparr
-              tag: 1.1.0@sha256:2b2a695212bab92347f3adc07b334d96b00ea717bebe54134273cbdb5dd970ad
-            args:
-              - --config
-              - /config/config.yaml
+              tag: 1.2.0@sha256:6e579f684a147dcd2dcd4468c50ffb0848e23b8306f1355037a2419931fe4b7f
             env:
-              DEDUPARR__PORT: &port 9090
+              DEDUPARR_LOG_LEVEL: info
+              DEDUPARR_RADARR_MAIN_ENABLED: true
+              DEDUPARR_RADARR_MAIN_URL: http://radarr.downloads
+              DEDUPARR_REMOVE_FROM_CLIENT: false
+              DEDUPARR_SCHEDULE: service
+              DEDUPARR_SERVICE__INTERVAL: 2m
+              DEDUPARR_SERVICE__PORT: &port 80
+              DEDUPARR_SONARR_MAIN_ENABLED: true
+              DEDUPARR_SONARR_MAIN_URL: http://sonarr.downloads
             envFrom:
               - secretRef:
-                  name: deduparr-secret
+                  name: "{{ .Release.Name }}-secret"
             probes:
               liveness: &probes
                 enabled: true
@@ -45,42 +47,24 @@ spec:
                     port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
-                  timeoutSeconds: 1
+                  timeoutSeconds: 5
                   failureThreshold: 3
               readiness: *probes
             resources:
               requests:
                 cpu: 10m
-                memory: 64Mi
               limits:
                 memory: 128Mi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
+              capabilities: { drop: ["ALL"] }
 
     service:
       app:
-        controller: deduparr
         ports:
           http:
             port: *port
-
-    persistence:
-      config:
-        existingClaim: deduparr-config
-      config-file:
-        type: configMap
-        name: deduparr-configmap
-        globalMounts:
-          - path: /config/config.yaml
-            subPath: config.yaml
-      add-ons:
-        type: emptyDir
-      tmp:
-        type: emptyDir
 
     serviceMonitor:
       app:
