@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: docker.io/collabora/code
-              tag: 25.04.9.4.1
+              tag: 26.04.1.4.1
             env:
               DONT_GEN_SSL_CERT: "true"
               aliasgroup1: "https://cloud.ds47.dev:443"
