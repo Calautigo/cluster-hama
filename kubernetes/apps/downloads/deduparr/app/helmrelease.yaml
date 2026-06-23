@@ -27,13 +27,13 @@ spec:
             env:
               DEDUPARR_LOG_LEVEL: info
               DEDUPARR_RADARR_MAIN_ENABLED: true
-              DEDUPARR_RADARR_MAIN_URL: http://radarr.downloads
+              DEDUPARR_RADARR_MAIN_URL: http://radarr.downloads.svc.cluster.local:7878
               DEDUPARR_REMOVE_FROM_CLIENT: false
               DEDUPARR_SCHEDULE: service
               DEDUPARR_SERVICE__INTERVAL: 2m
               DEDUPARR_SERVICE__PORT: &port 80
               DEDUPARR_SONARR_MAIN_ENABLED: true
-              DEDUPARR_SONARR_MAIN_URL: http://sonarr.downloads
+              DEDUPARR_SONARR_MAIN_URL: http://sonarr.downloads.svc.cluster.local:8989
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
