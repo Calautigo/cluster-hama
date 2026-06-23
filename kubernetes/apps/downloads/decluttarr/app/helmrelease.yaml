@@ -2,15 +2,15 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: deduparr
+  name: decluttarr
 spec:
   interval: 30m
   chartRef:
     kind: OCIRepository
-    name: deduparr
+    name: decluttarr
   values:
     controllers:
-      deduparr:
+      decluttarr:
         pod:
           securityContext:
             runAsUser: 2000

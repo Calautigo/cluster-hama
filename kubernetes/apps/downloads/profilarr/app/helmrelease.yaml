@@ -28,6 +28,8 @@ spec:
               repository: santiagosayshey/profilarr
               tag: v1.1.4@sha256:8a514f8429cd33885166facc9eb6504fa9ded056c737609e5e8ef32ae0afb350
             env:
+              PUID: "2000"
+              PGID: "2000"
               PROFILARR__PORT: &port 6868
               PROFILARR__API_KEY:
                 valueFrom:
