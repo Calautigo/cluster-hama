@@ -36,6 +36,9 @@ spec:
                   secretKeyRef:
                     name: profilarr-secret
                     key: api_key
+              AUTH: "off"
+              UMASK: "022"
+              APP_BASE_PATH: /config
             probes:
               liveness: &probes
                 enabled: true
@@ -72,8 +75,8 @@ spec:
     persistence:
       config:
         existingClaim: profilarr-config
-      add-ons:
-        type: emptyDir
+        globalMounts:
+          - path: /config
       tmp:
         type: emptyDir
 
