@@ -25,17 +25,14 @@ spec:
         containers:
           app:
             image:
-              repository: santiagosayshey/profilarr
-              tag: v1.1.4@sha256:8a514f8429cd33885166facc9eb6504fa9ded056c737609e5e8ef32ae0afb350
+              repository: ghcr.io/dictionarry-hub/profilarr
+              tag: 2.0.8@sha256:bcec9c579358163004145105c2747d3513ae75a56cd8b6c3ac759a0166d5b4af
             env:
               PUID: "2000"
               PGID: "2000"
-              PROFILARR__PORT: &port 6868
-              PROFILARR__API_KEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: profilarr-secret
-                    key: api_key
+              HOST: 0.0.0.0
+              PORT: &port 6868
+              ORIGIN: https://profilarr.ds47.dev
               AUTH: "off"
               UMASK: "022"
               APP_BASE_PATH: /config
@@ -49,21 +46,30 @@ spec:
                     port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
-                  timeoutSeconds: 1
+                  timeoutSeconds: 2
                   failureThreshold: 3
               readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v1/health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 2
+                  failureThreshold: 30
             resources:
               requests:
-                cpu: 15m
-                memory: 64Mi
+                cpu: 25m
+                memory: 128Mi
               limits:
-                memory: 256Mi
+                memory: 512Mi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
+              capabilities: { drop: ["ALL"] }
 
     service:
       app:
