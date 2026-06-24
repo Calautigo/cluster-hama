@@ -11,5 +11,3 @@ resources:
   - ./kgateway/ks.yaml
 components:
   - ../../components/common
-transformers:
-  - ./transformers

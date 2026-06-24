@@ -3,7 +3,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: home-automation
 resources:
-  - ./namespace.yaml
   - ./bambuddy/ks.yaml
   - ./esphome/ks.yaml
   - ./evcc/ks.yaml
@@ -12,8 +11,6 @@ resources:
   - ./nodered/ks.yaml
   - ./unifi/ks.yaml
   - ./zigbee2mqtt/ks.yaml
+  - ./namespace.yaml
 components:
   - ../../components/common
-  - ../../components/volsync-ns
-transformers:
-  - ./transformers

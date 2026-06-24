@@ -2,7 +2,9 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: .invalid
+  annotations:
+    volsync.backube/privileged-movers: "true"
+  name: downloads
   labels:
     pod-security.kubernetes.io/warn: restricted
     pod-security.kubernetes.io/audit: restricted

@@ -4,11 +4,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: storage
 resources:
-  - ./namespace.yaml
   - ./ceph-csi/ks.yaml
   - ./openebs/ks.yaml
   - ./versity/ks.yaml
+  - ./namespace.yaml
 components:
   - ../../components/common
-transformers:
-  - ./transformers
