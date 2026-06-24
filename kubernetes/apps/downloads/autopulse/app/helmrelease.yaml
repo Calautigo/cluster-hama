@@ -40,7 +40,7 @@ spec:
               tag: v2.0.0@sha256:a9b37936c849b34d3473caf7d83aeddc2c39ec066e18a14a0f4164846d1e4718
             command: ["/bin/autopulse"]
             env:
-              TZ: Europe/Vienna
+              TZ: "${TZ}"
             envFrom:
               - secretRef:
                   name: autopulse-db

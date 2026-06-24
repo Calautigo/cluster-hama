@@ -10,7 +10,7 @@ spec:
   gatewayClassName: kgateway
   addresses:
     - type: IPAddress
-      value: &ipv4Address 10.100.10.218
+      value: &ipv4Address "${LB_IP_KGATEWAY_INTERNAL}"
   infrastructure:
     annotations:
       external-dns.alpha.kubernetes.io/hostname: *hostname

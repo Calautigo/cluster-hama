@@ -60,6 +60,6 @@ spec:
     metadata:
       annotations:
         external-dns.alpha.kubernetes.io/hostname: mqtt.schwarz47.at
-        lbipam.cilium.io/ips: 10.100.10.201
+        lbipam.cilium.io/ips: "${LB_IP_EMQX}"
     spec:
       type: LoadBalancer

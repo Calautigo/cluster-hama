@@ -48,7 +48,7 @@ spec:
         type: LoadBalancer
         annotations:
           external-dns.alpha.kubernetes.io/hostname: "evcc-api.ds47.dev"
-          lbipam.cilium.io/ips: 10.100.10.202
+          lbipam.cilium.io/ips: "${LB_IP_EVCC_API}"
         ports:
           ocpp:
             port: 8887

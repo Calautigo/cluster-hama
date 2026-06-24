@@ -33,7 +33,7 @@ spec:
               PAPERLESS_CSRF_TRUSTED_ORIGINS: https://paperless.schwarz47.at
               PAPERLESS_TRUSTED_PROXIES: "*"
               PAPERLESS_PORT: "8000"
-              PAPERLESS_TIME_ZONE: "Europe/Vienna"
+              PAPERLESS_TIME_ZONE: "${TIMEZONE}"
               PAPERLESS_WEBSERVER_WORKERS: "2"
               PAPERLESS_TASK_WORKERS: "2"
               # Configure folders

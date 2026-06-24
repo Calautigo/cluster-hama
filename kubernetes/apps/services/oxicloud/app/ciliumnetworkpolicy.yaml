@@ -65,7 +65,7 @@ spec:
               protocol: TCP
     # Interner Gateway HTTPS (Collabora WOPI discovery/callbacks)
     - toCIDR:
-        - 10.100.10.218/32
+        - "${LB_IP_KGATEWAY_INTERNAL}/32"
       toPorts:
         - ports:
             - port: "443"

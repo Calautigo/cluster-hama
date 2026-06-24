@@ -11,6 +11,6 @@ spec:
     name: pocket-id-operator
   values:
     operator:
-      timezone: Europe/Vienna
+      timezone: "${TIMEZONE}"
     instance:
       enabled: false

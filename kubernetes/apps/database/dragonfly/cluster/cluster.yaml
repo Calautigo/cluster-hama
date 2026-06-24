@@ -30,7 +30,7 @@ spec:
   serviceSpec:
     type: LoadBalancer
     annotations:
-      lbipam.cilium.io/ips: 10.100.10.209
+      lbipam.cilium.io/ips: "${LB_IP_DRAGONFLY}"
       external-dns.alpha.kubernetes.io/hostname: redis.schwarz47.at
   topologySpreadConstraints:
     - maxSkew: 1
