@@ -9,5 +9,6 @@ spec:
       requests:
         - name: gpu
           exactly:
+            adminAccess: true
             deviceClassName: gpu.intel.com
             allocationMode: All
