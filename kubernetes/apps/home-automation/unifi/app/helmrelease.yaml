@@ -49,7 +49,7 @@ spec:
         ports:
           https:
             port: &port 8443
-            protocol: HTTPS
+            protocol: TCP
           controller:
             enabled: true
             port: 8080
@@ -79,7 +79,7 @@ spec:
           - path: /unifi
       cert:
         type: secret
-        name: 'schwarz47-at-unifi'
+        name: "schwarz47-at-unifi"
         advancedMounts:
           unifi:
             app:

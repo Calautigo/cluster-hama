@@ -18,6 +18,7 @@ spec:
     - name: pg18vec
       namespace: database
   path: ./kubernetes/apps/dev/coder/app
+  force: true
   prune: true
   sourceRef:
     kind: GitRepository

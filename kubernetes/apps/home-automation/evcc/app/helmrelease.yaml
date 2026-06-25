@@ -39,12 +39,14 @@ spec:
 
     service:
       app:
-        forceRename: "{{ .Release.Name }}"
+        controller: evcc
+        forceRename: evcc
         primary: true
         ports:
           http:
             port: 7070
       sync:
+        controller: evcc
         type: LoadBalancer
         annotations:
           external-dns.alpha.kubernetes.io/hostname: "evcc-api.ds47.dev"
