@@ -25,7 +25,7 @@ spec:
     - name: emqx-cluster
       namespace: database
     - name: volsync
-      namespace: system
+      namespace: volsync-system
   components:
     - ../../../../components/volsync
   postBuild:

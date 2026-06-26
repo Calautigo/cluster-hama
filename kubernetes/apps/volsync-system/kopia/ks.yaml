@@ -3,32 +3,21 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app termix
-  namespace: services
+  name: &app kopia
+  namespace: volsync-system
 spec:
+  targetNamespace: volsync-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: ceph-csi-rbd
-      namespace: storage
-    - name: volsync
+    - name: volsync-maintenance
       namespace: volsync-system
-  components:
-    - ../../../../components/volsync
-  path: ./kubernetes/apps/services/termix/app
+  interval: 1h
+  timeout: 5m
+  path: ./kubernetes/apps/volsync-system/kopia/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: services
-  wait: false
-  interval: 30m
-  timeout: 5m
-  postBuild:
-    substitute:
-      APP: *app
-      VOLSYNC_NAME: termix-bootstrap
-      VOLSYNC_CLAIM: termix-data
-      VOLSYNC_CAPACITY: 1Gi

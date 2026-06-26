@@ -1,8 +1,9 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationsource_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: ${APP}-versity
+  name: ${VOLSYNC_NAME:-${APP}}
 spec:
   sourcePVC: "${VOLSYNC_CLAIM:-${APP}}"
   trigger:
@@ -15,7 +16,7 @@ spec:
     compression: zstd-fastest
     copyMethod: Snapshot
     parallelism: 2
-    repository: ${APP}-volsync-versity
+    repository: ${VOLSYNC_NAME:-${APP}}-volsync-secret
     storageClassName: "${VOLSYNC_STORAGECLASS:-csi-rbd-sc}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-rbd-snapclass}"
     retain:

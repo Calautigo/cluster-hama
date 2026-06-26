@@ -1,8 +1,9 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationdestination_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: "${APP}-bootstrap"
+  name: "${VOLSYNC_NAME:-${APP}}-bootstrap"
   labels:
     kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
 spec:
@@ -20,8 +21,8 @@ spec:
       runAsUser: ${APP_UID:-2000}
       runAsGroup: ${APP_GID:-2000}
       fsGroup: ${APP_GID:-2000}
-    repository: ${APP}-volsync-secret
+    repository: ${VOLSYNC_NAME:-${APP}}-volsync-secret
     sourceIdentity:
-      sourceName: ${APP}
+      sourceName: ${VOLSYNC_NAME:-${APP}}
     storageClassName: "${VOLSYNC_STORAGECLASS:-csi-rbd-sc}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-rbd-snapclass}"

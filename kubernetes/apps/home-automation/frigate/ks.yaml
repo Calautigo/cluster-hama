@@ -27,7 +27,7 @@ spec:
     - name: ceph-csi-rbd
       namespace: storage
     - name: volsync
-      namespace: system
+      namespace: volsync-system
   components:
     - ../../../../components/gpu
     - ../../../../components/volsync
