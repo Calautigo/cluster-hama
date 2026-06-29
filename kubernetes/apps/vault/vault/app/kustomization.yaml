@@ -9,5 +9,5 @@ resources:
   - ./servicemonitor.yaml
   - ./prometheusrule.yaml
   - ./snapshot-cronjob.yaml
-  # - ./unsealer-secret.sops.yaml
-  # - ./unsealer.yaml
+  - ./unsealer-secret.sops.yaml
+  - ./unsealer.yaml
