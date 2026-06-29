@@ -1,0 +1,35 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: vault
+spec:
+  groups:
+    - name: vault
+      rules:
+        - alert: VaultSealed
+          annotations:
+            description: Vault instance {{ $labels.instance }} is sealed.
+            summary: Vault is sealed
+          expr: vault_core_unsealed == 0
+          for: 5m
+          labels:
+            severity: critical
+
+        - alert: VaultSnapshotFailed
+          annotations:
+            description: The Vault Raft snapshot CronJob has failed {{ $value }} time(s).
+            summary: Vault snapshot job failed
+          expr: kube_job_status_failed{job_name=~"vault-snapshot.*", namespace="vault"} > 0
+          for: 1h
+          labels:
+            severity: warning
+
+        - alert: VaultSnapshotStale
+          annotations:
+            description: No successful Vault snapshot in the last 13 hours.
+            summary: Vault snapshot is stale
+          expr: time() - kube_job_status_completion_time{job_name=~"vault-snapshot.*", namespace="vault"} > 46800
+          for: 1h
+          labels:
+            severity: warning

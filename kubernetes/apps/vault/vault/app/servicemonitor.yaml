@@ -1,0 +1,23 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: vault
+spec:
+  endpoints:
+    - interval: 30s
+      path: /v1/sys/metrics
+      params:
+        format:
+          - prometheus
+      port: http
+      scheme: http
+      tlsConfig:
+        insecureSkipVerify: true
+  jobLabel: vault
+  namespaceSelector:
+    matchNames:
+      - vault
+  selector:
+    matchLabels:
+      vault-active: "true"

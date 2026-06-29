@@ -1,0 +1,75 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vault-snapshot
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: vault-snapshot
+spec:
+  schedule: "0 */6 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: vault-snapshot
+          restartPolicy: OnFailure
+          containers:
+            - name: snapshot
+              image: alpine:3.21
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  set -e
+                  apk add --no-cache curl jq 2>/dev/null
+
+                  VAULT_ADDR="http://vault-active.vault.svc.cluster.local:8200"
+
+                  # Check if Vault is ready (200 = active, 429 = standby)
+                  HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${VAULT_ADDR}/v1/sys/health")
+                  if [ "${HTTP_STATUS}" != "200" ] && [ "${HTTP_STATUS}" != "429" ]; then
+                    echo "Vault not ready (HTTP ${HTTP_STATUS}), skipping snapshot"
+                    exit 0
+                  fi
+
+                  # Authenticate via Kubernetes service account
+                  JWT=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+                  VAULT_TOKEN=$(curl -sf -X POST "${VAULT_ADDR}/v1/auth/kubernetes/login" \
+                    -H "Content-Type: application/json" \
+                    -d "{\"role\":\"vault-snapshot\",\"jwt\":\"${JWT}\"}" \
+                    | jq -r '.auth.client_token')
+
+                  if [ -z "${VAULT_TOKEN}" ] || [ "${VAULT_TOKEN}" = "null" ]; then
+                    echo "Failed to obtain Vault token"
+                    exit 1
+                  fi
+
+                  # Save Raft snapshot to NFS
+                  SNAPSHOT_FILE="/snapshots/vault-$(date +%Y%m%d-%H%M%S).snap"
+                  curl -sf -o "${SNAPSHOT_FILE}" \
+                    -H "X-Vault-Token: ${VAULT_TOKEN}" \
+                    "${VAULT_ADDR}/v1/sys/storage/raft/snapshot"
+                  echo "Snapshot saved: ${SNAPSHOT_FILE}"
+
+                  # Revoke token after use
+                  curl -sf -X POST "${VAULT_ADDR}/v1/auth/token/revoke-self" \
+                    -H "X-Vault-Token: ${VAULT_TOKEN}" || true
+
+                  # Prune old snapshots, keep last 28
+                  ls -t /snapshots/*.snap 2>/dev/null | tail -n +29 | xargs rm -f || true
+                  echo "Done. Current snapshots:"
+                  ls -lh /snapshots/*.snap 2>/dev/null || echo "(none)"
+              volumeMounts:
+                - name: snapshots
+                  mountPath: /snapshots
+          volumes:
+            - name: snapshots
+              nfs:
+                server: 10.100.0.81
+                path: /safe/apps/vault

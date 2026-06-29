@@ -1,0 +1,77 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vault-unsealer
+  annotations:
+    secret.reloader.stakater.com/reload: vault-unseal-keys
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: vault-unsealer
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: vault-unsealer
+    spec:
+      containers:
+        - name: unsealer
+          image: alpine:3.21
+          env:
+            - name: INTERVAL
+              value: "30"
+            - name: VAULT_UNSEAL_KEY_1
+              valueFrom:
+                secretKeyRef:
+                  name: vault-unseal-keys
+                  key: VAULT_UNSEAL_KEY_1
+            - name: VAULT_UNSEAL_KEY_2
+              valueFrom:
+                secretKeyRef:
+                  name: vault-unseal-keys
+                  key: VAULT_UNSEAL_KEY_2
+            - name: VAULT_UNSEAL_KEY_3
+              valueFrom:
+                secretKeyRef:
+                  name: vault-unseal-keys
+                  key: VAULT_UNSEAL_KEY_3
+          command:
+            - /bin/sh
+            - -c
+            - |
+              apk add --no-cache curl 2>/dev/null
+
+              # Vault pods are reachable via headless service vault-internal
+              REPLICAS=3
+
+              while true; do
+                for i in $(seq 0 $((REPLICAS - 1))); do
+                  ADDR="http://vault-${i}.vault-internal.vault.svc.cluster.local:8200"
+
+                  # /v1/sys/health returns 503 when sealed
+                  HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${ADDR}/v1/sys/health" 2>/dev/null || echo "000")
+
+                  if [ "${HTTP_STATUS}" = "503" ]; then
+                    echo "[$(date -u +%FT%TZ)] vault-${i} is sealed — unsealing"
+                    curl -sf -X PUT "${ADDR}/v1/sys/unseal" \
+                      -H "Content-Type: application/json" \
+                      -d "{\"key\":\"${VAULT_UNSEAL_KEY_1}\"}" >/dev/null
+                    curl -sf -X PUT "${ADDR}/v1/sys/unseal" \
+                      -H "Content-Type: application/json" \
+                      -d "{\"key\":\"${VAULT_UNSEAL_KEY_2}\"}" >/dev/null
+                    curl -sf -X PUT "${ADDR}/v1/sys/unseal" \
+                      -H "Content-Type: application/json" \
+                      -d "{\"key\":\"${VAULT_UNSEAL_KEY_3}\"}" >/dev/null
+                    echo "[$(date -u +%FT%TZ)] vault-${i} unseal commands sent"
+                  fi
+                done
+
+                sleep "${INTERVAL}"
+              done
+          resources:
+            requests:
+              cpu: 5m
+              memory: 16Mi
+            limits:
+              memory: 64Mi
