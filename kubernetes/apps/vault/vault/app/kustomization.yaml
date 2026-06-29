@@ -9,6 +9,5 @@ resources:
   - ./servicemonitor.yaml
   - ./prometheusrule.yaml
   - ./snapshot-cronjob.yaml
-  # Add after `vault operator init` + key encryption:
-  # - ./unsealer-secret.sops.yaml
-  # - ./unsealer.yaml
+  - ./unsealer-secret.sops.yaml
+  - ./unsealer.yaml
