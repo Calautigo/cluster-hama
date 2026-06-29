@@ -10,6 +10,12 @@ spec:
     name: kgateway-crds
   install:
     crds: CreateReplace
+    remediation:
+      retries: 3
   interval: 30m
   upgrade:
+    cleanupOnFail: true
     crds: CreateReplace
+    remediation:
+      strategy: rollback
+      retries: 3

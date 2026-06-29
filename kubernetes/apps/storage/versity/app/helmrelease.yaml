@@ -18,6 +18,7 @@ spec:
     crds: CreateReplace
     timeout: 2m
     remediation:
+      strategy: rollback
       retries: 1
   values:
     controllers:
