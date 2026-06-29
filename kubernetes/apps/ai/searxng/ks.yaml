@@ -26,6 +26,7 @@ spec:
       namespace: volsync-system
   components:
     - ../../../../components/volsync
+    - ../../../../components/dragonfly
   postBuild:
     substitute:
       APP: *app

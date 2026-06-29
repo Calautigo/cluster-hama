@@ -13,10 +13,13 @@ spec:
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
-    - name: dragonfly-cluster
-      namespace: database
     - name: llmkube-models
       namespace: *namespace
+  components:
+    - ../../../../components/dragonfly
+  postBuild:
+    substitute:
+      APP: *app
   interval: 30m
   path: ./kubernetes/apps/ai/litellm/app
   prune: true

@@ -17,6 +17,7 @@ spec:
       namespace: database
   components:
     - ../../../../components/gpu
+    - ../../../../components/dragonfly
   path: ./kubernetes/apps/services/immich/app
   prune: true
   sourceRef:

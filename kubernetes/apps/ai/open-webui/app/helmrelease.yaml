@@ -56,7 +56,7 @@ spec:
               # WebSocket support
               ENABLE_WEBSOCKET_SUPPORT: true
               WEBSOCKET_MANAGER: redis
-              WEBSOCKET_REDIS_URL: redis://dragonfly.database.svc.cluster.local:6379
+              WEBSOCKET_REDIS_URL: redis://open-webui-dragonfly.ai.svc.cluster.local:6379
               # OIDC
               ENABLE_OAUTH_SIGNUP: true
               OAUTH_MERGE_ACCOUNTS_BY_EMAIL: true
