@@ -15,18 +15,21 @@ spec:
           divisor: 1Mi
   args:
     - --maxmemory=$(MAX_MEMORY)Mi
-    - --proactor_threads=${DRAGONFLY_PROACTOR_THREADS:=2}
-    - --cluster_mode=${DRAGONFLY_CLUSTER_MODE:=emulated}
-    - --default_lua_flags=allow-undeclared-keys
+    - --proactor_threads=${DRAGONFLY_ARGS_THREADS:=2}
+    - --cluster_mode=emulated
+    - --lock_on_hashtags
+    - --default_lua_flags=${DRAGONFLY_ARGS_DEFAULT_LUA_FLAGS:=}
+    - --primary_port_http_enabled=true
   resources:
     requests:
-      cpu: 100m
+      cpu: ${DRAGONFLY_REQUESTS_CPU:=100m}
     limits:
-      memory: 512Mi
+      memory: ${DRAGONFLY_LIMITS_MEMORY:=512Mi}
   topologySpreadConstraints:
     - maxSkew: 1
       topologyKey: "kubernetes.io/hostname"
       whenUnsatisfiable: "DoNotSchedule"
+      nodeTaintsPolicy: Honor
       labelSelector:
         matchLabels:
           app.kubernetes.io/part-of: dragonfly

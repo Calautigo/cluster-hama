@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kube-schemas.pages.dev/monitoring.coreos.com/podmonitor_v1.json
+# yaml-language-server: $schema=https://schemas.tholinka.dev/monitoring.coreos.com/podmonitor_v1.json
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       app: ${APP}-dragonfly
-  podTargetLabels: ["app"]
+  podTargetLabels:
+    - "app"
   podMetricsEndpoints:
-    - port: admin
-  fallbackScrapeProtocol: PrometheusText0.0.4
+    - port: redis
