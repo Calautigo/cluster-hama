@@ -1,0 +1,15 @@
+---
+pre-commit:
+  parallel: true
+  jobs:
+    - name: yamlfmt
+      glob: "**/*.{yaml,yml}"
+      run: yamlfmt {staged_files}
+      stage_fixed: true
+
+    - name: forbid-unencrypted-sops
+      glob: "**/*.sops.yaml"
+      run: >
+        for f in {staged_files}; do
+          grep -qF "ENC[" "$f" || { echo "Unencrypted SOPS file: $f"; exit 1; }
+        done

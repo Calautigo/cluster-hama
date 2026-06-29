@@ -3,6 +3,7 @@
   extends: [
     "config:recommended",
     "docker:enableMajor",
+    "helpers:pinGitHubActionDigests",
     ":automergeBranch",
     ":automergeMinor",
     ":dependencyDashboard",
@@ -15,6 +16,14 @@
     "github>calautigo/cluster-hama//.renovate/customManagers.json5",
     "github>calautigo/cluster-hama//.renovate/grafanaDashboards.json5",
   ],
+  dependencyDashboardTitle: "Renovate Dashboard 🤖",
+  suppressNotifications: [
+    "prEditedNotification",
+    "prIgnoreNotification",
+  ],
+  ignorePaths: [
+    "**/*.sops.*",
+  ],
   flux: {
     managerFilePatterns: ["/^(kubernetes|talos)\\/.+\\.ya?ml(?:\\.j2)?$/"],
   },
@@ -23,5 +32,5 @@
   },
   kubernetes: {
     managerFilePatterns: ["/^(kubernetes|talos)\\/.+\\.ya?ml(?:\\.j2)?$/"],
-  }
+  },
 }
