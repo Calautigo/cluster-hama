@@ -6,24 +6,9 @@ metadata:
   name: &app vault
 spec:
   interval: 1h
-  chart:
-    spec:
-      chart: vault
-      version: 0.28.1
-      sourceRef:
-        kind: HelmRepository
-        name: hashicorp
-      interval: 1h
-  install:
-    timeout: 10m
-    remediation:
-      retries: 3
-  upgrade:
-    timeout: 10m
-    remediation:
-      retries: 3
-      remediateLastFailure: true
-    cleanupOnFail: true
+  chartRef:
+    kind: OCIRepository
+    name: vault
   values:
     global:
       enabled: true
