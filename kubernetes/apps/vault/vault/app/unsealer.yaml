@@ -41,7 +41,7 @@ spec:
               addr() { echo "http://vault-$${1}.vault-internal:8200"; }
               log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $${*}"; }
 
-              pod_status() { VAULT_ADDR="$(addr "$${1}")" vault status -format=json 2>/dev/null; }
+              pod_status() { VAULT_ADDR="$(addr "$${1}")" vault status -format=json 2>/dev/null || true; }
 
               unseal_pod() {
                 log "Unsealing vault-$${1}..."
