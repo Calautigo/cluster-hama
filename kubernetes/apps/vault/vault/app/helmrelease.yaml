@@ -10,53 +10,31 @@ spec:
     kind: OCIRepository
     name: vault
   values:
-    global:
+    metrics:
       enabled: true
-
-    injector:
-      enabled: false
-
-    csi:
-      enabled: false
-
-    ui:
+    service:
       enabled: true
-      serviceType: ClusterIP
 
     server:
-      enabled: true
+      extraLabels:
+        configmap.reloader.stakater.com/reload: vault-config
 
-      image:
-        repository: hashicorp/vault
-        tag: 1.17.3
+      dataStorage:
+        enabled: true
+        storageClass: "ceph-block"
+
+      extraEnvironmentVars:
+        TZ: ${TIMEZONE}
 
       resources:
         requests:
           memory: 256Mi
-          cpu: 50m
+          cpu: 250m
         limits:
-          memory: 512Mi
+          memory: 256Mi
 
-      readinessProbe:
-        enabled: true
-        path: /v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204
-
-      livenessProbe:
-        enabled: true
-        path: /v1/sys/health?standbyok=true&sealedcode=200&uninitcode=200
-        initialDelaySeconds: 60
-
-      auditStorage:
+      standalone:
         enabled: false
-
-      dataStorage:
-        enabled: true
-        size: 10Gi
-        storageClass: csi-rbd-sc
-
-      serviceAccount:
-        create: true
-        name: vault
 
       ha:
         enabled: true
@@ -64,27 +42,27 @@ spec:
         raft:
           enabled: true
           setNodeId: true
-          config: |-
+          config: |
             ui = true
-
             listener "tcp" {
-              tls_disable     = 1
-              address         = "[::]:8200"
+              tls_disable = 1
+              address = "[::]:8200"
               cluster_address = "[::]:8201"
               telemetry {
                 unauthenticated_metrics_access = "true"
               }
             }
-
+            telemetry {
+              prometheus_retention_time = "1m",
+              disable_hostname = true
+            }
             storage "raft" {
               path = "/vault/data"
             }
-
             service_registration "kubernetes" {}
+    ui:
+      enabled: true
+      serviceType: "ClusterIP"
 
-            telemetry {
-              prometheus_retention_time = "30s"
-              disable_hostname          = true
-            }
-
-            disable_mlock = true
+    injector:
+      enabled: "false"
