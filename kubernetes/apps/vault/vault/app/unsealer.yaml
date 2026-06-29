@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: unsealer
-          image: docker.io/hashicorp/vault:1.17.3
+          image: docker.io/hashicorp/vault:2.0.3
           env:
             - name: REPLICAS
               value: "3"
