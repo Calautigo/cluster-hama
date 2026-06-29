@@ -58,7 +58,7 @@ spec:
 
       livenessProbe:
         enabled: true
-        path: /v1/sys/health?standbyok=true
+        path: /v1/sys/health?standbyok=true&sealedcode=200&uninitcode=200
         initialDelaySeconds: 60
 
       auditStorage:
