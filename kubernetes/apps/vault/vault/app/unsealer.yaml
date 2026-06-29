@@ -67,7 +67,7 @@ spec:
                   fi
                 done
 
-                sleep "${INTERVAL}"
+                sleep "3"
               done
           resources:
             requests:
