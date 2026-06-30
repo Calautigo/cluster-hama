@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: netbox
+  name: netbox-secret
 spec:
   interval: 30m
   chartRef:
@@ -17,7 +17,7 @@ spec:
         image: ghcr.io/home-operations/postgres-init:18.4.0@sha256:ebd9d30add17acdf935d73eb004758c7dfd9388aaa605fda70ad74378ab92aec
         envFrom:
           - secretRef:
-              name: &secret netbox-secret
+              name: netbox-db
           - secretRef:
               name: netbox-initdb
     storages:
@@ -40,7 +40,7 @@ spec:
       trustedOrigins:
         - https://netbox.ds47.dev
     timeZone: Europe/Vienna
-    existingSecret: *secret
+    existingSecret: &secret netbox-secret
     superuser:
       name: calautigo
       email: server.netbox@ds47.dev
@@ -78,7 +78,7 @@ spec:
       port: 5432
       database: netbox
       username: netbox
-      existingSecretName: netbox-secret
+      existingSecretName: netbox-db
       existingSecretKey: "NETBOX_PG_PASS"
     valkey:
       enabled: false
