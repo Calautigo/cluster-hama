@@ -1,0 +1,57 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app it-tools
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: it-tools
+  interval: 30m
+  values:
+    controllers:
+      it-tools:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 1000
+            runAsUser: 1000
+        containers:
+          app:
+            image:
+              repository: ghcr.io/sharevb/it-tools
+              tag: 2026.1.4@sha256:6d335b5d6f7d28a540ef36c0ab2e20cbf7df2c0d8b7adb16585ccd3ebcfeed59
+            env:
+              TZ: ${CONFIG_TIMEZONE}
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
+
+    service:
+      app:
+        controller: it-tools
+        ports:
+          http:
+            port: 8080
+
+    persistence:
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+            subPath: tmp
+
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.ds47.dev"
+        parentRefs:
+          - name: kgateway-internal
+            namespace: network

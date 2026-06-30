@@ -1,0 +1,16 @@
+[[remotes]]
+git_url = "https://github.com/home-operations/.github"
+ref = "main"
+configs = ["lefthook.common.toml"]
+
+[pre-commit]
+parallel = true
+
+[[pre-commit.jobs]]
+name = "forbid-unencrypted-sops"
+glob = "**/*.sops.yaml"
+run = '''
+for f in {staged_files}; do
+  grep -qF "ENC[" "$f" || { echo "Unencrypted SOPS file: $f"; exit 1; }
+done
+'''
