@@ -28,7 +28,7 @@ spec:
               repository: stashapp/stash
               tag: v0.31.1
             env:
-              USER: stash
+              USER: "2000"
               HOME: /root
               STASH_STASH: /data/
               STASH_GENERATED: /generated/
