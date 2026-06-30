@@ -44,7 +44,6 @@ spec:
     superuser:
       name: calautigo
       email: server.netbox@ds47.dev
-      existingSecret: *secret
     admins:
       - ["calautigo", "server.netbox@${SECRET_DOMAIN_SHORT}"]
     dateFormat: "j. F, Y"
