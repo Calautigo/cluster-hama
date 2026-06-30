@@ -12,6 +12,6 @@ spec:
   secret:
     name: netbox-oidc
     keys:
-      clientID: CLIENT_ID
-      clientSecret: CLIENT_SECRET
-      issuerUrl: ISSUER_URL
+      clientID: NETBOX_OIDC_CLIENT_ID
+      clientSecret: NETBOX_OIDC_CLIENT_SECRET
+      issuerUrl: NETBOX_OIDC_ISSUER_URL

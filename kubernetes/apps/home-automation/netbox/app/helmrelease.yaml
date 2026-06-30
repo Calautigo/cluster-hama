@@ -12,21 +12,27 @@ spec:
   values:
     podAnnotations: &reloader
       reloader.stakater.com/auto: "true"
+    initContainers:
+      init-db:
+        image:
+          repository: ghcr.io/home-operations/postgres-init
+          tag: 18.4.0@sha256:ebd9d30add17acdf935d73eb004758c7dfd9388aaa605fda70ad74378ab92aec
+        envFrom:
+          - secretRef:
+              name: &secret netbox-secret
+          - secretRef:
+              name: netbox-initdb
+    storages:
+      default:
+        BACKEND: "storages.backends.s3.S3Storage"
+        OPTIONS:
+          bucket_name: "netbox"
+          endpoint_url: "https://versity.ds47.dev"
+          region_name: "us-east-1"
     worker:
-      podAnnotations: *reloader
-      replicaCount: 1
-      updateStrategy:
-        type: Recreate
-      affinity: &sharedAffinity
-        podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: netbox
-              topologyKey: kubernetes.io/hostname
+      enabled: false
     housekeeping:
-      podAnnotations: *reloader
-      affinity: *sharedAffinity
+      enabled: false
     updateStrategy:
       type: Recreate
     replicaCount: 1
@@ -36,13 +42,20 @@ spec:
       trustedOrigins:
         - https://netbox.ds47.dev
     timeZone: Europe/Vienna
-    existingSecret: netbox-secret
+    existingSecret: *secret
     superuser:
-      existingSecret: netbox-superuser
+      name: calautigo
+      email: server.netbox@ds47.dev
+      existingSecret: *secret
+    dateFormat: "j. F, Y"
+    shortDateFormat: "j.m.Y"
+    timeFormat: "G:i"
+    shortTimeFormat: "H:i:s"
+    dateTimeFormat: "j. F, Y g:i a"
+    shortDateTimeFormat: "j.m.Y H:i"
+    metricsEnabled: true
     persistence:
-      enabled: true
-      size: 5Gi
-    affinity: *sharedAffinity
+      enabled: false
     httpRoute:
       enabled: true
       parentRefs:
@@ -50,22 +63,24 @@ spec:
           namespace: network
       hostnames:
         - netbox.ds47.dev
+    readinessProbe:
+      enabled: false
+    livenessProbe:
+      enabled: false
     postgresql:
       enabled: false
+    tasksDatabase:
+      host: netbox-dragonfly.home-automation.svc.cluster.local
+      database: 1
+    cachingDatabase:
+      host: netbox-dragonfly.home-automation.svc.cluster.local
+      database: 2
     externalDatabase:
       host: pg18vec-rw.database.svc.cluster.local
       port: 5432
       database: netbox
       username: netbox
       existingSecretName: netbox-secret
-      existingSecretKey: postgresql-password
+      existingSecretKey: "NETBOX_PG_PASS"
     valkey:
       enabled: false
-    tasksDatabase:
-      host: netbox-dragonfly.home-automation.svc.cluster.local
-      port: 6379
-      database: 0
-    cachingDatabase:
-      host: netbox-dragonfly.home-automation.svc.cluster.local
-      port: 6379
-      database: 1
