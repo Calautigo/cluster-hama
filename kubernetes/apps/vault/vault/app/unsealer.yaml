@@ -146,5 +146,5 @@ spec:
         - name: snapshots
           nfs:
             server: 10.100.0.81
-            path: /safe/apps/vault
+            path: /k8s-data/vault
             readOnly: true
