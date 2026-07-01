@@ -101,7 +101,7 @@ spec:
       data:
         type: nfs
         server: 10.100.0.81
-        path: /safe/apps/oxicloud
+        path: /k8s-data/oxicloud
         advancedMounts:
           oxicloud:
             app:

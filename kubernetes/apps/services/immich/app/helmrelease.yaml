@@ -175,7 +175,7 @@ spec:
       library:
         type: nfs
         server: 10.100.0.81
-        path: /photos
+        path: /k8s-data/immich
         globalMounts:
           - path: /library
       initdb:

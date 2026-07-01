@@ -115,7 +115,7 @@ spec:
               - path: /data/local
       nas:
         type: nfs
-        path: /safe/apps/paperless
+        path: /k8s-data/paperless
         server: 10.100.0.81
         advancedMounts:
           paperless:

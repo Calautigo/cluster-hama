@@ -49,7 +49,11 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
-              capabilities: { drop: ["ALL"], add: ["CHOWN", "SETUID", "SETGID", "FOWNER", "DAC_OVERRIDE", "PERFMON"] }
+              capabilities:
+                {
+                  drop: ["ALL"],
+                  add: ["CHOWN", "SETUID", "SETGID", "FOWNER", "DAC_OVERRIDE", "PERFMON"],
+                }
             resources:
               claims:
                 - name: gpu
@@ -122,7 +126,7 @@ spec:
       media:
         type: nfs
         server: 10.100.0.81
-        path: /safe/recordings
+        path: /k8s-data/frigate
         globalMounts:
           - path: /media
 
