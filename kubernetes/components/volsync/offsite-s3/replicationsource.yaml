@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationsource_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: ${VOLSYNC_NAME:-${APP}}-offsite
+spec:
+  sourcePVC: "${VOLSYNC_CLAIM:-${APP}}"
+  trigger:
+    schedule: "${VOLSYNC_OFFSITE_SCHEDULE:-30 2 * * *}"
+  kopia:
+    moverSecurityContext:
+      runAsUser: ${APP_UID:-2000}
+      runAsGroup: ${APP_GID:-2000}
+      fsGroup: ${APP_GID:-2000}
+      fsGroupChangePolicy: OnRootMismatch
+    compression: zstd-fastest
+    copyMethod: Snapshot
+    parallelism: 2
+    repository: ${VOLSYNC_NAME:-${APP}}-volsync-offsite-secret
+    storageClassName: "${VOLSYNC_STORAGECLASS:-csi-rbd-sc}"
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-rbd-snapclass}"
+    retain:
+      daily: 7
+      weekly: 4
+      monthly: 12

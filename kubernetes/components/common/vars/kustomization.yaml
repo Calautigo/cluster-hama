@@ -4,6 +4,7 @@ apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 resources:
   - ./cluster-settings.yaml
+  - ./cluster-secrets.sops.yaml
 patches:
   - target:
       group: kustomize.toolkit.fluxcd.io
@@ -19,3 +20,5 @@ patches:
           substituteFrom:
             - kind: ConfigMap
               name: cluster-settings
+            - kind: Secret
+              name: cluster-secrets

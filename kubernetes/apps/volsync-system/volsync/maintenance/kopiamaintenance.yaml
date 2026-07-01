@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/kopiamaintenance_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
 kind: KopiaMaintenance
@@ -19,4 +18,3 @@ spec:
     fsGroupChangePolicy: OnRootMismatch
   repository:
     repository: volsync-maintenance-secret
-    repositoryType: s3

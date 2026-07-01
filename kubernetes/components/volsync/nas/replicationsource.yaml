@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationsource_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
@@ -7,12 +6,13 @@ metadata:
 spec:
   sourcePVC: "${VOLSYNC_CLAIM:-${APP}}"
   trigger:
-    schedule: "0 * * * *"
+    schedule: "${VOLSYNC_KOPIA_SCHEDULE:-0 * * * *}"
   kopia:
     moverSecurityContext:
       runAsUser: ${APP_UID:-2000}
       runAsGroup: ${APP_GID:-2000}
       fsGroup: ${APP_GID:-2000}
+      fsGroupChangePolicy: OnRootMismatch
     compression: zstd-fastest
     copyMethod: Snapshot
     parallelism: 2

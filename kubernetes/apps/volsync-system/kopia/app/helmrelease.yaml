@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -91,6 +90,12 @@ spec:
         storageClass: csi-rbd-sc
         globalMounts:
           - path: /config/cache
+      repository:
+        type: nfs
+        server: ${NFS_SERVER}
+        path: /backup/volsync
+        globalMounts:
+          - path: /repository
       tmpfs:
         type: emptyDir
         advancedMounts:
