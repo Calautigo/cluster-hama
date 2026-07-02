@@ -25,34 +25,13 @@ spec:
         containers:
           app:
             image:
-              repository: stashapp/stash
-              tag: v0.31.1
+              repository: ghcr.io/home-operations/stash
+              tag: 0.31.1@sha256:869f910b26e7605676531e8823fa8c8ea66a329dd1b737e342a1a77ba7b77f22
             env:
-              USER: "2000"
-              HOME: /.stash
               STASH_STASH: /media/
               STASH_GENERATED: /data/generated/
               STASH_METADATA: /data/metadata/
               STASH_CACHE: /data/cache/
-              STASH_PORT: &port 9999
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /health
-                    port: *port
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
-              startup:
-                enabled: true
-                spec:
-                  periodSeconds: 10
-                  failureThreshold: 30
             resources:
               requests:
                 cpu: 100m
@@ -71,7 +50,7 @@ spec:
         controller: stash
         ports:
           http:
-            port: *port
+            port: &port 9999
 
     persistence:
       config:
@@ -79,7 +58,7 @@ spec:
         globalMounts:
           - path: /.stash
       data:
-        type: emptyDir
+        existingClaim: stash-data
         globalMounts:
           - path: /data
       media:
