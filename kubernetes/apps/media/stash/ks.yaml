@@ -20,8 +20,6 @@ spec:
     namespace: flux-system
   wait: false
   dependsOn:
-    - name: external-secrets
-      namespace: external-secrets
     - name: volsync
       namespace: volsync-system
   components:
@@ -29,6 +27,4 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_NAME: stash-bootstrap
-      VOLSYNC_CLAIM: stash-config
       VOLSYNC_CAPACITY: 1Gi
