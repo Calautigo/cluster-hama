@@ -21,7 +21,8 @@ spec:
       retries: 3
   values:
     cluster:
-      name: thestral
+      name: nexus
+    managementURL: https://netbird.ds47.dev
     netbirdAPI:
       keyFromSecret:
         name: netbird-mgmt-api-key
