@@ -1,0 +1,15 @@
+---
+apiVersion: netbird.io/v1alpha1
+kind: NetworkResource
+metadata:
+  name: immich
+spec:
+  networkRouterRef:
+    name: nexus
+    namespace: network
+  serviceRef:
+    name: immich-server
+  # "All" + the default NetBird policy makes Immich reachable from every
+  # enrolled peer; switch to a dedicated group to restrict access.
+  groups:
+    - name: All

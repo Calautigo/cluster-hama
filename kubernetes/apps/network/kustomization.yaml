@@ -9,5 +9,6 @@ resources:
   - ./external-dns/ks.yaml
   - ./external-services/ks.yaml
   - ./kgateway/ks.yaml
+  - ./netbird/ks.yaml
 components:
   - ../../components/common
