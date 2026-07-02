@@ -29,8 +29,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/home-operations/navidrome
-              tag: 0.57.0
+              repository: ghcr.io/navidrome/navidrome
+              tag: 0.62.0@sha256:c4b5cb36a790b3eb63ca6a68bbe2fe149c2d7fa2e586f7a480e61db630e6664b
             env:
               TZ: "${TZ}"
               ND_MUSICFOLDER: /music
