@@ -220,7 +220,7 @@ The VolSync component creates a PVC named `${VOLSYNC_CLAIM:-${APP}}` and sets up
 3. New namespace: create `kubernetes/apps/<namespace>/` with `namespace.yaml` and a `kustomization.yaml` that includes `namespace: <namespace>`, all `./<app>/ks.yaml` entries, `./namespace.yaml`, and the `../../components/common` component; then add `./<namespace>` to `kubernetes/apps/kustomization.yaml`.
 4. Secrets: create the Vault entry at `apps/<namespace>/<app>`, pull it via `externalsecret.yaml` (ClusterSecretStore `hashicorp-vault`), and add it to `app/kustomization.yaml`.
 5. Persistent data: add the `volsync` component, `dependsOn` volsync, and `VOLSYNC_CAPACITY` in `ks.yaml` (see pattern above).
-6. Validate before pushing: `just k8s apply-ks <namespace> <app>` renders and applies the Kustomization locally via flux-local.
+6. Validate before pushing: `just k8s apply-ks <namespace> <app>` renders and applies the Kustomization locally via flux.
 
 ### Secrets
 

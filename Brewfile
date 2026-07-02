@@ -1,6 +1,7 @@
 brew "gum"
 brew "helm"
 brew "helmfile"
+brew "jq"
 brew "just"
 brew "kubernetes-cli"
 brew "minijinja-cli"
