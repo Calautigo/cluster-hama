@@ -28,18 +28,11 @@ spec:
               repository: stashapp/stash
               tag: v0.31.1
             env:
-              USER: "2000"
-              HOME: /root
-              STASH_STASH: /data/
-              STASH_GENERATED: /generated/
-              STASH_METADATA: /metadata/
-              STASH_CACHE: /cache/
+              STASH_STASH: /media/
+              STASH_GENERATED: /data/generated/
+              STASH_METADATA: /data/metadata/
+              STASH_CACHE: /data/cache/
               STASH_PORT: &port 9999
-              STASH_API_KEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: stash-secret
-                    key: api_key
             probes:
               liveness: &probes
                 enabled: true
@@ -66,7 +59,7 @@ spec:
                 memory: 2Gi
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
+              readOnlyRootFilesystem: false
               capabilities:
                 drop:
                   - ALL
@@ -82,28 +75,17 @@ spec:
       config:
         existingClaim: stash-config
         globalMounts:
-          - path: /root/.stash
-      cache:
-        existingClaim: stash-cache
+          - path: /.stash
+      data:
+        type: emptyDir
         globalMounts:
-          - path: /cache
-            subPath: cache
-          - path: /blobs
-            subPath: blobs
-          - path: /metadata
-            subPath: metadata
-          - path: /generated
-            subPath: generated
-      add-ons:
-        type: emptyDir
-      tmp:
-        type: emptyDir
+          - path: /data
       media:
         type: nfs
         server: 10.100.0.81
         path: /media/media/media/adult
         globalMounts:
-          - path: /data
+          - path: /media
             readOnly: true
 
     route:
