@@ -28,6 +28,8 @@ spec:
               repository: stashapp/stash
               tag: v0.31.1
             env:
+              USER: "2000"
+              HOME: /.stash
               STASH_STASH: /media/
               STASH_GENERATED: /data/generated/
               STASH_METADATA: /data/metadata/
