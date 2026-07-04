@@ -25,6 +25,8 @@ spec:
             runAsNonRoot: true
             fsGroup: 2000
             fsGroupChangePolicy: "OnRootMismatch"
+            supplementalGroups:
+              - 65539
 
         containers:
           app:
