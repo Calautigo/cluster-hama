@@ -77,3 +77,7 @@ spec:
         globalMounts:
           - path: /music
             readOnly: true
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
