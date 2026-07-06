@@ -5,7 +5,7 @@ metadata:
   name: immich
 spec:
   networkRouterRef:
-    name: nexus
+    name: axon
     namespace: network
   serviceRef:
     name: immich-server

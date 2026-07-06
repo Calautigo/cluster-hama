@@ -2,9 +2,9 @@
 apiVersion: netbird.io/v1alpha1
 kind: NetworkRouter
 metadata:
-  name: nexus
+  name: axon
 spec:
   # The DNS zone must exist in the NetBird dashboard (DNS -> Zones) before
   # the operator can register records in it.
   dnsZoneRef:
-    name: schwarz47.at
+    name: ds47.dev

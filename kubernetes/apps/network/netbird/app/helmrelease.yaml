@@ -21,7 +21,7 @@ spec:
       retries: 3
   values:
     cluster:
-      name: nexus
+      name: axon
     managementURL: https://netbird.ds47.dev
     netbirdAPI:
       keyFromSecret:
