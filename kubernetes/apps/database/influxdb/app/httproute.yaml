@@ -4,7 +4,7 @@ kind: HTTPRoute
 metadata:
   name: influxdb
 spec:
-  hostnames: ["influx.schwarz47.at"]
+  hostnames: ["influx.ds47.dev"]
   parentRefs:
     - name: kgateway-internal
       namespace: network

@@ -50,11 +50,10 @@ spec:
         globalMounts:
           - path: /app/data
 
-
     route:
       app:
         hostnames:
-          - termix.schwarz47.at
+          - termix.ds47.dev
         parentRefs:
           - name: kgateway-internal
             namespace: network

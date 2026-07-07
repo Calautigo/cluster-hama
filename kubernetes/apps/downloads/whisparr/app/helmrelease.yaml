@@ -90,7 +90,7 @@ spec:
     route:
       app:
         hostnames:
-          - whisparr.schwarz47.at
+          - whisparr.ds47.dev
         parentRefs:
           - name: kgateway-internal
             namespace: network

@@ -156,6 +156,8 @@ spec:
     route:
       app:
         hostnames:
+          - ${APP_SUBDOMAIN:-${APP}}.ds47.dev
+          # Legacy hostname; remove once all Immich clients use photos.ds47.dev.
           - ${APP_SUBDOMAIN:-${APP}}.schwarz47.at
         parentRefs:
           - name: kgateway-internal

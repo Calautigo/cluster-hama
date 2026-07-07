@@ -5,7 +5,7 @@ metadata:
   name: emqx
 spec:
   hostnames:
-    - "emqx.schwarz47.at"
+    - "emqx.ds47.dev"
   parentRefs:
     - name: kgateway-internal
       namespace: network

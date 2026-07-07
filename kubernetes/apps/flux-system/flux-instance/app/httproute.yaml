@@ -11,7 +11,7 @@ spec:
       name: kgateway-internal
       namespace: network
   hostnames:
-    - "webhook-receiver-thestral.schwarz47.at"
+    - "webhook-receiver-thestral.ds47.dev"
   rules:
     - matches:
         - path:

@@ -14,7 +14,7 @@ spec:
     route:
       enabled: true
       hostnames:
-        - renovate.schwarz47.at
+        - renovate.ds47.dev
       parentRefs:
         - name: kgateway-internal
           namespace: network

@@ -28,9 +28,9 @@ spec:
                   secretKeyRef:
                     name: paperless-secret
                     key: PAPERLESS_SECRET_KEY
-              PAPERLESS_URL: https://paperless.schwarz47.at
-              PAPERLESS_ALLOWED_HOSTS: https://paperless.schwarz47.at
-              PAPERLESS_CSRF_TRUSTED_ORIGINS: https://paperless.schwarz47.at
+              PAPERLESS_URL: https://paperless.ds47.dev
+              PAPERLESS_ALLOWED_HOSTS: https://paperless.ds47.dev
+              PAPERLESS_CSRF_TRUSTED_ORIGINS: https://paperless.ds47.dev
               PAPERLESS_TRUSTED_PROXIES: "*"
               PAPERLESS_PORT: "8000"
               PAPERLESS_TIME_ZONE: "${TIMEZONE}"
@@ -125,7 +125,7 @@ spec:
     route:
       app:
         hostnames:
-          - paperless.schwarz47.at
+          - paperless.ds47.dev
         parentRefs:
           - name: kgateway-internal
             namespace: network

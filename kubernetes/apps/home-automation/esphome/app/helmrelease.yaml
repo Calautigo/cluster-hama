@@ -124,7 +124,7 @@ spec:
     route:
       app:
         hostnames:
-          - esphome.schwarz47.at
+          - esphome.ds47.dev
         parentRefs:
           - name: kgateway-internal
             namespace: network

@@ -91,7 +91,7 @@ spec:
     route:
       app:
         hostnames:
-          - sonarr.schwarz47.at
+          - sonarr.ds47.dev
         parentRefs:
           - name: kgateway-internal
             namespace: network

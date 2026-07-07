@@ -89,7 +89,7 @@ spec:
     route:
       app:
         hostnames:
-          - lidarr.schwarz47.at
+          - lidarr.ds47.dev
         parentRefs:
           - name: kgateway-internal
             namespace: network

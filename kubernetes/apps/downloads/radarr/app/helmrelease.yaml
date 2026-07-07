@@ -90,7 +90,7 @@ spec:
     route:
       app:
         hostnames:
-          - radarr.schwarz47.at
+          - radarr.ds47.dev
         parentRefs:
           - name: kgateway-internal
             namespace: network

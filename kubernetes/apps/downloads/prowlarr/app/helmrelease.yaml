@@ -90,7 +90,7 @@ spec:
     route:
       app:
         hostnames:
-          - prowlarr.schwarz47.at
+          - prowlarr.ds47.dev
         parentRefs:
           - name: kgateway-internal
             namespace: network
