@@ -22,6 +22,8 @@ spec:
   values:
     cluster:
       name: axon
+    gatewayAPI:
+      enabled: true
     managementURL: https://netbird.ds47.dev
     netbirdAPI:
       keyFromSecret:

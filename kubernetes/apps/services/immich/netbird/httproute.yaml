@@ -6,7 +6,7 @@ metadata:
   name: immich
 spec:
   parentRefs:
-    - name: netbird
+    - name: netbird-public
       namespace: network
   hostnames:
     - photos.ds47.dev
