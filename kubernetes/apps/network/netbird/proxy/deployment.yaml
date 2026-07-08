@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netbird-reverse-proxy
+  labels:
+    app: netbird-reverse-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: netbird-reverse-proxy
+  template:
+    metadata:
+      labels:
+        app: netbird-reverse-proxy
+    spec:
+      containers:
+        - name: reverse-proxy
+          image: netbirdio/reverse-proxy:latest
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+          env:
+            - name: NB_PROXY_CERTIFICATE_DIRECTORY
+              value: /certs
+            - name: NB_PROXY_ALLOW_INSECURE
+              value: "true"
+            - name: NB_PROXY_MANAGEMENT_ADDRESS
+              value: "https://netbird.ds47.dev"
+            - name: NB_PROXY_ACME_CERTIFICATES
+              value: "true"
+            - name: NB_PROXY_DOMAIN
+              value: "ds47.dev"
+            - name: NB_PROXY_LOG_LEVEL
+              value: info
+            - name: NB_PROXY_TOKEN
+              value: "nbx_CS2RPgHxwwo0UHikUomQo5Q8PSogBW4KHQb8"
+            - name: NB_PROXY_PRIVATE
+              value: "true"
+            - name: NB_PROXY_ADDRESS
+              value: ":443"
+          volumeMounts:
+            - name: certs
+              mountPath: /certs
+      volumes:
+        - name: certs
+          emptyDir: {}
