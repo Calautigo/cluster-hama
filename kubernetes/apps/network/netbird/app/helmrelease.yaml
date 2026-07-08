@@ -25,6 +25,8 @@ spec:
     gatewayAPI:
       enabled: true
     managementURL: https://netbird.ds47.dev
+    webhook:
+      enableCertManager: false
     netbirdAPI:
       keyFromSecret:
         name: netbird-mgmt-api-key

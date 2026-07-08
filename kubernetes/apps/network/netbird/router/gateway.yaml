@@ -14,3 +14,7 @@ spec:
       protocol: gateway.netbird.io/NetworkRouter
       # Required by the Gateway API schema, unused by the NetBird operator.
       port: 443
+      # Allow HTTPRoutes from app namespaces (e.g. immich in `services`).
+      allowedRoutes:
+        namespaces:
+          from: All

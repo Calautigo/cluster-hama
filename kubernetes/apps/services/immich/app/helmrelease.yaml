@@ -164,6 +164,16 @@ spec:
           - backendRefs:
               - identifier: server
                 port: *port
+      public:
+        hostnames:
+          - ${APP_SUBDOMAIN:-${APP}}.ds47.dev
+        parentRefs:
+          - name: netbird-public
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: server
+                port: *port
 
     persistence:
       geocoding-dump:
