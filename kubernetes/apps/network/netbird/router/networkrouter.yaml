@@ -1,0 +1,8 @@
+---
+apiVersion: netbird.io/v1alpha1
+kind: NetworkRouter
+metadata:
+  name: axon
+spec:
+  dnsZoneRef:
+    name: ds47.dev

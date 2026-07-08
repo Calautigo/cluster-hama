@@ -9,8 +9,8 @@ spec:
   # netbird-public exposes HTTPRoutes publicly through the NetBird reverse proxy.
   gatewayClassName: netbird-public
   listeners:
-    # The listener name selects the NBRoutingPeer (must match its metadata.name).
+    # The listener name selects the NetworkRouter (must match its metadata.name).
     - name: axon
-      protocol: gateway.netbird.io/NBRoutingPeer
+      protocol: gateway.netbird.io/NetworkRouter
       # Required by the Gateway API schema, unused by the NetBird operator.
       port: 443
