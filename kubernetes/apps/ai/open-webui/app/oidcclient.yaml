@@ -6,6 +6,9 @@ metadata:
   name: open-webui
 spec:
   name: Open WebUI
+  allowedUserGroups:
+    - name: hama
+      namespace: security
   launchUrl: https://chat.ds47.dev
   callbackUrls:
     - https://chat.ds47.dev/oauth/oidc/callback

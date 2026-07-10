@@ -6,6 +6,9 @@ metadata:
   name: coder
 spec:
   name: Coder
+  allowedUserGroups:
+    - name: hama
+      namespace: security
   launchUrl: https://coder.ds47.dev
   callbackUrls:
     - https://coder.ds47.dev/api/v2/users/oidc/callback

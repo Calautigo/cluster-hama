@@ -220,7 +220,40 @@ The VolSync component creates a PVC named `${VOLSYNC_CLAIM:-${APP}}` and sets up
 3. New namespace: create `kubernetes/apps/<namespace>/` with `namespace.yaml` and a `kustomization.yaml` that includes `namespace: <namespace>`, all `./<app>/ks.yaml` entries, `./namespace.yaml`, and the `../../components/common` component; then add `./<namespace>` to `kubernetes/apps/kustomization.yaml`.
 4. Secrets: create the Vault entry at `apps/<namespace>/<app>`, pull it via `externalsecret.yaml` (ClusterSecretStore `hashicorp-vault`), and add it to `app/kustomization.yaml`.
 5. Persistent data: add the `volsync` component, `dependsOn` volsync, and `VOLSYNC_CAPACITY` in `ks.yaml` (see pattern above).
-6. Validate before pushing: `just k8s apply-ks <namespace> <app>` renders and applies the Kustomization locally via flux.
+6. SSO: if the app supports OIDC, add `oidcclient.yaml` (see [SSO / Pocket-ID](#sso--pocket-id)) and register it in `app/kustomization.yaml`.
+7. Validate before pushing: `just k8s apply-ks <namespace> <app>` renders and applies the Kustomization locally via flux.
+
+### SSO / Pocket-ID
+
+App SSO is managed by the `pocket-id-operator` (`kubernetes/apps/security/pocket-id-operator`) against the `pocket-id` instance (`kubernetes/apps/security/pocket-id-instance`). Each app that supports OIDC gets a `PocketIDOIDCClient` resource (`app/oidcclient.yaml`):
+
+```yaml
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+    name: myapp
+spec:
+    name: MyApp
+    allowedUserGroups:
+        - name: hama
+          namespace: security
+    launchUrl: https://myapp.ds47.dev
+    callbackUrls:
+        - https://myapp.ds47.dev/oauth/callback
+    secret:
+        name: myapp-oidc
+        keys:
+            clientID: OIDC_CLIENT_ID
+            clientSecret: OIDC_CLIENT_SECRET
+            issuerUrl: OIDC_ISSUER_URL
+```
+
+- **`allowedUserGroups` is required and defaults to `hama`** (the admin/owner `PocketIDUserGroup`, defined in `kubernetes/apps/security/pocket-id-instance/app/usergroup-hama.yaml`, adopting the pre-existing Pocket-ID group of the same name). Omitting `allowedUserGroups` leaves the client **unrestricted** — every registered Pocket-ID user (including other household/family groups) can log in. Only widen access beyond `hama` to another group deliberately, per app.
+- **A referenced group must have a `PocketIDUserGroup` CR** — the operator resolves `allowedUserGroups` refs to CRs, and reconcile fails if the CR is missing or not Ready. All existing groups are modeled under `kubernetes/apps/security/pocket-id-instance/app/usergroup-*.yaml` (`hama`, `mimler`, `schwarz`).
+- **The CRs manage group existence, `friendlyName`, and `customClaims` only — not membership.** `spec.users` is intentionally omitted, so who belongs to each group is managed in the Pocket-ID UI and preserved across reconciles. Note `customClaims` _is_ operator-managed: it must mirror the UI exactly or the operator will overwrite it.
+- The `secret` block causes the operator to write the client ID/secret/issuer (and other OIDC endpoints, depending on keys requested) into a Kubernetes Secret consumed by the app's `helmrelease.yaml` env vars.
 
 ### Secrets
 

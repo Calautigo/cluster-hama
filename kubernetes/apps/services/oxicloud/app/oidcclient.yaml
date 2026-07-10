@@ -6,6 +6,9 @@ metadata:
   name: oxicloud
 spec:
   name: OxiCloud
+  allowedUserGroups:
+    - name: hama
+      namespace: security
   launchUrl: https://cloud.ds47.dev
   callbackUrls:
     - https://cloud.ds47.dev/api/auth/oidc/callback

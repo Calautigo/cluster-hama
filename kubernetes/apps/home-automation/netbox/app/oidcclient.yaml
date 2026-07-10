@@ -6,6 +6,9 @@ metadata:
   name: netbox
 spec:
   name: NetBox
+  allowedUserGroups:
+    - name: hama
+      namespace: security
   launchUrl: https://netbox.ds47.dev
   callbackUrls:
     - https://netbox.ds47.dev/oauth/complete/oidc/
