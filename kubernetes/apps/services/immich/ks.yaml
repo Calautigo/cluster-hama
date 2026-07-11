@@ -31,3 +31,4 @@ spec:
     substitute:
       APP: *app
       APP_SUBDOMAIN: photos
+      DRAGONFLY_ARGS_DEFAULT_LUA_FLAGS: allow-undeclared-keys
