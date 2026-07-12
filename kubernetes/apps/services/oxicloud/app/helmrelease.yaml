@@ -35,7 +35,7 @@ spec:
           app:
             image:
               repository: diocrafts/oxicloud
-              tag: 0.8.2
+              tag: 0.8.3
             env:
               OXICLOUD_BASE_URL: &hostUrl https://cloud.ds47.dev
               OXICLOUD_CHUNK_DIR: /app/cache/chunks
