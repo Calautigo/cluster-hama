@@ -70,9 +70,15 @@ spec:
     route:
       app:
         hostnames:
-          - jellyfin.ds47.dev
+          - ${APP_SUBDOMAIN:-${APP}}.ds47.dev
         parentRefs:
           - name: kgateway-internal
+            namespace: network
+      private:
+        hostnames:
+          - ${APP_SUBDOMAIN:-${APP}}.ds47.dev
+        parentRefs:
+          - name: netbird-private
             namespace: network
 
     persistence:
