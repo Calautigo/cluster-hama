@@ -30,7 +30,7 @@ spec:
           app:
             image:
               repository: ghcr.io/versity/versitygw
-              tag: v1.4.0@sha256:6bd4d92bb27ece3097be3c930ea702ebf275288b8711ec91421ccf81d6f36a42
+              tag: v1.6.0@sha256:d6ec798f66cac65bd5813d94fbe51edf658120d749c1cf5b572b63a2334c4d81
             args: ["posix", "/data"]
             env:
               VGW_HEALTH: /healthz
