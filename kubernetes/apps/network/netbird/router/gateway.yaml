@@ -18,3 +18,23 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/gateway_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: netbird-private
+spec:
+  # GatewayClass is created by the netbird-operator chart (gatewayAPI.enabled).
+  # netbird-private exposes TCPRoutes as private NetBird network resources (peers only, no public hostname).
+  gatewayClassName: netbird-private
+  listeners:
+    # The listener name selects the NetworkRouter (must match its metadata.name).
+    - name: axon
+      protocol: gateway.netbird.io/NetworkRouter
+      # Required by the Gateway API schema, unused by the NetBird operator.
+      port: 443
+      # Allow TCPRoutes from app namespaces (e.g. jellyfin in `media`).
+      allowedRoutes:
+        namespaces:
+          from: All

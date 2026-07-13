@@ -75,8 +75,7 @@ spec:
           - name: kgateway-internal
             namespace: network
       private:
-        hostnames:
-          - ${APP_SUBDOMAIN:-${APP}}.ds47.dev
+        kind: TCPRoute
         parentRefs:
           - name: netbird-private
             namespace: network
