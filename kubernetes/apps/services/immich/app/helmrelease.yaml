@@ -136,7 +136,11 @@ spec:
         controller: server
         ports:
           http:
-            port: *port
+            # Port 80 so the NetBird reverse proxy reaches the service: the
+            # operator omits the target port ("port": 0) and the proxy then
+            # dials the plain-HTTP default 80 (kubernetes-operator v0.7.0).
+            port: 80
+            targetPort: *port
           metrics-api:
             port: 8081
       machine-learning:
@@ -163,7 +167,7 @@ spec:
         rules:
           - backendRefs:
               - identifier: server
-                port: *port
+                port: 80
       public:
         hostnames:
           - ${APP_SUBDOMAIN:-${APP}}.ds47.dev
@@ -173,7 +177,7 @@ spec:
         rules:
           - backendRefs:
               - identifier: server
-                port: *port
+                port: 80
 
     persistence:
       geocoding-dump:
