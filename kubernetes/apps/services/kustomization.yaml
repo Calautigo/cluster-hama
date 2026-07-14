@@ -11,6 +11,7 @@ resources:
   - ./oxicloud/ks.yaml
   - ./paperless/ks.yaml
   - ./termix/ks.yaml
+  - ./vikunja/ks.yaml
   - ./namespace.yaml
 components:
   - ../../components/common
