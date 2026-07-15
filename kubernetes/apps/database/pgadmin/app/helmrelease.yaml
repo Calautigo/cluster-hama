@@ -22,12 +22,13 @@ spec:
               tag: 9.16@sha256:40fa840c5bb7c8463957f1255b01283732c2d8c9396a956d180f8e6c296753b3
             env:
               TZ: ${CONFIG_TIMEZONE}
-              PGADMIN_DEFAULT_EMAIL: admin@ds47.dev
               PGADMIN_DISABLE_POSTFIX: "True"
               PGADMIN_REPLACE_SERVERS_ON_STARTUP: "True"
             envFrom:
               - secretRef:
                   name: pgadmin-secret
+              - secretRef:
+                  name: pgadmin-password
               - secretRef:
                   name: pgadmin-oidc
             resources:
