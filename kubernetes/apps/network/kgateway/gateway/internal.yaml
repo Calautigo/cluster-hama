@@ -48,6 +48,14 @@ spec:
         certificateRefs:
           - kind: Secret
             name: schwarz47-at-tls
+    # Dedicated to forgejo's git-over-SSH (TCPRoute can't multiplex by
+    # hostname/SNI like HTTPRoute, so each TCP backend needs its own port).
+    - name: forgejo-ssh
+      protocol: TCP
+      port: 22
+      allowedRoutes:
+        namespaces:
+          from: All
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor

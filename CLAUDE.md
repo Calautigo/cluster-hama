@@ -2,6 +2,34 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Default instructions for AI coding agents (Claude Code, Codex, etc.)
+
+Project-level AGENTS.md / CLAUDE.md files take precedence over this file.
+These rules bias toward caution over speed; use judgment on trivial tasks.
+
+## Working Style
+
+- Be concise. Skip preamble like "You're absolutely right" and don't over-explain.
+- When asked a question, answer it; don't jump straight to editing files.
+- If a request is ambiguous, present the interpretations instead of picking one silently. If a simpler approach exists, say so; push back when warranted.
+- Don't state versions, API shapes, or flags from memory; verify against the release page, docs, or the code itself.
+- Never use em dashes in prose. Use a hyphen (-), semicolon (;), or colon (:) instead, whichever fits.
+- Reversible actions that follow from the request: just do them and say so. Stop and ask only for destructive or hard-to-undo actions, or a genuine change of scope.
+- After a code change, verify it by actually running the code or its tests; don't claim it works untested.
+- Comments explain non-obvious constraints only. Don't add comments that narrate what the code does.
+- Never edit secrets or ignored files (`*.key`, `*.crt`, `.private/`, anything gitignored).
+
+## Code Discipline
+
+- Write the minimum code that solves the problem: no speculative abstractions, no unrequested configurability, no error handling for impossible cases.
+- Touch only what the request requires. Don't refactor or "improve" adjacent code; match the existing style even when you'd do it differently.
+- Remove imports, variables, and functions that your change orphaned. Leave pre-existing dead code alone; mention it instead.
+- Every changed line should trace back to the request.
+
+## Environment & Shell
+
+- **Shell**: The user uses `fish` on this machine. ALWAYS generate fish-compatible commands if a command is intended to be run by the user. Shell scripts can use bash/sh syntax.
+
 ## Overview
 
 GitOps homelab repository managing a Talos Linux Kubernetes cluster ("thestral") via Flux CD. All changes are deployed by pushing to `main` — Flux reconciles the Git state to the cluster. The task runner is `just` with three modules: `k8s` (Flux/cluster operations), `talos` (node management), and `bootstrap` (one-time cluster bootstrap).
@@ -17,7 +45,7 @@ GitOps homelab repository managing a Talos Linux Kubernetes cluster ("thestral")
 
 All of these files are gitignored. mise's postinstall hook runs `lefthook install`, so git hooks are set up automatically.
 
-Tools are installed via Homebrew (`Brewfile`). Additionally required: `sops`, `age`, `gum`, `oxfmt`, and `flux-local` (pip, for `just k8s apply-ks`/`delete-ks`).
+Tools are installed via Homebrew (`Brewfile`). Additionally required: `sops`, `age`, `gum`, `oxfmt`, and `flux` (pip, for `just k8s apply-ks`/`delete-ks`).
 
 ## Common Commands
 

@@ -45,7 +45,7 @@ GitOps homelab repository managing a Talos Linux Kubernetes cluster ("thestral")
 
 All of these files are gitignored. mise's postinstall hook runs `lefthook install`, so git hooks are set up automatically.
 
-Tools are installed via Homebrew (`Brewfile`). Additionally required: `sops`, `age`, `gum`, `oxfmt`, and `flux-local` (pip, for `just k8s apply-ks`/`delete-ks`).
+Tools are installed via Homebrew (`Brewfile`). Additionally required: `sops`, `age`, `gum`, `oxfmt`, and `flux` (pip, for `just k8s apply-ks`/`delete-ks`).
 
 ## Common Commands
 
