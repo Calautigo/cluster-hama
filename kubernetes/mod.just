@@ -97,7 +97,9 @@ keda-all state:
       just k8s keda "{{ state }}" "$ns" "$name"; \
     done
 
-# Requires flux-local: pip install flux-local (https://github.com/allenporter/flux-local)
 [private]
 render-local-ks ns ks:
-    flux-local build ks --namespace "{{ ns }}" --path "{{ kubernetes_dir }}/flux/cluster" "{{ ks }}"
+    flux -n "{{ ns }}" build kustomization "{{ ks }}" \
+      --path "apps/{{ ns }}/{{ ks }}/app" \
+      --kustomization-file "apps/{{ ns }}/{{ ks }}/ks.yaml" \
+      --dry-run

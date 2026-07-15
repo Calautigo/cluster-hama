@@ -64,7 +64,7 @@ just k8s sync-hr <namespace> <name>  # Sync a Flux HelmRelease
 just k8s sync-ks <namespace> <name>  # Sync a Flux Kustomization
 just k8s sync-es <namespace> <name>  # Sync an ExternalSecret
 just k8s sync-all-hr                 # Sync all HelmReleases (also: sync-all-ks, sync-all-es)
-just k8s apply-ks <namespace> <ks>   # Apply local Kustomization (requires flux-local)
+just k8s apply-ks <namespace> <ks>   # Apply local Kustomization (requires flux CLI)
 just k8s snapshot <namespace> <name> # Trigger VolSync snapshot
 just k8s backup <namespace> <name>   # Force VolSync backup and wait for completion
 just k8s volsync <suspend|resume>    # Suspend/resume VolSync

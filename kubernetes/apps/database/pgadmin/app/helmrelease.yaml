@@ -1,0 +1,72 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app pgadmin
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: pgadmin
+  interval: 30m
+  values:
+    controllers:
+      pgadmin:
+        strategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: docker.io/dpage/pgadmin4
+              tag: 9.16@sha256:40fa840c5bb7c8463957f1255b01283732c2d8c9396a956d180f8e6c296753b3
+            env:
+              TZ: ${CONFIG_TIMEZONE}
+              PGADMIN_DEFAULT_EMAIL: admin@ds47.dev
+              PGADMIN_DISABLE_POSTFIX: "True"
+              PGADMIN_REPLACE_SERVERS_ON_STARTUP: "True"
+            envFrom:
+              - secretRef:
+                  name: pgadmin-secret
+              - secretRef:
+                  name: pgadmin-oidc
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 512Mi
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 5050
+        runAsGroup: 5050
+        fsGroup: 5050
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: 80
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.ds47.dev"
+        parentRefs:
+          - name: kgateway-internal
+            namespace: network
+    persistence:
+      config:
+        existingClaim: ${APP}
+        globalMounts:
+          - path: /var/lib/pgadmin
+      pgadmin-config:
+        type: configMap
+        name: pgadmin-configmap
+        globalMounts:
+          - path: /pgadmin4/servers.json
+            subPath: servers.json
+            readOnly: true
+          - path: /pgadmin4/config_local.py
+            subPath: config_local.py
+            readOnly: true

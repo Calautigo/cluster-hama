@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "pg18vec (CloudNativePG)",
+      "Group": "Servers",
+      "Host": "pg18vec-rw.database.svc.cluster.local",
+      "Port": 5432,
+      "MaintenanceDB": "postgres",
+      "Username": "postgres",
+      "SSLMode": "require",
+      "Comment": "Managed CloudNativePG cluster (kubernetes/apps/database/cloudnative-pg)"
+    }
+  }
+}
