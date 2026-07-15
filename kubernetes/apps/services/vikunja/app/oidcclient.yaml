@@ -11,7 +11,7 @@ spec:
       namespace: security
   launchUrl: https://vikunja.ds47.dev
   callbackUrls:
-    - https://vikunja.ds47.dev/oauth/oidc/callback
+    - https://vikunja.ds47.dev/auth/openid/pocketid
   secret:
     name: vikunja-secret
     keys:
