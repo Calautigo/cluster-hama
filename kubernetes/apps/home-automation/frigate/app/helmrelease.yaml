@@ -134,13 +134,6 @@ spec:
         existingClaim: "{{ .Release.Name }}-config"
         globalMounts:
           - path: /config
-      config-file:
-        type: secret
-        name: "{{ .Release.Name }}-secret"
-        globalMounts:
-          - path: /config/config.yml
-            subPath: config.yml
-            readOnly: false
 
       shm:
         type: emptyDir
