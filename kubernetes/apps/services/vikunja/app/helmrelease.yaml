@@ -43,11 +43,10 @@ spec:
             env:
               TZ: ${CONFIG_TIMEZONE}
               VIKUNJA_DATABASE_SSLMODE: require
-              VIKUNJA_SERVICE_BASEURL: https://vikunja.ds47.dev
-              VIKUNJA_SERVICE_OIDC_PROVIDER_NAME: PocketID
-              VIKUNJA_SERVICE_OIDC_SCOPES: openid email profile
-              VIKUNJA_SERVICE_OIDC_AUTOLOGIN: "true"
-              VIKUNJA_SERVICE_OIDC_REGISTER: "true"
+              VIKUNJA_SERVICE_PUBLICURL: https://vikunja.ds47.dev
+              VIKUNJA_AUTH_LOCAL_ENABLED: "false"
+              VIKUNJA_AUTH_OPENID_ENABLED: "true"
+              VIKUNJA_AUTH_OPENID_PROVIDERS_POCKETID_NAME: PocketID
             envFrom:
               - secretRef:
                   name: vikunja-db
