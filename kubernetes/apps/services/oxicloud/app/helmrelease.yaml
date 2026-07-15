@@ -134,3 +134,6 @@ spec:
           - backendRefs:
               - identifier: app
                 port: *port
+            timeouts:
+              request: 600s
+              backendRequest: 600s
