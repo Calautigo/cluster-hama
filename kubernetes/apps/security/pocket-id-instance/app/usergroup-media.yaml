@@ -3,7 +3,7 @@
 apiVersion: pocketid.internal/v1alpha1
 kind: PocketIDUserGroup
 metadata:
-  name: schwarz
+  name: media
 spec:
-  name: schwarz
-  friendlyName: Schwarz Family
+  name: media
+  friendlyName: Media

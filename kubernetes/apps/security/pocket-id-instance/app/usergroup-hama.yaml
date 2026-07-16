@@ -7,6 +7,3 @@ metadata:
 spec:
   name: hama
   friendlyName: HaMa
-  customClaims:
-    - key: groups_ID-Admin
-      value: "123"

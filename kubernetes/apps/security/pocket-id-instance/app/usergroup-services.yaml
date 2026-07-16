@@ -3,10 +3,7 @@
 apiVersion: pocketid.internal/v1alpha1
 kind: PocketIDUserGroup
 metadata:
-  name: mimler
+  name: services
 spec:
-  name: mimler
-  friendlyName: Mimler Family
-  customClaims:
-    - key: immich_role
-      value: user
+  name: services
+  friendlyName: Services
