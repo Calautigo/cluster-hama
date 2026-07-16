@@ -1,333 +1,85 @@
-# CLAUDE.md
+# Agent Instructions
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## Default instructions for AI coding agents (Claude Code, Codex, etc.)
-
-Project-level AGENTS.md / CLAUDE.md files take precedence over this file.
-These rules bias toward caution over speed; use judgment on trivial tasks.
+Bias toward caution over speed; use judgment on trivial tasks.
 
 ## Working Style
 
-- Be concise. Skip preamble like "You're absolutely right" and don't over-explain.
-- When asked a question, answer it; don't jump straight to editing files.
-- If a request is ambiguous, present the interpretations instead of picking one silently. If a simpler approach exists, say so; push back when warranted.
-- Don't state versions, API shapes, or flags from memory; verify against the release page, docs, or the code itself.
-- Never use em dashes in prose. Use a hyphen (-), semicolon (;), or colon (:) instead, whichever fits.
-- Reversible actions that follow from the request: just do them and say so. Stop and ask only for destructive or hard-to-undo actions, or a genuine change of scope.
-- After a code change, verify it by actually running the code or its tests; don't claim it works untested.
-- Comments explain non-obvious constraints only. Don't add comments that narrate what the code does.
-- Never edit secrets or ignored files (`*.key`, `*.crt`, `.private/`, anything gitignored).
-
-## Code Discipline
-
-- Write the minimum code that solves the problem: no speculative abstractions, no unrequested configurability, no error handling for impossible cases.
-- Touch only what the request requires. Don't refactor or "improve" adjacent code; match the existing style even when you'd do it differently.
-- Remove imports, variables, and functions that your change orphaned. Leave pre-existing dead code alone; mention it instead.
-- Every changed line should trace back to the request.
-
-## Environment & Shell
-
-- **Shell**: The user uses `fish` on this machine. ALWAYS generate fish-compatible commands if a command is intended to be run by the user. Shell scripts can use bash/sh syntax.
+- Be concise; skip preamble. When asked a question, answer it instead of jumping to edits.
+- Ambiguous request: present the interpretations. Simpler approach: say so; push back when warranted.
+- Never state versions, API shapes, or flags from memory; verify against docs or code.
+- No em dashes in prose; use a hyphen, semicolon, or colon.
+- Just do reversible actions; ask first only for destructive or hard-to-undo actions, or scope changes.
+- Verify changes by running the code or tests before claiming they work.
+- Write the minimum code that solves the problem; touch only what the request requires; match existing style. Remove what your change orphaned; leave pre-existing dead code but mention it.
+- Comments explain non-obvious constraints only.
+- Never edit secrets or gitignored files (`*.key`, `*.crt`, `.private/`, `age.key`).
+- The user's shell is `fish`: commands intended for the user must be fish-compatible. Shell scripts can use bash/sh.
 
 ## Overview
 
-GitOps homelab repository managing a Talos Linux Kubernetes cluster ("thestral") via Flux CD. All changes are deployed by pushing to `main` — Flux reconciles the Git state to the cluster. The task runner is `just` with three modules: `k8s` (Flux/cluster operations), `talos` (node management), and `bootstrap` (one-time cluster bootstrap).
+GitOps homelab repo: a Talos Linux Kubernetes cluster ("thestral") managed by Flux CD; push to `main` and Flux reconciles. Task runner is `just` with modules `k8s`, `talos`, `bootstrap`. Nodes: `thestral-01..03` (control plane), `thestral-worker-01..03` (workers).
 
-## Environment
+mise (`.mise.toml`) sets `KUBECONFIG`, `TALOSCONFIG`, `SOPS_AGE_KEY_FILE=./age.key`, `MINIJINJA_CONFIG_FILE` (all gitignored) and installs lefthook git hooks. Tools via `Brewfile`, plus `sops`, `age`, `gum`, `oxfmt`, and the `flux` CLI.
 
-[mise](https://mise.jdx.dev) (`.mise.toml`) sets the required environment variables relative to the repo root:
-
-- `KUBECONFIG` → `./kubeconfig`
-- `TALOSCONFIG` → `./talos/clusterconfig/talosconfig`
-- `SOPS_AGE_KEY_FILE` → `./age.key`
-- `MINIJINJA_CONFIG_FILE` → `./.minjinja.toml`
-
-All of these files are gitignored. mise's postinstall hook runs `lefthook install`, so git hooks are set up automatically.
-
-Tools are installed via Homebrew (`Brewfile`). Additionally required: `sops`, `age`, `gum`, `oxfmt`, and `flux` (pip, for `just k8s apply-ks`/`delete-ks`).
-
-## Common Commands
+## Commands
 
 ```bash
-just -l --list-submodules            # List all tasks in all modules
-
-just talos render-config <node>      # Render Talos config for a node
-just talos apply-node <node>         # Apply Talos config to a node
-just talos apply-cluster             # Apply Talos config to all nodes
-just talos reboot-node <node>        # Reboot a node
-just talos upgrade-node <node>       # Upgrade Talos on a node
-just talos upgrade-k8s <version>     # Upgrade Kubernetes version
-just talos gen-schematic-id          # Generate Talos schematic ID
-
-just k8s sync-hr <namespace> <name>  # Sync a Flux HelmRelease
-just k8s sync-ks <namespace> <name>  # Sync a Flux Kustomization
-just k8s sync-es <namespace> <name>  # Sync an ExternalSecret
-just k8s sync-all-hr                 # Sync all HelmReleases (also: sync-all-ks, sync-all-es)
-just k8s apply-ks <namespace> <ks>   # Apply local Kustomization (requires flux CLI)
-just k8s snapshot <namespace> <name> # Trigger VolSync snapshot
-just k8s backup <namespace> <name>   # Force VolSync backup and wait for completion
-just k8s volsync <suspend|resume>    # Suspend/resume VolSync
-just k8s browse-pvc <namespace> <claim>  # Browse a PVC
-just k8s node-shell <node>           # Open node shell
-just k8s prune-pods                  # Prune failed/pending pods
-
-flux get ks -A                                   # List all Flux Kustomizations and status
-flux get hr -A                                   # List all HelmReleases and status
-flux logs --kind=HelmRelease --name=<app>        # Flux logs for a specific app
-kubectl get hr -A                                # Quick HelmRelease status check
+just -l --list-submodules                    # List all tasks
+just talos render-config|apply-node|reboot-node|upgrade-node <node>  # Also: apply-cluster, upgrade-k8s <ver>
+just k8s sync-hr|sync-ks|sync-es <ns> <name> # Force-sync (sync-all-* for all)
+just k8s apply-ks <ns> <app>                 # Render + apply locally to validate before push
+just k8s snapshot|backup <ns> <name>         # VolSync; also volsync suspend|resume, browse-pvc, node-shell, prune-pods
+flux get ks|hr -A                            # Status; flux logs --kind=HelmRelease --name=<app>
 ```
-
-Node names: `thestral-01`, `thestral-02`, `thestral-03` (control plane), `thestral-worker-01`, `thestral-worker-02`, `thestral-worker-03` (worker plane).
 
 ## Architecture
 
-### Deployment Flow
+Git push → Flux GitRepository → cluster-apps → per-namespace → per-app Kustomization → HelmRelease/resources.
 
-```
-Git push → Flux GitRepository → cluster-apps Kustomization → per-namespace Kustomization → per-app Kustomization → HelmRelease/resources
-```
+- `kubernetes/apps/<ns>/<app>/`: `ks.yaml` (Flux Kustomization) + `app/` (kustomization.yaml, helmrelease.yaml, ocirepository.yaml, externalsecret.yaml, oidcclient.yaml).
+- `kubernetes/bootstrap/`: one-time bootstrap (helmfile, CRDs). `kubernetes/components/`: reusable Kustomize components (common, dragonfly, gpu, volsync). `kubernetes/flux/`: Flux entrypoints.
+- `talos/`: MinJinja templates rendered at apply time; `machineconfig.yaml.j2` (base) + `nodes/<node>.yaml.j2` (per-node, controlplane vs worker); secrets injected from `talsecret.sops.yaml` via `sops://` refs; `schematic.yaml` lists OS extensions.
 
-### Directory Layout
+### App Pattern
 
-```
-kubernetes/
-├── mod.just                       # just module `k8s`: Flux/cluster operations
-├── apps/<namespace>/<app>/        # Application deployments
-│   ├── ks.yaml                    # Flux Kustomization (metadata, deps, components)
-│   └── app/
-│       ├── kustomization.yaml     # Kustomize resource list
-│       ├── helmrelease.yaml       # Helm chart values
-│       ├── ocirepository.yaml     # OCI chart source (if not shared)
-│       └── externalsecret.yaml    # Secret injection (if needed)
-├── bootstrap/                     # just module `bootstrap`: one-time cluster bootstrap (helmfile, CRDs)
-├── components/                    # Reusable Kustomize components
-│   ├── common/                    # Common labels/annotations
-│   ├── dragonfly/                 # Dragonfly (Redis-compatible) connection config
-│   ├── gpu/                       # Intel GPU resource limits
-│   └── volsync/                   # PVC backup component
-└── flux/                          # Flux config (GitRepository, Kustomization entrypoints)
-talos/
-├── mod.just                       # just module `talos`: node management tasks
-├── machineconfig.yaml.j2          # Base Talos config template (MinJinja)
-├── schematic.yaml                 # Talos OS extension list
-├── talsecret.sops.yaml            # SOPS-encrypted Talos secrets
-└── nodes/                         # Per-node config patches (*.yaml.j2)
-.justfile                          # Root just file; imports the k8s, bootstrap, talos modules
-.mise.toml                         # Env vars (KUBECONFIG, TALOSCONFIG, SOPS_AGE_KEY_FILE) + postinstall hook
-.sops.yaml                         # SOPS Age encryption rules
-lefthook.toml                      # Git hooks (pulls shared config from home-operations/.github)
-oxfmtrc.json                       # oxfmt formatter config (YAML/JSON/Markdown)
-Brewfile                           # Tool installation via Homebrew
-renovate.json5                     # Renovate dependency update bot config
-```
+`kubernetes/apps/database/pgadmin/` is a complete reference example. Conventions:
 
-### App Structure Pattern
-
-**ks.yaml** (Flux Kustomization): defines app name, namespace, path, dependencies, components, and `postBuild.substitute` vars. Uses YAML anchors (`&app`, `&namespace`) for DRY naming.
-
-```yaml
----
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-    name: &app myapp
-spec:
-    commonMetadata:
-        labels:
-            app.kubernetes.io/name: *app
-    interval: 30m
-    timeout: 5m
-    path: ./kubernetes/apps/mynamespace/myapp/app
-    prune: true
-    sourceRef:
-        kind: GitRepository
-        name: flux-system
-        namespace: flux-system
-    targetNamespace: mynamespace
-    wait: false
-    # Only for apps with persistent data:
-    dependsOn:
-        - name: volsync
-          namespace: volsync-system
-    components:
-        - ../../../../components/volsync
-    postBuild:
-        substitute:
-            APP: *app
-            VOLSYNC_CAPACITY: 1Gi
-```
-
-The VolSync component creates a PVC named `${VOLSYNC_CLAIM:-${APP}}` and sets up backups. Substitution vars (all optional): `VOLSYNC_CLAIM`, `VOLSYNC_CAPACITY` (default `5Gi`), `VOLSYNC_ACCESSMODES` (`ReadWriteOnce`), `VOLSYNC_STORAGECLASS` (`csi-rbd-sc`), `VOLSYNC_SNAPSHOTCLASS`, `VOLSYNC_KOPIA_SCHEDULE`.
-
-**helmrelease.yaml**: most apps use the [bjw-s app-template](https://github.com/bjw-s-labs/helm-charts) chart via OCI (`chartRef.kind: OCIRepository`).
-
-**Variable substitution**: `${SECRET_DOMAIN}`, `${APP}`, etc. in manifests are replaced at reconciliation time from `cluster-settings`/`cluster-secrets` ConfigMaps/Secrets. Use Flux substitution only for non-secret configuration. App credentials must go through Vault via ExternalSecret.
-
-**Multi-component apps**: split into multiple Flux Kustomizations in the same `ks.yaml` (separated by `---`). Use `dependsOn` for ordering. Each component with the VolSync component gets its own PVC named `${APP}`.
+- Every manifest has a `# yaml-language-server: $schema=...` comment. ks.yaml uses YAML anchor `&app`, `commonMetadata.labels: app.kubernetes.io/name`, `prune: true`, `wait: false`, `dependsOn` for ordering. Multi-component apps: several Kustomizations in one ks.yaml.
+- Most apps use the bjw-s app-template chart via `chartRef.kind: OCIRepository` (chart version pinned; Renovate bumps it). Routes via app-template `route:` values with hostname `"{{ .Release.Name }}.ds47.dev"` and parentRef `kgateway-internal` (ns `network`).
+- VolSync component (persistent data): creates PVC `${VOLSYNC_CLAIM:-${APP}}` plus backups; the app mounts `existingClaim: ${APP}`. Optional vars: `VOLSYNC_` `CLAIM`, `CAPACITY` (5Gi), `ACCESSMODES` (ReadWriteOnce), `STORAGECLASS` (csi-rbd-sc), `SNAPSHOTCLASS`, `KOPIA_SCHEDULE`.
+- `${SECRET_DOMAIN}`, `${APP}`, etc. are substituted at reconcile time from `cluster-settings`/`cluster-secrets`; non-secret config only. App credentials go through Vault via ExternalSecret (ClusterSecretStore `hashicorp-vault`, path `apps/<ns>/<app>`). SOPS+Age (`*.sops.yaml`) is for Talos/bootstrap secrets only; `sops -e -i` / `sops -d`.
 
 ### Adding a New App
 
-1. Create `kubernetes/apps/<namespace>/<app>/` with `ks.yaml` (see pattern above) and `app/` containing:
-
-    **kustomization.yaml** — list all resources in `app/`:
-
-    ```yaml
-    ---
-    # yaml-language-server: $schema=https://json.schemastore.org/kustomization
-    apiVersion: kustomize.config.k8s.io/v1beta1
-    kind: Kustomization
-    resources:
-        - ./ocirepository.yaml
-        - ./helmrelease.yaml
-    ```
-
-    **ocirepository.yaml** — chart source (app-template shown; pin the chart version, Renovate updates it):
-
-    ```yaml
-    ---
-    # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
-    apiVersion: source.toolkit.fluxcd.io/v1
-    kind: OCIRepository
-    metadata:
-        name: myapp
-    spec:
-        interval: 15m
-        layerSelector:
-            mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
-            operation: copy
-        ref:
-            tag: 5.0.1
-        url: oci://ghcr.io/bjw-s-labs/helm/app-template
-    ```
-
-    **helmrelease.yaml** — skeleton for the app-template chart:
-
-    ```yaml
-    ---
-    # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
-    apiVersion: helm.toolkit.fluxcd.io/v2
-    kind: HelmRelease
-    metadata:
-        name: &app myapp
-    spec:
-        chartRef:
-            kind: OCIRepository
-            name: myapp
-        interval: 30m
-        values:
-            controllers:
-                myapp:
-                    containers:
-                        app:
-                            image:
-                                repository: ghcr.io/example/myapp
-                                tag: 1.0.0
-                            env:
-                                TZ: ${CONFIG_TIMEZONE}
-            service:
-                app:
-                    controller: myapp
-                    ports:
-                        http:
-                            port: 8080
-            route:
-                app:
-                    hostnames:
-                        - "{{ .Release.Name }}.ds47.dev"
-                    parentRefs:
-                        - name: kgateway-internal
-                          namespace: network
-            persistence:
-                config:
-                    existingClaim: ${APP} # PVC created by the volsync component
-    ```
-
-2. Register `./<app>/ks.yaml` in `kubernetes/apps/<namespace>/kustomization.yaml` (this sets the Kustomization's namespace).
-3. New namespace: create `kubernetes/apps/<namespace>/` with `namespace.yaml` and a `kustomization.yaml` that includes `namespace: <namespace>`, all `./<app>/ks.yaml` entries, `./namespace.yaml`, and the `../../components/common` component; then add `./<namespace>` to `kubernetes/apps/kustomization.yaml`.
-4. Secrets: create the Vault entry at `apps/<namespace>/<app>`, pull it via `externalsecret.yaml` (ClusterSecretStore `hashicorp-vault`), and add it to `app/kustomization.yaml`.
-5. Persistent data: add the `volsync` component, `dependsOn` volsync, and `VOLSYNC_CAPACITY` in `ks.yaml` (see pattern above).
-6. SSO: if the app supports OIDC, add `oidcclient.yaml` (see [SSO / Pocket-ID](#sso--pocket-id)) and register it in `app/kustomization.yaml`.
-7. Validate before pushing: `just k8s apply-ks <namespace> <app>` renders and applies the Kustomization locally via flux.
+1. Create `kubernetes/apps/<ns>/<app>/` following pgadmin: `ks.yaml` plus `app/` with a kustomization.yaml listing all resources.
+2. Register `./<app>/ks.yaml` in `kubernetes/apps/<ns>/kustomization.yaml` (sets the namespace).
+3. New namespace: add `namespace.yaml` and a kustomization.yaml with `namespace:`, all ks.yaml entries, `./namespace.yaml`, and `../../components/common`; add `./<ns>` to `kubernetes/apps/kustomization.yaml`.
+4. Secrets: Vault entry at `apps/<ns>/<app>` + `externalsecret.yaml`. Persistent data: volsync component + dependsOn + `VOLSYNC_CAPACITY`. OIDC-capable: `oidcclient.yaml` (below).
+5. Validate before pushing: `just k8s apply-ks <ns> <app>`.
 
 ### SSO / Pocket-ID
 
-App SSO is managed by the `pocket-id-operator` (`kubernetes/apps/security/pocket-id-operator`) against the `pocket-id` instance (`kubernetes/apps/security/pocket-id-instance`). Each app that supports OIDC gets a `PocketIDOIDCClient` resource (`app/oidcclient.yaml`):
+`pocket-id-operator` (ns `security`) manages OIDC clients as `PocketIDOIDCClient` CRs in `app/oidcclient.yaml` (copy pgadmin's).
 
-```yaml
----
-# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
-apiVersion: pocketid.internal/v1alpha1
-kind: PocketIDOIDCClient
-metadata:
-    name: myapp
-spec:
-    name: MyApp
-    allowedUserGroups:
-        - name: hama
-          namespace: security
-    launchUrl: https://myapp.ds47.dev
-    callbackUrls:
-        - https://myapp.ds47.dev/oauth/callback
-    secret:
-        name: myapp-oidc
-        keys:
-            clientID: OIDC_CLIENT_ID
-            clientSecret: OIDC_CLIENT_SECRET
-            issuerUrl: OIDC_ISSUER_URL
-```
+- `allowedUserGroups` is required; default `hama` (admin group). Omitting it lets every registered Pocket-ID user log in; widen beyond `hama` only deliberately, per app.
+- Every referenced group needs a `PocketIDUserGroup` CR (`security/pocket-id-instance/app/usergroup-*.yaml`: hama, mimler, schwarz) or reconcile fails.
+- Group CRs manage existence, `friendlyName`, and `customClaims` only, not membership (managed in the Pocket-ID UI; `spec.users` omitted). `customClaims` must mirror the UI exactly or the operator overwrites it.
+- The `secret:` block writes client ID/secret/issuer into a Kubernetes Secret for the app's env vars.
 
-- **`allowedUserGroups` is required and defaults to `hama`** (the admin/owner `PocketIDUserGroup`, defined in `kubernetes/apps/security/pocket-id-instance/app/usergroup-hama.yaml`, adopting the pre-existing Pocket-ID group of the same name). Omitting `allowedUserGroups` leaves the client **unrestricted** — every registered Pocket-ID user (including other household/family groups) can log in. Only widen access beyond `hama` to another group deliberately, per app.
-- **A referenced group must have a `PocketIDUserGroup` CR** — the operator resolves `allowedUserGroups` refs to CRs, and reconcile fails if the CR is missing or not Ready. All existing groups are modeled under `kubernetes/apps/security/pocket-id-instance/app/usergroup-*.yaml` (`hama`, `mimler`, `schwarz`).
-- **The CRs manage group existence, `friendlyName`, and `customClaims` only — not membership.** `spec.users` is intentionally omitted, so who belongs to each group is managed in the Pocket-ID UI and preserved across reconciles. Note `customClaims` _is_ operator-managed: it must mirror the UI exactly or the operator will overwrite it.
-- The `secret` block causes the operator to write the client ID/secret/issuer (and other OIDC endpoints, depending on keys requested) into a Kubernetes Secret consumed by the app's `helmrelease.yaml` env vars.
+### Infrastructure Notes
 
-### Secrets
+- Cilium CNI; kgateway (Gateway API) ingress in `network` (gateways `kgateway-internal` and external).
+- CloudNative-PG (PostgreSQL), Dragonfly (Redis-compatible), MariaDB, InfluxDB, EMQX (MQTT), VolSync (PVC backups), KEDA (`just k8s keda|keda-all`), kube-prometheus-stack.
+- Renovate (`renovate.json5`, `.renovate/`) updates Flux manifests, image digests, chart versions, Talos configs; `*.sops.*` excluded.
+- `app.kubernetes.io/name` from ks.yaml `commonMetadata` propagates to all resources; use `app.kubernetes.io/component` for labels that must survive the override.
+- Lefthook commit hooks (auto-installed by mise): oxfmt formats YAML/JSON/Markdown (2-space indent, LF, width 100), `just --fmt`, shellcheck, and a block on unencrypted `*.sops.yaml`.
 
-- **HashiCorp Vault** (preferred for app secrets): `ExternalSecret` resources pull from the `hashicorp-vault` ClusterSecretStore. Vault path convention: `apps/<namespace>/<app-name>`.
-- **SOPS + Age**: files matching `*.sops.yaml` are encrypted. Flux decrypts automatically via the `sops-age` secret. Used for Talos secrets and cluster-level bootstrap secrets, not app credentials.
-- The Age key is expected at `./age.key` (gitignored; `SOPS_AGE_KEY_FILE` set by mise).
-- Encrypt: `sops -e -i <file>` — Decrypt: `sops -d <file>`
+## Code Exploration (jCodemunch MCP)
 
-### Talos Config Rendering
+Use jCodemunch-MCP tools for code navigation, never Read/Grep/Glob/Bash. Exception: `Read` a file right before editing it (the harness requires it for Edit/Write).
 
-Node configs are MinJinja templates (`.yaml.j2`) rendered at apply time:
-
-- `talos/machineconfig.yaml.j2` — base config for all nodes
-- `talos/nodes/<node>.yaml.j2` — per-node patches (sets `controlplane` vs `worker`)
-- Secrets are injected from `talos/talsecret.sops.yaml` via `sops://namespace/.path.to.key` references at render time
-
-### Networking
-
-- **kgateway**: Gateway API-based ingress in the `network` namespace (gateways: `kgateway-internal`, external).
-- Apps expose routes via the app-template `route:` values (rendered as HTTPRoute) or standalone HTTPRoute resources referencing the gateway.
-
-### Renovate
-
-Automated dependency updates via Renovate. Config in `renovate.json5` with presets in `.renovate/`. Handles Flux manifests, Docker image digests, Helm chart versions, and Talos configs. Files matching `*.sops.*` are excluded.
-
-### Label Convention
-
-`app.kubernetes.io/name` is set via `commonMetadata.labels` in `ks.yaml` and propagates to all resources. Use `app.kubernetes.io/component` for labels that must survive Flux's `commonMetadata` override.
-
-### Key Infrastructure
-
-- **3 control-plane nodes** + **3 worker nodes** running Talos Linux
-- **Cilium** CNI (bootstrapped before other apps)
-- **External Secrets Operator** → HashiCorp Vault for secret injection
-- **CloudNative-PG** for PostgreSQL, **Dragonfly** for Redis-compatible caching, **MariaDB**, **InfluxDB**, **EMQX** (MQTT)
-- **VolSync** for PVC backups
-- **KEDA** for autoscaling (`just k8s keda`/`keda-all` to suspend/resume)
-- **kube-prometheus-stack** for monitoring
-
-## Linting
-
-Git hooks are managed by [Lefthook](https://github.com/evilmartians/lefthook) (`lefthook.toml`) and installed automatically via mise's postinstall hook (`lefthook install` to do it manually).
-
-On each commit:
-
-- Shared jobs from [home-operations/.github](https://github.com/home-operations/.github) (`lefthook.common.toml`): **oxfmt** formats staged YAML/JSON/Markdown files in-place (config: `oxfmtrc.json`), `just --fmt` formats justfiles, **shellcheck** lints shell scripts.
-- Local job **forbid-unencrypted-sops**: blocks commits of `*.sops.yaml` files that are not SOPS-encrypted.
-
-YAML rules: 2-space indentation, LF line endings, print width 100.
+- Open with `plan_turn { repo, query, model: "<your-model-id>" }` (for non-code tasks call `announce_model` once instead). Obey the confidence: `high` → recommended symbols, max 2 extra reads; `medium` → recommended files, max 5; `low` → the feature likely doesn't exist: report the gap and stop searching.
+- For a well-defined task, `assemble_task_context { repo, task }` returns the whole context capsule in one call; prefer it over chaining primitives.
+- A `negative_evidence` result with `no_implementation_found` is final: report it instead of re-searching with new terms.
+- The find/read/impact primitives are self-describing; `get_file_outline` before opening any file; `get_file_content` only as last resort.
+- After edits (unless PostToolUse hooks reindex): `register_edit` with the edited paths; batch for 5+ files. If `_meta` shows `budget_warning` or `auto_compacted`, stop exploring and work with what you have.
