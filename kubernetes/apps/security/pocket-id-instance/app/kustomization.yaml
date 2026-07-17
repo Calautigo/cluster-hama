@@ -6,5 +6,5 @@ resources:
   - ./externalsecret.yaml
   - ./instance.yaml
   - ./usergroup-hama.yaml
-  - ./usergroup-mimler.yaml
-  - ./usergroup-schwarz.yaml
+  - ./usergroup-media.yaml
+  - ./usergroup-services.yaml
