@@ -34,8 +34,10 @@ spec:
             - port: "53"
               protocol: TCP
     # OxiCloud WOPI callbacks via HTTPS through the internal gateway
-    - toCIDR:
-        - "${LB_IP_KGATEWAY_INTERNAL}/32"
+    - toServices:
+        - k8sService:
+            serviceName: kgateway-internal
+            namespace: network
       toPorts:
         - ports:
             - port: "443"

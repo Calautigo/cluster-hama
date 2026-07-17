@@ -64,8 +64,10 @@ spec:
             - port: "9980"
               protocol: TCP
     # Interner Gateway HTTPS (Collabora WOPI discovery/callbacks)
-    - toCIDR:
-        - "${LB_IP_KGATEWAY_INTERNAL}/32"
+    - toServices:
+        - k8sService:
+            serviceName: kgateway-internal
+            namespace: network
       toPorts:
         - ports:
             - port: "443"
