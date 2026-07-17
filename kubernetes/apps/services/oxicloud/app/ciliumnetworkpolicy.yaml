@@ -64,10 +64,10 @@ spec:
             - port: "9980"
               protocol: TCP
     # Interner Gateway HTTPS (Collabora WOPI discovery/callbacks)
-    - toServices:
-        - k8sService:
-            serviceName: kgateway-internal
-            namespace: network
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: network
+            gateway.networking.k8s.io/gateway-name: kgateway-internal
       toPorts:
         - ports:
             - port: "443"
