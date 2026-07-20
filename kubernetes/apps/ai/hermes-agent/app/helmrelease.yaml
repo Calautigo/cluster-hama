@@ -55,9 +55,6 @@ spec:
             securityContext:
               allowPrivilegeEscalation: true
               readOnlyRootFilesystem: false
-              capabilities:
-                drop: ["ALL"]
-                add: ["SETUID", "SETGID", "CHOWN"]
             probes:
               liveness: &probes
                 enabled: true
