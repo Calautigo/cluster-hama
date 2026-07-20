@@ -15,8 +15,6 @@ spec:
       namespace: external-secrets
     - name: volsync
       namespace: volsync-system
-    - name: litellm
-      namespace: *namespace
     - name: searxng
       namespace: *namespace
     - name: pocket-id-instance
