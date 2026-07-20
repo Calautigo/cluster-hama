@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: hermes-agent
+spec:
+  name: Hermes Agent
+  isPublic: true
+  pkceEnabled: true
+  allowedUserGroups:
+    - name: hama
+      namespace: security
+  launchUrl: https://hermes-agent.ds47.dev
+  callbackUrls:
+    - https://hermes-agent.ds47.dev/auth/callback
+  secret:
+    name: hermes-agent-oidc
+    keys:
+      clientID: HERMES_DASHBOARD_OIDC_CLIENT_ID
+      issuerUrl: HERMES_DASHBOARD_OIDC_ISSUER

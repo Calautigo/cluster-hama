@@ -1,0 +1,30 @@
+---
+model:
+  default: deepseek-r1-8b
+  provider: custom:litellm
+
+custom_providers:
+  - name: litellm
+    base_url: http://litellm.ai.svc.cluster.local:4000/v1
+    key_env: LITELLM_API_KEY
+
+fallback_providers:
+  - provider: custom:litellm
+    model: lfm2.5-8b-uncensored
+
+terminal:
+  backend: local
+  cwd: /opt/data/workspace
+  persistent_shell: true
+
+memory:
+  memory_enabled: true
+
+compression:
+  enabled: true
+  threshold: 0.5
+  target_ratio: 0.2
+  protect_last_n: 20
+
+web:
+  search_backend: searxng
