@@ -4,8 +4,7 @@ kind: Model
 metadata:
   name: gemma-4-e4b
 spec:
-  source: pvc://llmkube-models/gemma-4-e4b/gemma-4-E4B.Q8_0.gguf
-  mmproj: pvc://llmkube-models/gemma-4-e4b/gemma-4-E4B.mmproj-Q8_0.gguf
+  source: pvc://llmkube-models/gemma-4-e4b/gemma-4-E4B-it-Q8_0.gguf
   format: gguf
   quantization: Q8_0
   hardware:
@@ -49,6 +48,8 @@ spec:
   extraArgs:
     - --alias
     - gemma-4-e4b
+    - --mmproj
+    - /model-source/gemma-4-e4b/mmproj-F16.gguf
     - --cont-batching
     - --cache-prompt
     - --metrics

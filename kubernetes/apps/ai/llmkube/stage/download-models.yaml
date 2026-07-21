@@ -20,20 +20,25 @@ spec:
             - |
               set -euo pipefail
 
-              model="/models/gemma-4-e4b/gemma-4-E4B.Q8_0.gguf"
-              mmproj="/models/gemma-4-e4b/gemma-4-E4B.mmproj-Q8_0.gguf"
+              model="/models/gemma-4-e4b/gemma-4-E4B-it-Q8_0.gguf"
+              mmproj="/models/gemma-4-e4b/mmproj-F16.gguf"
               if [ -s "${model}" ] && [ -s "${mmproj}" ]; then
                 echo "Gemma-4-E4B already present at ${model}"
                 exit 0
               fi
 
+              # Broken tokenizer in mradermacher's quant (no working end-of-turn
+              # special tokens; see cluster incident 2026-07-21) -- remove it in
+              # favor of unsloth's corrected ("unsloth_fixed") conversion.
+              rm -f /models/gemma-4-e4b/gemma-4-E4B.Q8_0.gguf /models/gemma-4-e4b/gemma-4-E4B.mmproj-Q8_0.gguf
+
               pip install --no-cache-dir "huggingface_hub[hf_xet]"
               mkdir -p /models/gemma-4-e4b
-              hf download mradermacher/gemma-4-E4B-GGUF \
-                gemma-4-E4B.Q8_0.gguf \
+              hf download unsloth/gemma-4-E4B-it-GGUF \
+                gemma-4-E4B-it-Q8_0.gguf \
                 --local-dir /models/gemma-4-e4b
-              hf download mradermacher/gemma-4-E4B-GGUF \
-                gemma-4-E4B.mmproj-Q8_0.gguf \
+              hf download unsloth/gemma-4-E4B-it-GGUF \
+                mmproj-F16.gguf \
                 --local-dir /models/gemma-4-e4b
               echo "Gemma-4-E4B download complete"
           envFrom:
