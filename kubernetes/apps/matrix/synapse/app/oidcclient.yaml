@@ -1,0 +1,20 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: synapse
+spec:
+  name: Matrix Synapse
+  allowedUserGroups:
+    - name: hama
+      namespace: security
+  launchUrl: https://matrix.ds47.dev
+  callbackUrls:
+    - https://matrix.ds47.dev/_synapse/client/oidc/callback
+  secret:
+    name: synapse-oidc
+    keys:
+      clientID: OIDC_CLIENT_ID
+      clientSecret: OIDC_CLIENT_SECRET
+      issuerUrl: OIDC_ISSUER_URL

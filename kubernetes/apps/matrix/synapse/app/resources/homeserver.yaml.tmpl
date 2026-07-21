@@ -1,0 +1,59 @@
+server_name: "matrix.ds47.dev"
+pid_file: /data/homeserver.pid
+public_baseurl: https://matrix.ds47.dev/
+serve_server_wellknown: false
+
+listeners:
+  - port: 8008
+    tls: false
+    type: http
+    x_forwarded: true
+    resources:
+      - names: [client, federation]
+        compress: false
+
+database:
+  name: psycopg2
+  args:
+    user: synapse
+    password: "@@DB_PASSWORD@@"
+    dbname: synapse
+    host: pg18vec-rw.database.svc.cluster.local
+    port: 5432
+    sslmode: require
+    cp_min: 5
+    cp_max: 10
+
+media_store_path: /data/media_store
+max_upload_size: 100M
+
+log_config: "/config/log_config.yaml"
+
+report_stats: false
+
+registration_shared_secret: "@@REGISTRATION_SHARED_SECRET@@"
+macaroon_secret_key: "@@MACAROON_SECRET_KEY@@"
+form_secret: "@@FORM_SECRET@@"
+signing_key_path: /data/signing.key
+
+trusted_key_servers:
+  - server_name: "matrix.org"
+
+enable_registration: false
+password_config:
+  enabled: false
+
+oidc_providers:
+  - idp_id: pocketid
+    idp_name: "Pocket ID"
+    issuer: "@@OIDC_ISSUER_URL@@"
+    client_id: "@@OIDC_CLIENT_ID@@"
+    client_secret: "@@OIDC_CLIENT_SECRET@@"
+    scopes: ["openid", "profile", "email"]
+    user_mapping_provider:
+      config:
+        localpart_template: "{{ user.preferred_username }}"
+        display_name_template: "{{ user.name }}"
+
+app_service_config_files:
+  - /secrets/registration.yaml

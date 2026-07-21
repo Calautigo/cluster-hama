@@ -1,0 +1,29 @@
+homeserver:
+  address: http://synapse.matrix.svc.cluster.local:8008
+  domain: matrix.ds47.dev
+  async_media: true
+
+appservice:
+  address: http://matrix-signal.matrix.svc.cluster.local:29328
+  hostname: 0.0.0.0
+  port: 29328
+  id: signal
+  bot:
+    username: signalbot
+    displayname: Signal Bridge Bot
+  as_token: "@@AS_TOKEN@@"
+  hs_token: "@@HS_TOKEN@@"
+
+database:
+  type: postgres
+  uri: "postgres://matrix_signal:@@DB_PASSWORD@@@pg18vec-rw.database.svc.cluster.local:5432/matrix_signal?sslmode=require"
+
+bridge:
+  permissions:
+    "matrix.ds47.dev": user
+
+logging:
+  min_level: info
+  writers:
+    - type: stdout
+      format: pretty-colored
