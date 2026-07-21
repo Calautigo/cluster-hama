@@ -1,0 +1,131 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app mas
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: mas
+  interval: 30m
+  values:
+    controllers:
+      mas:
+        strategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          # mas-cli config generate has no "only if missing" mode and always
+          # emits fresh keys, so it always writes to scratch; render-config
+          # decides whether to promote that into the persisted /data/secrets.yaml.
+          generate-scratch:
+            image: &masImage
+              repository: ghcr.io/element-hq/matrix-authentication-service
+              tag: latest
+            command:
+              - /usr/local/bin/mas-cli
+            args:
+              - config
+              - generate
+              - -o
+              - /scratch/generated.yaml
+          render-config:
+            image:
+              repository: docker.io/mikefarah/yq
+              tag: latest
+            envFrom:
+              - secretRef:
+                  name: mas-db
+              - secretRef:
+                  name: mas-oidc
+              - secretRef:
+                  name: mas-synapse-shared-secret
+            command:
+              - /bin/sh
+              - -c
+              - |
+                set -e
+                if [ ! -f /data/secrets.yaml ]; then
+                  yq eval '.secrets' /scratch/generated.yaml > /data/secrets.yaml
+                fi
+                cp /templates/config.yaml.tmpl /config/config.yaml
+                sed -i \
+                  -e "s|@@DB_PASSWORD@@|$DB_PASSWORD|g" \
+                  -e "s|@@OIDC_CLIENT_ID@@|$OIDC_CLIENT_ID|g" \
+                  -e "s|@@OIDC_CLIENT_SECRET@@|$OIDC_CLIENT_SECRET|g" \
+                  -e "s|@@OIDC_ISSUER_URL@@|$OIDC_ISSUER_URL|g" \
+                  -e "s|@@SHARED_SECRET@@|$SHARED_SECRET|g" \
+                  /config/config.yaml
+                yq eval '.secrets = load("/data/secrets.yaml")' -i /config/config.yaml
+        containers:
+          app:
+            image: *masImage
+            command:
+              - /usr/local/bin/mas-cli
+            args:
+              - server
+              - -c
+              - /config/config.yaml
+            env:
+              TZ: ${CONFIG_TIMEZONE}
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 8081
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 6
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 15m
+                memory: 100Mi
+              limits:
+                memory: 500Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        # Image's own default (distroless "nonroot" UID); applied pod-wide so
+        # the yq init container (fsGroup-writable volumes) works the same way.
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: 8080
+    route:
+      app:
+        hostnames:
+          - "mas.ds47.dev"
+        parentRefs:
+          - name: kgateway-internal
+            namespace: network
+    persistence:
+      data:
+        existingClaim: ${APP}
+        globalMounts:
+          - path: /data
+      config:
+        type: emptyDir
+        globalMounts:
+          - path: /config
+      scratch:
+        type: emptyDir
+        globalMounts:
+          - path: /scratch
+      templates:
+        type: configMap
+        name: mas-configmap
+        globalMounts:
+          - path: /templates
+            readOnly: true

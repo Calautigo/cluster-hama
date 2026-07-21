@@ -3,17 +3,19 @@
 apiVersion: pocketid.internal/v1alpha1
 kind: PocketIDOIDCClient
 metadata:
-  name: synapse
+  name: mas
 spec:
-  name: Matrix Synapse
+  name: Matrix Authentication Service
   allowedUserGroups:
     - name: hama
       namespace: security
-  launchUrl: https://matrix.ds47.dev
+  launchUrl: https://mas.ds47.dev
   callbackUrls:
-    - https://matrix.ds47.dev/_synapse/client/oidc/callback
+    # <id> must stay in sync with upstream_oauth2.providers[0].id in
+    # resources/config.yaml.tmpl -- MAS requires it to be a ULID.
+    - https://mas.ds47.dev/upstream/callback/01KY308DAQAAMXTG5YM0X2YBDK
   secret:
-    name: synapse-oidc
+    name: mas-oidc
     keys:
       clientID: OIDC_CLIENT_ID
       clientSecret: OIDC_CLIENT_SECRET

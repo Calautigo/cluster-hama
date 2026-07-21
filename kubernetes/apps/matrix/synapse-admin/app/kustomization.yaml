@@ -3,13 +3,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./externalsecret.yaml
   - ./ocirepository.yaml
   - ./helmrelease.yaml
 configMapGenerator:
-  - name: synapse-configmap
+  - name: synapse-admin-configmap
     files:
-      - ./resources/homeserver.yaml.tmpl
-      - ./resources/log_config.yaml
+      - ./resources/config.json
 generatorOptions:
   disableNameSuffixHash: true

@@ -3,21 +3,21 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app element-web
+  name: &app synapse-admin
 spec:
   chartRef:
     kind: OCIRepository
-    name: element-web
+    name: synapse-admin
   interval: 30m
   values:
     controllers:
-      element-web:
+      synapse-admin:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
-              repository: docker.io/vectorim/element-web
+              repository: ghcr.io/etkecc/synapse-admin
               tag: latest
             env:
               TZ: ${CONFIG_TIMEZONE}
@@ -36,7 +36,6 @@ spec:
               readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
               capabilities:
                 drop: ["ALL"]
             resources:
@@ -48,15 +47,10 @@ spec:
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
-        # Image's Dockerfile sets `USER nginx` (a name, not a UID), so the
-        # kubelet can't verify non-root without an explicit numeric UID here.
-        # Alpine's nginx package assigns UID/GID 101 to that user.
-        runAsUser: 101
-        runAsGroup: 101
-        fsGroup: 101
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-        seccompProfile:
-          type: RuntimeDefault
     service:
       app:
         controller: *app
@@ -66,27 +60,15 @@ spec:
     route:
       app:
         hostnames:
-          - "element.ds47.dev"
+          - "synapse-admin.ds47.dev"
         parentRefs:
           - name: kgateway-internal
             namespace: network
     persistence:
       config:
         type: configMap
-        name: element-web-configmap
+        name: synapse-admin-configmap
         globalMounts:
           - path: /app/config.json
             subPath: config.json
             readOnly: true
-      tmp:
-        type: emptyDir
-        globalMounts:
-          - path: /tmp
-      var-cache-nginx:
-        type: emptyDir
-        globalMounts:
-          - path: /var/cache/nginx
-      var-run:
-        type: emptyDir
-        globalMounts:
-          - path: /var/run

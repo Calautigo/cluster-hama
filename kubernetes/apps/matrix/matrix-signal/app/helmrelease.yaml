@@ -57,6 +57,12 @@ spec:
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
+        # Image has no USER (its own entrypoint starts as root and drops to
+        # 1337 via su-exec); we bypass that entrypoint via `command:` above,
+        # so run as 1337 directly instead.
+        runAsUser: 1337
+        runAsGroup: 1337
+        fsGroup: 1337
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:

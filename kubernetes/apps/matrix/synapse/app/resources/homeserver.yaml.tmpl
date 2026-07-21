@@ -39,21 +39,10 @@ signing_key_path: /data/signing.key
 trusted_key_servers:
   - server_name: "matrix.org"
 
-enable_registration: false
-password_config:
-  enabled: false
-
-oidc_providers:
-  - idp_id: pocketid
-    idp_name: "Pocket ID"
-    issuer: "@@OIDC_ISSUER_URL@@"
-    client_id: "@@OIDC_CLIENT_ID@@"
-    client_secret: "@@OIDC_CLIENT_SECRET@@"
-    scopes: ["openid", "profile", "email"]
-    user_mapping_provider:
-      config:
-        localpart_template: "{{ user.preferred_username }}"
-        display_name_template: "{{ user.name }}"
+matrix_authentication_service:
+  enabled: true
+  endpoint: "http://mas.matrix.svc.cluster.local:8080/"
+  secret_path: /secrets/mas/SHARED_SECRET
 
 app_service_config_files:
-  - /secrets/registration.yaml
+  - /secrets/signal/registration.yaml

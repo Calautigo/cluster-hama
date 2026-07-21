@@ -7,6 +7,8 @@ resources:
   - ./synapse/ks.yaml
   - ./element-web/ks.yaml
   - ./matrix-signal/ks.yaml
+  - ./mas/ks.yaml
+  - ./synapse-admin/ks.yaml
   - ./namespace.yaml
 components:
   - ../../components/common

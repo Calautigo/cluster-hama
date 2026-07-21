@@ -26,8 +26,6 @@ spec:
                   name: synapse-db
               - secretRef:
                   name: synapse-secrets
-              - secretRef:
-                  name: synapse-oidc
             command:
               - /bin/sh
               - -c
@@ -40,9 +38,6 @@ spec:
                   -e "s|@@REGISTRATION_SHARED_SECRET@@|$REGISTRATION_SHARED_SECRET|g" \
                   -e "s|@@MACAROON_SECRET_KEY@@|$MACAROON_SECRET_KEY|g" \
                   -e "s|@@FORM_SECRET@@|$FORM_SECRET|g" \
-                  -e "s|@@OIDC_CLIENT_ID@@|$OIDC_CLIENT_ID|g" \
-                  -e "s|@@OIDC_CLIENT_SECRET@@|$OIDC_CLIENT_SECRET|g" \
-                  -e "s|@@OIDC_ISSUER_URL@@|$OIDC_ISSUER_URL|g" \
                   /config/homeserver.yaml
           # --generate-keys only creates files referenced by homeserver.yaml
           # that are still missing (i.e. just the signing key on first boot);
@@ -86,6 +81,11 @@ spec:
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
+        # Image has no USER (defaults to root); nothing here depends on a
+        # specific UID, so pick an arbitrary non-root one.
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
@@ -119,5 +119,11 @@ spec:
         type: secret
         name: synapse-signal-registration
         globalMounts:
-          - path: /secrets
+          - path: /secrets/signal
+            readOnly: true
+      mas-shared-secret:
+        type: secret
+        name: mas-synapse-shared-secret
+        globalMounts:
+          - path: /secrets/mas
             readOnly: true
