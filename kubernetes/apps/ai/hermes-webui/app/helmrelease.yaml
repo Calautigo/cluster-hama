@@ -1,0 +1,121 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: hermes-webui
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: hermes-webui
+  dependsOn:
+    - name: hermes-agent
+      namespace: ai
+  values:
+    controllers:
+      hermes-webui:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-agent-src:
+            image:
+              repository: docker.io/nousresearch/hermes-agent
+              tag: main@sha256:3504901e7211b68c8ff1b885f8ae1a5e3d432e2931f2d0ea2cbfc9881b623d1c
+            command:
+              - sh
+              - -c
+              - |
+                set -euo pipefail
+                cp -a /opt/hermes/. /agent-src/
+        containers:
+          app:
+            image:
+              repository: ghcr.io/nesquena/hermes-webui
+              tag: latest@sha256:49f9d97ce7d8f509f6d38b27173fe8ecd4f3f21318b0d5b00b503fb756c12df6
+            env:
+              TZ: "${TZ}"
+              HERMES_WEBUI_HOST: 0.0.0.0
+              HERMES_WEBUI_PORT: &httpPort 8787
+              HERMES_WEBUI_STATE_DIR: /home/hermeswebui/.hermes/webui
+              WANTED_UID: "10000"
+              WANTED_GID: "10000"
+              # Not running on EC2: skip the IMDS lookup botocore otherwise
+              # blocks on for several seconds while probing AWS Bedrock creds.
+              AWS_EC2_METADATA_DISABLED: "true"
+              # Route browser chat through the hermes-agent Gateway already
+              # running in this namespace instead of a second in-process agent.
+              HERMES_WEBUI_CHAT_BACKEND: gateway
+              HERMES_WEBUI_GATEWAY_BASE_URL: http://hermes-agent.ai.svc.cluster.local:8642
+              HERMES_WEBUI_GATEWAY_USE_RUNS_API: true
+              HERMES_API_URL: http://hermes-agent.ai.svc.cluster.local:8642
+              # OIDC (Pocket-ID)
+              HERMES_WEBUI_OIDC_SCOPES: "openid profile email groups"
+              HERMES_WEBUI_OIDC_ALLOW_CLAIM: groups
+              HERMES_WEBUI_OIDC_ALLOW_VALUES: hama
+              HERMES_WEBUI_OIDC_REDIRECT_URI: https://hermes-webui.ds47.dev/api/auth/oidc/callback
+              # Reverse proxy (kgateway) awareness
+              HERMES_WEBUI_SECURE: "1"
+              HERMES_WEBUI_TRUST_FORWARDED_HOST: "1"
+              HERMES_WEBUI_TRUST_FORWARDED_PROTO: "1"
+              HERMES_WEBUI_ALLOWED_ORIGINS: https://hermes-webui.ds47.dev
+            envFrom:
+              - secretRef:
+                  name: hermes-webui-secret
+              - secretRef:
+                  name: hermes-webui-oidc
+            securityContext:
+              allowPrivilegeEscalation: true
+              readOnlyRootFilesystem: false
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *httpPort
+                  initialDelaySeconds: 15
+                  periodSeconds: 15
+                  failureThreshold: 6
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 25m
+                memory: 128Mi
+              limits:
+                memory: 1Gi
+
+    service:
+      app:
+        ports:
+          http:
+            port: *httpPort
+
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.ds47.dev"
+        parentRefs:
+          - name: kgateway-internal
+            namespace: network
+
+    persistence:
+      data:
+        existingClaim: "${APP}"
+        globalMounts:
+          - path: /home/hermeswebui/.hermes
+      agent-src:
+        type: emptyDir
+        advancedMounts:
+          hermes-webui:
+            init-agent-src:
+              - path: /agent-src
+            app:
+              - path: /home/hermeswebui/.hermes/hermes-agent
+                readOnly: true
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+            subPath: tmp

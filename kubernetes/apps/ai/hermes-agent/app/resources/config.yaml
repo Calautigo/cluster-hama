@@ -6,6 +6,7 @@ model:
 custom_providers:
   - name: gemma
     base_url: http://gemma-4-e4b.ai.svc.cluster.local:8080/v1
+    api_key: not-required-local-inference
 
 auxiliary:
   vision:

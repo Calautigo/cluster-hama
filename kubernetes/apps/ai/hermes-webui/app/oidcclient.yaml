@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: hermes-webui
+spec:
+  name: Hermes WebUI
+  isPublic: true
+  pkceEnabled: true
+  allowedUserGroups:
+    - name: hama
+      namespace: security
+  launchUrl: https://hermes-webui.ds47.dev
+  callbackUrls:
+    - https://hermes-webui.ds47.dev/api/auth/oidc/callback
+  secret:
+    name: hermes-webui-oidc
+    keys:
+      clientID: HERMES_WEBUI_OIDC_CLIENT_ID
+      issuerUrl: HERMES_WEBUI_OIDC_ISSUER

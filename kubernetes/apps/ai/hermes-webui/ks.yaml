@@ -1,0 +1,35 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app hermes-webui
+  namespace: &namespace ai
+spec:
+  targetNamespace: *namespace
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  dependsOn:
+    - name: external-secrets
+      namespace: external-secrets
+    - name: volsync
+      namespace: volsync-system
+    - name: hermes-agent
+      namespace: *namespace
+    - name: pocket-id-instance
+      namespace: security
+  components:
+    - ../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: *app
+  interval: 30m
+  path: ./kubernetes/apps/ai/hermes-webui/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: false
+  timeout: 5m

@@ -31,7 +31,7 @@ spec:
           app:
             image:
               repository: docker.io/nousresearch/hermes-agent
-              tag: main@sha256:3504901e7211b68c8ff1b885f8ae1a5e3d432e2931f2d0ea2cbfc9881b623d1c
+              tag: v2026.7.20@sha256:f7b35053268f532f98955195c909f15a230470fbcbdacaa9fdecb95707dad04a
             args: ["gateway", "run"]
             env:
               TZ: "${TZ}"
