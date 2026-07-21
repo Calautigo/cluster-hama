@@ -2,30 +2,31 @@
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: Model
 metadata:
-  name: lfm2.5-8b-uncensored
+  name: gemma-4-e4b
 spec:
-  source: pvc://llmkube-models/lfm2.5-8b-uncensored/LFM2.5-8B-A1B-Uncensored-Gaston-Q6_K.gguf
+  source: pvc://llmkube-models/gemma-4-e4b/gemma-4-E4B.Q8_0.gguf
+  mmproj: pvc://llmkube-models/gemma-4-e4b/gemma-4-E4B.mmproj-Q8_0.gguf
   format: gguf
-  quantization: Q6_K
+  quantization: Q8_0
   hardware:
     accelerator: cuda
     gpu:
       enabled: true
       vendor: nvidia
       count: 1
-      layers: 35
+      layers: 99
 ---
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: InferenceService
 metadata:
-  name: lfm2.5-8b-uncensored
+  name: gemma-4-e4b
   annotations:
     kustomize.toolkit.fluxcd.io/ssa: Merge
 spec:
-  modelRef: lfm2.5-8b-uncensored
+  modelRef: gemma-4-e4b
   runtime: llamacpp
   image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:0d6c600a69e8bdaafd7b91ed6db9160906ee8148ee12a609cf4d52b4e17aabe8
-  replicas: 0
+  replicas: 1
   priority: normal
   runtimeClassName: nvidia
   nodeSelector:
@@ -39,24 +40,24 @@ spec:
   parallelSlots: 1
   batchSize: 2048
   uBatchSize: 512
-  cacheTypeK: q5_0
-  cacheTypeV: q5_0
+  cacheTypeK: q8_0
+  cacheTypeV: q8_0
   resources:
     gpu: 1
     cpu: "2"
     memory: 12Gi
   extraArgs:
     - --alias
-    - lfm2.5-8b-uncensored
+    - gemma-4-e4b
     - --cont-batching
     - --cache-prompt
     - --metrics
     - --temp
-    - "0.6"
+    - "0.7"
     - --top-p
     - "0.95"
     - --top-k
-    - "20"
+    - "40"
     - --threads
     - "6"
     - --threads-batch

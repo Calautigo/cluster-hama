@@ -10,7 +10,7 @@ spec:
     name: app-template
   interval: 15m
   dependsOn:
-    - name: litellm
+    - name: hermes-agent
       namespace: ai
     - name: searxng
       namespace: ai
@@ -40,7 +40,7 @@ spec:
               CORS_ALLOW_ORIGIN: https://chat.ds47.dev
               DEFAULT_LOCALE: de
               ENABLE_OPENAI_API: true
-              OPENAI_API_BASE_URL: http://litellm.ai.svc.cluster.local:4000/v1
+              OPENAI_API_BASE_URL: http://hermes-agent.ai.svc.cluster.local:8642/v1
               ENABLE_OLLAMA_API: false
               ENABLE_WEB_SEARCH: true
               ENABLE_SIGNUP: false

@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: download-deepseek-r1-8b
+  name: download-gemma-4-e4b
   annotations:
     kustomize.toolkit.fluxcd.io/force: enabled
 spec:
@@ -20,62 +20,22 @@ spec:
             - |
               set -euo pipefail
 
-              model="/models/deepseek-r1-8b/DeepSeek-R1-Distill-Llama-8B-Q4_K_M.gguf"
-              if [ -s "${model}" ]; then
-                echo "DeepSeek-R1-8B already present at ${model}"
+              model="/models/gemma-4-e4b/gemma-4-E4B.Q8_0.gguf"
+              mmproj="/models/gemma-4-e4b/gemma-4-E4B.mmproj-Q8_0.gguf"
+              if [ -s "${model}" ] && [ -s "${mmproj}" ]; then
+                echo "Gemma-4-E4B already present at ${model}"
                 exit 0
               fi
 
               pip install --no-cache-dir "huggingface_hub[hf_xet]"
-              mkdir -p /models/deepseek-r1-8b
-              hf download Unsloth/DeepSeek-R1-Distill-Llama-8B-GGUF \
-                DeepSeek-R1-Distill-Llama-8B-Q4_K_M.gguf \
-                --local-dir /models/deepseek-r1-8b
-              echo "DeepSeek-R1-8B download complete"
-          envFrom:
-            - secretRef:
-                name: huggingface
-          volumeMounts:
-            - name: models
-              mountPath: /models
-      volumes:
-        - name: models
-          persistentVolumeClaim:
-            claimName: llmkube-models
----
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: download-lfm2.5-8b-uncensored
-  annotations:
-    kustomize.toolkit.fluxcd.io/force: enabled
-spec:
-  template:
-    spec:
-      restartPolicy: OnFailure
-      nodeSelector:
-        feature.node.kubernetes.io/pci-10de.present: "true"
-      containers:
-        - name: download
-          image: python:3.14-slim
-          command:
-            - /bin/sh
-            - -ec
-            - |
-              set -euo pipefail
-
-              model="/models/lfm2.5-8b-uncensored/LFM2.5-8B-A1B-Uncensored-Gaston-Q6_K.gguf"
-              if [ -s "${model}" ]; then
-                echo "LFM2.5-8b-uncensored already present at ${model}"
-                exit 0
-              fi
-
-              pip install --no-cache-dir "huggingface_hub[hf_xet]"
-              mkdir -p /models/lfm2.5-8b-uncensored
-              hf download gaston-parravicini/LFM2.5-8B-A1B-Uncensored-Gaston-GGUF \
-                LFM2.5-8B-A1B-Uncensored-Gaston-Q6_K.gguf \
-                --local-dir /models/lfm2.5-8b-uncensored
-              echo "LFM2.5-8b-uncensored download complete"
+              mkdir -p /models/gemma-4-e4b
+              hf download mradermacher/gemma-4-E4B-GGUF \
+                gemma-4-E4B.Q8_0.gguf \
+                --local-dir /models/gemma-4-e4b
+              hf download mradermacher/gemma-4-E4B-GGUF \
+                gemma-4-E4B.mmproj-Q8_0.gguf \
+                --local-dir /models/gemma-4-e4b
+              echo "Gemma-4-E4B download complete"
           envFrom:
             - secretRef:
                 name: huggingface

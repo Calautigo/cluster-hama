@@ -1,4 +1,18 @@
 ---
+model:
+  default: gemma-4-e4b
+  provider: custom:gemma
+
+custom_providers:
+  - name: gemma
+    base_url: http://gemma-4-e4b.ai.svc.cluster.local:8080/v1
+
+auxiliary:
+  vision:
+    provider: custom:gemma
+    model: gemma-4-e4b
+    base_url: http://gemma-4-e4b.ai.svc.cluster.local:8080/v1
+
 terminal:
   backend: local
   cwd: /opt/data/workspace
