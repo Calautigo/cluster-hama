@@ -8,8 +8,8 @@ resources:
   - ./helmrelease.yaml
   - ./oidcclient.yaml
 configMapGenerator:
-  - name: mas-configmap
+  - name: mas-config
     files:
-      - ./resources/config.yaml.tmpl
+      - config.yaml=./resources/config.yaml
 generatorOptions:
   disableNameSuffixHash: true

@@ -6,7 +6,7 @@ resources:
   - ./ocirepository.yaml
   - ./helmrelease.yaml
 configMapGenerator:
-  - name: element-web-configmap
+  - name: element-config
     files:
       - ./resources/config.json
 generatorOptions:

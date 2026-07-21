@@ -1,0 +1,98 @@
+# yaml-language-server: $schema=https://element-hq.github.io/matrix-authentication-service/config.schema.json
+http:
+  listeners:
+    - name: web
+      resources:
+        - name: discovery
+        - name: human
+        - name: oauth
+        - name: compat
+        - name: graphql
+        - name: assets
+      binds:
+        - address: "[::]:8080"
+      proxy_protocol: false
+    - name: internal
+      resources:
+        - name: health
+      binds:
+        # Bound to all interfaces (not localhost) so the kubelet's httpGet
+        # liveness probe, which connects via the pod IP, can reach it.
+        - host: localhost
+          port: 8081
+      proxy_protocol: false
+  trusted_proxies:
+    - 11.96.0.0/12
+    - 11.244.0.0/16
+  public_base: "https://mas.ds47.dev/"
+
+database:
+  host: pg18vec-rw.database.svc.cluster.local
+  port: 5432
+  username: "mas"
+  password: "{{ .MAS_POSTGRES_PASSWORD }}"
+  database: "mas"
+  max_connections: 10
+  min_connections: 0
+  connect_timeout: 30
+  idle_timeout: 600
+  max_lifetime: 1800
+
+secrets:
+  encryption: "{{ .SECRETS_ENCRYPTION }}"
+  keys:
+    - kid: "{{ .SECRETS_KEYS_0_KID }}"
+      key: |
+        {{- .SECRETS_KEYS_0_KEY | nindent 8 }}
+    - kid: "{{ .SECRETS_KEYS_1_KID }}"
+      key: |
+        {{- .SECRETS_KEYS_1_KEY | nindent 8 }}
+    - kid: "{{ .SECRETS_KEYS_2_KID }}"
+      key: |
+        {{- .SECRETS_KEYS_2_KEY | nindent 8 }}
+    - kid: "{{ .SECRETS_KEYS_3_KID }}"
+      key: |
+        {{- .SECRETS_KEYS_3_KEY | nindent 8 }}
+passwords:
+  enabled: true
+  schemes:
+    - version: 1
+      algorithm: bcrypt
+    - version: 2
+      algorithm: argon2id
+  minimum_complexity: 3
+matrix:
+  kind: synapse
+  homeserver: "ds47.dev"
+  secret: "{{ .ADMIN_TOKEN }}"
+  endpoint: http://synapse-matrix-synapse.matrix.svc.cluster.local:8008
+
+clients:
+  - client_id: 0000000000000000000SYNAPSE
+    client_auth_method: client_secret_basic
+    client_secret: "{{ .MAS_CLIENT_SECRET }}"
+    redirect_uris:
+      - "https://matrix.ds47.dev/_synapse/client/oidc/callback"
+      - "https://element.ds47.dev"
+      - "element://vector/webapp"
+      - "vector://vector/webapp"
+upstream_oauth2:
+  providers:
+    - id: "{{ .PROVIDER_ID }}"
+      human_name: Pocket ID
+      issuer: "{{ .OIDC_ISSUER_URL }}"
+      client_id: "{{ .OIDC_CLIENT_ID }}"
+      client_secret: "{{ .OIDC_CLIENT_SECRET }}"
+      token_endpoint_auth_method: client_secret_basic
+      scope: "openid profile email"
+      synapse_idp_id: "oidc-pocketid"
+      claims_imports:
+        localpart:
+          action: require
+          template: "{{ user.preferred_username }}"
+        displayname:
+          action: suggest
+          template: "{{ user.name }}"
+        email:
+          action: suggest
+          template: "{{ user.email }}"

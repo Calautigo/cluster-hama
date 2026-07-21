@@ -16,89 +16,32 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
-          # mas-cli config generate has no "only if missing" mode and always
-          # emits fresh keys, so it always writes to scratch; render-config
-          # decides whether to promote that into the persisted /data/secrets.yaml.
-          generate-scratch:
-            image: &masImage
-              repository: ghcr.io/element-hq/matrix-authentication-service
-              tag: latest
-            command:
-              - /usr/local/bin/mas-cli
-            args:
-              - config
-              - generate
-              - -o
-              - /scratch/generated.yaml
-          render-config:
-            dependsOn: generate-scratch
+          init-db:
             image:
-              repository: docker.io/mikefarah/yq
-              tag: latest
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18.4.0@sha256:ebd9d30add17acdf935d73eb004758c7dfd9388aaa605fda70ad74378ab92aec
             envFrom:
               - secretRef:
                   name: mas-db
               - secretRef:
-                  name: mas-oidc
-              - secretRef:
-                  name: mas-synapse-shared-secret
-            command:
-              - /bin/sh
-              - -c
-              - |
-                set -e
-                if [ ! -f /data/secrets.yaml ]; then
-                  yq eval '.secrets' /scratch/generated.yaml > /data/secrets.yaml
-                fi
-                cp /templates/config.yaml.tmpl /config/config.yaml
-                yq eval '
-                  .database.uri = "postgresql://mas:" + strenv(DB_PASSWORD) + "@pg18vec-rw.database.svc.cluster.local:5432/mas?sslmode=require" |
-                  .matrix.secret = strenv(SHARED_SECRET) |
-                  .clients[0].client_secret = strenv(SHARED_SECRET) |
-                  .upstream_oauth2.providers[0].issuer = strenv(OIDC_ISSUER_URL) |
-                  .upstream_oauth2.providers[0].client_id = strenv(OIDC_CLIENT_ID) |
-                  .upstream_oauth2.providers[0].client_secret = strenv(OIDC_CLIENT_SECRET) |
-                  .secrets = load("/data/secrets.yaml")
-                ' -i /config/config.yaml
+                  name: mas-initdb
         containers:
           app:
-            image: *masImage
+            image:
+              repository: ghcr.io/element-hq/matrix-authentication-service
+              tag: 1.20@sha256:1b0cc87ca6bd6186172a123228cfc3be4c94522d5ecc71e7baeaf23e48ce883a
             command:
-              - /usr/local/bin/mas-cli
+              - "/usr/local/bin/mas-cli"
             args:
-              - server
-              - -c
-              - /config/config.yaml
+              - "server"
             env:
-              TZ: ${CONFIG_TIMEZONE}
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /health
-                    port: 8081
-                  initialDelaySeconds: 10
-                  periodSeconds: 10
-                  timeoutSeconds: 5
-                  failureThreshold: 6
-              readiness: *probes
+              MAS_CONFIG: /config/config.yaml
             resources:
               requests:
                 cpu: 15m
-                memory: 100Mi
+                memory: 100M
               limits:
                 memory: 500Mi
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        # Image's own default (distroless "nonroot" UID); applied pod-wide so
-        # the yq init container (fsGroup-writable volumes) works the same way.
-        runAsUser: 65532
-        runAsGroup: 65532
-        fsGroup: 65532
-        fsGroupChangePolicy: OnRootMismatch
     service:
       app:
         controller: *app
@@ -113,21 +56,6 @@ spec:
           - name: kgateway-internal
             namespace: network
     persistence:
-      data:
-        existingClaim: ${APP}
-        globalMounts:
-          - path: /data
       config:
-        type: emptyDir
-        globalMounts:
-          - path: /config
-      scratch:
-        type: emptyDir
-        globalMounts:
-          - path: /scratch
-      templates:
-        type: configMap
-        name: mas-configmap
-        globalMounts:
-          - path: /templates
-            readOnly: true
+        type: secret
+        name: mas-secret

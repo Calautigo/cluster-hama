@@ -17,10 +17,8 @@ spec:
         containers:
           app:
             image:
-              repository: docker.io/vectorim/element-web
-              tag: latest
-            env:
-              TZ: ${CONFIG_TIMEZONE}
+              repository: ghcr.io/element-hq/element-web
+              tag: v1.12.22@sha256:c93f51c0445ce48be5c2d66a61470ba51a78315c7c60a4fc0e791595b96f3a96
             probes:
               liveness: &probes
                 enabled: true
@@ -47,18 +45,6 @@ spec:
                 memory: 64Mi
               limits:
                 memory: 256Mi
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        # Image's Dockerfile sets `USER nginx` (a name, not a UID), so the
-        # kubelet can't verify non-root without an explicit numeric UID here.
-        # Alpine's nginx package assigns UID/GID 101 to that user.
-        runAsUser: 101
-        runAsGroup: 101
-        fsGroup: 101
-        fsGroupChangePolicy: OnRootMismatch
-        seccompProfile:
-          type: RuntimeDefault
     service:
       app:
         controller: *app
@@ -75,20 +61,8 @@ spec:
     persistence:
       config:
         type: configMap
-        name: element-web-configmap
+        name: element-config
         globalMounts:
           - path: /app/config.json
             subPath: config.json
             readOnly: true
-      tmp:
-        type: emptyDir
-        globalMounts:
-          - path: /tmp
-      var-cache-nginx:
-        type: emptyDir
-        globalMounts:
-          - path: /var/cache/nginx
-      var-run:
-        type: emptyDir
-        globalMounts:
-          - path: /var/run
