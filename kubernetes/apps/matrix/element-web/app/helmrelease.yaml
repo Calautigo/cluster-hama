@@ -36,7 +36,9 @@ spec:
               readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
+              # Entrypoint scripts render /etc/nginx/conf.d/default.conf from
+              # a template (envsubst on $ELEMENT_WEB_PORT) on every start, so
+              # the root filesystem can't be read-only.
               capabilities:
                 drop: ["ALL"]
             resources:

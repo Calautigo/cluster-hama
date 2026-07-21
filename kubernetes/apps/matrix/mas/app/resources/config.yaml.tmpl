@@ -28,7 +28,7 @@ http:
   issuer: "https://mas.ds47.dev/"
 
 database:
-  uri: "postgresql://mas:@@DB_PASSWORD@@@pg18vec-rw.database.svc.cluster.local:5432/mas?sslmode=require"
+  uri: ""
   max_connections: 10
   min_connections: 0
   connect_timeout: 30
@@ -42,20 +42,20 @@ matrix:
   kind: synapse
   homeserver: matrix.ds47.dev
   endpoint: "http://synapse.matrix.svc.cluster.local:8008/"
-  secret: "@@SHARED_SECRET@@"
+  secret: ""
 
 clients:
   - client_id: 0000000000000000000SYNAPSE
     client_auth_method: client_secret_basic
-    client_secret: "@@SHARED_SECRET@@"
+    client_secret: ""
 
 upstream_oauth2:
   providers:
     - id: 01KY308DAQAAMXTG5YM0X2YBDK
       human_name: Pocket ID
-      issuer: "@@OIDC_ISSUER_URL@@"
-      client_id: "@@OIDC_CLIENT_ID@@"
-      client_secret: "@@OIDC_CLIENT_SECRET@@"
+      issuer: ""
+      client_id: ""
+      client_secret: ""
       token_endpoint_auth_method: client_secret_basic
       scope: "openid profile email"
       claims_imports:

@@ -16,7 +16,7 @@ database:
   name: psycopg2
   args:
     user: synapse
-    password: "@@DB_PASSWORD@@"
+    password: ""
     dbname: synapse
     host: pg18vec-rw.database.svc.cluster.local
     port: 5432
@@ -31,9 +31,9 @@ log_config: "/config/log_config.yaml"
 
 report_stats: false
 
-registration_shared_secret: "@@REGISTRATION_SHARED_SECRET@@"
-macaroon_secret_key: "@@MACAROON_SECRET_KEY@@"
-form_secret: "@@FORM_SECRET@@"
+registration_shared_secret: ""
+macaroon_secret_key: ""
+form_secret: ""
 signing_key_path: /data/signing.key
 
 trusted_key_servers:

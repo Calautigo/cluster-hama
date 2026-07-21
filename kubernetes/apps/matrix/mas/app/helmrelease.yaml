@@ -31,6 +31,7 @@ spec:
               - -o
               - /scratch/generated.yaml
           render-config:
+            dependsOn: generate-scratch
             image:
               repository: docker.io/mikefarah/yq
               tag: latest
@@ -50,14 +51,15 @@ spec:
                   yq eval '.secrets' /scratch/generated.yaml > /data/secrets.yaml
                 fi
                 cp /templates/config.yaml.tmpl /config/config.yaml
-                sed -i \
-                  -e "s|@@DB_PASSWORD@@|$DB_PASSWORD|g" \
-                  -e "s|@@OIDC_CLIENT_ID@@|$OIDC_CLIENT_ID|g" \
-                  -e "s|@@OIDC_CLIENT_SECRET@@|$OIDC_CLIENT_SECRET|g" \
-                  -e "s|@@OIDC_ISSUER_URL@@|$OIDC_ISSUER_URL|g" \
-                  -e "s|@@SHARED_SECRET@@|$SHARED_SECRET|g" \
-                  /config/config.yaml
-                yq eval '.secrets = load("/data/secrets.yaml")' -i /config/config.yaml
+                yq eval '
+                  .database.uri = "postgresql://mas:" + strenv(DB_PASSWORD) + "@pg18vec-rw.database.svc.cluster.local:5432/mas?sslmode=require" |
+                  .matrix.secret = strenv(SHARED_SECRET) |
+                  .clients[0].client_secret = strenv(SHARED_SECRET) |
+                  .upstream_oauth2.providers[0].issuer = strenv(OIDC_ISSUER_URL) |
+                  .upstream_oauth2.providers[0].client_id = strenv(OIDC_CLIENT_ID) |
+                  .upstream_oauth2.providers[0].client_secret = strenv(OIDC_CLIENT_SECRET) |
+                  .secrets = load("/data/secrets.yaml")
+                ' -i /config/config.yaml
         containers:
           app:
             image: *masImage

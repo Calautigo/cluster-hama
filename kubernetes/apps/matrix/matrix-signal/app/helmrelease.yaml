@@ -15,10 +15,13 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
+          # yq's strenv() sets proper YAML string scalars, so generated
+          # secrets containing quotes/colons/etc. can't corrupt the file the
+          # way plain sed text substitution would.
           render-config:
             image:
-              repository: docker.io/library/alpine
-              tag: "3"
+              repository: docker.io/mikefarah/yq
+              tag: latest
             envFrom:
               - secretRef:
                   name: matrix-signal-db
@@ -30,11 +33,11 @@ spec:
               - |
                 set -e
                 cp /templates/config.yaml.tmpl /config/config.yaml
-                sed -i \
-                  -e "s|@@DB_PASSWORD@@|$DB_PASSWORD|g" \
-                  -e "s|@@AS_TOKEN@@|$AS_TOKEN|g" \
-                  -e "s|@@HS_TOKEN@@|$HS_TOKEN|g" \
-                  /config/config.yaml
+                yq eval '
+                  .database.uri = "postgres://matrix_signal:" + strenv(DB_PASSWORD) + "@pg18vec-rw.database.svc.cluster.local:5432/matrix_signal?sslmode=require" |
+                  .appservice.as_token = strenv(AS_TOKEN) |
+                  .appservice.hs_token = strenv(HS_TOKEN)
+                ' -i /config/config.yaml
         containers:
           app:
             image:

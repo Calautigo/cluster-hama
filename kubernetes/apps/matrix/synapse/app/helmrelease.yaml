@@ -17,10 +17,13 @@ spec:
         initContainers:
           # homeserver.yaml has no native env-var substitution, so secrets are
           # rendered into the shared /config emptyDir before synapse starts.
+          # yq's strenv() sets proper YAML string scalars, so generated
+          # secrets containing quotes/colons/etc. can't corrupt the file the
+          # way plain sed text substitution would.
           render-config:
             image:
-              repository: docker.io/library/alpine
-              tag: "3"
+              repository: docker.io/mikefarah/yq
+              tag: latest
             envFrom:
               - secretRef:
                   name: synapse-db
@@ -33,16 +36,17 @@ spec:
                 set -e
                 cp /templates/homeserver.yaml.tmpl /config/homeserver.yaml
                 cp /templates/log_config.yaml /config/log_config.yaml
-                sed -i \
-                  -e "s|@@DB_PASSWORD@@|$DB_PASSWORD|g" \
-                  -e "s|@@REGISTRATION_SHARED_SECRET@@|$REGISTRATION_SHARED_SECRET|g" \
-                  -e "s|@@MACAROON_SECRET_KEY@@|$MACAROON_SECRET_KEY|g" \
-                  -e "s|@@FORM_SECRET@@|$FORM_SECRET|g" \
-                  /config/homeserver.yaml
+                yq eval '
+                  .database.args.password = strenv(DB_PASSWORD) |
+                  .registration_shared_secret = strenv(REGISTRATION_SHARED_SECRET) |
+                  .macaroon_secret_key = strenv(MACAROON_SECRET_KEY) |
+                  .form_secret = strenv(FORM_SECRET)
+                ' -i /config/homeserver.yaml
           # --generate-keys only creates files referenced by homeserver.yaml
           # that are still missing (i.e. just the signing key on first boot);
           # it must never run again after that or federation signatures break.
           generate-keys:
+            dependsOn: render-config
             image: &synapseImage
               repository: ghcr.io/element-hq/synapse
               tag: latest
