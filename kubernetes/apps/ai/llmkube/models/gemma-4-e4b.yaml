@@ -33,7 +33,7 @@ spec:
   env:
     - name: NVIDIA_DRIVER_CAPABILITIES
       value: compute,utility
-  contextSize: 16384
+  contextSize: 65536
   flashAttention: true
   jinja: true
   parallelSlots: 1
