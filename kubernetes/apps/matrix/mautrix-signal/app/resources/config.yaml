@@ -82,7 +82,11 @@ encryption:
   default: true
   require: false
   appservice: false
-  msc4190: true
+  # Off: continuwuity's MSC4190 device creation passes the as_token to
+  # set_token(), which unconditionally rejects any token matching a registered
+  # appservice -- so it always 400s. Legacy appservice /login works because
+  # oauth.compatibility_mode is "hybrid".
+  msc4190: false
   allow_key_sharing: true
   pickle_key: "{{ .PICKLE_KEY }}"
   verification_levels:
