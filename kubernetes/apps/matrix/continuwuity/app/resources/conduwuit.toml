@@ -1,5 +1,5 @@
 [global]
-server_name = "matrix.ds47.dev"
+server_name = "ds47.dev"
 address = ["::"]
 port = 8080
 
@@ -16,7 +16,6 @@ max_request_size = 104857600
 allow_encryption = true
 allow_federation = false
 allow_registration = false
-registration_token = "{{ .registration_token }}"
 allow_legacy_media = true
 require_auth_for_profile_requests = true
 

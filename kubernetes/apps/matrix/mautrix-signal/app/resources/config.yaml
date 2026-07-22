@@ -22,7 +22,7 @@ bridge:
   relay:
     enabled: false
   permissions:
-    "matrix.ds47.dev": user
+    "ds47.dev": user
 
 database:
   type: postgres
@@ -32,7 +32,7 @@ database:
 
 homeserver:
   address: http://continuwuity.matrix.svc.cluster.local:8080
-  domain: matrix.ds47.dev
+  domain: ds47.dev
   software: standard
   async_media: false
 

@@ -7,9 +7,9 @@ sender_localpart: signalbot
 rate_limited: false
 namespaces:
   users:
-    - regex: "@signalbot:matrix\\.ds47\\.dev"
+    - regex: "@signalbot:ds47\\.dev"
       exclusive: true
-    - regex: "@signal_.*:matrix\\.ds47\\.dev"
+    - regex: "@signal_.*:ds47\\.dev"
       exclusive: true
   aliases: []
   rooms: []
