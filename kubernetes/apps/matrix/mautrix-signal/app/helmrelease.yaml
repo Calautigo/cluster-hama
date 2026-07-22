@@ -51,7 +51,7 @@ spec:
               - -r=/data/registration.yaml
               - -n
             probes:
-              liveness: &probes
+              liveness:
                 enabled: true
                 custom: true
                 spec:
@@ -59,7 +59,18 @@ spec:
                     port: &port 29328
                   initialDelaySeconds: 30
                   periodSeconds: 30
-              readiness: *probes
+              # Ready fast: the homeserver reaches the bridge through the Service,
+              # which only routes to Ready endpoints. The bridge's startup
+              # appservice ping gives up after ~30s, so the pod must be Ready
+              # well before then or it deadlocks and exits.
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: *port
+                  initialDelaySeconds: 3
+                  periodSeconds: 5
             resources:
               requests:
                 cpu: 25m
