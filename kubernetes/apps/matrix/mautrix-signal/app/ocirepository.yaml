@@ -3,7 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: synapse-admin
+  name: mautrix-signal
 spec:
   interval: 15m
   layerSelector:

@@ -1,0 +1,94 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app continuwuity
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: continuwuity
+  interval: 30m
+  values:
+    controllers:
+      continuwuity:
+        type: statefulset
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: forgejo.ellis.link/continuwuation/continuwuity
+              tag: main-maxperf
+            env:
+              CONDUWUIT_CONFIG: /etc/conduwuit/conduwuit.toml
+              TOKIO_WORKER_THREADS: "4"
+              TZ: ${CONFIG_TIMEZONE}
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: &port 8080
+                  periodSeconds: 15
+                  timeoutSeconds: 5
+                  failureThreshold: 6
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: *port
+                  periodSeconds: 5
+                  failureThreshold: 60
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 2Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop: ["ALL"]
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        hostnames:
+          - "matrix.ds47.dev"
+        parentRefs:
+          - name: kgateway-internal
+            namespace: network
+    persistence:
+      data:
+        existingClaim: ${APP}
+        advancedMounts:
+          continuwuity:
+            app:
+              - path: /data
+              - path: /backups
+                subPath: backups
+      conduwuit-toml:
+        type: secret
+        name: continuwuity
+        advancedMounts:
+          continuwuity:
+            app:
+              - path: /etc/conduwuit/conduwuit.toml
+                subPath: conduwuit.toml
+                readOnly: true

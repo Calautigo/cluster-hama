@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: synapse
+    - name: continuwuity
       namespace: matrix
   path: ./kubernetes/apps/matrix/element-web/app
   prune: true

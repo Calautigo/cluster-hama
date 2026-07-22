@@ -3,19 +3,19 @@
 apiVersion: pocketid.internal/v1alpha1
 kind: PocketIDOIDCClient
 metadata:
-  name: mas
+  name: continuwuity
 spec:
-  name: Matrix Authentication Service
+  name: Continuwuity
   allowedUserGroups:
     - name: hama
       namespace: security
-  launchUrl: https://mas.ds47.dev
+  launchUrl: https://element.ds47.dev
   callbackUrls:
-    # <id> must stay in sync with upstream_oauth2.providers[0].id in
-    # resources/config.yaml.tmpl -- MAS requires it to be a ULID.
-    - https://mas.ds47.dev/upstream/callback/01KY308DAQAAMXTG5YM0X2YBDK
+    # continuwuity's OIDC callback path. Verify against the running version and
+    # adjust here + in Pocket-ID if login redirects fail.
+    - https://matrix.ds47.dev/_continuwuity/oidc/complete
   secret:
-    name: mas-oidc
+    name: continuwuity-oidc
     keys:
       clientID: OIDC_CLIENT_ID
       clientSecret: OIDC_CLIENT_SECRET

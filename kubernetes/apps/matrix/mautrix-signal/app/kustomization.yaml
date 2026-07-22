@@ -7,8 +7,9 @@ resources:
   - ./ocirepository.yaml
   - ./helmrelease.yaml
 configMapGenerator:
-  - name: matrix-signal-configmap
+  - name: mautrix-signal-config
     files:
-      - ./resources/config.yaml.tmpl
+      - config.yaml=./resources/config.yaml
+      - registration.yaml=./resources/registration.yaml
 generatorOptions:
   disableNameSuffixHash: true

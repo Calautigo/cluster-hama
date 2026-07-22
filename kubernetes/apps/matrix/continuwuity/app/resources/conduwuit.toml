@@ -1,0 +1,40 @@
+[global]
+server_name = "matrix.ds47.dev"
+address = ["::"]
+port = 8080
+
+database_path = "/data"
+database_backup_path = "/backups"
+database_backups_to_keep = 1
+
+rocksdb_compression_algo = "zstd"
+
+max_request_size = 104857600
+
+# Auth / registration. Federation is intentionally off (private homeserver);
+# enable allow_federation + a proper resolver (unbound sidecar) to turn it on.
+allow_encryption = true
+allow_federation = false
+allow_registration = false
+registration_token = "{{ .registration_token }}"
+allow_legacy_media = true
+require_auth_for_profile_requests = true
+
+[global.well_known]
+client = "https://matrix.ds47.dev"
+
+[global.oauth]
+compatibility_mode = "hybrid"
+
+# Delegated auth to Pocket-ID. NOTE: enabling OIDC forces `exclusive` mode --
+# only OAuth-capable clients (element-web) can log in; password-login clients
+# (Cinny/Sable) cannot.
+[global.oauth.oidc]
+discovery_url = "{{ .OIDC_ISSUER_URL }}"
+client_id = "{{ .OIDC_CLIENT_ID }}"
+client_secret = "{{ .OIDC_CLIENT_SECRET }}"
+additional_scopes = ["email", "profile"]
+prompt_for_localpart = false
+preferred_username_claim = "preferred_username"
+profile_key_import_mode = "on_registration"
+profile_key_map = { displayname = "name" }
