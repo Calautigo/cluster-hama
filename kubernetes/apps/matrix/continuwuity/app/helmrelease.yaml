@@ -19,7 +19,7 @@ spec:
           app:
             image:
               repository: forgejo.ellis.link/continuwuation/continuwuity
-              tag: v26.6.2@SHA256:euWU/YvKXZwtOOQmT9KPiMSOJI3gOcPfujywaadW+ok
+              tag: v26.6.2
             env:
               CONDUWUIT_CONFIG: /etc/conduwuit/conduwuit.toml
               TOKIO_WORKER_THREADS: "4"
