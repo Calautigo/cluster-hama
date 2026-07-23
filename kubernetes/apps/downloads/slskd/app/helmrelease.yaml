@@ -134,7 +134,6 @@ spec:
 
     service:
       app:
-        controller: "{{ .Release.Name }}"
         ports:
           http:
             port: *port
