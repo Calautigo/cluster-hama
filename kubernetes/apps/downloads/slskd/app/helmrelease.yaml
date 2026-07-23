@@ -34,7 +34,7 @@ spec:
             command:
               - sh
               - -c
-              - mkdir -p /data/downloads/slskd/incomplete /data/downloads/slskd/shared /data/downloads/slskd/completed
+              - mkdir -p /data/downloads/slskd/incomplete /data/downloads/slskd/completed
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
@@ -58,7 +58,17 @@ spec:
               SLSKD_SLSK_LISTEN_PORT: 50300
               SLSKD_DOWNLOADS_DIR: /data/downloads/slskd/completed
               SLSKD_INCOMPLETE_DIR: /data/downloads/slskd/incomplete
-              SLSKD_SHARED_DIR: /data/downloads/slskd/shared
+              SLSKD_SHARED_DIR: /data/media/music
+              # Poll the gluetun sidecar (shared netns) for its ProtonVPN
+              # forwarded port and use it as the Soulseek listen port.
+              SLSKD_VPN: "true"
+              SLSKD_VPN_PORT_FORWARDING: "true"
+              SLSKD_VPN_GLUETUN_URL: http://localhost:8000
+              SLSKD_VPN_GLUETUN_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: slskd-secret
+                    key: GLUETUN_API_KEY
             envFrom:
               - secretRef:
                   name: slskd-secret
@@ -111,7 +121,14 @@ spec:
                     name: slskd-secret
                     key: WIREGUARD_PRIVATE_KEY
               SERVER_COUNTRIES: Switzerland
-              VPN_PORT_FORWARDING: "off"
+              VPN_PORT_FORWARDING: "on"
+              # Protect the control server (used by slskd to read the forwarded
+              # port) with an API key; slskd sends the same key.
+              HTTP_CONTROL_SERVER_AUTH_DEFAULT_ROLE:
+                valueFrom:
+                  secretKeyRef:
+                    name: slskd-secret
+                    key: GLUETUN_AUTH_ROLE
               FIREWALL_INPUT_PORTS: *port
               FIREWALL_OUTBOUND_SUBNETS: "11.244.0.0/16,11.96.0.0/12,10.100.10.0/24,10.44.0.0/16"
             resources:
