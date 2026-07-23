@@ -108,7 +108,7 @@ spec:
               WIREGUARD_PRIVATE_KEY:
                 valueFrom:
                   secretKeyRef:
-                    name: "{{ .Release.Name }}-secret"
+                    name: slskd-secret
                     key: WIREGUARD_PRIVATE_KEY
               SERVER_COUNTRIES: Switzerland
               VPN_PORT_FORWARDING: "off"
