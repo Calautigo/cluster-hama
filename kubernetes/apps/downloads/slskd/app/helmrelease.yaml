@@ -1,0 +1,166 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: slskd
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: slskd
+  dependsOn:
+    - name: ceph-csi-rbd
+      namespace: storage
+  values:
+    defaultPodOptions:
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
+    controllers:
+      slskd:
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        initContainers:
+          # slskd creates its downloads dir on startup, but the incomplete and
+          # shared dirs must exist on the NFS share beforehand.
+          init-dirs:
+            image:
+              repository: docker.io/library/busybox
+              tag: 1.37.0
+            command:
+              - sh
+              - -c
+              - mkdir -p /data/downloads/slskd/incomplete /data/downloads/slskd/shared
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+
+        containers:
+          # Soulseek client. Shares the network namespace of the gluetun
+          # sidecar, so all egress is forced through the ProtonVPN tunnel.
+          app:
+            image:
+              repository: ghcr.io/slskd/slskd
+              tag: 0.26.0
+            env:
+              DOTNET_BUNDLE_EXTRACT_BASE_DIR: /tmp/.net
+              SLSKD_HTTP_PORT: &port 5030
+              SLSKD_NO_AUTH: "true"
+              SLSKD_NO_HTTPS: "true"
+              SLSKD_NO_VERSION_CHECK: "true"
+              SLSKD_REMOTE_CONFIGURATION: "true"
+              SLSKD_SLSK_LISTEN_PORT: 50300
+              SLSKD_DOWNLOADS_DIR: /data/media/music
+              SLSKD_INCOMPLETE_DIR: /data/downloads/slskd/incomplete
+              SLSKD_SHARED_DIR: /data/downloads/slskd/shared
+            envFrom:
+              - secretRef:
+                name: "{{ .Release.Name }}-secret"
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  periodSeconds: 5
+                  failureThreshold: 30
+            resources:
+              requests:
+                cpu: 20m
+                memory: 256Mi
+              limits:
+                memory: 2Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+
+          # VPN sidecar. Runs as root with NET_ADMIN to create the WireGuard
+          # tun device; its firewall is the kill-switch for the whole pod.
+          gluetun:
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: v3.41.1
+            env:
+              VPN_SERVICE_PROVIDER: protonvpn
+              VPN_TYPE: wireguard
+              WIREGUARD_PRIVATE_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: "{{ .Release.Name }}-secret"
+                    key: WIREGUARD_PRIVATE_KEY
+              SERVER_COUNTRIES: Switzerland
+              VPN_PORT_FORWARDING: "off"
+              FIREWALL_INPUT_PORTS: *port
+              FIREWALL_OUTBOUND_SUBNETS: >-
+                11.244.0.0/16,
+                11.96.0.0/12,
+                10.100.10.0/24,
+                10.44.0.0/16
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+            securityContext:
+              runAsNonRoot: false
+              runAsUser: 0
+              runAsGroup: 0
+              capabilities:
+                add:
+                  - NET_ADMIN
+
+    service:
+      app:
+        controller: "{{ .Release.Name }}"
+        ports:
+          http:
+            port: *port
+
+    persistence:
+      config:
+        existingClaim: "{{ .Release.Name }}-config"
+        globalMounts:
+          - path: /app
+      media:
+        type: nfs
+        server: 10.100.0.81
+        path: /media/media
+        globalMounts:
+          - path: /data
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+
+    route:
+      app:
+        hostnames:
+          - slskd.ds47.dev
+        parentRefs:
+          - name: kgateway-internal
+            namespace: network
