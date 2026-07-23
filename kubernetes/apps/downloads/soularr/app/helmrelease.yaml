@@ -1,0 +1,153 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: soularr
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: soularr
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 2000
+        runAsGroup: 2000
+        runAsNonRoot: true
+        fsGroup: 2000
+        fsGroupChangePolicy: "OnRootMismatch"
+    controllers:
+      soularr:
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        containers:
+          app:
+            image:
+              repository: docker.io/mrusse08/soularr
+              tag: v1.2.2
+            env:
+              SCRIPT_INTERVAL: "300"
+              TZ: "${TZ}"
+              WEBUI_ENABLED: "true"
+              WEBUI_PORT: &port 8265
+            envFrom:
+              - secretRef:
+                  name: soularr-secret
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+
+    configMaps:
+      config:
+        data:
+          config.ini: |
+            [Lidarr]
+            api_key = $${LIDARR_API_KEY}
+            host_url = http://lidarr.downloads.svc.cluster.local:8686
+            download_dir = /data/media/downloads/slskd/completed
+            disable_sync = False
+
+            [Slskd]
+            api_key = $${SLSKD_API_KEY}
+            host_url = http://slskd.downloads.svc.cluster.local:5030
+            url_base = /
+            download_dir = /data/media/downloads/slskd/completed
+            delete_searches = False
+            stalled_timeout = 3600
+            remote_queue_timeout = 300
+
+            [Release Settings]
+            use_selected_lidarr_release = False
+            use_most_common_tracknum = True
+            allow_multi_disc = True
+            accepted_countries = Europe,Japan,United Kingdom,United States,[Worldwide],Australia,Canada
+            skip_region_check = False
+            accepted_formats = CD,Digital Media,Vinyl
+
+            [Search Settings]
+            search_timeout = 5000
+            maximum_peer_queue = 50
+            minimum_peer_upload_speed = 0
+            minimum_filename_match_ratio = 0.8
+            minimum_search_interval = 5
+            allowed_filetypes = flac,mp3 320,mp3
+            ignored_users =
+            album_prepend_artist = False
+            search_type = incrementing_page
+            number_of_albums_to_grab = 10
+            title_blacklist =
+            search_blacklist =
+            search_source = missing
+            failed_import_denylist = True
+
+            [Download Settings]
+            download_filtering = True
+            use_extension_whitelist = False
+            extensions_whitelist = lrc,nfo,txt
+
+            [Logging]
+            level = INFO
+            format = [%(levelname)s|%(module)s|L%(lineno)d] %(asctime)s: %(message)s
+            datefmt = %Y-%m-%dT%H:%M:%S%z
+            log_to_file = True
+            log_file = soularr.log
+            max_bytes = 1048576
+            backup_count = 3
+
+    service:
+      app:
+        controller: soularr
+        ports:
+          http:
+            port: *port
+
+    persistence:
+      config:
+        type: configMap
+        identifier: config
+        globalMounts:
+          - path: /data/config.ini
+            subPath: config.ini
+      data:
+        type: emptyDir
+        globalMounts:
+          - path: /data
+            subPath: var
+      media:
+        type: nfs
+        server: 10.100.0.81
+        path: /media/media
+        globalMounts:
+          - path: /data/media
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+
+    route:
+      app:
+        hostnames:
+          - soularr.ds47.dev
+        parentRefs:
+          - name: kgateway-internal
+            namespace: network

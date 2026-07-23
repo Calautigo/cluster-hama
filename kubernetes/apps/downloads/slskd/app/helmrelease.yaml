@@ -34,7 +34,7 @@ spec:
             command:
               - sh
               - -c
-              - mkdir -p /data/downloads/slskd/incomplete /data/downloads/slskd/shared
+              - mkdir -p /data/downloads/slskd/incomplete /data/downloads/slskd/shared /data/downloads/slskd/completed
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
@@ -56,7 +56,7 @@ spec:
               SLSKD_NO_VERSION_CHECK: "true"
               SLSKD_REMOTE_CONFIGURATION: "true"
               SLSKD_SLSK_LISTEN_PORT: 50300
-              SLSKD_DOWNLOADS_DIR: /data/media/music
+              SLSKD_DOWNLOADS_DIR: /data/downloads/slskd/completed
               SLSKD_INCOMPLETE_DIR: /data/downloads/slskd/incomplete
               SLSKD_SHARED_DIR: /data/downloads/slskd/shared
             envFrom:
