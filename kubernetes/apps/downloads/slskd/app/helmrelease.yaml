@@ -113,11 +113,7 @@ spec:
               SERVER_COUNTRIES: Switzerland
               VPN_PORT_FORWARDING: "off"
               FIREWALL_INPUT_PORTS: *port
-              FIREWALL_OUTBOUND_SUBNETS: >-
-                11.244.0.0/16,
-                11.96.0.0/12,
-                10.100.10.0/24,
-                10.44.0.0/16
+              FIREWALL_OUTBOUND_SUBNETS: "11.244.0.0/16,11.96.0.0/12,10.100.10.0/24,10.44.0.0/16"
             resources:
               requests:
                 cpu: 10m
