@@ -1,0 +1,15 @@
+---
+# Preserves the previous 10x time-slicing that nvidia-device-plugin provided.
+# Referenced by the gpu-operator HelmRelease (devicePlugin.config).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: time-slicing-config
+data:
+  default: |-
+    version: v1
+    sharing:
+      timeSlicing:
+        resources:
+          - name: nvidia.com/gpu
+            replicas: 10

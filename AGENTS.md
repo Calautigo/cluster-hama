@@ -12,14 +12,14 @@ Bias toward caution over speed; use judgment on trivial tasks.
 - Verify changes by running the code or tests before claiming they work.
 - Write the minimum code that solves the problem; touch only what the request requires; match existing style. Remove what your change orphaned; leave pre-existing dead code but mention it.
 - Comments explain non-obvious constraints only.
-- Never edit secrets or gitignored files (`*.key`, `*.crt`, `.private/`, `age.key`).
+- Never edit secrets or gitignored files (`*.key`, `*.crt`, `.private/`, `keys.txt`).
 - The user's shell is `fish`: commands intended for the user must be fish-compatible. Shell scripts can use bash/sh.
 
 ## Overview
 
 GitOps homelab repo: a Talos Linux Kubernetes cluster ("thestral") managed by Flux CD; push to `main` and Flux reconciles. Task runner is `just` with modules `k8s`, `talos`, `bootstrap`. Nodes: `thestral-01..03` (control plane), `thestral-worker-01..03` (workers).
 
-mise (`.mise.toml`) sets `KUBECONFIG`, `TALOSCONFIG`, `SOPS_AGE_KEY_FILE=./age.key`, `MINIJINJA_CONFIG_FILE` (all gitignored) and installs lefthook git hooks. Tools via `Brewfile`, plus `sops`, `age`, `gum`, `oxfmt`, and the `flux` CLI.
+mise (`.mise.toml`) sets `KUBECONFIG`, `TALOSCONFIG`, `SOPS_AGE_KEY_FILE=./keys.txt`, `MINIJINJA_CONFIG_FILE` (all gitignored) and installs lefthook git hooks. Tools via `Brewfile`, plus `sops`, `age`, `gum`, `oxfmt`, and the `flux` CLI.
 
 ## Commands
 

@@ -2,7 +2,7 @@
 machine:
   install:
     disk: /dev/sda
-    image: factory.talos.dev/metal-installer/37f9c79ab70fddeef6fe72f0742251135a9ffb2e6750afacab49c77fde538d5a:v1.13.6
+    image: factory.talos.dev/metal-installer/e3fab82b561b5e559cdf1c0b1e5950c0e52700b9208a2cfaa5b18454796f3a7e:v1.13.7
   network:
     hostname: thestral-worker-03.infra.gryffindor.schwarz47.at
     interfaces:
@@ -12,4 +12,9 @@ machine:
       - interface: ens19
         addresses:
           - 10.44.0.83/16
+      - interface: ens20
+        dhcp: false
+        vlans:
+          - vlanId: 30
+            mtu: 1500
   type: worker

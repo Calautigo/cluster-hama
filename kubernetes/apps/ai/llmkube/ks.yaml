@@ -52,8 +52,10 @@ spec:
   dependsOn:
     - name: llmkube-stage
       namespace: *namespace
-    - name: nvidia-device-plugin
-      namespace: kube-system
+    # GPU dependency dropped during the Talos 1.13 gpu-operator migration.
+    # Re-enable after gpu-operator is applied:
+    # - name: gpu-operator
+    #   namespace: kube-system
   interval: 30m
   path: ./kubernetes/apps/ai/llmkube/models
   prune: true

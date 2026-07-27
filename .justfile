@@ -24,7 +24,7 @@ sops-inject secrets_file:
     #!/usr/bin/env bash
     set -euo pipefail
 
-    export SOPS_AGE_KEY_FILE="${SOPS_AGE_KEY_FILE:-$HOME/.config/sops/age/age.key}"
+    export SOPS_AGE_KEY_FILE="${SOPS_AGE_KEY_FILE:-$HOME/.config/sops/age/keys.txt}"
 
     if [[ ! -f "$SOPS_AGE_KEY_FILE" ]]; then
       echo "ERROR: SOPS age key not found at $SOPS_AGE_KEY_FILE" >&2

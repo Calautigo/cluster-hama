@@ -8,7 +8,9 @@ resources:
   - ./intel-gpu-resource-driver/ks.yaml
   - ./metrics-server/ks.yaml
   - ./node-feature-discovery/ks.yaml
-  - ./nvidia-device-plugin/ks.yaml
+  # nvidia-device-plugin removed for the Talos 1.13 gpu-operator migration.
+  # Uncomment gpu-operator ONLY after worker-02 is running Talos 1.13:
+  # - ./gpu-operator/ks.yaml
   - ./namespace.yaml
 components:
   - ../../components/common

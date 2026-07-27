@@ -1,7 +1,7 @@
 set quiet
 set shell := ['bash', '-euo', 'pipefail', '-c']
 
-talos_dir := justfile_dir()
+talos_dir := justfile_dir() + '/talos'
 secrets_file := talos_dir + '/talsecret.sops.yaml'
 module := "talos"
 # Requires talosctl to be configured; evaluated at parse time.
