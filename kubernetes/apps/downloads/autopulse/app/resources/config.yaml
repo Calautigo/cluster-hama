@@ -2,7 +2,7 @@
 app:
   hostname: 0.0.0.0
   port: 2875
-  log_level: info
+  log_level: trace
 
 auth:
   username: "{{ .USERNAME }}"
@@ -21,8 +21,6 @@ triggers:
   radarr:
     type: radarr
   sonarr:
-    type: sonarr
-  sonarrkids:
     type: sonarr
 
 targets:
