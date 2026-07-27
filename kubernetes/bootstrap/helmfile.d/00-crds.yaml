@@ -12,7 +12,7 @@ releases:
   - name: envoy-gateway
     namespace: networking
     chart: oci://mirror.gcr.io/envoyproxy/gateway-helm
-    version: v1.8.2
+    version: v1.8.3
 
   - name: external-dns
     namespace: network
@@ -27,4 +27,4 @@ releases:
   - name: kube-prometheus-stack
     namespace: monitoring
     chart: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
-    version: 87.19.0
+    version: 87.19.2
