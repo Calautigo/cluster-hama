@@ -1,0 +1,118 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app music-assistant
+spec:
+  interval: 30m
+  timeout: 15m
+  chartRef:
+    kind: OCIRepository
+    name: music-assistant
+  dependsOn:
+    - name: ceph-csi-rbd
+      namespace: storage
+  values:
+    controllers:
+      music-assistant:
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        type: statefulset
+
+        pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: music-assistant-music-static
+          securityContext:
+            runAsUser: 2000
+            runAsGroup: 2000
+            runAsNonRoot: true
+            fsGroup: 2000
+            fsGroupChangePolicy: "OnRootMismatch"
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/music-assistant/server
+              tag: 2.10.0b6
+            env:
+              TZ: "${TZ}"
+              XDG_CACHE_HOME: /data/.cache
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /info
+                    port: 8095
+                  initialDelaySeconds: 0
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /info
+                    port: 8095
+                  initialDelaySeconds: 5
+                  periodSeconds: 5
+                  timeoutSeconds: 5
+                  failureThreshold: 60
+            resources:
+              requests:
+                cpu: 15m
+                memory: 1536Mi
+              limits:
+                memory: 3Gi
+
+    service:
+      app:
+        controller: music-assistant
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: "${LB_IP_MUSIC_ASSISTANT}"
+        externalTrafficPolicy: Cluster
+        ports:
+          http:
+            port: &port 8095
+          http2:
+            port: 1780
+          slimproto:
+            port: 3483
+          streamserver:
+            port: 8097
+
+    route:
+      app:
+        hostnames:
+          - music-assistant.ds47.dev
+        parentRefs:
+          - name: kgateway-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+
+    persistence:
+      data:
+        existingClaim: "{{ .Release.Name }}"
+        globalMounts:
+          - path: /data
+      music:
+        type: nfs
+        server: 10.100.0.81
+        path: /media/media/media/music
+        globalMounts:
+          - path: /media/music
+            readOnly: true
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /.audio
+            subPath: .audio
