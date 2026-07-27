@@ -10,6 +10,12 @@ spec:
       kind: Gateway
       name: kgateway-internal
       namespace: network
+    # Publicly reachable through the NetBird reverse proxy so external
+    # forges (Codeberg) can POST push webhooks to trigger reconciliation.
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: netbird-public
+      namespace: network
   hostnames:
     - "webhook-receiver-thestral.ds47.dev"
   rules:
