@@ -9,7 +9,7 @@ auth:
   password: "{{ .PASSWORD }}"
 
 anchors:
-  - /data/media/.anchors/local.anchor
+  - /data/media/media/.anchors/local.anchor
 
 opts:
   check_path: true
