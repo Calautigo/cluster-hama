@@ -5,7 +5,6 @@ kind: Kustomization
 namespace: media
 resources:
   - ./jellyfin/ks.yaml
-  - ./music-assistant/ks.yaml
   - ./navidrome/ks.yaml
   - ./scrob/ks.yaml
   - ./seerr/ks.yaml

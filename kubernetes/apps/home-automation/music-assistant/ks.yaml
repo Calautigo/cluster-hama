@@ -4,15 +4,15 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app music-assistant
-  namespace: media
+  namespace: home-automation
 spec:
-  targetNamespace: media
+  targetNamespace: home-automation
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: ./kubernetes/apps/media/music-assistant/app
+  path: ./kubernetes/apps/home-automation/music-assistant/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -23,7 +23,7 @@ spec:
     - name: volsync
       namespace: volsync-system
     - name: music-assistant-multus
-      namespace: media
+      namespace: home-automation
   components:
     - ../../../../components/volsync
   postBuild:
@@ -36,15 +36,15 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app music-assistant-multus
-  namespace: media
+  namespace: home-automation
 spec:
-  targetNamespace: media
+  targetNamespace: home-automation
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: ./kubernetes/apps/media/music-assistant/net-attach
+  path: ./kubernetes/apps/home-automation/music-assistant/net-attach
   prune: true
   sourceRef:
     kind: GitRepository
