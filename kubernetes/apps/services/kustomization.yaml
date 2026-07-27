@@ -10,6 +10,7 @@ resources:
   - ./it-tools/ks.yaml
   - ./oxicloud/ks.yaml
   - ./paperless/ks.yaml
+  - ./redlib/ks.yaml
   - ./termix/ks.yaml
   - ./vikunja/ks.yaml
   - ./namespace.yaml
