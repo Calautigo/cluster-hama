@@ -35,7 +35,7 @@ spec:
           app:
             image:
               repository: ghcr.io/music-assistant/server
-              tag: 2.10.0b6
+              tag: 2.10.0b9
             env:
               TZ: "${TZ}"
               XDG_CACHE_HOME: /data/.cache
