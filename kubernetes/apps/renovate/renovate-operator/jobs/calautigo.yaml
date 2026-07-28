@@ -20,16 +20,26 @@ metadata:
   name: calautigo-assistant-auth-token
 spec:
   refreshInterval: "30m0s"
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: vault
   target:
     name: calautigo-assistant
     template:
       type: Opaque
       engineVersion: v2
       data:
-        GITHUB_COM_TOKEN: "{{ .token }}"
-        GITHUB_COM_USER: Y2FsYXV0aWdv
-        RENOVATE_TOKEN: "{{ .token }}"
+        RENOVATE_TOKEN: "{{ .codeberg_renovate_token }}"
+        # Read-only github.com token, used only so changelog lookups for
+        # GitHub-hosted dependencies aren't rate limited.
+        RENOVATE_GITHUB_COM_TOKEN: "{{ .token }}"
   dataFrom:
+    - extract:
+        key: codeberg
+      rewrite:
+        - regexp:
+            source: "(.*)"
+            target: "codeberg_$1"
     - sourceRef:
         generatorRef:
           apiVersion: generators.external-secrets.io/v1alpha1
@@ -44,18 +54,19 @@ metadata:
   namespace: renovate
 spec:
   provider:
-    name: github
+    name: forgejo
+    endpoint: &endpoint https://codeberg.org/api/v1/
   discoveryFilters:
-    - calautigo/*
+    - Calautigo/*
   extraEnv:
     - name: LOG_LEVEL
       value: debug
     - name: RENOVATE_ALLOWED_COMMANDS
       value: '["pnpm run bundle"]'
     - name: RENOVATE_ENDPOINT
-      value: https://api.github.com/
+      value: *endpoint
     - name: RENOVATE_PLATFORM
-      value: github
+      value: forgejo
     - name: RENOVATE_PLATFORM_COMMIT
       value: "true"
   image: ghcr.io/renovatebot/renovate:43.237.0

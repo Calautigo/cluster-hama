@@ -3,27 +3,23 @@
   extends: [
     "config:recommended",
     "docker:enableMajor",
-    "helpers:pinGitHubActionDigests",
     ":automergeBranch",
     ":automergeMinor",
     ":dependencyDashboard",
     ":disableRateLimiting",
     ":semanticCommits",
     ":timezone(Europe/Vienna)",
-    "github>calautigo/cluster-hama//.renovate/overrides.json5",
-    "github>calautigo/cluster-hama//.renovate/groups.json5",
-    "github>calautigo/cluster-hama//.renovate/autoMerge.json5",
-    "github>calautigo/cluster-hama//.renovate/customManagers.json5",
-    "github>calautigo/cluster-hama//.renovate/grafanaDashboards.json5",
+    // local> resolves against the configured platform/endpoint, so these stay
+    // correct if the repo moves hosts again.
+    "local>Calautigo/cluster-hama//.renovate/overrides.json5",
+    "local>Calautigo/cluster-hama//.renovate/groups.json5",
+    "local>Calautigo/cluster-hama//.renovate/autoMerge.json5",
+    "local>Calautigo/cluster-hama//.renovate/customManagers.json5",
+    "local>Calautigo/cluster-hama//.renovate/grafanaDashboards.json5",
   ],
   dependencyDashboardTitle: "Renovate Dashboard 🤖",
-  suppressNotifications: [
-    "prEditedNotification",
-    "prIgnoreNotification",
-  ],
-  ignorePaths: [
-    "**/*.sops.*",
-  ],
+  suppressNotifications: ["prEditedNotification", "prIgnoreNotification"],
+  ignorePaths: ["**/*.sops.*"],
   flux: {
     managerFilePatterns: ["/^(kubernetes|talos)\\/.+\\.ya?ml(?:\\.j2)?$/"],
   },
