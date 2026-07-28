@@ -21,7 +21,7 @@ spec:
           init-agent-src:
             image:
               repository: docker.io/nousresearch/hermes-agent
-              tag: main@sha256:3504901e7211b68c8ff1b885f8ae1a5e3d432e2931f2d0ea2cbfc9881b623d1c
+              tag: main@sha256:dee2a253affea912b7b89745650001e9fcb3ec4435d4f2a967d6930c68105615
             command:
               - sh
               - -c
