@@ -15,7 +15,7 @@ spec:
     # callback as /login/<uuid>/callback, so the exact URL is not known until
     # the strategy exists. Replace this wildcard with the literal URL shown in
     # Administration -> Auth once the strategy has been created.
-    - https://wiki.ds47.dev/login/*/callback
+    - https://wiki.ds47.dev/login/5b7390a3-c452-4302-904a-3db8c5c5483f/callback
   secret:
     name: wikijs-oidc
     keys:
