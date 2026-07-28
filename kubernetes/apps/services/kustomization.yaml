@@ -13,6 +13,7 @@ resources:
   - ./redlib/ks.yaml
   - ./termix/ks.yaml
   - ./vikunja/ks.yaml
+  - ./wikijs/ks.yaml
   - ./namespace.yaml
 components:
   - ../../components/common
