@@ -41,7 +41,7 @@ spec:
     labels:
       app.kubernetes.io/name: garage-webui
   dependsOn:
-    - name: *app
+    - name: garage
       namespace: storage
   path: ./kubernetes/apps/storage/garage/webui
   prune: true
