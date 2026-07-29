@@ -96,6 +96,8 @@ spec:
         advancedMounts:
           kopia:
             app:
+              - path: /config
+                subPath: config
               - path: /config/logs
                 subPath: logs
               - path: /tmp
