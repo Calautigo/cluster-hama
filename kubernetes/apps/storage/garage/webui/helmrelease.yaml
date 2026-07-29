@@ -52,3 +52,11 @@ spec:
         parentRefs:
           - name: kgateway-internal
             namespace: network
+    persistence:
+      config:
+        type: secret
+        name: garage-secret
+        globalMounts:
+          - path: /etc/garage.toml
+            subPath: garage.toml
+            readOnly: true
