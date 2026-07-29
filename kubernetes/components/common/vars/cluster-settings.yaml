@@ -20,3 +20,6 @@ data:
   VOLSYNC_OFFSITE_S3_ENDPOINT: "https://s3.danubedata.ro"
   VOLSYNC_OFFSITE_S3_BUCKET: "dd-80-homelab-bucket"
   VOLSYNC_OFFSITE_S3_PREFIX: "nexus-k8s-cluster"
+  VOLSYNC_GARAGE_S3_ENDPOINT: "http://garage.storage.svc.cluster.local:3900"
+  VOLSYNC_GARAGE_BUCKET: "volsync"
+  VOLSYNC_GARAGE_PREFIX: "shared"
