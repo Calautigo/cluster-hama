@@ -5,4 +5,4 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./kopiamaintenance.yaml
-  - ./manual-full-maintenance.yaml
+  - ./mutatingadmissionpolicy.yaml
