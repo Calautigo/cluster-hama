@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: kroki
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: kroki
+      app.kubernetes.io/instance: kroki
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: wikijs
+      toPorts:
+        - ports:
+            - port: "8000"
+              protocol: TCP

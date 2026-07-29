@@ -1,0 +1,122 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app kroki
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: kroki
+  interval: 30m
+  values:
+    controllers:
+      kroki:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: docker.io/yuzutech/kroki
+              tag: 0.31.2@sha256:63a74a0ab9e70c2f30bfdbd0628a5a938442c616c01600e0395f58094d0dba7a
+            env:
+              # The gateway reaches companion renderers over the network, so the
+              # excalidraw container has to share this pod's netns.
+              KROKI_EXCALIDRAW_HOST: 127.0.0.1
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: &port 8000
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  periodSeconds: 5
+                  failureThreshold: 30
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 50m
+                memory: 512Mi
+              limits:
+                memory: 1Gi
+
+          excalidraw:
+            image:
+              repository: docker.io/yuzutech/kroki-excalidraw
+              tag: 0.31.2@sha256:87aa068a3e68287f84f36a9ee043e5810be45fef728e62e701ade75f0dd65c09
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 8004
+                  periodSeconds: 10
+                  failureThreshold: 3
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            securityContext: *securityContext
+            resources:
+              requests:
+                cpu: 25m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+
+    persistence:
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          kroki:
+            app:
+              - path: /tmp
+                subPath: gateway
+            excalidraw:
+              - path: /tmp
+                subPath: excalidraw
+      # Chromium renders the Excalidraw scene and needs more than the 64Mi
+      # /dev/shm the runtime provides by default.
+      dshm:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 512Mi
+        advancedMounts:
+          kroki:
+            excalidraw:
+              - path: /dev/shm

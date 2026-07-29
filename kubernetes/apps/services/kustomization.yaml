@@ -8,6 +8,7 @@ resources:
   - ./immich/ks.yaml
   - ./collabora/ks.yaml
   - ./it-tools/ks.yaml
+  - ./kroki/ks.yaml
   - ./oxicloud/ks.yaml
   - ./paperless/ks.yaml
   - ./redlib/ks.yaml

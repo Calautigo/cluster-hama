@@ -1,0 +1,95 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.34.1/job-batch-v1.json
+# One-off manual Kopia full maintenance run against the NAS repository.
+#
+# Why: the scheduled KopiaMaintenance job (kopiamaintenance.yaml) has a 3h
+# activeDeadlineSeconds, which is too short for the first full compaction of
+# 60k+ index blobs. This Job has no deadline so the run can complete
+# uninterrupted.
+#
+# Apply (pick one):
+#   * Let Flux reconcile the maintenance Kustomization after this commit lands.
+#   * Force now: `just k8s apply-ks volsync-system volsync-maintenance`.
+#
+# Watch:   kubectl logs -n volsync-system job/kopia-maintenance-full-manual -f
+# Status:  kubectl get job -n volsync-system kopia-maintenance-full-manual
+#
+# Cleanup AFTER the Job reaches Completed/Failed:
+#   1. Pull logs first if you need them (Command above).
+#   2. Remove the `- ./manual-full-maintenance.yaml` entry from
+#      kustomization.yaml, then commit/push. Flux prunes the live Job on the
+#      next reconcile. Without this step, any `kubectl delete job` is undone
+#      by Flux and the maintenance re-runs - which for an hours-long
+#      compaction is not what you want.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kopia-maintenance-full-manual
+  labels:
+    app.kubernetes.io/component: manual-full-maintenance
+spec:
+  backoffLimit: 0
+  parallelism: 1
+  completions: 1
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: manual-full-maintenance
+    spec:
+      restartPolicy: Never
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 2000
+        runAsGroup: 2000
+        fsGroup: 2000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: kopia-maintenance
+          image: ghcr.io/home-operations/kopia:0.23.1@sha256:27da0a33b44e1b902150a6c963514237217464bb13118a95bb056667be93cda5
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: volsync-maintenance-secret
+          command:
+            - /bin/sh
+            - -c
+            - exec kopia maintenance run --full
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              memory: 4Gi
+          volumeMounts:
+            - name: repository
+              mountPath: /repository
+            - name: cache
+              mountPath: /config/cache
+            - name: logs
+              mountPath: /config/logs
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: repository
+          nfs:
+            server: ${NFS_SERVER}
+            path: /backup/volsync
+        - name: cache
+          emptyDir:
+            sizeLimit: 30Gi
+        - name: logs
+          emptyDir:
+            medium: Memory
+            sizeLimit: 16Mi
+        - name: tmp
+          emptyDir:
+            medium: Memory
+            sizeLimit: 256Mi
