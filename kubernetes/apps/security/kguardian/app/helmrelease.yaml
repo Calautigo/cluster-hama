@@ -22,4 +22,4 @@ spec:
       enabled: true
     database:
       persistence:
-        existingClaim: ${APP} # PVC created by the volsync component
+        existingClaim: ${APP} # PVC created by the kopiur component

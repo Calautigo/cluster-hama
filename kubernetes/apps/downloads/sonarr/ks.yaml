@@ -22,12 +22,12 @@ spec:
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
-    - name: volsync
-      namespace: volsync-system
+    - name: kopiur
+      namespace: system
   components:
-    - ../../../../components/volsync
+    - ../../../../components/kopiur
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CLAIM: sonarr-config
-      VOLSYNC_CAPACITY: 5Gi
+      KOPIUR_CLAIM: sonarr-config
+      KOPIUR_CAPACITY: 5Gi

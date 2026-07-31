@@ -1,0 +1,21 @@
+---
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotPolicy
+metadata:
+  name: ${KOPIUR_NAME:-${APP}}
+spec:
+  repository:
+    name: ${KOPIUR_NAME:-${APP}}
+  # CSI VolumeSnapshot staging mirrors volsync's default copyMethod.
+  copyMethod: ${KOPIUR_COPYMETHOD:-Snapshot}
+  volumeSnapshotClassName: ${KOPIUR_SNAPSHOTCLASS:-csi-rbd-snapclass}
+  sources:
+    - pvc:
+        name: ${KOPIUR_CLAIM:-${APP}}
+  # GFS retention equivalent to volsync's defaults
+  # (hourly=24, daily=7, weekly=4, monthly=12).
+  retention:
+    keepHourly: ${KOPIUR_KEEP_HOURLY:-24}
+    keepDaily: ${KOPIUR_KEEP_DAILY:-7}
+    keepWeekly: ${KOPIUR_KEEP_WEEKLY:-4}
+    keepMonthly: ${KOPIUR_KEEP_MONTHLY:-12}

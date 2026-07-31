@@ -1,0 +1,14 @@
+---
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotSchedule
+metadata:
+  name: ${KOPIUR_NAME:-${APP}}
+spec:
+  policyRef:
+    name: ${KOPIUR_NAME:-${APP}}
+  schedule:
+    # Default hourly cron matches the old volsync trigger; TZ comes from
+    # the Repository's scheduleDefaults.timezone.
+    cron: "${KOPIUR_SCHEDULE:-0 * * * *}"
+    jitter: 15m
+    runOnCreate: false

@@ -22,13 +22,13 @@ spec:
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
-    - name: volsync
-      namespace: volsync-system
+    - name: kopiur
+      namespace: system
   components:
-    - ../../../../components/volsync
+    - ../../../../components/kopiur
     - ../../../../components/dragonfly
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CLAIM: searxng
-      VOLSYNC_CAPACITY: 5Gi
+      KOPIUR_CLAIM: searxng
+      KOPIUR_CAPACITY: 5Gi

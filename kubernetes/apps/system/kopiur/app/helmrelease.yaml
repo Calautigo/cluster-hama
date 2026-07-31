@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kopiur
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: kopiur
+  interval: 1h
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    # cluster scope so a shared ClusterRepository and per-namespace
+    # Repositories both work; default webhook.tls.mode=self keeps it
+    # cert-manager-free.
+    installScope: cluster
+    monitoring:
+      serviceMonitor:
+        enabled: true

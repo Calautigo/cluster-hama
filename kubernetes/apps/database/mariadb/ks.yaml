@@ -25,4 +25,4 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 8Gi
+      KOPIUR_CAPACITY: 8Gi

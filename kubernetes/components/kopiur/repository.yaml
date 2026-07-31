@@ -1,0 +1,42 @@
+---
+# S3/Garage kopia repository for this app's namespace. Per-app so each app
+# gets its own kopia prefix in the shared Garage bucket; the bucket itself
+# stays the same as under volsync.
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: Repository
+metadata:
+  name: ${KOPIUR_NAME:-${APP}}
+spec:
+  backend:
+    s3:
+      bucket: ${KOPIUR_GARAGE_BUCKET}
+      prefix: ${KOPIUR_NAME:-${APP}}/
+      endpoint: ${KOPIUR_GARAGE_S3_ENDPOINT}
+      auth:
+        secretRef:
+          name: ${KOPIUR_NAME:-${APP}}-kopia-creds
+  encryption:
+    passwordSecretRef:
+      name: ${KOPIUR_NAME:-${APP}}-kopia-creds
+      key: KOPIA_PASSWORD
+  create:
+    enabled: true
+  # Set TZ once on the repo; SnapshotSchedule and Maintenance inherit it.
+  scheduleDefaults:
+    timezone: ${TIMEZONE}
+  # Match volsync's APP_UID/APP_GID defaults so the kopia mover can read
+  # PVCs owned by the app's runtime user.
+  moverDefaults:
+    securityContext:
+      runAsUser: ${APP_UID:-2000}
+      runAsGroup: ${APP_GID:-2000}
+      runAsNonRoot: true
+      capabilities:
+        drop: ["ALL"]
+      seccompProfile:
+        type: RuntimeDefault
+    podSecurityContext:
+      fsGroup: ${APP_GID:-2000}
+      fsGroupChangePolicy: OnRootMismatch
+  maintenance:
+    enabled: true

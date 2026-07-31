@@ -77,16 +77,22 @@ spec:
     persistence:
       config:
         existingClaim: sonarr-config
-      add-ons:
+      config-cache:
+        existingClaim: sonarr-cache
+        globalMounts:
+          - path: /config/MediaCover
+      backup:
         type: emptyDir
-      tmp:
-        type: emptyDir
+        globalMounts:
+          - path: /config/Backups
       media:
         type: nfs
         server: 10.100.0.81
         path: /media/media
         globalMounts:
           - path: /data/media
+      tmp:
+        type: emptyDir
 
     route:
       app:

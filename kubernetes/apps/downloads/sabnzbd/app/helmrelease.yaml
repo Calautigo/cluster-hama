@@ -82,16 +82,19 @@ spec:
     persistence:
       config:
         existingClaim: sabnzbd-config
-      add-ons:
-        type: emptyDir
-      tmp:
-        type: emptyDir
       media:
         type: nfs
         server: 10.100.0.81
         path: /media/media/usenet
         globalMounts:
           - path: /data
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/logs
+            subPath: logs
+          - path: /tmp
+            subPath: tmp
 
     route:
       app:

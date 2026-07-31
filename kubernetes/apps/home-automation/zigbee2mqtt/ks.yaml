@@ -24,11 +24,11 @@ spec:
       namespace: external-secrets
     - name: emqx-cluster
       namespace: database
-    - name: volsync
-      namespace: volsync-system
+    - name: kopiur
+      namespace: system
   components:
-    - ../../../../components/volsync
+    - ../../../../components/kopiur
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CLAIM: zigbee2mqtt-data
+      KOPIUR_CLAIM: zigbee2mqtt-data

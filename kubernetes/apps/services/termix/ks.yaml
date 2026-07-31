@@ -12,10 +12,10 @@ spec:
   dependsOn:
     - name: ceph-csi-rbd
       namespace: storage
-    - name: volsync
-      namespace: volsync-system
+    - name: kopiur
+      namespace: system
   components:
-    - ../../../../components/volsync
+    - ../../../../components/kopiur
   path: ./kubernetes/apps/services/termix/app
   prune: true
   sourceRef:
@@ -29,6 +29,5 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_NAME: termix-bootstrap
-      VOLSYNC_CLAIM: termix-data
-      VOLSYNC_CAPACITY: 1Gi
+      KOPIUR_CLAIM: termix-data
+      KOPIUR_CAPACITY: 1Gi

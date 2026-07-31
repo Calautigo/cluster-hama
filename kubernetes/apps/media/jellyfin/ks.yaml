@@ -20,15 +20,14 @@ spec:
     namespace: flux-system
   wait: false
   dependsOn:
-    - name: volsync
-      namespace: volsync-system
+    - name: kopiur
+      namespace: system
     - name: openebs
       namespace: storage
   components:
-    - ../../../../components/volsync
+    - ../../../../components/kopiur
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_NAME: jellyfin-bootstrap
-      VOLSYNC_CLAIM: jellyfin-config
-      VOLSYNC_CAPACITY: 5Gi
+      KOPIUR_CLAIM: jellyfin-config
+      KOPIUR_CAPACITY: 5Gi

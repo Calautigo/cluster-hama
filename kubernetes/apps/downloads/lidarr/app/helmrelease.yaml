@@ -75,10 +75,16 @@ spec:
     persistence:
       config:
         existingClaim: lidarr-config
-      add-ons:
-        type: emptyDir
       tmp:
         type: emptyDir
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/logs
+      backup:
+        type: emptyDir
+        globalMounts:
+          - path: /config/Backups
       media:
         type: nfs
         server: 10.100.0.81

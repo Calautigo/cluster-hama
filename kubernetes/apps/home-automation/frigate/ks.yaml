@@ -26,13 +26,13 @@ spec:
       namespace: kube-system
     - name: ceph-csi-rbd
       namespace: storage
-    - name: volsync
-      namespace: volsync-system
+    - name: kopiur
+      namespace: system
   components:
     - ../../../../components/gpu
-    - ../../../../components/volsync
+    - ../../../../components/kopiur
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CLAIM: frigate-config
-      VOLSYNC_CAPACITY: 5Gi
+      KOPIUR_CLAIM: frigate-config
+      KOPIUR_CAPACITY: 5Gi

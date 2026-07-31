@@ -62,30 +62,15 @@ sync-all-es:
       just k8s sync-es "$ns" "$name"; \
     done
 
-[doc('Trigger a VolSync snapshot')]
+[doc('Trigger a manual kopiur Snapshot for a SnapshotPolicy')]
 snapshot ns name:
-    kubectl -n "{{ ns }}" patch replicationsources "{{ name }}" --type merge -p "{\"spec\":{\"trigger\":{\"manual\":\"$(date +%s)\"}}}"
+    printf 'apiVersion: kopiur.home-operations.com/v1alpha1\nkind: Snapshot\nmetadata:\n  generateName: "%s-manual-"\nspec:\n  policyRef:\n    name: "%s"\n' "{{ name }}" "{{ name }}" | kubectl -n "{{ ns }}" apply -f -
 
-[doc('Snapshot all VolSync ReplicationSources')]
+[doc('Trigger manual kopiur backups for every SnapshotSchedule')]
 snapshot-all:
-    kubectl get replicationsources --no-headers -A | while read -r ns name _; do \
+    kubectl get snapshotschedules -o custom-columns=NS:.metadata.namespace,NAME:.metadata.name --no-headers -A | while read -r ns name _; do \
       just k8s snapshot "$ns" "$name"; \
     done
-
-[doc('Force a VolSync backup and wait for completion')]
-backup ns name:
-    just k8s snapshot "{{ ns }}" "{{ name }}"
-    until kubectl -n "{{ ns }}" get job/volsync-src-"{{ name }}" &>/dev/null; do sleep 5; done
-    kubectl -n "{{ ns }}" wait job/volsync-src-"{{ name }}" --for=condition=complete --timeout=120m
-
-[doc('Suspend or resume VolSync')]
-volsync state:
-    flux -n volsync-system {{ state }} kustomization volsync
-    flux -n volsync-system {{ state }} kustomization volsync-maintenance
-    flux -n volsync-system {{ state }} kustomization kopia
-    flux -n volsync-system {{ state }} helmrelease volsync
-    flux -n volsync-system {{ state }} helmrelease kopia
-    kubectl -n volsync-system scale deployment volsync --replicas {{ if state != "suspend" { "1" } else { "0" } }}
 
 [doc('Suspend or resume Keda ScaledObjects')]
 keda state ns name:

@@ -19,10 +19,10 @@ spec:
       namespace: database
     - name: ceph-csi-rbd
       namespace: storage
-    - name: volsync
-      namespace: volsync-system
+    - name: kopiur
+      namespace: system
   components:
-    - ../../../../components/volsync
+    - ../../../../components/kopiur
   path: ./kubernetes/apps/dev/forgejo/app
   prune: true
   sourceRef:
@@ -35,4 +35,4 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 10Gi
+      KOPIUR_CAPACITY: 10Gi

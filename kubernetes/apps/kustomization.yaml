@@ -21,6 +21,4 @@ resources:
   - ./services
   - ./storage
   - ./system
-  - ./system-controllers
   - ./vault
-  - ./volsync-system

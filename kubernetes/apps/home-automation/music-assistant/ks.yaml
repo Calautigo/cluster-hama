@@ -20,16 +20,16 @@ spec:
     namespace: flux-system
   wait: false
   dependsOn:
-    - name: volsync
-      namespace: volsync-system
+    - name: kopiur
+      namespace: system
     - name: music-assistant-multus
       namespace: home-automation
   components:
-    - ../../../../components/volsync
+    - ../../../../components/kopiur
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 2Gi
+      KOPIUR_CAPACITY: 2Gi
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1

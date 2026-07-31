@@ -20,12 +20,12 @@ spec:
     namespace: flux-system
   wait: false
   dependsOn:
-    - name: volsync
-      namespace: volsync-system
+    - name: kopiur
+      namespace: system
   components:
-    - ../../../../components/volsync
+    - ../../../../components/kopiur
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CLAIM: profilarr-config
-      VOLSYNC_CAPACITY: 5Gi
+      KOPIUR_CLAIM: profilarr-config
+      KOPIUR_CAPACITY: 5Gi

@@ -30,7 +30,7 @@ just k8s sync-hr|sync-ks|sync-es <ns> <name> # Force-sync (sync-all-* for all)
 just k8s apply-ks <ns> <app>                 # WARNING: applies to the live cluster, not a dry run
 flux -n <ns> build kustomization <app> --path kubernetes/apps/<ns>/<app>/app \
   --kustomization-file kubernetes/apps/<ns>/<app>/ks.yaml --dry-run  # Validate without touching the cluster
-just k8s snapshot|backup <ns> <name>         # VolSync; also volsync suspend|resume, browse-pvc, node-shell, prune-pods
+just k8s snapshot <ns> <name>         # Kopiur manual Snapshot; also snapshot-all, browse-pvc, node-shell, prune-pods
 flux get ks|hr -A                            # Status; flux logs --kind=HelmRelease --name=<app>
 ```
 
@@ -39,7 +39,7 @@ flux get ks|hr -A                            # Status; flux logs --kind=HelmRele
 Git push → Flux GitRepository → cluster-apps → per-namespace → per-app Kustomization → HelmRelease/resources.
 
 - `kubernetes/apps/<ns>/<app>/`: `ks.yaml` (Flux Kustomization) + `app/` (kustomization.yaml, helmrelease.yaml, ocirepository.yaml, externalsecret.yaml, oidcclient.yaml).
-- `kubernetes/bootstrap/`: one-time bootstrap (helmfile, CRDs). `kubernetes/components/`: reusable Kustomize components (common, dragonfly, gpu, volsync). `kubernetes/flux/`: Flux entrypoints.
+- `kubernetes/bootstrap/`: one-time bootstrap (helmfile, CRDs). `kubernetes/components/`: reusable Kustomize components (common, dragonfly, gpu, kopiur). `kubernetes/flux/`: Flux entrypoints.
 - `talos/`: MinJinja templates rendered at apply time; `machineconfig.yaml.j2` (base) + `nodes/<node>.yaml.j2` (per-node, controlplane vs worker); secrets injected from `talsecret.sops.yaml` via `sops://` refs; `schematic.yaml` lists OS extensions.
 
 ### App Pattern
@@ -48,7 +48,7 @@ Git push → Flux GitRepository → cluster-apps → per-namespace → per-app K
 
 - Every manifest has a `# yaml-language-server: $schema=...` comment. ks.yaml uses YAML anchor `&app`, `commonMetadata.labels: app.kubernetes.io/name`, `prune: true`, `wait: false`, `dependsOn` for ordering. Multi-component apps: several Kustomizations in one ks.yaml.
 - Most apps use the bjw-s app-template chart via `chartRef.kind: OCIRepository` (chart version pinned; Renovate bumps it). Routes via app-template `route:` values with hostname `"{{ .Release.Name }}.ds47.dev"` and parentRef `kgateway-internal` (ns `network`).
-- VolSync component (persistent data): creates PVC `${VOLSYNC_CLAIM:-${APP}}` plus a NAS and an offsite-S3 Kopia `ReplicationSource`; the app mounts `existingClaim: ${APP}`. Optional vars: `VOLSYNC_` `NAME`, `CLAIM`, `CAPACITY` (5Gi), `ACCESSMODES` (ReadWriteOnce), `STORAGECLASS` (csi-rbd-sc), `SNAPSHOTCLASS` (csi-rbd-snapclass), `KOPIA_SCHEDULE` (hourly), `OFFSITE_SCHEDULE` (02:30 daily); plus `APP_UID`/`APP_GID` (2000) for the mover.
+- Kopiur component (persistent data): creates PVC `${KOPIUR_CLAIM:-${APP}}`, a kopiur `Repository` (Garage S3 backend, per-app kopia prefix), an `ExternalSecret` from Vault key `volsync-garage` for AWS creds + `KOPIA_PASSWORD`, a `SnapshotPolicy` (source = PVC + GFS retention), and an hourly `SnapshotSchedule`. The app mounts `existingClaim: ${APP}`. Optional vars: `KOPIUR_` `NAME`, `CLAIM`, `CAPACITY` (5Gi), `ACCESSMODES` (ReadWriteOnce), `STORAGECLASS` (csi-rbd-sc), `SNAPSHOTCLASS` (csi-rbd-snapclass), `SCHEDULE` (hourly), `COPYMETHOD` (Snapshot), `KEEP_*` retention overrides; plus `APP_UID`/`APP_GID` (2000) for the mover.
 - `${SECRET_DOMAIN}`, `${APP}`, etc. are substituted at reconcile time from `cluster-settings`/`cluster-secrets`; non-secret config only. App credentials go through Vault via ExternalSecret (ClusterSecretStore `vault`, KV-v2 mount `apps`, so `key: <app>` resolves to `apps/<app>`). A second store `vault-secret-store` points at the legacy external Vault (`10.100.0.100:8200`, mount `k8s/gryffindor-prod`). SOPS+Age (`*.sops.yaml`) covers Talos, bootstrap, and `cluster-secrets`; `sops -e -i` / `sops -d`.
 
 ### Adding a New App
@@ -56,7 +56,7 @@ Git push → Flux GitRepository → cluster-apps → per-namespace → per-app K
 1. Create `kubernetes/apps/<ns>/<app>/` following pgadmin: `ks.yaml` plus `app/` with a kustomization.yaml listing all resources.
 2. Register `./<app>/ks.yaml` in `kubernetes/apps/<ns>/kustomization.yaml` (sets the namespace).
 3. New namespace: add `namespace.yaml` and a kustomization.yaml with `namespace:`, all ks.yaml entries, `./namespace.yaml`, and `../../components/common`; add `./<ns>` to `kubernetes/apps/kustomization.yaml`.
-4. Secrets: Vault entry at `apps/<app>` + `externalsecret.yaml`. Persistent data: volsync component + dependsOn + `VOLSYNC_CAPACITY`. OIDC-capable: `oidcclient.yaml` (below).
+4. Secrets: Vault entry at `apps/<app>` + `externalsecret.yaml`. Persistent data: kopiur component + dependsOn + `KOPIUR_CAPACITY`. OIDC-capable: `oidcclient.yaml` (below).
 5. Validate before pushing with `flux build kustomization ... --dry-run` (see Commands). `just k8s apply-ks` deploys for real.
 
 ### SSO / Pocket-ID
@@ -71,7 +71,7 @@ Git push → Flux GitRepository → cluster-apps → per-namespace → per-app K
 ### Infrastructure Notes
 
 - Cilium CNI; kgateway (Gateway API) ingress in `network`. Only `kgateway-internal` is live; `gateway/external.yaml` is commented out of `gateway/kustomization.yaml`. Listeners: HTTP:80 (redirect), HTTPS:443 for `*.ds47.dev` and `*.schwarz47.at`, TCP:22 for forgejo SSH.
-- CloudNative-PG (PostgreSQL), Dragonfly (Redis-compatible), MariaDB (being retired in favour of Postgres), InfluxDB, EMQX (MQTT), VolSync + Kopia mover (PVC backups), KEDA (`just k8s keda|keda-all`), kube-prometheus-stack.
+- Kopiur (mover) + Kopia (PVC backups, on Garage S3); CSI `snapshot-controller` and the rest of `system` (`k8tz`, `descheduler`, `keda`, `reloader`, `spegel`); KEDA (`just k8s keda|keda-all`); kube-prometheus-stack.
 - Renovate (`renovate.json5`, `.renovate/`) updates Flux manifests, image digests, chart versions, Talos configs; `*.sops.*` excluded.
 - `app.kubernetes.io/name` from ks.yaml `commonMetadata` propagates to all resources; use `app.kubernetes.io/component` for labels that must survive the override.
 - Lefthook commit hooks (auto-installed by mise): oxfmt formats YAML/JSON/Markdown (2-space indent, LF, width 100), `just --fmt`, shellcheck, and a block on unencrypted `*.sops.yaml`.
