@@ -12,6 +12,9 @@ spec:
       bucket: ${KOPIUR_GARAGE_BUCKET}
       prefix: ${KOPIUR_NAME:-${APP}}/
       endpoint: ${KOPIUR_GARAGE_S3_ENDPOINT}
+      # Garage serves plain HTTP (no TLS) inside the cluster.
+      tls:
+        disableTls: true
       auth:
         secretRef:
           name: ${KOPIUR_NAME:-${APP}}-kopia-creds
