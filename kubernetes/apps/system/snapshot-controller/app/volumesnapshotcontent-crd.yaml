@@ -1,0 +1,117 @@
+---
+# VolumeSnapshotContent CRD, explicitly managed here because the piraeusdatastore
+# snapshot-controller chart does not reliably ship it.
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: volumesnapshotcontents.snapshot.storage.k8s.io
+spec:
+  group: snapshot.storage.k8s.io
+  names:
+    kind: VolumeSnapshotContent
+    listKind: VolumeSnapshotContentList
+    plural: volumesnapshotcontents
+    shortNames:
+      - vsc
+      - vscs
+    singular: volumesnapshotcontent
+  scope: Cluster
+  versions:
+    - additionalPrinterColumns:
+        - description: Indicates if the snapshot is ready to be used to restore a volume.
+          jsonPath: .status.readyToUse
+          name: ReadyToUse
+          type: boolean
+        - description: Complete size of the snapshot in bytes.
+          jsonPath: .status.restoreSize
+          name: RestoreSize
+          type: integer
+        - description: Deletion policy (Retain or Delete).
+          jsonPath: .spec.deletionPolicy
+          name: DeletionPolicy
+          type: string
+        - description: CSI driver used to create the snapshot.
+          jsonPath: .spec.driver
+          name: Driver
+          type: string
+        - description: VolumeSnapshotClass name.
+          jsonPath: .spec.volumeSnapshotClassName
+          name: VolumeSnapshotClass
+          type: string
+        - description: Bound VolumeSnapshot name.
+          jsonPath: .spec.volumeSnapshotRef.name
+          name: VolumeSnapshot
+          type: string
+        - description: Bound VolumeSnapshot namespace.
+          jsonPath: .spec.volumeSnapshotRef.namespace
+          name: VolumeSnapshotNamespace
+          type: string
+        - jsonPath: .metadata.creationTimestamp
+          name: Age
+          type: date
+      name: v1
+      schema:
+        openAPIV3Schema:
+          description: VolumeSnapshotContent represents the actual "on-disk" snapshot object in the underlying storage system.
+          properties:
+            spec:
+              properties:
+                deletionPolicy:
+                  enum:
+                    - Delete
+                    - Retain
+                  type: string
+                driver:
+                  type: string
+                source:
+                  properties:
+                    snapshotHandle:
+                      type: string
+                    volumeHandle:
+                      type: string
+                  type: object
+                sourceVolumeMode:
+                  type: string
+                volumeSnapshotClassName:
+                  type: string
+                volumeSnapshotRef:
+                  properties:
+                    name:
+                      type: string
+                    namespace:
+                      type: string
+                  type: object
+              required:
+                - deletionPolicy
+                - driver
+                - source
+                - volumeSnapshotRef
+              type: object
+            status:
+              properties:
+                creationTime:
+                  format: int64
+                  type: integer
+                error:
+                  properties:
+                    message:
+                      type: string
+                    time:
+                      format: date-time
+                      type: string
+                  type: object
+                readyToUse:
+                  type: boolean
+                restoreSize:
+                  format: int64
+                  type: integer
+                snapshotHandle:
+                  type: string
+              type: object
+          required:
+            - spec
+          type: object
+      served: true
+      storage: true
+      subresources:
+        status: {}
