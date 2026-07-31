@@ -20,10 +20,11 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    # cluster scope so a shared ClusterRepository and per-namespace
-    # Repositories both work; default webhook.tls.mode=self keeps it
-    # cert-manager-free.
     installScope: cluster
+    webhook:
+      replicaCount: 2
+      podDisruptionBudget:
+        enabled: true
     monitoring:
       serviceMonitor:
         enabled: true
