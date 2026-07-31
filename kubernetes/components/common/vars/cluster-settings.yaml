@@ -19,5 +19,5 @@ data:
   LB_IP_KGATEWAY_INTERNAL: "10.100.10.218"
   KOPIUR_OFFSITE_S3_BUCKET: "dd-80-homelab-bucket"
   KOPIUR_OFFSITE_S3_PREFIX: "nexus-k8s-cluster"
-  KOPIUR_GARAGE_S3_ENDPOINT: "http://garage.storage.svc.cluster.local:3900"
+  KOPIUR_GARAGE_S3_ENDPOINT: "garage.storage.svc.cluster.local:3900"
   KOPIUR_GARAGE_BUCKET: "k8s-cluster-backup"
