@@ -58,6 +58,18 @@ spec:
       create: false
     config:
       pluginsDir: /build/plugins
+      oidc:
+        secret:
+          create: false
+        externalSecret:
+          enabled: true
+          name: headlamp-oidc
+          hasScopes: true
+    env:
+      - name: OIDC_SCOPES
+        value: "profile,email,groups"
+      - name: OIDC_CALLBACK_URL
+        value: "https://headlamp.ds47.dev/oidc-callback"
     podAnnotations:
       reloader.stakater.com/auto: "true"
     service:

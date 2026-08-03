@@ -8,6 +8,9 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: headlamp
+  dependsOn:
+    - name: pocket-id-instance
+      namespace: security
   interval: 1h
   path: "./kubernetes/apps/monitoring/headlamp/app"
   prune: true
