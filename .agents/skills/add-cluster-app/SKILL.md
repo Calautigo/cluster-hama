@@ -1,6 +1,6 @@
 ---
 name: add-cluster-app
-description: Adds a new application to the cluster-hama Flux GitOps repo (thestral cluster). Follows the pgadmin reference pattern: creates ks.yaml + app/ manifests, registers the app in the namespace kustomization, wires secrets through Vault ExternalSecrets, optionally adds kopiur PVC backups, Pocket-ID OIDC, and NetBird VPN exposure (public HTTPRoute or private TCPRoute), then validates with flux build --dry-run. Use when asked to add/onboard/deploy a new app or service to the cluster.
+description: "Adds a new application to the cluster-hama Flux GitOps repo (thestral cluster). Follows the pgadmin reference pattern: creates ks.yaml + app/ manifests, registers the app in the namespace kustomization, wires secrets through Vault ExternalSecrets, optionally adds kopiur PVC backups, Pocket-ID OIDC, and NetBird VPN exposure (public HTTPRoute or private TCPRoute), then validates with flux build --dry-run. Use when asked to add/onboard/deploy a new app or service to the cluster."
 ---
 
 # Add a Cluster App
