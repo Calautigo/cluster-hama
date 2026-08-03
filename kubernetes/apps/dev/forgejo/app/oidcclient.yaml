@@ -11,7 +11,8 @@ spec:
       namespace: security
   launchUrl: https://forgejo.ds47.dev
   callbackUrls:
-    - https://forgejo.ds47.dev/user/oauth2/pocketid/callback
+    - https://forgejo.ds47.dev/user/oauth2/PocketID/callback
+  pkceEnabled: true
   secret:
     name: forgejo-oidc
     keys:
