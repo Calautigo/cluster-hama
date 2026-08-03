@@ -32,10 +32,10 @@ spec:
                 memory: 512Mi
     defaultPodOptions:
       securityContext:
-        runAsNonRoot: false
-        runAsUser: 0
-        runAsGroup: 0
-        fsGroup: 0
+        runAsNonRoot: true
+        runAsUser: 2000
+        runAsGroup: 2000
+        fsGroup: 2000
         fsGroupChangePolicy: OnRootMismatch
 
     service:

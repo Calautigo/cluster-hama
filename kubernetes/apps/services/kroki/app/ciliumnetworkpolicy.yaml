@@ -9,11 +9,4 @@ spec:
     matchLabels:
       app.kubernetes.io/name: kroki
       app.kubernetes.io/instance: kroki
-  ingress:
-    - fromEndpoints:
-        - matchLabels:
-            app.kubernetes.io/name: wikijs
-      toPorts:
-        - ports:
-            - port: "8000"
-              protocol: TCP
+  ingress: []

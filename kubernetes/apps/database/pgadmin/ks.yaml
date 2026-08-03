@@ -36,3 +36,5 @@ spec:
     substitute:
       APP: *app
       KOPIUR_CAPACITY: 1Gi
+      APP_UID: "5050"
+      APP_GID: "5050"
