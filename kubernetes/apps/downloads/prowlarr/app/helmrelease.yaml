@@ -76,16 +76,16 @@ spec:
     persistence:
       config:
         existingClaim: prowlarr-config
-        backup:
-          type: emptyDir
-          globalMounts:
-            - path: /config/Backups
-        logs:
-          type: emptyDir
-          globalMounts:
-            - path: /config/logs
-        tmp:
-          type: emptyDir
+      backup:
+        type: emptyDir
+        globalMounts:
+          - path: /config/Backups
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/logs
+      tmp:
+        type: emptyDir
       media:
         type: nfs
         server: 10.100.0.81
