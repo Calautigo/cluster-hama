@@ -29,3 +29,6 @@ spec:
       APP: *app
       KOPIUR_CLAIM: influxdb-data
       KOPIUR_CAPACITY: 10Gi
+      # influxdb runs as uid/gid 1000; the kopiur mover must match to read the PVC
+      APP_UID: "1000"
+      APP_GID: "1000"
