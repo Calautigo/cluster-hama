@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: ghcr.io/evrial/redlib
-              tag: latest@sha256:e6647a94d553bf3f7c95c53fc6d9da5785e6c278d9002e99ea32abdb5e3c513a
+              tag: latest@sha256:8027df3821b4a74236cb40f4d88d42fd6771c37c81ad2737e03ce019c3480a01
             env:
               REDLIB_DEFAULT_SHOW_NSFW: "on"
               REDLIB_DEFAULT_WIDE: "on"
