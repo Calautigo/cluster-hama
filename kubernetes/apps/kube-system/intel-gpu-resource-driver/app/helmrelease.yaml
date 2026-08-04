@@ -18,6 +18,10 @@ spec:
       privileged: true
       healthMonitoring:
         enabled: false
+    # Only run the plugin on nodes with Intel GPUs (via NFD labels) instead of
+    # every node; control planes and NVIDIA-only nodes have no Intel GPU.
+    nodeFeatureRules:
+      enabled: true
     cdi:
       staticPath: /var/cdi/static
       dynamicPath: /var/cdi/dynamic
