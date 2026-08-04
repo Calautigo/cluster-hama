@@ -10,6 +10,14 @@ spec:
     name: intel-gpu-resource-driver
   interval: 30m
   values:
+    # Restores pre-0.11.0 behavior: the chart's xpumd integration requires a
+    # separately deployed XPU Manager daemon (xpumdEnabled, healthMonitoring on by
+    # default), which is not present, so the plugin panicked waiting for the
+    # /run/xpumd socket. Disable health monitoring and read device details from devfs.
+    kubeletPlugin:
+      privileged: true
+      healthMonitoring:
+        enabled: false
     cdi:
       staticPath: /var/cdi/static
       dynamicPath: /var/cdi/dynamic
