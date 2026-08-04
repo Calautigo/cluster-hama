@@ -27,10 +27,10 @@ spec:
 
         pod:
           securityContext:
-            runAsUser: 0
-            runAsGroup: 0
-            runAsNonRoot: false
-            fsGroup: 0
+            runAsUser: 2000
+            runAsGroup: 2000
+            runAsNonRoot: true
+            fsGroup: 2000
             fsGroupChangePolicy: "OnRootMismatch"
 
         containers:
@@ -38,6 +38,18 @@ spec:
             image:
               repository: ghcr.io/ellite/scrob
               tag: 1.39.0@sha256:abf89f4369b1a3887f38a2b74099d5fa71c20322ee48a91407a1d92a6f4c709f
+            # The image entrypoint is a root bootstrap (symlink /etc/localtime, useradd,
+            # chown, chmod stdout, gosu). All of it is unnecessary here: k8tz injects
+            # /etc/localtime, the pod runs as 2000, and supervisord only uses /tmp.
+            # Replicate the useful steps: migrations, then supervisord in the foreground.
+            command: ["/bin/sh", "-c"]
+            args:
+              - |
+                set -e
+                export BACKEND_PORT=7331
+                cd /app/backend
+                .venv/bin/python -m alembic upgrade head
+                exec supervisord -n -c /etc/supervisor/supervisord.conf
             env:
               TZ: "${TZ}"
               PORT: &port 7330
