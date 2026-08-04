@@ -1,0 +1,38 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app obsidian
+  namespace: services
+spec:
+  targetNamespace: services
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  dependsOn:
+    - name: external-secrets
+      namespace: external-secrets
+    - name: ceph-csi-rbd
+      namespace: storage
+    - name: kopiur
+      namespace: system
+  components:
+    - ../../../../components/kopiur
+  path: ./kubernetes/apps/services/obsidian/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: false
+  interval: 30m
+  timeout: 5m
+  postBuild:
+    substitute:
+      APP: *app
+      KOPIUR_CAPACITY: 20Gi
+      # CouchDB runs as uid/gid 5984; match so the kopiur mover can
+      # read/write the PVC.
+      APP_UID: "5984"
+      APP_GID: "5984"

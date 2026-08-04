@@ -9,6 +9,7 @@ resources:
   - ./collabora/ks.yaml
   - ./it-tools/ks.yaml
   - ./kroki/ks.yaml
+  - ./obsidian/ks.yaml
   - ./oxicloud/ks.yaml
   - ./paperless/ks.yaml
   - ./redlib/ks.yaml
