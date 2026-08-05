@@ -10,7 +10,7 @@ spec:
   image: ghcr.io/vortiago/mcp-outline:1.10.1
   env:
     - name: OUTLINE_API_URL
-      value: http://outline.services:3000
+      value: https://outline.ds47.dev
   podTemplateSpec:
     spec:
       containers:
