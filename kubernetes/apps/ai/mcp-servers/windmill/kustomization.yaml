@@ -3,8 +3,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./kubernetes/ks.yaml
-  - ./forgejo/ks.yaml
-  - ./outline/ks.yaml
-  - ./paperless/ks.yaml
-  - ./windmill/ks.yaml
+  - ./externalsecret.yaml
+  - ./httproute.yaml
+  - ./mcpremoteproxy.yaml

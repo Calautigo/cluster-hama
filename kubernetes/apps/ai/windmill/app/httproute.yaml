@@ -1,0 +1,24 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: windmill
+spec:
+  hostnames:
+    - windmill.ds47.dev
+  parentRefs:
+    - name: kgateway-internal
+      namespace: network
+  rules:
+    # Editor websocket connections (LSP completions) go to windmill-extra.
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /ws/
+      backendRefs:
+        - name: windmill-extra
+          port: 3000
+    - backendRefs:
+        - name: windmill-app
+          port: 8000

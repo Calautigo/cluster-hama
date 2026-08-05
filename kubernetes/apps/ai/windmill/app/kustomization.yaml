@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./externalsecret.yaml
+  - ./helmrelease.yaml
+  - ./helmrepository.yaml
+  - ./httproute.yaml
+configMapGenerator:
+  - name: windmill-grants
+    files:
+      - ./resources/grants.sh
+generatorOptions:
+  disableNameSuffixHash: true

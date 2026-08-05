@@ -3,12 +3,12 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app n8n
+  name: &app windmill
   namespace: &namespace ai
 spec:
   targetNamespace: *namespace
   interval: 30m
-  path: ./kubernetes/apps/ai/n8n/app
+  path: ./kubernetes/apps/ai/windmill/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -16,11 +16,10 @@ spec:
     namespace: flux-system
   wait: false
   dependsOn:
-    - name: kopiur
-      namespace: system
-  components:
-    - ../../../../components/kopiur
+    - name: external-secrets
+      namespace: external-secrets
+    - name: pg18vec
+      namespace: database
   postBuild:
     substitute:
       APP: *app
-      KOPIUR_CAPACITY: 5Gi

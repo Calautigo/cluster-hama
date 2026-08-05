@@ -7,7 +7,7 @@ resources:
   - ./llmkube/ks.yaml
   - ./searxng/ks.yaml
   - ./open-webui/ks.yaml
-  - ./n8n/ks.yaml
+  - ./windmill/ks.yaml
   - ./hermes-agent/ks.yaml
   - ./hermes-webui/ks.yaml
   - ./toolhive/ks.yaml

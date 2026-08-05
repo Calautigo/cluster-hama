@@ -1,0 +1,31 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/toolhive.stacklok.dev/mcpremoteproxy_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPRemoteProxy
+metadata:
+  name: windmill-mcp
+spec:
+  groupRef:
+    name: mcp-tools
+  # Windmill serves its own MCP gateway (streamable HTTP); the proxy injects
+  # the MCP token as a Bearer header. Token lives in Vault, see externalsecret.
+  remoteUrl: http://windmill-app.ai:8000/api/mcp/gateway
+  transport: streamable-http
+  proxyPort: 8080
+  headerForward:
+    addHeadersFromSecret:
+      - headerName: Authorization
+        valueSecretRef:
+          name: windmill-mcp-secret
+          key: token
+  podTemplateSpec:
+    spec:
+      containers:
+        - name: toolhive
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmpfs
+      volumes:
+        - name: tmpfs
+          emptyDir:
+            medium: Memory
