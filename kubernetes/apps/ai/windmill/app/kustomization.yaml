@@ -13,3 +13,7 @@ configMapGenerator:
       - ./resources/grants.sh
 generatorOptions:
   disableNameSuffixHash: true
+  # grants.sh uses ${INIT_POSTGRES_*} bash vars; stop Flux postBuild
+  # substitution from treating them as placeholders.
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
