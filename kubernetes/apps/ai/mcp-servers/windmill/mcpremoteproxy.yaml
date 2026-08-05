@@ -9,7 +9,7 @@ spec:
     name: mcp-tools
   # Windmill serves its own MCP gateway (streamable HTTP); the proxy injects
   # the MCP token as a Bearer header. Token lives in Vault, see externalsecret.
-  remoteUrl: http://windmill-app.ai:8000/api/mcp/gateway
+  remoteUrl: https://windmill.ds47.dev/api/mcp/gateway
   transport: streamable-http
   proxyPort: 8080
   headerForward:

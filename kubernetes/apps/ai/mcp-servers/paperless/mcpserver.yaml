@@ -10,7 +10,7 @@ spec:
   image: ghcr.io/baruchiro/paperless-mcp:latest
   env:
     - name: PAPERLESS_URL
-      value: http://paperless.services:8000
+      value: https://paperless.ds47.dev
   podTemplateSpec:
     spec:
       containers:

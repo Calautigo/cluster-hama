@@ -10,7 +10,7 @@ spec:
   image: gitea/gitea-mcp-server:nightly
   env:
     - name: GITEA_URL
-      value: http://forgejo-app.dev:3000
+      value: https://forgejo.ds47.dev
   podTemplateSpec:
     spec:
       containers:
