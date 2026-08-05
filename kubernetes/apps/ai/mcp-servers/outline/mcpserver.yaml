@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/toolhive.stacklok.dev/mcpserver_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPServer
+metadata:
+  name: outline-mcp
+spec:
+  groupRef:
+    name: mcp-tools
+  image: ghcr.io/vortiago/mcp-outline:1.10.1
+  env:
+    - name: OUTLINE_API_URL
+      value: http://outline.services:3000
+  podTemplateSpec:
+    spec:
+      containers:
+        - name: mcp
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmpfs
+      volumes:
+        - name: tmpfs
+          emptyDir:
+            medium: Memory
+  secrets:
+    - name: outline-mcp-secret
+      key: OUTLINE_API_KEY
+  transport: stdio
