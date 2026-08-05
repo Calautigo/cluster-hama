@@ -1,0 +1,127 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app outline
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: outline
+  interval: 30m
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+      strategy: uninstall
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      outline:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18.4.0@sha256:ebd9d30add17acdf935d73eb004758c7dfd9388aaa605fda70ad74378ab92aec
+            envFrom:
+              - secretRef:
+                  name: outline-db
+              - secretRef:
+                  name: outline-initdb
+        containers:
+          app:
+            image:
+              repository: docker.io/outlinewiki/outline
+              tag: 1.9.2@sha256:32d76719c378931dd65d93945930ca380d8376a0337d98a991fcc12b266f33cf
+            env:
+              TZ: ${TIMEZONE}
+              URL: https://outline.ds47.dev
+              ENABLE_UPDATES: "false"
+              FILE_STORAGE: s3
+              FILE_STORAGE_UPLOAD_MAX_SIZE: "26214400"
+              FILE_STORAGE_IMPORT_MAX_SIZE: "26214400"
+              AWS_REGION: us-east-1
+              AWS_S3_ACL: private
+              AWS_S3_FORCE_PATH_STYLE: "true"
+              AWS_S3_UPLOAD_BUCKET_NAME: outline
+              AWS_S3_UPLOAD_BUCKET_URL: https://s3.ds47.dev
+              OIDC_DISPLAY_NAME: Pocket ID
+              OIDC_SCOPES: "openid profile email"
+              OIDC_USERNAME_CLAIM: email
+              PORT: &port 3000
+              REDIS_URL: redis://outline-dragonfly.services.svc.cluster.local:6379
+              SMTP_HOST: smtp-relay.network.svc.cluster.local
+              SMTP_PORT: "25"
+              SMTP_FROM_EMAIL: outline@ds47.dev
+              SMTP_SECURE: "false"
+              WEB_CONCURRENCY: 2
+            envFrom:
+              - secretRef:
+                  name: outline-secret
+              - secretRef:
+                  name: outline-db
+              - secretRef:
+                  name: outline-oidc
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /_health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 50m
+                memory: 250Mi
+              limits:
+                memory: 1Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.ds47.dev"
+        parentRefs:
+          - name: kgateway-internal
+            namespace: network
+    persistence:
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          outline:
+            app:
+              - path: /home/node
+                subPath: node
+              - path: /tmp
+                subPath: tmp

@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: outline
+spec:
+  name: Outline
+  allowedUserGroups:
+    - name: hama
+      namespace: security
+  launchUrl: https://outline.ds47.dev
+  callbackUrls:
+    - https://outline.ds47.dev/auth/oidc.callback
+  secret:
+    name: outline-oidc
+    keys:
+      clientID: OIDC_CLIENT_ID
+      clientSecret: OIDC_CLIENT_SECRET
+      authorizationUrl: OIDC_AUTH_URI
+      tokenUrl: OIDC_TOKEN_URI
+      userinfoUrl: OIDC_USERINFO_URI

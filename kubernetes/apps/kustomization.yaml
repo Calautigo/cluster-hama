@@ -21,5 +21,4 @@ resources:
   - ./services
   - ./storage
   - ./system
-  - ./toolhive-system
   - ./vault

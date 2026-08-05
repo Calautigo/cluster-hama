@@ -49,14 +49,14 @@ Git push → Flux GitRepository → cluster-apps → per-namespace → per-app K
 - Every manifest has a `# yaml-language-server: $schema=...` comment. ks.yaml uses YAML anchor `&app`, `commonMetadata.labels: app.kubernetes.io/name`, `prune: true`, `wait: false`, `dependsOn` for ordering. Multi-component apps: several Kustomizations in one ks.yaml.
 - Most apps use the bjw-s app-template chart via `chartRef.kind: OCIRepository` (chart version pinned; Renovate bumps it). Routes via app-template `route:` values with hostname `"{{ .Release.Name }}.ds47.dev"` and parentRef `kgateway-internal` (ns `network`).
 - Kopiur component (persistent data): creates PVC `${KOPIUR_CLAIM:-${APP}}`, a kopiur `Repository` (Garage S3 backend, per-app kopia prefix), an `ExternalSecret` from Vault key `volsync-garage` for AWS creds + `KOPIA_PASSWORD`, a `SnapshotPolicy` (source = PVC + GFS retention), and an hourly `SnapshotSchedule`. The app mounts `existingClaim: ${APP}`. Optional vars: `KOPIUR_` `NAME`, `CLAIM`, `CAPACITY` (5Gi), `ACCESSMODES` (ReadWriteOnce), `STORAGECLASS` (csi-rbd-sc), `SNAPSHOTCLASS` (csi-rbd-snapclass), `SCHEDULE` (hourly), `COPYMETHOD` (Snapshot), `KEEP_*` retention overrides; plus `APP_UID`/`APP_GID` (2000) for the mover.
-- `${SECRET_DOMAIN}`, `${APP}`, etc. are substituted at reconcile time from `cluster-settings`/`cluster-secrets`; non-secret config only. App credentials go through Vault via ExternalSecret (ClusterSecretStore `vault`, KV-v2 mount `apps`, so `key: <app>` resolves to `apps/<app>`). SOPS+Age (`*.sops.yaml`) covers Talos, bootstrap, and `cluster-secrets`; `sops -e -i` / `sops -d`.
+- `${SECRET_DOMAIN}`, `${APP}`, etc. are substituted at reconcile time from `cluster-settings`/`cluster-secrets`; non-secret config only. App credentials go through Vault via ExternalSecret (ClusterSecretStore `vault`, KV-v2 mount `apps`, so `key: <ns>/<app>` resolves to `apps/<ns>/<app>`). SOPS+Age (`*.sops.yaml`) covers Talos, bootstrap, and `cluster-secrets`; `sops -e -i` / `sops -d`.
 
 ### Adding a New App
 
 1. Create `kubernetes/apps/<ns>/<app>/` following pgadmin: `ks.yaml` plus `app/` with a kustomization.yaml listing all resources.
 2. Register `./<app>/ks.yaml` in `kubernetes/apps/<ns>/kustomization.yaml` (sets the namespace).
 3. New namespace: add `namespace.yaml` and a kustomization.yaml with `namespace:`, all ks.yaml entries, `./namespace.yaml`, and `../../components/common`; add `./<ns>` to `kubernetes/apps/kustomization.yaml`.
-4. Secrets: Vault entry at `apps/<app>` + `externalsecret.yaml`. Persistent data: kopiur component + dependsOn + `KOPIUR_CAPACITY`. OIDC-capable: `oidcclient.yaml` (below).
+4. Secrets: Vault entry at `apps/<ns>/<app>` + `externalsecret.yaml`. Persistent data: kopiur component + dependsOn + `KOPIUR_CAPACITY`. OIDC-capable: `oidcclient.yaml` (below).
 5. Validate before pushing with `flux build kustomization ... --dry-run` (see Commands). `just k8s apply-ks` deploys for real.
 
 ### SSO / Pocket-ID

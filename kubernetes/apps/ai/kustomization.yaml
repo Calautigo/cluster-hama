@@ -10,6 +10,8 @@ resources:
   - ./n8n/ks.yaml
   - ./hermes-agent/ks.yaml
   - ./hermes-webui/ks.yaml
+  - ./toolhive/ks.yaml
+  - ./mcp-servers
   - ./namespace.yaml
 components:
   - ../../components/common

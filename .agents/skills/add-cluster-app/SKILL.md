@@ -16,7 +16,7 @@ Reference example: `kubernetes/apps/database/pgadmin/` (persistent + OIDC),
 
 - Work in the repo root (`/home/maus/projects/cluster-hama`).
 - `flux` CLI available; `KUBECONFIG` set by mise (check `.mise.toml`).
-- Vault access to create `apps/<app>` secret entries (CLI or UI).
+- Vault access to create `apps/<ns>/<app>` secret entries (CLI or UI).
 - `<ns>` and `<app>` chosen: `<app>` is lowercase, k8s-name-safe, used as the
   release name and hostname (`<app>.ds47.dev`).
 
@@ -34,8 +34,8 @@ Reference example: `kubernetes/apps/database/pgadmin/` (persistent + OIDC),
   via ks.yaml `postBuild.substitute`; `cluster-settings`/`cluster-secrets`
   provide `TZ`/`CONFIG_TIMEZONE` etc. Only non-secret config in the repo.
 - App credentials go through Vault via `ExternalSecret`
-  (ClusterSecretStore `vault`, KV-v2 mount `apps`, so `key: <app>` reads
-  `apps/<app>`).
+  (ClusterSecretStore `vault`, KV-v2 mount `apps`, so `key: <ns>/<app>` reads
+  `apps/<ns>/<app>`).
 
 ## Steps
 
@@ -154,10 +154,10 @@ yaml anchors for repeated values (e.g. `&port` + `port: *port`) like termix.
 
 ### 6. Secrets (Vault ExternalSecret)
 
-1. Create the secret in Vault at `apps/<app>` (KV-v2 mount `apps`).
+1. Create the secret in Vault at `apps/<ns>/<app>` (KV-v2 mount `apps`).
 2. Add `externalsecret.yaml` (copy pgadmin's): `secretStoreRef` →
    `ClusterSecretStore` `vault`, `target.name: <app>-secret`, and
-   `dataFrom: [{ extract: { key: <app> } }]`. Use `template.data` to map Vault
+   `dataFrom: [{ extract: { key: <ns>/<app> } }]`. Use `template.data` to map Vault
    keys to env var names the app expects, and a second ExternalSecret with a
    `Password` generator (`password32`, see pgadmin-password) for generated
    credentials like DB passwords. Set `refreshInterval: "0"` for generated
