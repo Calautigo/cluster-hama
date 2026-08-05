@@ -26,6 +26,8 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      APP_UID: "10000"
+      APP_GID: "10000"
   interval: 30m
   path: ./kubernetes/apps/ai/hermes-agent/app
   prune: true
