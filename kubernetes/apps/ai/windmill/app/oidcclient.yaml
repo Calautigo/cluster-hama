@@ -1,0 +1,20 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: windmill
+spec:
+  name: Windmill
+  allowedUserGroups:
+    - name: hama
+      namespace: security
+  launchUrl: https://windmill.ds47.dev
+  callbackUrls:
+    - https://windmill.ds47.dev/user/login_callback/pocketid
+  secret:
+    name: windmill-oidc
+    keys:
+      clientID: OIDC_CLIENT_ID
+      clientSecret: OIDC_CLIENT_SECRET
+      issuerUrl: OIDC_ISSUER_URL
