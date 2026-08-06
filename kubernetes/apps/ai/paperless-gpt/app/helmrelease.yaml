@@ -1,0 +1,88 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: paperless-gpt
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: paperless-gpt
+  interval: 30m
+  values:
+    controllers:
+      paperless-gpt:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: icereed/paperless-gpt
+              tag: v0.27.0@sha256:6b874d922c6948e5b73edf99b0135da61a978e32479654abd8f75f897f77b917
+            env:
+              # Paperless-ngx connection (in-cluster; public URL for UI links)
+              PAPERLESS_BASE_URL: http://paperless.services.svc.cluster.local:8000
+              PAPERLESS_PUBLIC_URL: https://paperless.ds47.dev
+              # LLM via the LiteLLM proxy
+              LLM_PROVIDER: openai
+              LLM_MODEL: qwen3.6-plus
+              OPENAI_BASE_URL: http://litellm.ai.svc.cluster.local:4000/v1
+              # OCR via the local vision-capable model through LiteLLM
+              OCR_PROVIDER: llm
+              VISION_LLM_PROVIDER: openai
+              VISION_LLM_MODEL: gemma-4-e4b
+              # Locale / runtime
+              LLM_LANGUAGE: German
+              TZ: "${TIMEZONE}"
+              PUID: "2000"
+              PGID: "2000"
+              LOG_LEVEL: info
+            envFrom:
+              - secretRef:
+                  name: paperless-gpt-secret
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+    service:
+      app:
+        ports:
+          http:
+            port: &port 8080
+
+    route:
+      app:
+        hostnames:
+          - paperless-gpt.ds47.dev
+        parentRefs:
+          - name: kgateway-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+
+    # Binary, entrypoint and default_prompts live at /app root in the image,
+    # so the PVC mounts the app's writable subdirectories only.
+    persistence:
+      db:
+        existingClaim: paperless-gpt-data
+        globalMounts:
+          - path: /app/db
+      config:
+        existingClaim: paperless-gpt-data
+        globalMounts:
+          - path: /app/config
+      prompts:
+        existingClaim: paperless-gpt-data
+        globalMounts:
+          - path: /app/prompts

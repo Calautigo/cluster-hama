@@ -8,6 +8,7 @@ resources:
   - ./litellm/ks.yaml
   - ./searxng/ks.yaml
   - ./open-webui/ks.yaml
+  - ./paperless-gpt/ks.yaml
   - ./windmill/ks.yaml
   - ./hermes-agent/ks.yaml
   - ./hermes-webui/ks.yaml
