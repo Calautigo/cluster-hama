@@ -29,7 +29,9 @@ spec:
                     name: paperless-secret
                     key: PAPERLESS_SECRET_KEY
               PAPERLESS_URL: https://paperless.ds47.dev
-              PAPERLESS_ALLOWED_HOSTS: https://paperless.ds47.dev
+              # In-cluster hostname so services (e.g. paperless-gpt) can call
+              # the API without hairpinning through the public gateway.
+              PAPERLESS_ALLOWED_HOSTS: https://paperless.ds47.dev,paperless.services.svc.cluster.local
               PAPERLESS_CSRF_TRUSTED_ORIGINS: https://paperless.ds47.dev
               PAPERLESS_TRUSTED_PROXIES: "*"
               PAPERLESS_PORT: "8000"
