@@ -1,0 +1,38 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: litellm
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: litellm
+  values:
+    image:
+      # base image; the -database variant is only needed with a DB
+      repository: ghcr.io/berriai/litellm
+    # config-only mode: no Postgres, no Redis, no migration job
+    db:
+      deployStandalone: false
+    migrationJob:
+      enabled: false
+    masterkeySecretName: litellm-secret
+    masterkeySecretKey: MASTER_KEY
+    proxy_config:
+      model_list:
+        - model_name: gemma-4-e4b
+          litellm_params:
+            model: openai/gemma-4-e4b
+            api_base: http://gemma-4-e4b.ai.svc.cluster.local:8080/v1
+            # llama.cpp server has no auth; LiteLLM still needs a value
+            api_key: sk-local-noauth
+      general_settings:
+        master_key: os.environ/PROXY_MASTER_KEY
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 1Gi

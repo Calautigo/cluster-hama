@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: ai
 resources:
   - ./llmkube/ks.yaml
+  - ./litellm/ks.yaml
   - ./searxng/ks.yaml
   - ./open-webui/ks.yaml
   - ./windmill/ks.yaml
