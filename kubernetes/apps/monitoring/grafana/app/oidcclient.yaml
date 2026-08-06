@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: grafana
+spec:
+  name: Grafana
+  allowedUserGroups:
+    - name: hama
+      namespace: security
+  launchUrl: https://grafana.ds47.dev
+  callbackUrls:
+    - https://grafana.ds47.dev/login/generic_oauth
+  secret:
+    name: grafana-oidc
+    keys:
+      clientID: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
+      clientSecret: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET

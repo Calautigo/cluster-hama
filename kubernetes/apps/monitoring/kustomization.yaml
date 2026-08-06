@@ -4,8 +4,16 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: monitoring
 resources:
+  - ./blackbox-exporter/ks.yaml
+  - ./fluent-bit/ks.yaml
+  - ./gatus/ks.yaml
+  - ./grafana/ks.yaml
   - ./headlamp/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
+  - ./smartctl-exporter/ks.yaml
+  - ./siren/ks.yaml
+  - ./unpoller/ks.yaml
+  - ./victoria-logs/ks.yaml
   - ./namespace.yaml
 components:
   - ../../components/common

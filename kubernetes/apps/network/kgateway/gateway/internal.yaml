@@ -6,6 +6,15 @@ metadata:
   name: kgateway-internal
   annotations:
     external-dns.alpha.kubernetes.io/target: &hostname gateway-int.ds47.dev
+    # Inherited by every HTTPRoute attached to this gateway: gatus alerts on
+    # all routes via the gatus-sidecar parent-inheritance feature.
+    gatus.home-operations.com/endpoint: |
+      alerts:
+        - type: pushover
+          failure-threshold: 3
+          success-threshold: 3
+          send-on-resolved: true
+      interval: 1m
 spec:
   gatewayClassName: kgateway
   addresses:

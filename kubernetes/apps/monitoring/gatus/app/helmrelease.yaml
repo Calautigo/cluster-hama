@@ -1,0 +1,60 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gatus
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: gatus-sidecar
+  values:
+    deploymentAnnotations:
+      reloader.stakater.com/auto: "true"
+    gatus:
+      delayStartSeconds: "5"
+      env:
+        TZ: Europe/Vienna
+      envFrom:
+        - secretRef:
+            name: gatus-secret
+      securityContext:
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        capabilities:
+          drop: ["ALL"]
+          add: ["NET_RAW"] # ICMP probes
+    sidecar:
+      kinds:
+        httproute:
+          enable: true
+          auto: true
+        service:
+          enable: true
+      gatewayNames:
+        - kgateway-internal
+    config:
+      existingConfigMap: gatus-configmap
+      items:
+        - key: config.yaml
+          path: config.yaml
+    persistence:
+      enabled: true
+      existingClaim: ${APP}
+    httpRoute:
+      enabled: true
+      hostnames:
+        - "{{ .Release.Name }}.ds47.dev"
+      parentRefs:
+        - name: kgateway-internal
+          namespace: network
+    monitoring:
+      serviceMonitor:
+        enabled: true
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        memory: 256Mi

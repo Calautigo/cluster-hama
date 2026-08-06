@@ -1,0 +1,115 @@
+alerting:
+  pushover:
+    application-token: ${PUSHOVER_APP_TOKEN}
+    user-key: ${PUSHOVER_USER_KEY}
+
+connectivity:
+  checker:
+    target: 9.9.9.9:53
+    interval: 1m
+
+storage:
+  type: sqlite
+  path: /config/data.db
+  caching: true
+
+ui:
+  title: Status | Gatus
+  header: Status
+
+endpoints:
+  - name: Gateway
+    group: network
+    url: icmp://10.100.10.1
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
+    alerts:
+      - type: pushover
+        failure-threshold: 3
+        success-threshold: 3
+        send-on-resolved: true
+
+  - name: Technitium DNS
+    group: network
+    url: tcp://externaldns-technitium.network.svc.cluster.local:7979
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
+    alerts:
+      - type: pushover
+        failure-threshold: 3
+        success-threshold: 3
+        send-on-resolved: true
+
+  - name: UniFi Controller
+    group: network
+    url: tcp://10.100.10.204:8443
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
+    alerts:
+      - type: pushover
+        failure-threshold: 3
+        success-threshold: 3
+        send-on-resolved: true
+
+  - name: Garage S3
+    group: storage
+    url: tcp://garage.storage.svc.cluster.local:3900
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
+    alerts:
+      - type: pushover
+        failure-threshold: 3
+        success-threshold: 3
+        send-on-resolved: true
+
+  - name: Ceph Monitor 1
+    group: storage
+    url: tcp://10.44.0.51:6789
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
+    alerts:
+      - type: pushover
+        failure-threshold: 3
+        success-threshold: 3
+        send-on-resolved: true
+
+  - name: Ceph Monitor 2
+    group: storage
+    url: tcp://10.44.0.52:6789
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
+    alerts:
+      - type: pushover
+        failure-threshold: 3
+        success-threshold: 3
+        send-on-resolved: true
+
+  - name: Ceph Monitor 3
+    group: storage
+    url: tcp://10.44.0.54:6789
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
+    alerts:
+      - type: pushover
+        failure-threshold: 3
+        success-threshold: 3
+        send-on-resolved: true
+
+  - name: Ceph Monitor 4
+    group: storage
+    url: tcp://10.44.0.57:6789
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
+    alerts:
+      - type: pushover
+        failure-threshold: 3
+        success-threshold: 3
+        send-on-resolved: true
