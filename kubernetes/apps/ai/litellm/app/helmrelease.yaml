@@ -13,6 +13,9 @@ spec:
     image:
       # base image; the -database variant is only needed with a DB
       repository: ghcr.io/berriai/litellm
+    # restart when litellm-secret changes so key rotations take effect
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
     # config-only mode: no Postgres, no Redis, no migration job
     db:
       deployStandalone: false
