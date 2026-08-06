@@ -20,9 +20,9 @@ spec:
               repository: icereed/paperless-gpt
               tag: v0.27.0@sha256:6b874d922c6948e5b73edf99b0135da61a978e32479654abd8f75f897f77b917
             env:
-              # Paperless-ngx connection (in-cluster; public URL for UI links)
-              PAPERLESS_BASE_URL: http://paperless.services.svc.cluster.local:8000
-              PAPERLESS_PUBLIC_URL: https://paperless.ds47.dev
+              # Paperless-ngx connection (public URL: paperless only allows
+              # hosts paperless.ds47.dev / localhost via ALLOWED_HOSTS + URL)
+              PAPERLESS_BASE_URL: https://paperless.ds47.dev
               # LLM via the LiteLLM proxy
               LLM_PROVIDER: openai
               LLM_MODEL: qwen3.6-plus
