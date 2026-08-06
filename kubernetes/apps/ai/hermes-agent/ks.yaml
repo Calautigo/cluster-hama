@@ -15,7 +15,7 @@ spec:
       namespace: external-secrets
     - name: kopiur
       namespace: system
-    - name: llmkube-models
+    - name: litellm
       namespace: *namespace
     - name: searxng
       namespace: *namespace
