@@ -25,7 +25,7 @@ spec:
               PAPERLESS_PUBLIC_URL: https://paperless.ds47.dev
               # LLM via the LiteLLM proxy
               LLM_PROVIDER: openai
-              LLM_MODEL: qwen3.6-plus
+              LLM_MODEL: gemma-4-e4b
               OPENAI_BASE_URL: http://litellm.ai.svc.cluster.local:4000/v1
               # OCR via the local vision-capable model through LiteLLM
               OCR_PROVIDER: llm
