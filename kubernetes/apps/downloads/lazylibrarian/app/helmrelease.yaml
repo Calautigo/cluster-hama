@@ -80,13 +80,13 @@ spec:
       books:
         type: nfs
         server: 10.100.0.81
-        path: /media/media/books
+        path: /media/media/media/books
         globalMounts:
           - path: /books
       audiobooks:
         type: nfs
         server: 10.100.0.81
-        path: /media/media/audiobooks
+        path: /media/media/media/audiobooks
         globalMounts:
           - path: /audiobooks
       downloads:
