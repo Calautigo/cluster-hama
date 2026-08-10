@@ -77,9 +77,21 @@ spec:
         existingClaim: lazylibrarian-config
         globalMounts:
           - path: /config
-      media:
+      books:
         type: nfs
         server: 10.100.0.81
-        path: /media/media
+        path: /media/media/books
         globalMounts:
-          - path: /media
+          - path: /books
+      audiobooks:
+        type: nfs
+        server: 10.100.0.81
+        path: /media/media/audiobooks
+        globalMounts:
+          - path: /audiobooks
+      downloads:
+        type: nfs
+        server: 10.100.0.81
+        path: /media/media/usenet/complete
+        globalMounts:
+          - path: /downloads
