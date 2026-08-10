@@ -22,6 +22,8 @@ spec:
   dependsOn:
     - name: kopiur
       namespace: system
+    - name: pocket-id-instance
+      namespace: security
   components:
     - ../../../../components/kopiur
   postBuild:
