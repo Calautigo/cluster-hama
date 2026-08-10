@@ -1,5 +1,30 @@
 ---
-use_default_settings: true
+use_default_settings:
+  engines:
+    keep_only:
+      - google
+      - google images
+      - google videos
+      - wikipedia
+      - mojeek
+      - mojeek images
+      - qwant
+      - qwant images
+      - qwant videos
+      - startpage
+      - startpage images
+      - bing images
+      - bing videos
+      - dailymotion
+      - vimeo
+      - marginalia
+      - wiby
+      - searchmysite
+      - presearch
+      - openstreetmap
+      - photon
+      - braveapi
+      - serper
 
 server:
   limiter: true
@@ -55,3 +80,10 @@ hostnames:
     - (.*\.)?stackoverflow.com$
     - (.*\.)?askubuntu.com$
     - (.*\.)?superuser.com$
+
+engines:
+  - name: braveapi
+    engine: brave_api
+    inactive: false
+  - name: serper
+    engine: serper

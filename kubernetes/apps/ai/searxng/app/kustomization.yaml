@@ -11,5 +11,7 @@ configMapGenerator:
     files:
       - ./resources/limiter.toml
       - ./resources/settings.yml
+      - ./resources/engines/serper.py
+      - ./resources/engines/brave_api.py
 generatorOptions:
   disableNameSuffixHash: true

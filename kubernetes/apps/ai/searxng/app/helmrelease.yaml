@@ -82,6 +82,12 @@ spec:
           - path: /etc/searxng/limiter.toml
             subPath: limiter.toml
             readOnly: true
+          - path: /usr/local/searxng/searx/engines/serper.py
+            subPath: serper.py
+            readOnly: true
+          - path: /usr/local/searxng/searx/engines/brave_api.py
+            subPath: brave_api.py
+            readOnly: true
       tmpfs:
         enabled: true
         type: emptyDir
