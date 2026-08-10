@@ -8,6 +8,7 @@ resources:
   - ./decluttarr/ks.yaml
   - ./deduparr/ks.yaml
   - ./lidarr/ks.yaml
+  - ./lazylibrarian/ks.yaml
   - ./profilarr/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
