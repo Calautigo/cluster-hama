@@ -1,0 +1,33 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/toolhive.stacklok.dev/mcpserver_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPServer
+metadata:
+  name: homeassistant-mcp
+spec:
+  groupRef:
+    name: mcp-tools
+  image: ghcr.io/homeassistant-ai/ha-mcp:4.12.0
+  env:
+    - name: HOMEASSISTANT_URL
+      value: https://hass.ds47.dev
+    # Image runs as UID 999 with HOME=/home/mcpuser; operator runs the pod as
+    # UID 1000 with readOnlyRootFilesystem, so point HOME at the tmpfs to keep
+    # ha-mcp settings within the pod's lifetime.
+    - name: HOME
+      value: /tmp
+  podTemplateSpec:
+    spec:
+      containers:
+        - name: mcp
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmpfs
+      volumes:
+        - name: tmpfs
+          emptyDir:
+            medium: Memory
+  secrets:
+    - name: homeassistant-mcp-secret
+      key: HOMEASSISTANT_TOKEN
+  transport: stdio
