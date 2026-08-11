@@ -23,6 +23,10 @@ rules:
   - apiGroups: [""]
     resources: ["namespaces", "nodes"]
     verbs: ["get", "list", "watch"]
+  # node stats/logs tools proxy to the kubelet via the nodes/proxy subresource
+  - apiGroups: [""]
+    resources: ["nodes/proxy"]
+    verbs: ["get"]
   - apiGroups: ["metrics.k8s.io"]
     resources: ["nodes", "pods"]
     verbs: ["get", "list"]
