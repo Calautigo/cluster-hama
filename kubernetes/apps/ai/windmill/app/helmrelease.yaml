@@ -30,6 +30,11 @@ spec:
       appReplicas: 2
       # LSP/editor completions server (windmill-extra). 0 disables it.
       extraReplicas: 1
+      # windmill-extra is versioned independently of the windmill app; the
+      # chart default (appVersion) can point at an unpublished tag (1.782.0
+      # was skipped upstream), so pin to a published one.
+      windmillExtra:
+        tag: 1.784.0
       multiplayerReplicas: 0
       # DATABASE_URL comes from the windmill-db ExternalSecret (key "url");
       # the same secret feeds the postgres-init env vars below.
