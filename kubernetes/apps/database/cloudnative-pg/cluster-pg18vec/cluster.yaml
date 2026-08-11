@@ -40,7 +40,7 @@ spec:
         extension_control_path:
           - /usr/share/postgresql/18/
     parameters:
-      max_connections: "100"
+      max_connections: "300"
       max_locks_per_transaction: '128'
       shared_buffers: 64MB
     shared_preload_libraries:
