@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/postgresql.cnpg.io/pooler_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: pg18vec-pooler
+spec:
+  cluster:
+    name: pg18vec
+  # One pooler pod per replica of the cluster, spread by the operator.
+  instances: 3
+  type: rw
+  pgbouncer:
+    # transaction mode reuses server connections across client sessions;
+    # all pg18vec consumers hold idle connection pools, so this is the
+    # mode that actually caps server-side connections.
+    poolMode: transaction
+    parameters:
+      # asyncpg/sqlx clients send prepared statements; without this,
+      # transaction mode rejects them. 0 disables, positive enables
+      # tracking up to N statements per server connection.
+      max_prepared_statements: "100"
+      # Cap server connections per user/database pair so one app
+      # (windmill used to hold ~55) cannot exhaust the cluster again.
+      default_pool_size: "20"
+      max_client_conn: "1000"
+      # Never leave a server connection parked in an open transaction.
+      idle_transaction_timeout: "300"
