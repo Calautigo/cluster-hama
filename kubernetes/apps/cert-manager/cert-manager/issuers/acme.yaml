@@ -16,5 +16,4 @@ spec:
               key: api-token
         selector:
           dnsZones:
-            - schwarz47.at
             - ds47.dev

@@ -44,7 +44,7 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Local
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: controller-ap.schwarz47.at
+          external-dns.alpha.kubernetes.io/hostname: controller-ap.ds47.dev
           lbipam.cilium.io/ips: "${LB_IP_UNIFI}"
         ports:
           https:
@@ -79,7 +79,7 @@ spec:
           - path: /unifi
       cert:
         type: secret
-        name: "schwarz47-at-unifi"
+        name: "ds47-dev-unifi"
         advancedMounts:
           unifi:
             app:
@@ -96,7 +96,7 @@ spec:
     route:
       app:
         hostnames:
-          - controller.schwarz47.at
+          - controller.ds47.dev
         parentRefs:
           - name: kgateway-internal
             namespace: network

@@ -41,7 +41,7 @@ spec:
     service:
       type: LoadBalancer
       annotations:
-        external-dns.alpha.kubernetes.io/hostname: influxdb.schwarz47.at
+        external-dns.alpha.kubernetes.io/hostname: influxdb.ds47.dev
         lbipam.cilium.io/ips: "${LB_IP_INFLUXDB}"
     persistence:
       enabled: true

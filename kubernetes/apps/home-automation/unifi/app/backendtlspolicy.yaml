@@ -13,4 +13,4 @@ spec:
       sectionName: https
   validation:
     wellKnownCACertificates: System
-    hostname: controller.schwarz47.at
+    hostname: controller.ds47.dev

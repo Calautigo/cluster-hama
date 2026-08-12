@@ -59,7 +59,7 @@ spec:
   listenersServiceTemplate:
     metadata:
       annotations:
-        external-dns.alpha.kubernetes.io/hostname: mqtt.schwarz47.at
+        external-dns.alpha.kubernetes.io/hostname: mqtt.ds47.dev
         lbipam.cilium.io/ips: "${LB_IP_EMQX}"
     spec:
       type: LoadBalancer

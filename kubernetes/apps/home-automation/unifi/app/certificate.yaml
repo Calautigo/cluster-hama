@@ -3,15 +3,15 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: 'schwarz47-at-unifi'
+  name: 'ds47-dev-unifi'
 spec:
-  secretName: 'schwarz47-at-unifi'
+  secretName: 'ds47-dev-unifi'
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  commonName: 'controller.schwarz47.at'
+  commonName: 'controller.ds47.dev'
   dnsNames:
-    - 'controller.schwarz47.at'
+    - 'controller.ds47.dev'
   keystores:
     jks:
       create: true
