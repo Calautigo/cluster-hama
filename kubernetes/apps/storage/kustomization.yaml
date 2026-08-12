@@ -7,7 +7,6 @@ resources:
   - ./ceph-csi/ks.yaml
   - ./garage/ks.yaml
   - ./openebs/ks.yaml
-  - ./versity/ks.yaml
   - ./namespace.yaml
 components:
   - ../../components/common

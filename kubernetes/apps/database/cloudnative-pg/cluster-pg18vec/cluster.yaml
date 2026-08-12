@@ -20,7 +20,7 @@ spec:
     - name: barman-cloud.cloudnative-pg.io
       isWALArchiver: true
       parameters:
-        barmanObjectName: pg18vec-versity
+        barmanObjectName: pg18vec-garage
         serverName: pg18vec-v1
 
   postgresql:
@@ -41,7 +41,7 @@ spec:
           - /usr/share/postgresql/18/
     parameters:
       max_connections: "300"
-      max_locks_per_transaction: '128'
+      max_locks_per_transaction: "128"
       shared_buffers: 64MB
     shared_preload_libraries:
       - vchord

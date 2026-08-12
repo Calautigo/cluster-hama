@@ -2,13 +2,13 @@
 apiVersion: barmancloud.cnpg.io/v1
 kind: ObjectStore
 metadata:
-  name: pg18vec-versity
+  name: pg18vec-garage
 spec:
   configuration:
     data:
       compression: bzip2
     destinationPath: s3://cnpg-cluster-pg18vec/
-    endpointURL: http://versity.storage.svc.cluster.local:7070
+    endpointURL: http://garage.storage.svc.cluster.local:3900
     s3Credentials:
       accessKeyId:
         name: pg18vec-backup-secret

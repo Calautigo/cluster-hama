@@ -38,7 +38,7 @@ spec:
   #     isWALArchiver: true
   #     name: barman-cloud.cloudnative-pg.io
   #     parameters:
-  #       barmanObjectName: versity-thestral
+  #       barmanObjectName: garage-thestral
   #       serverName: postgres-v2
   bootstrap:
     initdb:

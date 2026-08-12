@@ -1,7 +1,7 @@
 # Homelab Primary - Skeleton Template
 
 > **How to use this template**
-> This document is a skeleton for documenting the *primary* part of the homelab:
+> This document is a skeleton for documenting the _primary_ part of the homelab:
 > the Kubernetes cluster. Sections marked **`<TO FILL>`** are placeholders to
 > complete; everything else is filled in from the live repo (`cluster-hama`).
 > Keep this file in sync with `kubernetes/` and `talos/`; Renovate/Flux changes
@@ -12,16 +12,16 @@
 
 ## 1. Identity & Purpose
 
-| Field          | Value                          |
-| -------------- | ------------------------------ |
-| Cluster name   | `thestral`                     |
-| Domain         | `*.ds47.dev` / `*.schwarz47.at` |
-| Management     | GitOps via Flux CD (this repo) |
-| Wiki           | <https://wiki.ds47.dev>        |
-| Repo           | `cluster-hama` (Git push to `main` → Flux reconciles) |
-| Purpose        | `<TO FILL>`                    |
-| Location       | `<TO FILL>`                    |
-| Owner          | `<TO FILL>`                    |
+| Field        | Value                                                 |
+| ------------ | ----------------------------------------------------- |
+| Cluster name | `thestral`                                            |
+| Domain       | `*.ds47.dev` / `*.schwarz47.at`                       |
+| Management   | GitOps via Flux CD (this repo)                        |
+| Wiki         | <https://wiki.ds47.dev>                               |
+| Repo         | `cluster-hama` (Git push to `main` → Flux reconciles) |
+| Purpose      | `<TO FILL>`                                           |
+| Location     | `<TO FILL>`                                           |
+| Owner        | `<TO FILL>`                                           |
 
 ---
 
@@ -29,14 +29,14 @@
 
 > One row per machine. The cluster runs Talos Linux (immutable, API-driven).
 
-| Hostname         | Role          | OS      | Node IP (`ens18`) | Storage IP (`ens19`) | Hardware | Notes |
-| ---------------- | ------------- | ------- | ----------------- | -------------------- | -------- | ----- |
-| `thestral-01`    | Control Plane | Talos   | `10.100.10.71`    | `10.44.0.71`         | `<TO FILL>` | `<TO FILL>` |
-| `thestral-02`    | Control Plane | Talos   | `10.100.10.72`    | `10.44.0.72`         | `<TO FILL>` | `<TO FILL>` |
-| `thestral-03`    | Control Plane | Talos   | `10.100.10.73`    | `10.44.0.73`         | `<TO FILL>` | `<TO FILL>` |
-| `thestral-worker-01` | Worker    | Talos   | `10.100.10.81`    | `10.44.0.81`         | `<TO FILL>` | `<TO FILL>` |
-| `thestral-worker-02` | Worker    | Talos   | `10.100.10.82`    | `10.44.0.82`         | `<TO FILL>` | `<TO FILL>` |
-| `thestral-worker-03` | Worker    | Talos   | `10.100.10.83`    | `10.44.0.83`         | `<TO FILL>` | `<TO FILL>` |
+| Hostname             | Role          | OS    | Node IP (`ens18`) | Storage IP (`ens19`) | Hardware    | Notes       |
+| -------------------- | ------------- | ----- | ----------------- | -------------------- | ----------- | ----------- |
+| `thestral-01`        | Control Plane | Talos | `10.100.10.71`    | `10.44.0.71`         | `<TO FILL>` | `<TO FILL>` |
+| `thestral-02`        | Control Plane | Talos | `10.100.10.72`    | `10.44.0.72`         | `<TO FILL>` | `<TO FILL>` |
+| `thestral-03`        | Control Plane | Talos | `10.100.10.73`    | `10.44.0.73`         | `<TO FILL>` | `<TO FILL>` |
+| `thestral-worker-01` | Worker        | Talos | `10.100.10.81`    | `10.44.0.81`         | `<TO FILL>` | `<TO FILL>` |
+| `thestral-worker-02` | Worker        | Talos | `10.100.10.82`    | `10.44.0.82`         | `<TO FILL>` | `<TO FILL>` |
+| `thestral-worker-03` | Worker        | Talos | `10.100.10.83`    | `10.44.0.83`         | `<TO FILL>` | `<TO FILL>` |
 
 Hardware facts from the repo (see `talos/`):
 
@@ -51,20 +51,20 @@ Hardware facts from the repo (see `talos/`):
 
 ### 3.1 Networks / VLANs
 
-| Network            | Subnet        | Purpose                |
-| ------------------ | ------------- | ---------------------- |
-| Node network       | `10.100.10.0/24` | Node management + K8s API |
-| Storage network    | `10.44.0.0/16`   | Ceph/backup/storage traffic |
-| `<TO FILL>` VLAN   | `<TO FILL>`   | `<TO FILL>` (worker `ens20`, VLAN 30) |
+| Network          | Subnet           | Purpose                               |
+| ---------------- | ---------------- | ------------------------------------- |
+| Node network     | `10.100.10.0/24` | Node management + K8s API             |
+| Storage network  | `10.44.0.0/16`   | Ceph/backup/storage traffic           |
+| `<TO FILL>` VLAN | `<TO FILL>`      | `<TO FILL>` (worker `ens20`, VLAN 30) |
 
 ### 3.2 Kubernetes Endpoints
 
-| Endpoint | Address |
-| -------- | ------- |
-| Kubernetes API (VIP) | `10.100.10.70` |
-| Ingress (kgateway, internal) | `*.ds47.dev` via listener `kgateway-internal` |
-| Public ingress | Disabled by default; `gateway/external.yaml` commented out |
-| Forgejo SSH | TCP `22` listener on kgateway |
+| Endpoint                     | Address                                                    |
+| ---------------------------- | ---------------------------------------------------------- |
+| Kubernetes API (VIP)         | `10.100.10.70`                                             |
+| Ingress (kgateway, internal) | `*.ds47.dev` via listener `kgateway-internal`              |
+| Public ingress               | Disabled by default; `gateway/external.yaml` commented out |
+| Forgejo SSH                  | TCP `22` listener on kgateway                              |
 
 ### 3.3 DNS & Certificates
 
@@ -101,23 +101,21 @@ talos/            # MinJinja node configs, rendered at apply time
 
 ### 4.1 Node Roles
 
-| Role | Nodes | Responsibilities |
-| ---- | ----- | ---------------- |
-| Control plane | `thestral-01..03` | etcd, API server, scheduler, controller manager |
-| Worker | `thestral-worker-01..03` | Workloads, storage, GPU workloads (intel-gpu-resource-driver, gpu-operator) |
+| Role          | Nodes                    | Responsibilities                                                            |
+| ------------- | ------------------------ | --------------------------------------------------------------------------- |
+| Control plane | `thestral-01..03`        | etcd, API server, scheduler, controller manager                             |
+| Worker        | `thestral-worker-01..03` | Workloads, storage, GPU workloads (intel-gpu-resource-driver, gpu-operator) |
 
 ---
 
 ## 5. Storage & Data Layer
 
-| Layer | Technology | Purpose |
-| ----- | ---------- | ------- |
-| Block storage (default) | Ceph CSI RBD (`csi-rbd-sc`) | PVCs |
-| Snapshot | `snapshot-controller` + `csi-rbd-snapclass` | Volume snapshots |
-| Backups | Kopiur (mover) + Kopia → Garage S3 | PVC backup/restore (VolSync) |
-| Object storage (S3) | Garage (in-cluster) | Kopia repository, `<TO FILL>` others |
-| S3 gateway | Versity (`versity`) | `<TO FILL>` |
-| `<TO FILL>` | `<TO FILL>` | `<TO FILL>` |
+| Layer                   | Technology                                  | Purpose                                          |
+| ----------------------- | ------------------------------------------- | ------------------------------------------------ |
+| Block storage (default) | Ceph CSI RBD (`csi-rbd-sc`)                 | PVCs                                             |
+| Snapshot                | `snapshot-controller` + `csi-rbd-snapclass` | Volume snapshots                                 |
+| Backups                 | Kopiur (mover) + Kopia → Garage S3          | PVC backup/restore (VolSync)                     |
+| Object storage (S3)     | Garage (in-cluster)                         | Kopia repository, app media, CNPG barman backups |
 
 Kopiur pattern: PVC + `Repository` (Garage S3, per-app kopia prefix) +
 `SnapshotPolicy` (GFS retention) + hourly `SnapshotSchedule`. Apps with
@@ -146,27 +144,27 @@ persistent data mount `existingClaim: <app>`.
 > `commonMetadata`. Register new apps per the flow in `AGENTS.md`
 > (see `kubernetes/apps/database/pgadmin/` as reference).
 
-| Namespace | Apps |
-| --------- | ---- |
-| `ai` | llmkube, searxng, open-webui, n8n, hermes-agent, hermes-webui, toolhive, mcp-servers |
-| `cert-manager` | cert-manager |
-| `database` | cloudnative-pg, dragonfly, emqx, influxdb, pgadmin |
-| `dev` | coder, forgejo |
-| `downloads` | autopulse, decluttarr, deduparr, lidarr, profilarr, prowlarr, radarr, sabnzbd, slskd, soularr, sonarr, whisparr |
-| `external-secrets` | external-secrets |
-| `flux-system` | flux-operator, flux-instance |
-| `home-automation` | bambuddy, esphome, evcc, frigate, glasheim-dashboard, music-assistant, netbox, nodered, unifi, zigbee2mqtt |
-| `kube-system` | cilium, coredns, intel-gpu-resource-driver, metrics-server, node-feature-discovery, gpu-operator |
-| `matrix` | continuwuity, element-web, mautrix-signal |
-| `media` | jellyfin, navidrome, scrob, seerr, stash |
-| `monitoring` | headlamp, kube-prometheus-stack |
-| `network` | external-dns, external-services, kgateway, multus, netbird, smtp-relay |
-| `renovate` | renovate-operator |
-| `security` | kguardian, pocket-id-operator, pocket-id-instance |
-| `services` | bentopdf, immich, collabora, it-tools, kroki, obsidian, outline, oxicloud, paperless, redlib, termix, vikunja |
-| `storage` | ceph-csi, garage, openebs, versity |
-| `system` | descheduler, k8tz, keda, kopiur, reloader, snapshot-controller, spegel |
-| `vault` | vault |
+| Namespace          | Apps                                                                                                            |
+| ------------------ | --------------------------------------------------------------------------------------------------------------- |
+| `ai`               | llmkube, searxng, open-webui, n8n, hermes-agent, hermes-webui, toolhive, mcp-servers                            |
+| `cert-manager`     | cert-manager                                                                                                    |
+| `database`         | cloudnative-pg, dragonfly, emqx, influxdb, pgadmin                                                              |
+| `dev`              | coder, forgejo                                                                                                  |
+| `downloads`        | autopulse, decluttarr, deduparr, lidarr, profilarr, prowlarr, radarr, sabnzbd, slskd, soularr, sonarr, whisparr |
+| `external-secrets` | external-secrets                                                                                                |
+| `flux-system`      | flux-operator, flux-instance                                                                                    |
+| `home-automation`  | bambuddy, esphome, evcc, frigate, glasheim-dashboard, music-assistant, netbox, nodered, unifi, zigbee2mqtt      |
+| `kube-system`      | cilium, coredns, intel-gpu-resource-driver, metrics-server, node-feature-discovery, gpu-operator                |
+| `matrix`           | continuwuity, element-web, mautrix-signal                                                                       |
+| `media`            | jellyfin, navidrome, scrob, seerr, stash                                                                        |
+| `monitoring`       | headlamp, kube-prometheus-stack                                                                                 |
+| `network`          | external-dns, external-services, kgateway, multus, netbird, smtp-relay                                          |
+| `renovate`         | renovate-operator                                                                                               |
+| `security`         | kguardian, pocket-id-operator, pocket-id-instance                                                               |
+| `services`         | bentopdf, immich, collabora, it-tools, kroki, obsidian, outline, oxicloud, paperless, redlib, termix, vikunja   |
+| `storage`          | ceph-csi, garage, openebs                                                                                       |
+| `system`           | descheduler, k8tz, keda, kopiur, reloader, snapshot-controller, spegel                                          |
+| `vault`            | vault                                                                                                           |
 
 ---
 
