@@ -33,9 +33,9 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: Probe
 metadata:
-  name: technitium-dns
+  name: externaldns-technitium
 spec:
-  jobName: probe/technitium-dns
+  jobName: probe/externaldns-technitium
   module: tcp_connect
   prober:
     url: blackbox-exporter.monitoring.svc.cluster.local:9115
@@ -43,6 +43,21 @@ spec:
     staticConfig:
       static:
         - externaldns-technitium.network.svc.cluster.local:7979
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/probe_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: technitium-dns-server
+spec:
+  jobName: probe/technitium-dns-server
+  module: dns
+  prober:
+    url: blackbox-exporter.monitoring.svc.cluster.local:9115
+  targets:
+    staticConfig:
+      static:
+        - 10.10.10.32:53
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/probe_v1.json
 apiVersion: monitoring.coreos.com/v1

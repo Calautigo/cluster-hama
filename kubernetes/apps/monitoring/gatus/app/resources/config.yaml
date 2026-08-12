@@ -32,6 +32,23 @@ endpoints:
 
   - name: Technitium DNS
     group: network
+    url: 10.10.10.32:53
+    dns:
+      query-name: ds47.dev
+      query-type: A
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
+      - "[DNS_RCODE] == NOERROR"
+      - "[BODY] != ''"
+    alerts:
+      - type: pushover
+        failure-threshold: 3
+        success-threshold: 3
+        send-on-resolved: true
+
+  - name: ExternalDNS Controller
+    group: network
     url: tcp://externaldns-technitium.network.svc.cluster.local:7979
     interval: 1m
     conditions:

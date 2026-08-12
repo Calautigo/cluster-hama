@@ -39,7 +39,11 @@ spec:
           - name: autopath
             parameters: "@kubernetes"
           - name: forward
-            parameters: . 10.10.10.32
+            parameters: . 10.10.10.32 9.9.9.9
+            configBlock: |-
+              policy sequential
+              prefer_udp
+              health_check 5s
           - name: cache
             configBlock: |-
               prefetch 20

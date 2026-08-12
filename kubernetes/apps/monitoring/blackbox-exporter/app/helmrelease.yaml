@@ -32,6 +32,15 @@ spec:
           timeout: 5s
           tcp:
             preferred_ip_protocol: ip4
+        dns:
+          prober: dns
+          timeout: 5s
+          dns:
+            query_name: ds47.dev
+            query_type: A
+            valid_rcodes:
+              - NOERROR
+            preferred_ip_protocol: ip4
         icmp:
           prober: icmp
           timeout: 5s
