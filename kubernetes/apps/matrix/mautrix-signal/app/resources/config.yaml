@@ -26,7 +26,7 @@ bridge:
 
 database:
   type: postgres
-  uri: "postgres://mautrix_signal:{{ .DB_PASSWORD }}@pg18vec-rw.database.svc.cluster.local:5432/mautrix_signal?sslmode=require"
+  uri: "postgres://mautrix_signal:{{ .DB_PASSWORD }}@pg18vec-pooler.database.svc.cluster.local:5432/mautrix_signal?sslmode=require"
   max_open_conns: 5
   max_idle_conns: 1
 

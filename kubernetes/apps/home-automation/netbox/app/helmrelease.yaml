@@ -74,7 +74,7 @@ spec:
       host: netbox-dragonfly.home-automation.svc.cluster.local
       database: 2
     externalDatabase:
-      host: pg18vec-rw.database.svc.cluster.local
+      host: pg18vec-pooler.database.svc.cluster.local
       port: 5432
       database: netbox
       username: netbox
