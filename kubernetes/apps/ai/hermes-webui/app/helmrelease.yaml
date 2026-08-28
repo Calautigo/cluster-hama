@@ -32,7 +32,7 @@ spec:
           app:
             image:
               repository: ghcr.io/nesquena/hermes-webui
-              tag: latest@sha256:49f9d97ce7d8f509f6d38b27173fe8ecd4f3f21318b0d5b00b503fb756c12df6
+              tag: latest@sha256:b42e3ea34a596826f6a2c30b3d81415b0478f5bdf620f1580865372f18442698
             env:
               TZ: "${TZ}"
               HERMES_WEBUI_HOST: 0.0.0.0
